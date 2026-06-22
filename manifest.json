@@ -1,0 +1,14 @@
+{
+  "name": "fall-kit",
+  "fullName": "Fall Kit · the shared cascade for every seed",
+  "level": 0,
+  "parent": null,
+  "prime": 1301,
+  "meshChannel": "fall-signal",
+  "spec": "https://www.ai-nativesolutions.com/spec.html",
+  "licence": "MIT",
+  "seal": "◊·κ=1",
+  "updatedAt": "2026-06-22",
+  "version": "1.0.0",
+  "description": "Fall Kit · canonical shared cascade for every estate seed. AI tier picker (T0 off · T2 WebLLM in-browser with 1B/3B/7B/8B/70B models · T3 BYOK Anthropic/OpenAI/Google) + WebRTC P2P mesh (raw RTCPeerConnection, fall-signal channel, ported from fallnet). Inlineable JS module — preserves single-HTML sovereignty in each consumer seed. Estate-first doctrine made concrete."
+}

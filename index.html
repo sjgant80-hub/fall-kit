@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>◊ Fall Kit · the shared cascade for every estate seed</title>
+<meta name="description" content="Fall Kit — drop-in JS module giving every estate seed the same AI cascade (T0 off · T2 WebLLM in-browser 1B-70B · T3 BYOK frontier) + WebRTC P2P mesh + AI chip UI + Help section. Estate-first canonical. MIT.">
+<meta name="prime" content="1301">
+<style>
+:root {
+  --void:#1a1612;--void-2:#231f1a;--ink:#2b2722;--line:#3a342c;--line-soft:#2e2922;
+  --cream:#ebe3d2;--cream-dim:#a89e88;--cream-muted:#736b5a;
+  --brass:#c08a3a;--amber:#e8a83a;--leaf:#6b8d4a;--rust:#a14a2a;
+  --serif:Georgia,'Times New Roman',ui-serif,serif;
+  --sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--void);color:var(--cream);font:15px/1.65 var(--sans);min-height:100dvh;-webkit-font-smoothing:antialiased}
+a{color:var(--brass);text-decoration:none}
+a:hover{text-decoration:underline}
+code,pre{font-family:var(--mono);background:var(--ink);padding:1px 5px;border-radius:2px;font-size:12.5px;color:var(--brass)}
+pre{padding:14px 16px;border-radius:4px;border:1px solid var(--line);overflow-x:auto;color:var(--cream-dim);line-height:1.55;white-space:pre;font-size:12px}
+header{background:var(--void-2);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+header .brand{display:flex;align-items:center;gap:10px}
+header .mark{width:32px;height:32px;background:linear-gradient(135deg,var(--brass),var(--amber));border-radius:5px;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:18px;color:var(--void)}
+header .name{font-family:var(--serif);font-weight:700;font-size:18px}
+header .sub{font-family:var(--mono);font-size:9px;color:var(--cream-muted);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+header nav{margin-left:auto;display:flex;gap:18px;align-items:center}
+header nav a{color:var(--cream-dim);font-size:13px}
+header nav a:hover{color:var(--brass);text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:32px 24px 100px}
+h1{font-family:var(--serif);font-weight:700;font-size:34px;line-height:1.1;margin-bottom:14px;color:var(--cream);letter-spacing:-.01em}
+h2{font-family:var(--serif);font-weight:700;font-size:22px;margin:36px 0 10px;color:var(--brass)}
+h3{font-family:var(--serif);font-size:16px;font-weight:700;margin:18px 0 8px;color:var(--cream)}
+.lede{font-size:17px;color:var(--cream-dim);line-height:1.65;margin-bottom:18px}
+p{margin-bottom:12px;color:var(--cream)}
+ul,ol{margin:0 0 14px 24px}
+li{margin-bottom:5px;color:var(--cream-dim)}
+.hero{background:linear-gradient(135deg,rgba(192,138,58,.10),rgba(107,141,74,.04));border:1px solid var(--brass);border-radius:5px;padding:24px 28px;margin-bottom:24px}
+.hero h1{margin-bottom:8px;font-size:28px}
+.hero .seal{font-family:var(--mono);font-size:10px;color:var(--cream-muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+th{background:var(--void-2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:10px;color:var(--cream-muted);letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+td{padding:8px 12px;border-bottom:1px solid var(--line-soft);color:var(--cream-dim);vertical-align:top}
+td strong{color:var(--brass)}
+.demo-box{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:18px 22px;margin:18px 0}
+.demo-box h3{margin-top:0;color:var(--brass)}
+.demo-box .row{display:flex;gap:12px;margin:10px 0;align-items:center;flex-wrap:wrap}
+.btn{padding:8px 16px;background:var(--brass);color:var(--void);border:none;border-radius:3px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit}
+.btn:hover{background:var(--amber)}
+.btn.ghost{background:transparent;color:var(--cream-dim);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--brass);color:var(--brass)}
+.foot{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10px;color:var(--cream-muted);letter-spacing:.08em;text-align:center}
+.foot a{color:var(--cream-dim)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="mark">◊</div>
+    <div>
+      <div class="name">Fall Kit</div>
+      <div class="sub">v1.0.0 · the shared cascade · MIT</div>
+    </div>
+  </div>
+  <nav>
+    <a href="https://github.com/sjgant80-hub/fall-kit" target="_blank">GitHub</a>
+    <a href="https://www.ai-nativesolutions.com" target="_blank">Estate</a>
+    <a href="https://www.ai-nativesolutions.com/spec.html" target="_blank">Spec</a>
+  </nav>
+</header>
+
+<main>
+
+<div class="hero">
+  <div class="seal">◊·κ=1 · prime 1301 · part of the AI Native Solutions estate</div>
+  <h1>One cascade. Every seed. Same level.</h1>
+  <p class="lede">Drop-in JS module that gives any estate seed the AI cascade and P2P mesh users now expect — T0 off (default) · T2 WebLLM in-browser (1B → 70B) · T3 BYOK frontier (Anthropic / OpenAI / Google) · plus WebRTC mesh on the canonical <code>fall-signal</code> channel. Inlines for sovereignty. ~16 KB.</p>
+</div>
+
+<h2>The 3 tiers</h2>
+<table>
+<thead><tr><th>Tier</th><th>What you get</th><th>Where the work happens</th></tr></thead>
+<tbody>
+<tr><td><strong>T0</strong> · off</td><td>The seed runs fully without AI. Default for every install.</td><td>Nothing downloads · zero API calls</td></tr>
+<tr><td><strong>T2</strong> · WebLLM</td><td>In-browser LLM via WebLLM. Pick a model: <strong>1B</strong> (700MB · any laptop) · <strong>3B</strong> (2GB · balanced default) · <strong>7B</strong> (5GB · capable) · <strong>8B</strong> (5GB · common) · <strong>70B</strong> (40GB · frontier, needs serious GPU + 64GB RAM)</td><td>100% in your browser · runs offline forever after first load · zero data leaves the device</td></tr>
+<tr><td><strong>T3</strong> · BYOK</td><td>Bring your own key for frontier models. <strong>Anthropic</strong> (Sonnet 4.5 · Opus 4.7 · Haiku 4.5) · <strong>OpenAI</strong> (GPT-4o · 4o-mini · o1-mini) · <strong>Google</strong> (Gemini 1.5 Pro · 1.5 Flash · 2.0 Flash)</td><td>Direct fetch to provider · key stays in your browser · never proxied</td></tr>
+</tbody>
+</table>
+
+<h2>Try it live</h2>
+<div class="demo-box">
+  <h3>The chip is mounted at the top right of this page →</h3>
+  <p style="font-size:13.5px;color:var(--cream-dim);margin-bottom:12px">Click it to open the cascade settings. Then ask the kit to generate something with T0 (graceful null) · T2 (load a model first) · T3 (paste a key).</p>
+  <div class="row">
+    <input type="text" id="prompt" value="Write one sentence about offgrid communities." style="flex:1;min-width:240px;padding:8px 12px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:13px var(--sans);outline:none">
+    <button class="btn" onclick="testKit()">Run via FallKit.aiComplete</button>
+  </div>
+  <pre id="out" style="margin-top:12px;min-height:60px;color:var(--cream)">→ output will appear here</pre>
+</div>
+
+<h2>Embed in your seed</h2>
+<p>Two ways. <strong>Inline</strong> for sovereignty (recommended) — copy the contents of <a href="./fall-kit.js">fall-kit.js</a> inside a <code>&lt;script&gt;</code> tag in your HTML. Or <strong>reference</strong> via CDN if you trust this hosted copy:</p>
+<pre>&lt;script src="https://sjgant80-hub.github.io/fall-kit/fall-kit.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  FallKit.init({
+    seedName: 'my-seed',
+    chipAnchor: 'header .actions'  // CSS selector for where the AI chip goes
+  });
+
+  // Use anywhere you want AI assist · degrades gracefully at T0
+  const draft = await FallKit.aiComplete(
+    'You are a tight technical writer.',
+    'Summarise this in 30 words: ' + sourceText,
+    200
+  );
+  if (draft) showDraft(draft);
+  else /* T0: fall back to your non-AI logic */;
+&lt;/script&gt;</pre>
+
+<h3>Public API</h3>
+<table>
+<thead><tr><th>Method</th><th>Returns</th><th>What</th></tr></thead>
+<tbody>
+<tr><td><code>FallKit.init({seedName, chipAnchor})</code></td><td><code>{version}</code></td><td>Installs CSS · mounts AI chip · returns kit version</td></tr>
+<tr><td><code>FallKit.aiComplete(sys, msg, maxTokens)</code></td><td><code>string|null</code></td><td>Universal entry. T0 → null. T2/T3 → completion. Caller MUST handle null gracefully.</td></tr>
+<tr><td><code>FallKit.loadWebLLM(modelKey?)</code></td><td><code>Promise</code></td><td>Lazy-loads WebLLM with chosen model (defaults to user's last pick or '3b')</td></tr>
+<tr><td><code>FallKit.openSettings()</code></td><td>void</td><td>Opens the cascade settings modal</td></tr>
+<tr><td><code>FallKit.meshStart({seedName, onMessage})</code></td><td>void</td><td>Activates BroadcastChannel mesh on <code>fall-signal</code></td></tr>
+<tr><td><code>FallKit.meshPost(kind, payload)</code></td><td><code>bool</code></td><td>Broadcasts to other seeds on the channel</td></tr>
+<tr><td><code>FallKit.helpSection()</code></td><td><code>string</code> (HTML)</td><td>Returns the standard help-section HTML to inject into your seed's Help tab</td></tr>
+<tr><td><code>FallKit.MODELS</code></td><td>object</td><td>Registry of available WebLLM models with size + label</td></tr>
+<tr><td><code>FallKit.PROVIDERS</code></td><td>object</td><td>Registry of T3 BYOK providers + their models</td></tr>
+</tbody>
+</table>
+
+<h2>Sovereignty doctrine</h2>
+<ul>
+<li><strong>T0 must always work</strong> — the kit never gates a seed's core feature behind AI. <code>aiComplete</code> returns <code>null</code>; callers fall back to non-AI logic.</li>
+<li><strong>API keys never proxied</strong> — direct fetch from the user's browser to the provider. Key stored only in <code>localStorage.fall-kit.config</code>. Never logged, never sent to us.</li>
+<li><strong>Lazy-loaded WebLLM</strong> — model weights download only on explicit user opt-in. Kit itself is ~16 KB.</li>
+<li><strong>BroadcastChannel mesh</strong> on <code>fall-signal</code> — the canonical channel name across all estate seeds (consistent with <a href="https://sjgant80-hub.github.io/fallnet/" target="_blank">fallnet</a>).</li>
+<li><strong>Estate-first canonical</strong> — WebLLM pattern ported from <a href="https://github.com/sjgant80-hub/botler" target="_blank">botler</a>. WebRTC channel from fallnet. Konomi 7-prime stack consistent. ◊·κ=1.</li>
+</ul>
+
+<h2>What ports cleanly</h2>
+<ul>
+<li>Any seed already using single-HTML pattern with IndexedDB and an existing tab/nav</li>
+<li>Drop into the head <code>&lt;script&gt;</code>, call <code>FallKit.init()</code> on boot, wire <code>aiComplete</code> into your assist features</li>
+<li>Help tab? Add <code>helpEl.innerHTML += FallKit.helpSection()</code> — consistent across the estate</li>
+</ul>
+
+<div class="foot">
+  ◊ Fall Kit v1.0.0 · MIT · <a href="https://github.com/sjgant80-hub/fall-kit">github.com/sjgant80-hub/fall-kit</a> · part of the <a href="https://www.ai-nativesolutions.com">AI Native Solutions estate</a> · ◊·κ=1
+</div>
+
+</main>
+
+<script src="./fall-kit.js"></script>
+<script>
+  FallKit.init({ seedName: 'fall-kit-demo', chipAnchor: 'header nav' });
+  async function testKit() {
+    const out = document.getElementById('out');
+    const prompt = document.getElementById('prompt').value;
+    out.textContent = '→ running...';
+    try {
+      const r = await FallKit.aiComplete(
+        'You are a short, plain writer for an off-grid community estate.',
+        prompt,
+        200
+      );
+      if (r === null) {
+        out.textContent = '→ T0 fallback: aiComplete returned null. The kit refuses to silently call AI when not configured. Open the chip top-right and pick T2 (WebLLM) or T3 (BYOK key) first.';
+      } else {
+        out.textContent = '→ ' + r;
+      }
+    } catch (e) {
+      out.textContent = '→ error: ' + e.message;
+    }
+  }
+</script>
+
+</body>
+</html>
