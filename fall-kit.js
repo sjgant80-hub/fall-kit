@@ -27,7 +27,7 @@
 (function (root) {
   'use strict';
 
-  const FALL_KIT_VERSION = '1.0.0';
+  const FALL_KIT_VERSION = '1.1.0';
 
   // ─── Model registry ──────────────────────────────────────────────
   const WEBLLM_MODELS = {
@@ -341,18 +341,21 @@
     opts = opts || {};
     injectCss();
     if (opts.seedName) STATE.config.seedName = opts.seedName;
-    // Inject chip into anchor selector (default: prepend to body, or specified element)
+    if ($('#fk-ai-chip')) { renderAiChip(); return { version: FALL_KIT_VERSION, mounted: false }; }
+    const chip = document.createElement('button');
+    chip.id = 'fk-ai-chip';
+    chip.title = 'AI cascade · click to configure tier and model';
+    chip.innerHTML = '<span class="fk-dot"></span><span id="fk-ai-chip-text">T0 · off</span>';
+    chip.onclick = openSettings;
+    // Try anchor first, fall back to floating bottom-right
     const anchor = opts.chipAnchor ? $(opts.chipAnchor) : null;
-    if (anchor && !$('#fk-ai-chip')) {
-      const chip = document.createElement('button');
-      chip.id = 'fk-ai-chip';
-      chip.title = 'AI cascade · click to configure';
-      chip.innerHTML = '<span class="fk-dot"></span><span id="fk-ai-chip-text">T0 · off</span>';
-      chip.onclick = openSettings;
-      anchor.appendChild(chip);
+    if (anchor) { anchor.appendChild(chip); }
+    else {
+      chip.style.cssText += ';position:fixed;bottom:14px;left:14px;z-index:9998;box-shadow:0 4px 14px rgba(0,0,0,.4)';
+      document.body.appendChild(chip);
     }
     renderAiChip();
-    return { version: FALL_KIT_VERSION };
+    return { version: FALL_KIT_VERSION, mounted: true };
   }
 
   // ─── Public API ──────────────────────────────────────────────────

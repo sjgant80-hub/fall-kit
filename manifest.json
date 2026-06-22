@@ -9,6 +9,6 @@
   "licence": "MIT",
   "seal": "◊·κ=1",
   "updatedAt": "2026-06-22",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Fall Kit · canonical shared cascade for every estate seed. AI tier picker (T0 off · T2 WebLLM in-browser with 1B/3B/7B/8B/70B models · T3 BYOK Anthropic/OpenAI/Google) + WebRTC P2P mesh (raw RTCPeerConnection, fall-signal channel, ported from fallnet). Inlineable JS module — preserves single-HTML sovereignty in each consumer seed. Estate-first doctrine made concrete."
 }
