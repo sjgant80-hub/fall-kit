@@ -1,0 +1,12 @@
+{
+  "name": "fall-kit",
+  "version": "2.0.0",
+  "description": "Universal in-browser AI cascade (T0 off / T2 WebLLM / T3 BYOK) for single-file sovereign tools.",
+  "type": "module",
+  "main": "fall-kit.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "author": "AI-Native Solutions",
+  "license": "MIT"
+}
