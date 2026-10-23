@@ -1,5 +1,5 @@
 /*!
- * Fall Kit · v2.0.0 · the shared cascade for every estate seed
+ * Fall Kit · v3.0.0 · the shared cascade for every estate seed (the brain stud of the estate's Lego socket)
  * MIT · AI-Native Solutions · ai-nativesolutions.com
  *
  * Inlineable JS module. Drop into any seed via <script> or copy-paste inline.
@@ -12,21 +12,28 @@
  *  - NEW · Universal video: FallKit.aiVideo(prompt, opts) → { url } | null
  *  - NEW · Universal TTS:   FallKit.aiTTS(text, opts)     → { url | blob } | null
  *  - NEW · Universal STT:   FallKit.aiSTT(blob, opts)     → { text } | null
+ *  - NEW in v3 · Conversation: FallKit.aiChat(system, history, user, maxTokens) → { text, assistant } | null
+ *    (the caller appends the user turn and `assistant` to its own history: a conversation only grows, never edited)
+ *  - NEW in v3 · Recycling: the system prompt is sent first and the same each call, marked for Anthropic's cache;
+ *    OpenAI, Google and OpenRouter cache repeated openings themselves. FallKit.lastUsage() says what the last call
+ *    read, how much of it the provider reused, and what it wrote.
  *  - AI chip UI in header · settings modal with tabs for each modality
- *  - WebRTC P2P mesh (BroadcastChannel · same-device discovery)
+ *  - Same-device mesh (BroadcastChannel: estate seeds open on this device find each other; not cross-device)
  *  - Help section partial: FallKit.helpSection()
  *  - Settings panel:       FallKit.openSettings()
  *
  * Doctrine:
  *  - T0 fallback ALWAYS works · aiComplete returns null · caller MUST degrade gracefully
  *  - NEVER hide a feature behind AI · NEVER proxy API keys · NEVER log keys
- *  - Keys live in localStorage only · sent direct to the provider · never proxied through us
+ *  - Keys are held in this tab only, unless the owner ticks "remember my keys on this device" (v3: every estate
+ *    page at this address shares one browser storage, so a key kept there can be read by any of them) · sent direct
+ *    to the provider · never proxied through us
  *  - WebLLM is lazy-loaded · model weights download ONLY on user opt-in
  */
 (function (root) {
   'use strict';
 
-  const FALL_KIT_VERSION = '2.0.0';
+  const FALL_KIT_VERSION = '3.0.0';
 
   // ─── WebLLM (T2) model registry ─────────────────────────────────────
   const WEBLLM_MODELS = {
@@ -40,7 +47,7 @@
 
   // ─── T3 · BYOK · TEXT providers ─────────────────────────────────────
   const TEXT_PROVIDERS = {
-    anthropic:  { label: 'Anthropic Claude',   models: ['claude-sonnet-4-5','claude-opus-4-8','claude-haiku-4-5'],                default: 'claude-sonnet-4-5',   type: 'anthropic' },
+    anthropic:  { label: 'Anthropic Claude',   models: ['claude-opus-5-5','claude-sonnet-5-5','claude-haiku-5-5'],                default: 'claude-opus-5-5',     type: 'anthropic' },
     openai:     { label: 'OpenAI',             models: ['gpt-4o','gpt-4o-mini','o1-mini','gpt-4.1'],                              default: 'gpt-4o-mini',         type: 'openai' },
     google:     { label: 'Google Gemini',      models: ['gemini-2.5-pro','gemini-2.5-flash','gemini-2.0-flash'],                  default: 'gemini-2.5-flash',    type: 'google' },
     groq:       { label: 'Groq (fast)',        models: ['llama-3.3-70b-versatile','llama-3.1-70b-versatile','mixtral-8x7b-32768'], default: 'llama-3.3-70b-versatile', type: 'openai_compat', url: 'https://api.groq.com/openai/v1/chat/completions' },
@@ -91,34 +98,76 @@
   };
 
   // ─── State ──────────────────────────────────────────────────────────
+  const MODALITIES = ['text', 'image', 'video', 'tts', 'stt'];
+  const emptyKeys = () => ({ text: {}, image: {}, video: {}, tts: {}, stt: {} });
+  /**
+   * What a stored config holds, split into what may be stored (the tier, providers, models) and what is held in this
+   * tab only (the keys). Keys stay stored only when the owner chose "remember my keys on this device"; a config written
+   * the old way (keys stored, no choice made) has its keys moved into the tab and stored no longer. Pure.
+   * → { config, secrets, moved } (moved: how many keys were taken out of storage)
+   */
+  function configFrom(c) {
+    c = c && typeof c === 'object' && !Array.isArray(c) ? Object.assign({}, c) : {};
+    if (c.api_key && !c.keys) {   // v1 → v2: one text key at the top level
+      c.keys = emptyKeys();
+      c.keys.text[c.api_provider || 'anthropic'] = { key: c.api_key, model: c.api_model };
+    }
+    delete c.api_key;
+    const secrets = emptyKeys(), models = emptyKeys();
+    let moved = 0;
+    for (const m of MODALITIES) {
+      const held = c.keys && c.keys[m] && typeof c.keys[m] === 'object' ? c.keys[m] : {};
+      for (const pk of Object.keys(held)) {
+        const e = held[pk] || {};
+        if (typeof e.key === 'string' && e.key) { secrets[m][pk] = e.key; moved++; }
+        if (typeof e.model === 'string' && e.model) models[m][pk] = e.model;
+      }
+      const kept = c.models && c.models[m] && typeof c.models[m] === 'object' ? c.models[m] : {};
+      for (const pk of Object.keys(kept)) if (typeof kept[pk] === 'string' && kept[pk]) models[m][pk] = models[m][pk] || kept[pk];
+    }
+    c.models = models;
+    const remember = c.remember_keys === true;
+    if (!remember) delete c.keys;
+    return { config: c, secrets: secrets, moved: remember ? 0 : moved };
+  }
+  /** what is written to storage: the config, with the keys only if the owner chose to remember them. Pure. */
+  function storedForm(config, secrets) {
+    const out = Object.assign({}, config);
+    delete out.keys;
+    if (config.remember_keys === true) {
+      out.keys = emptyKeys();
+      for (const m of MODALITIES) for (const pk of Object.keys(secrets[m] || {})) out.keys[m][pk] = { key: secrets[m][pk], model: (config.models && config.models[m] && config.models[m][pk]) || undefined };
+    }
+    return out;
+  }
+  const BOOT = (function () {
+    let stored = {};
+    try { stored = JSON.parse(localStorage.getItem('fall-kit.config') || '{}'); } catch (e) { stored = {}; }
+    return configFrom(stored);
+  })();
   const STATE = {
-    config: loadConfig(),
+    config: BOOT.config,
+    secrets: BOOT.secrets,   // the keys: this tab only, unless remember_keys
     ai: { ready: false, loading: false, progress: 0, engine: null, model: null },
     mesh: { active: false, peers: new Map(), bc: null, signal: null },
+    lastUsage: null,
   };
 
-  function loadConfig() {
-    try {
-      const c = JSON.parse(localStorage.getItem('fall-kit.config') || '{}');
-      // v1 → v2 migration
-      if (c.api_key && !c.keys) {
-        c.keys = { text: {}, image: {}, video: {}, tts: {}, stt: {} };
-        c.keys.text[c.api_provider || 'anthropic'] = { key: c.api_key, model: c.api_model };
-      }
-      if (!c.keys) c.keys = { text: {}, image: {}, video: {}, tts: {}, stt: {} };
-      return c;
-    } catch (e) { return { keys: { text: {}, image: {}, video: {}, tts: {}, stt: {} } }; }
-  }
-  function saveConfig() { try { localStorage.setItem('fall-kit.config', JSON.stringify(STATE.config)); } catch (e) {} }
-  function getKey(modality, providerKey) { return STATE.config.keys?.[modality]?.[providerKey]?.key || ''; }
+  function saveConfig() { try { localStorage.setItem('fall-kit.config', JSON.stringify(storedForm(STATE.config, STATE.secrets))); } catch (e) {} }
+  if (BOOT.moved) saveConfig();   // keys stored the old way leave shared storage now; they stay usable in this tab
+  function getKey(modality, providerKey) { return (STATE.secrets[modality] && STATE.secrets[modality][providerKey]) || ''; }
   function getModel(modality, providerKey, registry) {
-    return STATE.config.keys?.[modality]?.[providerKey]?.model || registry[providerKey]?.default;
+    return (STATE.config.models && STATE.config.models[modality] && STATE.config.models[modality][providerKey]) || registry[providerKey]?.default;
   }
   function setKey(modality, providerKey, key, model) {
-    STATE.config.keys[modality] = STATE.config.keys[modality] || {};
-    STATE.config.keys[modality][providerKey] = { key: key, model: model };
+    STATE.secrets[modality] = STATE.secrets[modality] || {};
+    if (key) STATE.secrets[modality][providerKey] = key;
+    STATE.config.models = STATE.config.models || emptyKeys();
+    STATE.config.models[modality] = STATE.config.models[modality] || {};
+    if (model) STATE.config.models[modality][providerKey] = model;
     saveConfig();
   }
+  function forgetKeys() { STATE.secrets = emptyKeys(); STATE.config.remember_keys = false; saveConfig(); renderAiChip(); }
 
   // ─── DOM helpers ────────────────────────────────────────────────────
   function $(s, root) { return (root || document).querySelector(s); }
@@ -169,78 +218,111 @@
     }
   }
 
-  // ═══════════════════════ TEXT · aiComplete ════════════════════════
+  // ═══════════════════════ TEXT · aiComplete · aiChat ═══════════════
+  // One way to ask every text provider: the system prompt first and the same each call (so a provider can reuse its
+  // reading of it), then the conversation, which only ever grows. Pure pieces (requestOf, textOf, usageOf) are exposed
+  // on FallKit for tests; nothing pure here touches the network.
+  const isObj = (x) => x !== null && typeof x === 'object' && !Array.isArray(x);
+  const count = (x) => (Number.isInteger(x) && x >= 0 ? x : 0);
+  /** Claude models from 5.x think before they answer: room for that, and a light effort for an assistant's reply */
+  const THINKS = (model) => /^claude-(?:opus|sonnet|haiku|fable|mythos)-5/.test(model);
+  /** Claude models with a server-side fallback when a request is declined (Haiku has none) */
+  const FALLS_BACK = (model) => /^claude-(?:opus|sonnet|fable)-5/.test(model);
+  /** a message's words, whatever shape a provider keeps it in */
+  function wordsOf(m) {
+    if (!isObj(m)) return '';
+    if (typeof m.content === 'string') return m.content;
+    if (Array.isArray(m.content)) return m.content.filter((b) => isObj(b) && b.type === 'text' && typeof b.text === 'string').map((b) => b.text).join('\n');
+    return '';
+  }
+  /**
+   * The request a text provider is sent: { url, headers, body } for type (anthropic | openai | google | openai_compat |
+   * cohere | hf_inference). messages: [{ role: 'user' | 'assistant', content }]. Pure: the key is placed, never kept.
+   */
+  function requestOf(type, opts) {
+    const { model, key, system, messages, maxTokens, url } = opts;
+    const max = Number.isInteger(maxTokens) && maxTokens > 0 ? maxTokens : 600;
+    const plain = messages.map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: wordsOf(m) }));
+    if (type === 'anthropic') {
+      const headers = { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' };
+      const body = { model, max_tokens: THINKS(model) ? Math.max(max * 4, 4000) : max, system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
+        messages: messages.map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content })) };
+      if (THINKS(model)) body.output_config = { effort: 'low' };
+      if (FALLS_BACK(model)) { headers['anthropic-beta'] = 'server-side-fallback-2026-07-01'; body.fallbacks = 'default'; }
+      return { url: 'https://api.anthropic.com/v1/messages', headers, body };
+    }
+    if (type === 'openai') return { url: 'https://api.openai.com/v1/chat/completions', headers: { 'content-type': 'application/json', Authorization: 'Bearer ' + key }, body: { model, max_completion_tokens: max, messages: [{ role: 'system', content: system }].concat(plain) } };
+    if (type === 'google') return { url: 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent', headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
+      body: { systemInstruction: { parts: [{ text: system }] }, contents: plain.map((m) => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })), generationConfig: { maxOutputTokens: max } } };
+    if (type === 'cohere') return { url: 'https://api.cohere.com/v2/chat', headers: { 'content-type': 'application/json', Authorization: 'Bearer ' + key }, body: { model, max_tokens: max, messages: [{ role: 'system', content: system }].concat(plain) } };
+    if (type === 'hf_inference') return { url: 'https://api-inference.huggingface.co/models/' + model + '/v1/chat/completions', headers: { 'content-type': 'application/json', Authorization: 'Bearer ' + key }, body: { model, max_tokens: max, messages: [{ role: 'system', content: system }].concat(plain) } };
+    if (type === 'openai_compat') return { url: url, headers: { 'content-type': 'application/json', Authorization: 'Bearer ' + key }, body: { model, max_tokens: max, messages: [{ role: 'system', content: system }].concat(plain) } };
+    return null;
+  }
+  /** the answer's words from a provider's reply, or null when it declined or said nothing. Pure. */
+  function textOf(type, j) {
+    if (!isObj(j)) return null;
+    let t = '';
+    if (type === 'anthropic') { if (j.stop_reason === 'refusal' || !Array.isArray(j.content)) return null; t = wordsOf({ content: j.content }); }
+    else if (type === 'google') { const c = Array.isArray(j.candidates) ? j.candidates[0] : null; t = c && isObj(c.content) && Array.isArray(c.content.parts) ? c.content.parts.map((p) => (isObj(p) && typeof p.text === 'string' ? p.text : '')).join('') : ''; }
+    else if (type === 'cohere') { t = isObj(j.message) && Array.isArray(j.message.content) ? wordsOf({ content: j.message.content.map((b) => Object.assign({ type: 'text' }, b)) }) : ''; }
+    else { const c = Array.isArray(j.choices) ? j.choices[0] : null; t = c && isObj(c.message) && typeof c.message.content === 'string' ? c.message.content : ''; }
+    t = t.trim();
+    return t ? t : null;
+  }
+  /** what a call used, read from a provider's own usage record: { read, recycled, written, out }. Pure. */
+  function usageOf(type, j) {
+    const u = isObj(j) ? (type === 'google' ? j.usageMetadata : type === 'cohere' && isObj(j.usage) ? j.usage.tokens : j.usage) : null;
+    if (!isObj(u)) return { read: 0, recycled: 0, written: 0, out: 0 };
+    if (type === 'anthropic') { const recycled = count(u.cache_read_input_tokens), written = count(u.cache_creation_input_tokens); return { read: count(u.input_tokens) + recycled + written, recycled, written, out: count(u.output_tokens) }; }
+    if (type === 'google') { const read = count(u.promptTokenCount); return { read, recycled: Math.min(read, count(u.cachedContentTokenCount)), written: 0, out: count(u.candidatesTokenCount) + count(u.thoughtsTokenCount) }; }
+    if (type === 'cohere') return { read: count(u.input_tokens), recycled: 0, written: 0, out: count(u.output_tokens) };
+    const read = count(u.prompt_tokens), d = isObj(u.prompt_tokens_details) ? u.prompt_tokens_details : {};
+    return { read, recycled: Math.min(read, count(d.cached_tokens)), written: 0, out: count(u.completion_tokens) };
+  }
+
   async function aiComplete(systemPrompt, userMsg, maxTokens) {
+    const r = await aiChat(systemPrompt, [], userMsg, maxTokens);
+    return r ? r.text : null;
+  }
+  /**
+   * One turn of a conversation: the system prompt, the history so far (unchanged), and the user's words. → { text,
+   * assistant } — the caller appends { role: 'user', content: userMsg } and `assistant` to its history (assistant is the
+   * reply as the provider gave it, so a provider that checks its own earlier turns sees them unchanged) — or null when no
+   * tier can answer.
+   */
+  async function aiChat(systemPrompt, history, userMsg, maxTokens) {
     maxTokens = maxTokens || 600;
+    const messages = (Array.isArray(history) ? history : []).concat([{ role: 'user', content: String(userMsg == null ? '' : userMsg) }]);
     const tier = aiTier();
     if (tier === 'T2' && STATE.ai.ready && STATE.ai.engine) {
       const r = await STATE.ai.engine.chat.completions.create({
-        messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userMsg }], max_tokens: maxTokens,
+        messages: [{ role: 'system', content: systemPrompt }].concat(messages.map((m) => ({ role: m.role, content: wordsOf(m) }))), max_tokens: maxTokens,
       });
-      return r.choices[0].message.content;
+      const text = r.choices[0].message.content;
+      STATE.lastUsage = Object.assign({ provider: 'webllm' }, usageOf('openai', r));
+      return { text: text, assistant: { role: 'assistant', content: text } };
     }
     if (tier === 'T3') {
       const p = activeTextProvider(); const key = getKey('text', p);
       if (!key) return null;
-      return await textCall(p, systemPrompt, userMsg, maxTokens);
+      return await textCall(p, systemPrompt, messages, maxTokens);
     }
     return null;
   }
 
-  async function textCall(providerKey, sys, msg, maxTokens) {
+  async function textCall(providerKey, sys, messages, maxTokens) {
     const p = TEXT_PROVIDERS[providerKey];
-    const key = getKey('text', providerKey);
     const model = getModel('text', providerKey, TEXT_PROVIDERS);
-    if (p.type === 'anthropic') {
-      const r = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({ model, max_tokens: maxTokens, system: sys, messages: [{ role: 'user', content: msg }] }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).content[0].text;
-    }
-    if (p.type === 'openai') {
-      const r = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST', headers: { 'content-type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({ model, max_tokens: maxTokens, messages: [{ role: 'system', content: sys }, { role: 'user', content: msg }] }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).choices[0].message.content;
-    }
-    if (p.type === 'google') {
-      const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(key), {
-        method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: sys + '\n\n---\n\n' + msg }] }], generationConfig: { maxOutputTokens: maxTokens } }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).candidates[0].content.parts[0].text;
-    }
-    if (p.type === 'openai_compat') {
-      const r = await fetch(p.url, {
-        method: 'POST', headers: { 'content-type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({ model, max_tokens: maxTokens, messages: [{ role: 'system', content: sys }, { role: 'user', content: msg }] }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).choices[0].message.content;
-    }
-    if (p.type === 'cohere') {
-      const r = await fetch('https://api.cohere.com/v2/chat', {
-        method: 'POST', headers: { 'content-type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({ model, max_tokens: maxTokens, messages: [{ role: 'system', content: sys }, { role: 'user', content: msg }] }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).message.content[0].text;
-    }
-    if (p.type === 'hf_inference') {
-      const r = await fetch('https://api-inference.huggingface.co/models/' + model + '/v1/chat/completions', {
-        method: 'POST', headers: { 'content-type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({ model, max_tokens: maxTokens, messages: [{ role: 'system', content: sys }, { role: 'user', content: msg }] }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).choices[0].message.content;
-    }
-    throw new Error('unknown text provider type: ' + p.type);
+    const req = requestOf(p.type, { model, key: getKey('text', providerKey), system: sys, messages, maxTokens, url: p.url });
+    if (!req) throw new Error('unknown text provider type: ' + p.type);
+    const r = await fetch(req.url, { method: 'POST', headers: req.headers, body: JSON.stringify(req.body) });
+    if (!r.ok) throw new Error(p.label + ' ' + r.status);
+    const j = await r.json();
+    STATE.lastUsage = Object.assign({ provider: providerKey, model: model }, usageOf(p.type, j));
+    const text = textOf(p.type, j);
+    if (text === null) return null;
+    return { text: text, assistant: p.type === 'anthropic' ? { role: 'assistant', content: j.content } : { role: 'assistant', content: text } };
   }
 
   // ═══════════════════════ IMAGE · aiImage ═══════════════════════════
@@ -555,7 +637,7 @@
         <select id="fk-${modality}-model" style="${styleInput}">${modelOptions(registry, currentProvider, currentModel)}</select>
         <label style="${styleLabel}">API key</label>
         <input type="password" id="fk-${modality}-key" value="${esc(currentKeyVal)}" placeholder="${currentKeyVal ? '(set · leave to keep)' : 'paste key here'}" autocomplete="off" style="${styleInput};font-family:ui-monospace,Menlo,monospace">
-        <div style="font-size:11px;color:#6e6a5e;line-height:1.55;margin-top:2px">Key lives in this browser only. Sent direct to the provider — never proxied through us.</div>
+        <div style="font-size:11px;color:#6e6a5e;line-height:1.55;margin-top:2px">Key held in this tab only (unless you tick “remember” below). Sent direct to the provider — never proxied through us.</div>
       `;
     }
 
@@ -593,6 +675,9 @@
             ${tab==='tts'   ? modalityBlock('tts',   TTS_PROVIDERS,   ttsP,  getKey('tts',   ttsP),  getModel('tts',   ttsP,   TTS_PROVIDERS))   : ''}
             ${tab==='stt'   ? modalityBlock('stt',   STT_PROVIDERS,   sttP,  getKey('stt',   sttP),  getModel('stt',   sttP,   STT_PROVIDERS))   : ''}
           </div>
+          <label style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:12px;color:#ebe3d2;cursor:pointer"><input type="checkbox" id="fk-remember"${STATE.config.remember_keys===true?' checked':''} style="margin-top:2px"> Remember my keys on this device</label>
+          <div style="font-size:11px;color:#a14a2a;line-height:1.55;margin:4px 0 0 22px">Every estate page at this web address shares this browser’s storage, so a remembered key can be read by any of them. Leave it off and your keys are held in this tab only: close it and they are gone.</div>
+          <button id="fk-forget" style="margin-top:10px;padding:6px 12px;background:transparent;color:#a89e88;border:1px solid #3a342c;border-radius:3px;font-size:11px;cursor:pointer;font-family:inherit">Forget my keys</button>
         </div>
 
         <div style="margin-bottom:14px;padding:12px 14px;background:#1a1922;border:1px solid #2a2934;border-radius:4px">
@@ -639,8 +724,10 @@
       openSettings(STATE._lastTab);
     };
 
+    $('#fk-forget') && ($('#fk-forget').onclick = () => { forgetKeys(); notify('Keys forgotten · this tab and this device', 'ok'); openSettings(STATE._lastTab); });
     $('#fk-save').onclick = () => {
       STATE.config.ai_tier = $('#fk-tier').value;
+      if ($('#fk-remember')) STATE.config.remember_keys = $('#fk-remember').checked;
       if ($('#fk-model')) STATE.config.webllm_model = $('#fk-model').value;
       ['text','image','video','tts','stt'].forEach(m => {
         const provSel = $('#fk-' + m + '-provider');
@@ -667,7 +754,7 @@
         <tbody>
           <tr><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#c08a3a;font-weight:600">T0</td><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#a89e88">Off. The seed works fully. No AI · no downloads · no API calls.</td></tr>
           <tr><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#c08a3a;font-weight:600">T2</td><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#a89e88">WebLLM in-browser. Pick a model: 1B (700MB) → 3B (2GB, default) → 7B (5GB) → 70B (40GB). One-time download, offline forever. Zero data leaves.</td></tr>
-          <tr><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#c08a3a;font-weight:600">T3</td><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#a89e88">BYOK · 12 text providers (Claude, GPT, Gemini, Groq, Cerebras, DeepSeek, OpenRouter, Mistral, Cohere, Together, HuggingFace, Grok) · 7 image (fal, HF, Replicate, DALL-E, Imagen, Ideogram, Leonardo, Aurora) · 5 video (fal, Luma, Runway, Pika, Kling) · 4 TTS (ElevenLabs, OpenAI, PlayHT, Cartesia) · 3 STT (Deepgram, AssemblyAI, Whisper). You bring keys, you pay direct. Keys stay in your browser.</td></tr>
+          <tr><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#c08a3a;font-weight:600">T3</td><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#a89e88">BYOK · 12 text providers (Claude, GPT, Gemini, Groq, Cerebras, DeepSeek, OpenRouter, Mistral, Cohere, Together, HuggingFace, Grok) · 7 image (fal, HF, Replicate, DALL-E, Imagen, Ideogram, Leonardo, Aurora) · 5 video (fal, Luma, Runway, Pika, Kling) · 4 TTS (ElevenLabs, OpenAI, PlayHT, Cartesia) · 3 STT (Deepgram, AssemblyAI, Whisper). You bring keys, you pay direct. Keys are held in this tab only, unless you choose to remember them on this device. The same opening is sent first every time, so a provider that caches can reuse its reading of it.</td></tr>
         </tbody>
       </table>
       <p style="font-size:12px;color:#6e6a5e;line-height:1.6;margin-top:10px">Open the AI chip in the header to switch tier or check status. Cross-seed mesh activates a BroadcastChannel on <code style="background:#1a1922;padding:1px 5px;border-radius:2px">${MESH_CHANNEL}</code> so other estate seeds on the same device discover this one.</p>
@@ -713,6 +800,7 @@
       document.body.appendChild(chip);
     }
     renderAiChip();
+    if (BOOT.moved) notify('AI keys are now held in this tab only · tick “remember” in AI settings to keep them', 'info');
     return { version: FALL_KIT_VERSION, mounted: true };
   }
 
@@ -722,6 +810,14 @@
     init: init,
     aiTier: aiTier,
     aiComplete: aiComplete,
+    aiChat: aiChat,
+    lastUsage: () => STATE.lastUsage,
+    forgetKeys: forgetKeys,
+    requestOf: requestOf,
+    textOf: textOf,
+    usageOf: usageOf,
+    configFrom: configFrom,
+    storedForm: storedForm,
     aiImage: aiImage,
     aiVideo: aiVideo,
     aiTTS: aiTTS,

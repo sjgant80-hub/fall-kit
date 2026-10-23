@@ -11,6 +11,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - name: Run unit tests
+          node-version: 22
+      - name: Run unit tests (the kit, the socket, recycling)
         run: npm test
+      - name: kard.json is what this repo's files show now
+        run: npm run kard:check
+      - name: mutation gate (witness) on the pure kernels
+        # pinned to a tag so the verdict is about this code, not whatever witness was that morning
+        run: |
+          git clone --depth 1 --branch v0.2 https://github.com/sjgant80-hub/witness.git .witness
+          node .witness/witness.mjs mutate socket.mjs  --cap 400 --test node --test socket.test.mjs
+          node .witness/witness.mjs mutate recycle.mjs --cap 400 --test node --test recycle.test.mjs

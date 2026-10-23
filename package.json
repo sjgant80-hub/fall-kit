@@ -1,11 +1,13 @@
 {
   "name": "fall-kit",
-  "version": "2.0.0",
-  "description": "Universal in-browser AI cascade (T0 off / T2 WebLLM / T3 BYOK) for single-file sovereign tools.",
+  "version": "3.0.0",
+  "description": "The estate's shared brain (T0 off / T2 WebLLM / T3 your own key, keys held in the tab, recycling) and the Lego socket every build carries.",
   "type": "module",
   "main": "fall-kit.js",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "kard": "node kard-writer.mjs . --name fall-kit --title \"Fall Kit\" --retires \"a rented AI layer bolted onto every app, and its per-seat subscription\" --category \"AI you own\"",
+    "kard:check": "npm run kard -- --check"
   },
   "author": "AI-Native Solutions",
   "license": "MIT"

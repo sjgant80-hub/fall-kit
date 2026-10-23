@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>◊ Fall Kit · the shared cascade for every estate seed</title>
-<meta name="description" content="Fall Kit — drop-in JS module giving every estate seed the same AI cascade (T0 off · T2 WebLLM in-browser 1B-70B · T3 BYOK frontier) + WebRTC P2P mesh + AI chip UI + Help section. Estate-first canonical. MIT.">
+<title>Fall Kit · the shared brain</title>
+<meta name="description" content="Fall Kit: one small script that gives any web page an AI helper the person controls (off, a model in their own browser, or their own key straight to the provider), recycling of the opening, keys held in the tab, and the Lego socket every estate build carries. MIT.">
 <meta name="prime" content="1301">
 <style>
 :root {
@@ -53,11 +53,39 @@ td strong{color:var(--brass)}
 .btn.ghost:hover{border-color:var(--brass);color:var(--brass)}
 .foot{margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10px;color:var(--cream-muted);letter-spacing:.08em;text-align:center}
 .foot a{color:var(--cream-dim)}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.jump a{font-size:12.5px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--cream-dim)}
+.jump a:hover{border-color:var(--brass);color:var(--brass);text-decoration:none}
+.small{font-size:12.5px;color:var(--cream-dim)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.diagram{margin:16px 0;background:var(--ink);border:1px solid var(--line);border-radius:5px;padding:12px}
+.diagram svg{width:100%;height:auto;display:block}
+.diagram .box{fill:var(--void-2);stroke:var(--line);stroke-width:1.5}
+.diagram .hot{stroke:var(--brass)}
+.diagram .t{fill:var(--cream);font:700 15px var(--serif)}
+.diagram .s{fill:var(--cream-dim);font:12px var(--sans)}
+.diagram .ln{fill:none;stroke:var(--brass);stroke-width:2}
+.diagram .stud rect{fill:var(--brass)}
+.diagram .stud text{fill:var(--void);font:700 14px var(--sans)}
+.out{margin-top:12px;min-height:60px;color:var(--cream);white-space:pre-wrap;word-break:break-word}
+.demo-box input[type=text]{flex:1;min-width:200px;padding:8px 12px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:inherit}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:8px 0 14px}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--cream-dim)}
+.calc input{padding:7px 10px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:inherit;width:100%}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0}
+.tile{background:var(--void-2);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.tile b{display:block;font:700 22px var(--serif);color:var(--brass)}
+.tile span{font-size:12px;color:var(--cream-dim)}
+.scroll{overflow-x:auto;max-width:100%}
+td.on{color:var(--leaf)}
+td.off{color:var(--cream-muted)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media (max-width:600px){header{padding:12px 16px}main{padding:22px 16px 80px}.hero{padding:18px 16px}.hero h1{font-size:24px}h1{font-size:26px}.lede{font-size:15.5px}th,td{padding:7px 8px}}
 </style>
 <!-- FALL_KIT_BEGIN v1 · DO NOT EDIT THIS BLOCK MANUALLY -->
 <script>
 /*!
- * Fall Kit · v2.0.0 · the shared cascade for every estate seed
+ * Fall Kit · v3.0.0 · the shared cascade for every estate seed (the brain stud of the estate's Lego socket)
  * MIT · AI-Native Solutions · ai-nativesolutions.com
  *
  * Inlineable JS module. Drop into any seed via <script> or copy-paste inline.
@@ -70,21 +98,28 @@ td strong{color:var(--brass)}
  *  - NEW · Universal video: FallKit.aiVideo(prompt, opts) → { url } | null
  *  - NEW · Universal TTS:   FallKit.aiTTS(text, opts)     → { url | blob } | null
  *  - NEW · Universal STT:   FallKit.aiSTT(blob, opts)     → { text } | null
+ *  - NEW in v3 · Conversation: FallKit.aiChat(system, history, user, maxTokens) → { text, assistant } | null
+ *    (the caller appends the user turn and `assistant` to its own history: a conversation only grows, never edited)
+ *  - NEW in v3 · Recycling: the system prompt is sent first and the same each call, marked for Anthropic's cache;
+ *    OpenAI, Google and OpenRouter cache repeated openings themselves. FallKit.lastUsage() says what the last call
+ *    read, how much of it the provider reused, and what it wrote.
  *  - AI chip UI in header · settings modal with tabs for each modality
- *  - WebRTC P2P mesh (BroadcastChannel · same-device discovery)
+ *  - Same-device mesh (BroadcastChannel: estate seeds open on this device find each other; not cross-device)
  *  - Help section partial: FallKit.helpSection()
  *  - Settings panel:       FallKit.openSettings()
  *
  * Doctrine:
  *  - T0 fallback ALWAYS works · aiComplete returns null · caller MUST degrade gracefully
  *  - NEVER hide a feature behind AI · NEVER proxy API keys · NEVER log keys
- *  - Keys live in localStorage only · sent direct to the provider · never proxied through us
+ *  - Keys are held in this tab only, unless the owner ticks "remember my keys on this device" (v3: every estate
+ *    page at this address shares one browser storage, so a key kept there can be read by any of them) · sent direct
+ *    to the provider · never proxied through us
  *  - WebLLM is lazy-loaded · model weights download ONLY on user opt-in
  */
 (function (root) {
   'use strict';
 
-  const FALL_KIT_VERSION = '2.0.0';
+  const FALL_KIT_VERSION = '3.0.0';
 
   // ─── WebLLM (T2) model registry ─────────────────────────────────────
   const WEBLLM_MODELS = {
@@ -98,7 +133,7 @@ td strong{color:var(--brass)}
 
   // ─── T3 · BYOK · TEXT providers ─────────────────────────────────────
   const TEXT_PROVIDERS = {
-    anthropic:  { label: 'Anthropic Claude',   models: ['claude-sonnet-4-5','claude-opus-4-8','claude-haiku-4-5'],                default: 'claude-sonnet-4-5',   type: 'anthropic' },
+    anthropic:  { label: 'Anthropic Claude',   models: ['claude-opus-5-5','claude-sonnet-5-5','claude-haiku-5-5'],                default: 'claude-opus-5-5',     type: 'anthropic' },
     openai:     { label: 'OpenAI',             models: ['gpt-4o','gpt-4o-mini','o1-mini','gpt-4.1'],                              default: 'gpt-4o-mini',         type: 'openai' },
     google:     { label: 'Google Gemini',      models: ['gemini-2.5-pro','gemini-2.5-flash','gemini-2.0-flash'],                  default: 'gemini-2.5-flash',    type: 'google' },
     groq:       { label: 'Groq (fast)',        models: ['llama-3.3-70b-versatile','llama-3.1-70b-versatile','mixtral-8x7b-32768'], default: 'llama-3.3-70b-versatile', type: 'openai_compat', url: 'https://api.groq.com/openai/v1/chat/completions' },
@@ -149,34 +184,76 @@ td strong{color:var(--brass)}
   };
 
   // ─── State ──────────────────────────────────────────────────────────
+  const MODALITIES = ['text', 'image', 'video', 'tts', 'stt'];
+  const emptyKeys = () => ({ text: {}, image: {}, video: {}, tts: {}, stt: {} });
+  /**
+   * What a stored config holds, split into what may be stored (the tier, providers, models) and what is held in this
+   * tab only (the keys). Keys stay stored only when the owner chose "remember my keys on this device"; a config written
+   * the old way (keys stored, no choice made) has its keys moved into the tab and stored no longer. Pure.
+   * → { config, secrets, moved } (moved: how many keys were taken out of storage)
+   */
+  function configFrom(c) {
+    c = c && typeof c === 'object' && !Array.isArray(c) ? Object.assign({}, c) : {};
+    if (c.api_key && !c.keys) {   // v1 → v2: one text key at the top level
+      c.keys = emptyKeys();
+      c.keys.text[c.api_provider || 'anthropic'] = { key: c.api_key, model: c.api_model };
+    }
+    delete c.api_key;
+    const secrets = emptyKeys(), models = emptyKeys();
+    let moved = 0;
+    for (const m of MODALITIES) {
+      const held = c.keys && c.keys[m] && typeof c.keys[m] === 'object' ? c.keys[m] : {};
+      for (const pk of Object.keys(held)) {
+        const e = held[pk] || {};
+        if (typeof e.key === 'string' && e.key) { secrets[m][pk] = e.key; moved++; }
+        if (typeof e.model === 'string' && e.model) models[m][pk] = e.model;
+      }
+      const kept = c.models && c.models[m] && typeof c.models[m] === 'object' ? c.models[m] : {};
+      for (const pk of Object.keys(kept)) if (typeof kept[pk] === 'string' && kept[pk]) models[m][pk] = models[m][pk] || kept[pk];
+    }
+    c.models = models;
+    const remember = c.remember_keys === true;
+    if (!remember) delete c.keys;
+    return { config: c, secrets: secrets, moved: remember ? 0 : moved };
+  }
+  /** what is written to storage: the config, with the keys only if the owner chose to remember them. Pure. */
+  function storedForm(config, secrets) {
+    const out = Object.assign({}, config);
+    delete out.keys;
+    if (config.remember_keys === true) {
+      out.keys = emptyKeys();
+      for (const m of MODALITIES) for (const pk of Object.keys(secrets[m] || {})) out.keys[m][pk] = { key: secrets[m][pk], model: (config.models && config.models[m] && config.models[m][pk]) || undefined };
+    }
+    return out;
+  }
+  const BOOT = (function () {
+    let stored = {};
+    try { stored = JSON.parse(localStorage.getItem('fall-kit.config') || '{}'); } catch (e) { stored = {}; }
+    return configFrom(stored);
+  })();
   const STATE = {
-    config: loadConfig(),
+    config: BOOT.config,
+    secrets: BOOT.secrets,   // the keys: this tab only, unless remember_keys
     ai: { ready: false, loading: false, progress: 0, engine: null, model: null },
     mesh: { active: false, peers: new Map(), bc: null, signal: null },
+    lastUsage: null,
   };
 
-  function loadConfig() {
-    try {
-      const c = JSON.parse(localStorage.getItem('fall-kit.config') || '{}');
-      // v1 → v2 migration
-      if (c.api_key && !c.keys) {
-        c.keys = { text: {}, image: {}, video: {}, tts: {}, stt: {} };
-        c.keys.text[c.api_provider || 'anthropic'] = { key: c.api_key, model: c.api_model };
-      }
-      if (!c.keys) c.keys = { text: {}, image: {}, video: {}, tts: {}, stt: {} };
-      return c;
-    } catch (e) { return { keys: { text: {}, image: {}, video: {}, tts: {}, stt: {} } }; }
-  }
-  function saveConfig() { try { localStorage.setItem('fall-kit.config', JSON.stringify(STATE.config)); } catch (e) {} }
-  function getKey(modality, providerKey) { return STATE.config.keys?.[modality]?.[providerKey]?.key || ''; }
+  function saveConfig() { try { localStorage.setItem('fall-kit.config', JSON.stringify(storedForm(STATE.config, STATE.secrets))); } catch (e) {} }
+  if (BOOT.moved) saveConfig();   // keys stored the old way leave shared storage now; they stay usable in this tab
+  function getKey(modality, providerKey) { return (STATE.secrets[modality] && STATE.secrets[modality][providerKey]) || ''; }
   function getModel(modality, providerKey, registry) {
-    return STATE.config.keys?.[modality]?.[providerKey]?.model || registry[providerKey]?.default;
+    return (STATE.config.models && STATE.config.models[modality] && STATE.config.models[modality][providerKey]) || registry[providerKey]?.default;
   }
   function setKey(modality, providerKey, key, model) {
-    STATE.config.keys[modality] = STATE.config.keys[modality] || {};
-    STATE.config.keys[modality][providerKey] = { key: key, model: model };
+    STATE.secrets[modality] = STATE.secrets[modality] || {};
+    if (key) STATE.secrets[modality][providerKey] = key;
+    STATE.config.models = STATE.config.models || emptyKeys();
+    STATE.config.models[modality] = STATE.config.models[modality] || {};
+    if (model) STATE.config.models[modality][providerKey] = model;
     saveConfig();
   }
+  function forgetKeys() { STATE.secrets = emptyKeys(); STATE.config.remember_keys = false; saveConfig(); renderAiChip(); }
 
   // ─── DOM helpers ────────────────────────────────────────────────────
   function $(s, root) { return (root || document).querySelector(s); }
@@ -227,78 +304,111 @@ td strong{color:var(--brass)}
     }
   }
 
-  // ═══════════════════════ TEXT · aiComplete ════════════════════════
+  // ═══════════════════════ TEXT · aiComplete · aiChat ═══════════════
+  // One way to ask every text provider: the system prompt first and the same each call (so a provider can reuse its
+  // reading of it), then the conversation, which only ever grows. Pure pieces (requestOf, textOf, usageOf) are exposed
+  // on FallKit for tests; nothing pure here touches the network.
+  const isObj = (x) => x !== null && typeof x === 'object' && !Array.isArray(x);
+  const count = (x) => (Number.isInteger(x) && x >= 0 ? x : 0);
+  /** Claude models from 5.x think before they answer: room for that, and a light effort for an assistant's reply */
+  const THINKS = (model) => /^claude-(?:opus|sonnet|haiku|fable|mythos)-5/.test(model);
+  /** Claude models with a server-side fallback when a request is declined (Haiku has none) */
+  const FALLS_BACK = (model) => /^claude-(?:opus|sonnet|fable)-5/.test(model);
+  /** a message's words, whatever shape a provider keeps it in */
+  function wordsOf(m) {
+    if (!isObj(m)) return '';
+    if (typeof m.content === 'string') return m.content;
+    if (Array.isArray(m.content)) return m.content.filter((b) => isObj(b) && b.type === 'text' && typeof b.text === 'string').map((b) => b.text).join('\n');
+    return '';
+  }
+  /**
+   * The request a text provider is sent: { url, headers, body } for type (anthropic | openai | google | openai_compat |
+   * cohere | hf_inference). messages: [{ role: 'user' | 'assistant', content }]. Pure: the key is placed, never kept.
+   */
+  function requestOf(type, opts) {
+    const { model, key, system, messages, maxTokens, url } = opts;
+    const max = Number.isInteger(maxTokens) && maxTokens > 0 ? maxTokens : 600;
+    const plain = messages.map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: wordsOf(m) }));
+    if (type === 'anthropic') {
+      const headers = { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' };
+      const body = { model, max_tokens: THINKS(model) ? Math.max(max * 4, 4000) : max, system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
+        messages: messages.map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content })) };
+      if (THINKS(model)) body.output_config = { effort: 'low' };
+      if (FALLS_BACK(model)) { headers['anthropic-beta'] = 'server-side-fallback-2026-07-01'; body.fallbacks = 'default'; }
+      return { url: 'https://api.anthropic.com/v1/messages', headers, body };
+    }
+    if (type === 'openai') return { url: 'https://api.openai.com/v1/chat/completions', headers: { 'content-type': 'application/json', Authorization: 'Bearer ' + key }, body: { model, max_completion_tokens: max, messages: [{ role: 'system', content: system }].concat(plain) } };
+    if (type === 'google') return { url: 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent', headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
+      body: { systemInstruction: { parts: [{ text: system }] }, contents: plain.map((m) => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })), generationConfig: { maxOutputTokens: max } } };
+    if (type === 'cohere') return { url: 'https://api.cohere.com/v2/chat', headers: { 'content-type': 'application/json', Authorization: 'Bearer ' + key }, body: { model, max_tokens: max, messages: [{ role: 'system', content: system }].concat(plain) } };
+    if (type === 'hf_inference') return { url: 'https://api-inference.huggingface.co/models/' + model + '/v1/chat/completions', headers: { 'content-type': 'application/json', Authorization: 'Bearer ' + key }, body: { model, max_tokens: max, messages: [{ role: 'system', content: system }].concat(plain) } };
+    if (type === 'openai_compat') return { url: url, headers: { 'content-type': 'application/json', Authorization: 'Bearer ' + key }, body: { model, max_tokens: max, messages: [{ role: 'system', content: system }].concat(plain) } };
+    return null;
+  }
+  /** the answer's words from a provider's reply, or null when it declined or said nothing. Pure. */
+  function textOf(type, j) {
+    if (!isObj(j)) return null;
+    let t = '';
+    if (type === 'anthropic') { if (j.stop_reason === 'refusal' || !Array.isArray(j.content)) return null; t = wordsOf({ content: j.content }); }
+    else if (type === 'google') { const c = Array.isArray(j.candidates) ? j.candidates[0] : null; t = c && isObj(c.content) && Array.isArray(c.content.parts) ? c.content.parts.map((p) => (isObj(p) && typeof p.text === 'string' ? p.text : '')).join('') : ''; }
+    else if (type === 'cohere') { t = isObj(j.message) && Array.isArray(j.message.content) ? wordsOf({ content: j.message.content.map((b) => Object.assign({ type: 'text' }, b)) }) : ''; }
+    else { const c = Array.isArray(j.choices) ? j.choices[0] : null; t = c && isObj(c.message) && typeof c.message.content === 'string' ? c.message.content : ''; }
+    t = t.trim();
+    return t ? t : null;
+  }
+  /** what a call used, read from a provider's own usage record: { read, recycled, written, out }. Pure. */
+  function usageOf(type, j) {
+    const u = isObj(j) ? (type === 'google' ? j.usageMetadata : type === 'cohere' && isObj(j.usage) ? j.usage.tokens : j.usage) : null;
+    if (!isObj(u)) return { read: 0, recycled: 0, written: 0, out: 0 };
+    if (type === 'anthropic') { const recycled = count(u.cache_read_input_tokens), written = count(u.cache_creation_input_tokens); return { read: count(u.input_tokens) + recycled + written, recycled, written, out: count(u.output_tokens) }; }
+    if (type === 'google') { const read = count(u.promptTokenCount); return { read, recycled: Math.min(read, count(u.cachedContentTokenCount)), written: 0, out: count(u.candidatesTokenCount) + count(u.thoughtsTokenCount) }; }
+    if (type === 'cohere') return { read: count(u.input_tokens), recycled: 0, written: 0, out: count(u.output_tokens) };
+    const read = count(u.prompt_tokens), d = isObj(u.prompt_tokens_details) ? u.prompt_tokens_details : {};
+    return { read, recycled: Math.min(read, count(d.cached_tokens)), written: 0, out: count(u.completion_tokens) };
+  }
+
   async function aiComplete(systemPrompt, userMsg, maxTokens) {
+    const r = await aiChat(systemPrompt, [], userMsg, maxTokens);
+    return r ? r.text : null;
+  }
+  /**
+   * One turn of a conversation: the system prompt, the history so far (unchanged), and the user's words. → { text,
+   * assistant } — the caller appends { role: 'user', content: userMsg } and `assistant` to its history (assistant is the
+   * reply as the provider gave it, so a provider that checks its own earlier turns sees them unchanged) — or null when no
+   * tier can answer.
+   */
+  async function aiChat(systemPrompt, history, userMsg, maxTokens) {
     maxTokens = maxTokens || 600;
+    const messages = (Array.isArray(history) ? history : []).concat([{ role: 'user', content: String(userMsg == null ? '' : userMsg) }]);
     const tier = aiTier();
     if (tier === 'T2' && STATE.ai.ready && STATE.ai.engine) {
       const r = await STATE.ai.engine.chat.completions.create({
-        messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userMsg }], max_tokens: maxTokens,
+        messages: [{ role: 'system', content: systemPrompt }].concat(messages.map((m) => ({ role: m.role, content: wordsOf(m) }))), max_tokens: maxTokens,
       });
-      return r.choices[0].message.content;
+      const text = r.choices[0].message.content;
+      STATE.lastUsage = Object.assign({ provider: 'webllm' }, usageOf('openai', r));
+      return { text: text, assistant: { role: 'assistant', content: text } };
     }
     if (tier === 'T3') {
       const p = activeTextProvider(); const key = getKey('text', p);
       if (!key) return null;
-      return await textCall(p, systemPrompt, userMsg, maxTokens);
+      return await textCall(p, systemPrompt, messages, maxTokens);
     }
     return null;
   }
 
-  async function textCall(providerKey, sys, msg, maxTokens) {
+  async function textCall(providerKey, sys, messages, maxTokens) {
     const p = TEXT_PROVIDERS[providerKey];
-    const key = getKey('text', providerKey);
     const model = getModel('text', providerKey, TEXT_PROVIDERS);
-    if (p.type === 'anthropic') {
-      const r = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({ model, max_tokens: maxTokens, system: sys, messages: [{ role: 'user', content: msg }] }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).content[0].text;
-    }
-    if (p.type === 'openai') {
-      const r = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST', headers: { 'content-type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({ model, max_tokens: maxTokens, messages: [{ role: 'system', content: sys }, { role: 'user', content: msg }] }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).choices[0].message.content;
-    }
-    if (p.type === 'google') {
-      const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(key), {
-        method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: sys + '\n\n---\n\n' + msg }] }], generationConfig: { maxOutputTokens: maxTokens } }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).candidates[0].content.parts[0].text;
-    }
-    if (p.type === 'openai_compat') {
-      const r = await fetch(p.url, {
-        method: 'POST', headers: { 'content-type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({ model, max_tokens: maxTokens, messages: [{ role: 'system', content: sys }, { role: 'user', content: msg }] }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).choices[0].message.content;
-    }
-    if (p.type === 'cohere') {
-      const r = await fetch('https://api.cohere.com/v2/chat', {
-        method: 'POST', headers: { 'content-type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({ model, max_tokens: maxTokens, messages: [{ role: 'system', content: sys }, { role: 'user', content: msg }] }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).message.content[0].text;
-    }
-    if (p.type === 'hf_inference') {
-      const r = await fetch('https://api-inference.huggingface.co/models/' + model + '/v1/chat/completions', {
-        method: 'POST', headers: { 'content-type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({ model, max_tokens: maxTokens, messages: [{ role: 'system', content: sys }, { role: 'user', content: msg }] }),
-      });
-      if (!r.ok) throw new Error(p.label + ' ' + r.status);
-      return (await r.json()).choices[0].message.content;
-    }
-    throw new Error('unknown text provider type: ' + p.type);
+    const req = requestOf(p.type, { model, key: getKey('text', providerKey), system: sys, messages, maxTokens, url: p.url });
+    if (!req) throw new Error('unknown text provider type: ' + p.type);
+    const r = await fetch(req.url, { method: 'POST', headers: req.headers, body: JSON.stringify(req.body) });
+    if (!r.ok) throw new Error(p.label + ' ' + r.status);
+    const j = await r.json();
+    STATE.lastUsage = Object.assign({ provider: providerKey, model: model }, usageOf(p.type, j));
+    const text = textOf(p.type, j);
+    if (text === null) return null;
+    return { text: text, assistant: p.type === 'anthropic' ? { role: 'assistant', content: j.content } : { role: 'assistant', content: text } };
   }
 
   // ═══════════════════════ IMAGE · aiImage ═══════════════════════════
@@ -613,7 +723,7 @@ td strong{color:var(--brass)}
         <select id="fk-${modality}-model" style="${styleInput}">${modelOptions(registry, currentProvider, currentModel)}</select>
         <label style="${styleLabel}">API key</label>
         <input type="password" id="fk-${modality}-key" value="${esc(currentKeyVal)}" placeholder="${currentKeyVal ? '(set · leave to keep)' : 'paste key here'}" autocomplete="off" style="${styleInput};font-family:ui-monospace,Menlo,monospace">
-        <div style="font-size:11px;color:#6e6a5e;line-height:1.55;margin-top:2px">Key lives in this browser only. Sent direct to the provider — never proxied through us.</div>
+        <div style="font-size:11px;color:#6e6a5e;line-height:1.55;margin-top:2px">Key held in this tab only (unless you tick “remember” below). Sent direct to the provider — never proxied through us.</div>
       `;
     }
 
@@ -651,6 +761,9 @@ td strong{color:var(--brass)}
             ${tab==='tts'   ? modalityBlock('tts',   TTS_PROVIDERS,   ttsP,  getKey('tts',   ttsP),  getModel('tts',   ttsP,   TTS_PROVIDERS))   : ''}
             ${tab==='stt'   ? modalityBlock('stt',   STT_PROVIDERS,   sttP,  getKey('stt',   sttP),  getModel('stt',   sttP,   STT_PROVIDERS))   : ''}
           </div>
+          <label style="display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:12px;color:#ebe3d2;cursor:pointer"><input type="checkbox" id="fk-remember"${STATE.config.remember_keys===true?' checked':''} style="margin-top:2px"> Remember my keys on this device</label>
+          <div style="font-size:11px;color:#a14a2a;line-height:1.55;margin:4px 0 0 22px">Every estate page at this web address shares this browser’s storage, so a remembered key can be read by any of them. Leave it off and your keys are held in this tab only: close it and they are gone.</div>
+          <button id="fk-forget" style="margin-top:10px;padding:6px 12px;background:transparent;color:#a89e88;border:1px solid #3a342c;border-radius:3px;font-size:11px;cursor:pointer;font-family:inherit">Forget my keys</button>
         </div>
 
         <div style="margin-bottom:14px;padding:12px 14px;background:#1a1922;border:1px solid #2a2934;border-radius:4px">
@@ -697,8 +810,10 @@ td strong{color:var(--brass)}
       openSettings(STATE._lastTab);
     };
 
+    $('#fk-forget') && ($('#fk-forget').onclick = () => { forgetKeys(); notify('Keys forgotten · this tab and this device', 'ok'); openSettings(STATE._lastTab); });
     $('#fk-save').onclick = () => {
       STATE.config.ai_tier = $('#fk-tier').value;
+      if ($('#fk-remember')) STATE.config.remember_keys = $('#fk-remember').checked;
       if ($('#fk-model')) STATE.config.webllm_model = $('#fk-model').value;
       ['text','image','video','tts','stt'].forEach(m => {
         const provSel = $('#fk-' + m + '-provider');
@@ -725,7 +840,7 @@ td strong{color:var(--brass)}
         <tbody>
           <tr><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#c08a3a;font-weight:600">T0</td><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#a89e88">Off. The seed works fully. No AI · no downloads · no API calls.</td></tr>
           <tr><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#c08a3a;font-weight:600">T2</td><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#a89e88">WebLLM in-browser. Pick a model: 1B (700MB) → 3B (2GB, default) → 7B (5GB) → 70B (40GB). One-time download, offline forever. Zero data leaves.</td></tr>
-          <tr><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#c08a3a;font-weight:600">T3</td><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#a89e88">BYOK · 12 text providers (Claude, GPT, Gemini, Groq, Cerebras, DeepSeek, OpenRouter, Mistral, Cohere, Together, HuggingFace, Grok) · 7 image (fal, HF, Replicate, DALL-E, Imagen, Ideogram, Leonardo, Aurora) · 5 video (fal, Luma, Runway, Pika, Kling) · 4 TTS (ElevenLabs, OpenAI, PlayHT, Cartesia) · 3 STT (Deepgram, AssemblyAI, Whisper). You bring keys, you pay direct. Keys stay in your browser.</td></tr>
+          <tr><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#c08a3a;font-weight:600">T3</td><td style="padding:6px 10px;border-top:1px solid #2a2934;color:#a89e88">BYOK · 12 text providers (Claude, GPT, Gemini, Groq, Cerebras, DeepSeek, OpenRouter, Mistral, Cohere, Together, HuggingFace, Grok) · 7 image (fal, HF, Replicate, DALL-E, Imagen, Ideogram, Leonardo, Aurora) · 5 video (fal, Luma, Runway, Pika, Kling) · 4 TTS (ElevenLabs, OpenAI, PlayHT, Cartesia) · 3 STT (Deepgram, AssemblyAI, Whisper). You bring keys, you pay direct. Keys are held in this tab only, unless you choose to remember them on this device. The same opening is sent first every time, so a provider that caches can reuse its reading of it.</td></tr>
         </tbody>
       </table>
       <p style="font-size:12px;color:#6e6a5e;line-height:1.6;margin-top:10px">Open the AI chip in the header to switch tier or check status. Cross-seed mesh activates a BroadcastChannel on <code style="background:#1a1922;padding:1px 5px;border-radius:2px">${MESH_CHANNEL}</code> so other estate seeds on the same device discover this one.</p>
@@ -771,6 +886,7 @@ td strong{color:var(--brass)}
       document.body.appendChild(chip);
     }
     renderAiChip();
+    if (BOOT.moved) notify('AI keys are now held in this tab only · tick “remember” in AI settings to keep them', 'info');
     return { version: FALL_KIT_VERSION, mounted: true };
   }
 
@@ -780,6 +896,14 @@ td strong{color:var(--brass)}
     init: init,
     aiTier: aiTier,
     aiComplete: aiComplete,
+    aiChat: aiChat,
+    lastUsage: () => STATE.lastUsage,
+    forgetKeys: forgetKeys,
+    requestOf: requestOf,
+    textOf: textOf,
+    usageOf: usageOf,
+    configFrom: configFrom,
+    storedForm: storedForm,
     aiImage: aiImage,
     aiVideo: aiVideo,
     aiTTS: aiTTS,
@@ -820,145 +944,339 @@ td strong{color:var(--brass)}
     <div class="mark">◊</div>
     <div>
       <div class="name">Fall Kit</div>
-      <div class="sub">v1.2.0 · the shared cascade · MIT</div>
+      <div class="sub">v3.0.0 · the shared brain · MIT</div>
     </div>
   </div>
   <nav>
-    <a href="https://github.com/sjgant80-hub/fall-kit" target="_blank">GitHub</a>
-    <a href="https://www.ai-nativesolutions.com" target="_blank">Estate</a>
-    <a href="https://www.ai-nativesolutions.com/spec.html" target="_blank">Spec</a>
+    <a href="https://github.com/sjgant80-hub/fall-kit" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.ai-nativesolutions.com" target="_blank" rel="noopener">Estate</a>
   </nav>
 </header>
 
 <main>
 
 <div class="hero">
-  <div class="seal">◊·κ=1 · prime 1301 · part of the AI Native Solutions estate</div>
-  <h1>One cascade. Every seed. Same level.</h1>
-  <p class="lede">Drop-in JS module that gives any estate seed the AI cascade and P2P mesh users now expect — T0 off (default) · T2 WebLLM in-browser (1B → 70B) · T3 BYOK frontier (Anthropic / OpenAI / Google) · plus WebRTC mesh on the canonical <code>fall-signal</code> channel. Inlines for sovereignty. ~16 KB.</p>
+  <div class="seal">part of the AI Native Solutions estate · MIT · tested on GitHub's machines</div>
+  <h1>One brain for every build. Yours to switch on.</h1>
+  <p class="lede">Fall Kit is one small script. Put it in a web page and that page gets an AI helper that the person using it controls: <strong>off</strong>, a model that runs <strong>inside their own browser</strong>, or <strong>their own key</strong> to a frontier model such as Claude. Nothing goes through us: there is no server, no account and no middleman.</p>
+  <p class="lede" style="margin-bottom:0">It is also the first of five studs on <a href="#socket">the Lego socket</a>, the standard every estate build carries so that any build fits any other.</p>
+  <div class="jump">
+    <a href="#start">Start here</a><a href="#how">How it works</a><a href="#recycling">Recycling</a><a href="#keys">Your keys</a><a href="#socket">The socket</a><a href="#try">Try it</a><a href="#blueprint">Blueprint</a><a href="#embed">Embed</a><a href="#business">For a business</a>
+  </div>
 </div>
 
-<h2>The 3 tiers</h2>
+<h2 id="start">Start here</h2>
+<h3>If you are using an estate build</h3>
+<ol>
+<li>Find the small <strong>AI chip</strong> on the page (on this page it sits in the header, top right).</li>
+<li>Click it. Pick <strong>Off</strong> (the build works without AI), <strong>In your browser</strong> (a model downloads once and runs on your own machine), or <strong>Your own key</strong>.</li>
+<li>For your own key: choose the provider, paste the key, close the panel. The key stays in this tab and is gone when you close it, unless you tick <em>remember my keys on this device</em>.</li>
+<li>Use the build as normal. Wherever it offers AI help, the help now comes from the brain you picked.</li>
+</ol>
+<h3>If you are building one</h3>
+<ol>
+<li>Add one line before <code>&lt;/body&gt;</code>: <code>&lt;script src="https://sjgant80-hub.github.io/fall-kit/shim.js" defer&gt;&lt;/script&gt;</code>. Or copy the kit into the page with <code>node porter.mjs &lt;your-build&gt;</code> so it works offline.</li>
+<li>Call <code>FallKit.aiComplete(system, question)</code> or <code>FallKit.aiChat(system, history, question)</code> wherever you want help. Both return <code>null</code> when AI is off: your page then does its own thing.</li>
+<li>Write the build's <code>kard.json</code> with <code>node kard-writer.mjs &lt;your-build&gt; …</code> so the build fits <a href="#socket">the socket</a>.</li>
+</ol>
+
+<h2 id="how">How it works</h2>
+<p>Your page asks a question. Fall Kit sends it to whichever brain the person picked, and hands back the words of the answer, or <code>null</code>.</p>
+<figure class="diagram" aria-label="Diagram: a page asks Fall Kit; Fall Kit answers null when off, uses a model in the browser, or sends the question with the person's own key straight to the provider">
+<svg viewBox="0 0 720 300" role="img">
+  <title>How a question travels through Fall Kit</title>
+  <rect class="box" x="10" y="120" width="130" height="60" rx="6"/><text class="t" x="75" y="146" text-anchor="middle">Your page</text><text class="s" x="75" y="164" text-anchor="middle">asks a question</text>
+  <rect class="box hot" x="190" y="120" width="140" height="60" rx="6"/><text class="t" x="260" y="146" text-anchor="middle">Fall Kit</text><text class="s" x="260" y="164" text-anchor="middle">in the same page</text>
+  <path class="ln" d="M140 150 H190"/>
+  <path class="ln" d="M330 150 C360 150 360 40 390 40"/><path class="ln" d="M330 150 H390"/><path class="ln" d="M330 150 C360 150 360 260 390 260"/>
+  <rect class="box" x="390" y="12" width="320" height="56" rx="6"/><text class="t" x="404" y="36">Off</text><text class="s" x="404" y="56">answers null · the page does its own thing</text>
+  <rect class="box" x="390" y="122" width="320" height="56" rx="6"/><text class="t" x="404" y="146">In your browser</text><text class="s" x="404" y="166">a model on your own machine · nothing leaves it</text>
+  <rect class="box" x="390" y="232" width="320" height="56" rx="6"/><text class="t" x="404" y="256">Your own key</text><text class="s" x="404" y="276">straight to the provider you chose · not through us</text>
+</svg>
+</figure>
+<ol>
+<li><strong>The page asks.</strong> It passes an opening (who the helper is and what it knows), the conversation so far, and the new question.</li>
+<li><strong>Off:</strong> the kit answers <code>null</code> at once. No download, no call. Every estate build must still work this way.</li>
+<li><strong>In your browser:</strong> the kit loads WebLLM the first time you choose it, then the model answers on your own graphics chip. Nothing is sent anywhere.</li>
+<li><strong>Your own key:</strong> the kit builds the provider's request itself (below is the real one), sends it from your browser straight to the provider, and reads back only the words of the answer, never the model's private thinking.</li>
+<li><strong>The receipt:</strong> <code>FallKit.lastUsage()</code> then says how many tokens the provider read, how many it recycled from its cache, and how many it wrote.</li>
+</ol>
+<div class="demo-box">
+  <h3>The real request, built by the kit on this page</h3>
+  <p class="small">This calls <code>FallKit.requestOf</code>, the same code that builds every Claude request. The key is a stand-in label and nothing is sent.</p>
+  <div class="row"><button class="btn" id="trace-go" type="button">Show the request</button></div>
+  <pre id="trace-out" class="out">→ press the button</pre>
+</div>
+
+<h2 id="recycling">Recycling: the opening is paid for once</h2>
+<p>Every question in a talk sends the same opening before the new words. Fall Kit puts that opening first, keeps it the same every time, and marks it for the provider's cache. The provider then stores it once and reads it back for every later question at a fraction of the price. On Claude Opus 5.5 a cache read costs <strong>$0.20 per million tokens instead of $4</strong>; writing it costs $5 per million, once. OpenAI, Google and OpenRouter recycle repeated openings on their own.</p>
+<p class="small">Two conditions, stated straight: the opening must be at least 512 tokens on the newest Claude models, and the next question must start within five minutes (each read restarts the five minutes). Prices: Anthropic's published Claude API rates for Claude Opus 5.5.</p>
+<div class="demo-box">
+  <h3>What it costs your team, worked out by <code>recycle.mjs</code></h3>
+  <div class="calc">
+    <label>People <input id="c-people" type="number" min="1" max="100000" value="20"></label>
+    <label>Talks each a month <input id="c-talks" type="number" min="0" max="10000" value="40"></label>
+    <label>Questions per talk <input id="c-questions" type="number" min="1" max="10000" value="6"></label>
+    <label>Opening, tokens <input id="c-opening" type="number" min="0" max="1000000" value="2000"></label>
+    <label>Each question, tokens <input id="c-asked" type="number" min="0" max="1000000" value="150"></label>
+    <label>Each answer, tokens <input id="c-answered" type="number" min="0" max="1000000" value="400"></label>
+    <label>What you pay now, per seat a month ($) <input id="c-seat" type="number" min="0" max="100000" step="0.01" placeholder="your figure"></label>
+  </div>
+  <div id="calc-out" class="tiles" aria-live="polite"></div>
+  <p class="small">Answers include the model's thinking, which is billed as output. Only the opening is counted as recycled; a real talk also re-reads its earlier turns from the cache, so the true saving is larger.</p>
+</div>
+
+<h2 id="keys">Your keys stay in the tab</h2>
+<p>Every estate page lives at the same web address, <code>sjgant80-hub.github.io</code>, and browsers give pages at one address one shared storage. A key kept there could be read by any of them. So from version 3:</p>
+<ul>
+<li>A key you paste is held <strong>in this tab's memory only</strong>. Close the tab and it is gone.</li>
+<li>If you want it kept, tick <strong>remember my keys on this device</strong>. The panel tells you what that means first.</li>
+<li><strong>Forget my keys</strong> clears every key at once, kept or not.</li>
+<li>A key saved by an older version is moved out of shared storage the first time version 3 loads. You will see a note saying so, and you paste it once more.</li>
+<li>The Google key travels in a request header, not in the web address, so it does not show up in logs.</li>
+</ul>
+
+<h2 id="socket">The Lego socket</h2>
+<p>A Lego brick fits any other because every brick has the same studs in the same places. The socket is that idea for software: five things every estate build carries, measured from the build's own files and written down in one small file, <code>kard.json</code>. Anything built now or later can read that file and know how to fit.</p>
+<figure class="diagram" aria-label="Diagram: a brick with five studs named brain, manifest, mesh, memory and proof">
+<svg viewBox="0 0 720 170" role="img">
+  <title>The five studs of the socket</title>
+  <rect class="box hot" x="20" y="70" width="680" height="80" rx="8"/>
+  <text class="t" x="360" y="118" text-anchor="middle">an estate build</text>
+  <g class="stud"><rect x="40" y="22" width="112" height="48" rx="6"/><text x="96" y="52" text-anchor="middle">brain</text></g>
+  <g class="stud"><rect x="176" y="22" width="112" height="48" rx="6"/><text x="232" y="52" text-anchor="middle">manifest</text></g>
+  <g class="stud"><rect x="312" y="22" width="112" height="48" rx="6"/><text x="368" y="52" text-anchor="middle">mesh</text></g>
+  <g class="stud"><rect x="448" y="22" width="112" height="48" rx="6"/><text x="504" y="52" text-anchor="middle">memory</text></g>
+  <g class="stud"><rect x="584" y="22" width="112" height="48" rx="6"/><text x="640" y="52" text-anchor="middle">proof</text></g>
+</svg>
+</figure>
+<table>
+<thead><tr><th>Stud</th><th>What it means</th><th>How it is measured</th></tr></thead>
+<tbody>
+<tr><td><strong>brain</strong></td><td>Fall Kit is in the build, so it has the AI helper.</td><td>Fall Kit's markers in the page (and which version), or its one-line loader</td></tr>
+<tr><td><strong>manifest</strong></td><td>The build says who it is, what rented tool it retires and where it lives.</td><td>its <code>kard.json</code>, checked field by field</td></tr>
+<tr><td><strong>mesh</strong></td><td>Builds open on the same device can talk; some talk across devices too.</td><td>Fall Kit's same-device channel or the build's own; the build's own WebRTC for across devices</td></tr>
+<tr><td><strong>memory</strong></td><td>The build keeps your work on your own device.</td><td>IndexedDB or local storage in the build's own code (the kit keeping its settings does not count)</td></tr>
+<tr><td><strong>proof</strong></td><td>The build is tested on GitHub's machines, not just on ours.</td><td>its workflows, and its test files</td></tr>
+</tbody>
+</table>
+<p>A build <strong>fits</strong> when it has every stud. One that does not still has a card; the card simply names the stud it lacks. Kardlings reads these files to make its gear cards.</p>
+<div class="demo-box">
+  <h3>The 100 builds, read live from their own kard.json</h3>
+  <p class="small">This page fetches each build's <code>kard.json</code> now and checks it with <code>socket.mjs</code>, the same checker the tests prove. A build whose file is missing or wrong says so.</p>
+  <div id="sock-sum" class="tiles" aria-live="polite"><div class="tile"><b>…</b><span>reading 100 builds</span></div></div>
+  <div class="scroll"><table id="sock-table"><thead><tr><th>Build</th><th>Retires</th><th>Brain</th><th>Mesh</th><th>Memory</th><th>Proof</th><th>Fits</th></tr></thead><tbody></tbody></table></div>
+</div>
+
+<h2 id="try">Try it live</h2>
+<div class="demo-box">
+  <h3>Ask the brain you picked in the chip</h3>
+  <p class="small">With the chip on Off you get the kit's <code>null</code>, as every build would. Pick In your browser or Your own key in the chip first for a real answer.</p>
+  <div class="row">
+    <label for="prompt" class="sr">Your question</label>
+    <input type="text" id="prompt" value="Write one sentence about off-grid communities.">
+    <button class="btn" id="try-go" type="button">Ask</button>
+  </div>
+  <pre id="out" class="out">→ the answer appears here</pre>
+</div>
+
+<h2>The brains you can pick</h2>
 <table>
 <thead><tr><th>Tier</th><th>What you get</th><th>Where the work happens</th></tr></thead>
 <tbody>
-<tr><td><strong>T0</strong> · off</td><td>The seed runs fully without AI. Default for every install.</td><td>Nothing downloads · zero API calls</td></tr>
-<tr><td><strong>T2</strong> · WebLLM</td><td>In-browser LLM via WebLLM. Pick a model: <strong>1B</strong> (700MB · any laptop) · <strong>3B</strong> (2GB · balanced default) · <strong>7B</strong> (5GB · capable) · <strong>8B</strong> (5GB · common) · <strong>70B</strong> (40GB · frontier, needs serious GPU + 64GB RAM)</td><td>100% in your browser · runs offline forever after first load · zero data leaves the device</td></tr>
-<tr><td><strong>T3</strong> · BYOK</td><td>Bring your own key for frontier models. <strong>Anthropic</strong> (Sonnet 4.5 · Opus 4.7 · Haiku 4.5) · <strong>OpenAI</strong> (GPT-4o · 4o-mini · o1-mini) · <strong>Google</strong> (Gemini 1.5 Pro · 1.5 Flash · 2.0 Flash)</td><td>Direct fetch to provider · key stays in your browser · never proxied</td></tr>
+<tr><td><strong>T0</strong> · Off</td><td>The build runs fully without AI. The default for every install.</td><td>Nothing downloads, nothing is called</td></tr>
+<tr><td><strong>T2</strong> · In your browser</td><td>WebLLM: <strong>1B</strong> (700 MB, any laptop) · <strong>3B</strong> (2 GB, the default) · <strong>7B</strong> and <strong>8B</strong> (5 GB, a decent graphics chip) · <strong>70B</strong> (40 GB, a serious machine)</td><td>Your own graphics chip, through WebGPU. Nothing is sent.</td></tr>
+<tr><td><strong>T3</strong> · Your own key</td><td><strong>Anthropic</strong> (Claude Opus 5.5 · Sonnet 5.5 · Haiku 5.5) · <strong>OpenAI</strong> · <strong>Google Gemini</strong> · <strong>OpenRouter</strong> · Groq · Cerebras · DeepSeek · Mistral · Cohere · Together · Hugging Face · xAI. Images, video, voice and listening too.</td><td>From your browser straight to the provider. Not through us.</td></tr>
 </tbody>
 </table>
 
-<h2>Try it live</h2>
-<div class="demo-box">
-  <h3>The chip is mounted at the top right of this page →</h3>
-  <p style="font-size:13.5px;color:var(--cream-dim);margin-bottom:12px">Click it to open the cascade settings. Then ask the kit to generate something with T0 (graceful null) · T2 (load a model first) · T3 (paste a key).</p>
-  <div class="row">
-    <input type="text" id="prompt" value="Write one sentence about offgrid communities." style="flex:1;min-width:240px;padding:8px 12px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:13px var(--sans);outline:none">
-    <button class="btn" onclick="testKit()">Run via FallKit.aiComplete</button>
-  </div>
-  <pre id="out" style="margin-top:12px;min-height:60px;color:var(--cream)">→ output will appear here</pre>
-</div>
+<h2 id="blueprint">Blueprint</h2>
+<p>How the kit is built, file by file, and what proves each part.</p>
+<div class="scroll"><table>
+<thead><tr><th>File</th><th>What it does</th><th>What proves it</th></tr></thead>
+<tbody>
+<tr><td><code>fall-kit.js</code></td><td>The brain: the tier picker, the AI chip and its settings, one way to call every provider for text, images, video, voice and listening, recycling, usage receipts, keys held in the tab, the same-device mesh.</td><td><code>test.mjs</code>: 16 tests, run on GitHub's machines</td></tr>
+<tr><td><code>socket.mjs</code></td><td>The socket: measures a build's five studs from its files, makes its kard, checks any <code>kard.json</code> field by field.</td><td><code>socket.test.mjs</code> and the mutation witness: every planted bug caught</td></tr>
+<tr><td><code>recycle.mjs</code></td><td>The recycling saving at published prices, for one talk and for a team's month.</td><td><code>recycle.test.mjs</code> and the mutation witness</td></tr>
+<tr><td><code>kard-writer.mjs</code></td><td>Writes a build's <code>kard.json</code> from its own files. With <code>--check</code> it fails the build's tests if the file no longer matches.</td><td>uses <code>socket.mjs</code>; nothing is typed by hand</td></tr>
+<tr><td><code>porter.mjs</code></td><td>Copies the kit into a build between its markers; <code>--update</code> replaces an older copy in place.</td><td>the build's own page gate</td></tr>
+<tr><td><code>shim.js</code></td><td>The one-line loader for a build that does not carry its own copy. Does nothing if the kit is already there.</td><td>this repository's page gate</td></tr>
+<tr><td><code>socket-builds.json</code></td><td>The 100 builds that carry the socket, with what each retires.</td><td>a test checks every entry can make a valid kard</td></tr>
+<tr><td><code>.github/workflows</code></td><td><strong>ci</strong> runs every test and the mutation witness; <strong>gate</strong> checks the page parses, links resolve and no key is committed.</td><td>green or red on every push</td></tr>
+</tbody>
+</table></div>
 
-<h2>Embed in your seed</h2>
-<p>Two ways. <strong>Inline</strong> for sovereignty (recommended) — copy the contents of <a href="./fall-kit.js">fall-kit.js</a> inside a <code>&lt;script&gt;</code> tag in your HTML. Or <strong>reference</strong> via CDN if you trust this hosted copy:</p>
+<h2 id="embed">Embed in your build</h2>
+<p>Two ways. <strong>Copy it in</strong> for a build that works offline: <code>node porter.mjs &lt;build-dir&gt;</code> puts <a href="./fall-kit.js">fall-kit.js</a> into the page between its markers. Or <strong>load it</strong> with one line, which always gets the newest version.</p>
 <pre>&lt;script src="https://sjgant80-hub.github.io/fall-kit/fall-kit.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-  FallKit.init({
-    seedName: 'my-seed',
-    chipAnchor: 'header .actions'  // CSS selector for where the AI chip goes
-  });
+  FallKit.init({ seedName: 'my-build', chipAnchor: 'header nav' });
 
-  // Use anywhere you want AI assist · degrades gracefully at T0
-  const draft = await FallKit.aiComplete(
-    'You are a tight technical writer.',
-    'Summarise this in 30 words: ' + sourceText,
-    200
-  );
-  if (draft) showDraft(draft);
-  else /* T0: fall back to your non-AI logic */;
+  // one question · null when AI is off, so the build does its own thing
+  const draft = await FallKit.aiComplete('You are a tight technical writer.', 'Summarise: ' + text, 200);
+
+  // a conversation that recycles its opening · the history only grows, never edited
+  const r = await FallKit.aiChat(OPENING, history, question, 600);
+  if (r) { history.push({ role: 'user', content: question }, r.assistant); show(r.text); }
+  console.log(FallKit.lastUsage());   // { read, recycled, written, out }
 &lt;/script&gt;</pre>
-
 <h3>Public API</h3>
-<table>
-<thead><tr><th>Method</th><th>Returns</th><th>What</th></tr></thead>
+<div class="scroll"><table>
+<thead><tr><th>Call</th><th>Returns</th><th>What</th></tr></thead>
 <tbody>
-<tr><td><code>FallKit.init({seedName, chipAnchor})</code></td><td><code>{version}</code></td><td>Installs CSS · mounts AI chip · returns kit version</td></tr>
-<tr><td><code>FallKit.aiComplete(sys, msg, maxTokens)</code></td><td><code>string|null</code></td><td>Universal entry. T0 → null. T2/T3 → completion. Caller MUST handle null gracefully.</td></tr>
-<tr><td><code>FallKit.loadWebLLM(modelKey?)</code></td><td><code>Promise</code></td><td>Lazy-loads WebLLM with chosen model (defaults to user's last pick or '3b')</td></tr>
-<tr><td><code>FallKit.openSettings()</code></td><td>void</td><td>Opens the cascade settings modal</td></tr>
-<tr><td><code>FallKit.meshStart({seedName, onMessage})</code></td><td>void</td><td>Activates BroadcastChannel mesh on <code>fall-signal</code></td></tr>
-<tr><td><code>FallKit.meshPost(kind, payload)</code></td><td><code>bool</code></td><td>Broadcasts to other seeds on the channel</td></tr>
-<tr><td><code>FallKit.helpSection()</code></td><td><code>string</code> (HTML)</td><td>Returns the standard help-section HTML to inject into your seed's Help tab</td></tr>
-<tr><td><code>FallKit.MODELS</code></td><td>object</td><td>Registry of available WebLLM models with size + label</td></tr>
-<tr><td><code>FallKit.PROVIDERS</code></td><td>object</td><td>Registry of T3 BYOK providers + their models</td></tr>
+<tr><td><code>FallKit.init({seedName, chipAnchor})</code></td><td><code>{version}</code></td><td>Adds the styles and the AI chip; safe to call twice</td></tr>
+<tr><td><code>FallKit.aiComplete(system, question, maxTokens)</code></td><td><code>string | null</code></td><td>One question. Off → <code>null</code>; the caller must handle it</td></tr>
+<tr><td><code>FallKit.aiChat(system, history, question, maxTokens)</code></td><td><code>{text, assistant} | null</code></td><td>A conversation. Append the question and <code>assistant</code> to your history as they are</td></tr>
+<tr><td><code>FallKit.lastUsage()</code></td><td><code>{read, recycled, written, out} | null</code></td><td>What the last call cost, in tokens</td></tr>
+<tr><td><code>FallKit.forgetKeys()</code></td><td>void</td><td>Clears every key, kept or not</td></tr>
+<tr><td><code>FallKit.requestOf(type, opts)</code></td><td>request</td><td>The exact request the kit would send; the key stays in a header</td></tr>
+<tr><td><code>FallKit.aiImage · aiVideo · aiTTS · aiSTT</code></td><td>result | <code>null</code></td><td>Images, video, speech and listening, through the same tiers</td></tr>
+<tr><td><code>FallKit.loadWebLLM(model?)</code></td><td>Promise</td><td>Loads an in-browser model on the person's say-so</td></tr>
+<tr><td><code>FallKit.openSettings()</code></td><td>void</td><td>Opens the settings panel</td></tr>
+<tr><td><code>FallKit.meshStart · meshPost</code></td><td>void · bool</td><td>The same-device channel <code>fall-signal</code>, shared by estate builds open on one device</td></tr>
+<tr><td><code>FallKit.helpSection()</code></td><td>string (HTML)</td><td>The standard help text for a build's Help tab</td></tr>
 </tbody>
-</table>
+</table></div>
 
-<h2>Sovereignty doctrine</h2>
+<h2 id="business">For a business</h2>
+<p class="lede">Put an AI helper in every tool your people already use, without a new vendor, a new seat licence or a server, and pay the AI provider only for the words actually sent.</p>
+<h3>What it does for each role</h3>
+<div class="scroll"><table>
+<thead><tr><th>Role</th><th>What changes</th></tr></thead>
+<tbody>
+<tr><td><strong>CEO</strong></td><td>AI help inside every internal tool, under your own control, in weeks rather than a procurement cycle. No new company sits between you and the model.</td></tr>
+<tr><td><strong>CFO</strong></td><td>No licence fee: the kit is MIT. You pay your chosen provider at its published rates for what is used, and recycling cuts the repeated part. The calculator above works out the month for your numbers.</td></tr>
+<tr><td><strong>COO</strong></td><td>The same chip and the same settings in every tool, so people learn it once. Tools keep working when AI is off.</td></tr>
+<tr><td><strong>CTO / CISO</strong></td><td>No server and no proxy to run or secure. Keys are held in the tab and never stored unless the person chooses. Requests go straight from the browser to the provider, keys in headers only. A page's content security policy can allow exactly the providers you approve and nothing else. The source is open and tested on every change.</td></tr>
+<tr><td><strong>Teams</strong></td><td>Help where the work is, with the provider the company approved, or a model on their own machine when the data must not leave it.</td></tr>
+</tbody>
+</table></div>
+<h3>Security, data protection and compliance</h3>
 <ul>
-<li><strong>T0 must always work</strong> — the kit never gates a seed's core feature behind AI. <code>aiComplete</code> returns <code>null</code>; callers fall back to non-AI logic.</li>
-<li><strong>API keys never proxied</strong> — direct fetch from the user's browser to the provider. Key stored only in <code>localStorage.fall-kit.config</code>. Never logged, never sent to us.</li>
-<li><strong>Lazy-loaded WebLLM</strong> — model weights download only on explicit user opt-in. Kit itself is ~16 KB.</li>
-<li><strong>BroadcastChannel mesh</strong> on <code>fall-signal</code> — the canonical channel name across all estate seeds (consistent with <a href="https://sjgant80-hub.github.io/fallnet/" target="_blank">fallnet</a>).</li>
-<li><strong>Estate-first canonical</strong> — WebLLM pattern ported from <a href="https://github.com/sjgant80-hub/botler" target="_blank">botler</a>. WebRTC channel from fallnet. Konomi 7-prime stack consistent. ◊·κ=1.</li>
+<li><strong>Where data goes:</strong> Off sends nothing. In your browser sends nothing. Your own key sends the question to that provider only, under your agreement with that provider. Fall Kit adds no processor of its own: it has no server, no analytics and no account.</li>
+<li><strong>Keys:</strong> held in tab memory; kept on the device only when the person ticks the box; cleared with one button.</li>
+<li><strong>Locking it down:</strong> set a content security policy on your pages that allows only your approved providers. Kardlings, an estate build, does exactly this for four providers.</li>
 </ul>
-
-<h2>What ports cleanly</h2>
+<h3>Rolling it out</h3>
+<ol>
+<li><strong>Week 1:</strong> add the kit to one tool. It starts Off, so nothing changes for anyone.</li>
+<li><strong>Week 2:</strong> a pilot team turns on In your browser, where the data must stay on the machine, and Your own key with the company's provider.</li>
+<li><strong>Week 3 on:</strong> add it to the next tool with <code>porter.mjs</code>; write each tool's <code>kard.json</code> so it fits the socket.</li>
+</ol>
+<h3>Support and ownership</h3>
+<p>MIT licence: copy the kit into your own tools and it is yours, with no lock-in and nothing to renew. Questions and fixes go through the <a href="https://github.com/sjgant80-hub/fall-kit/issues" target="_blank" rel="noopener">GitHub repository</a>.</p>
+<h3>Risks, answered straight</h3>
 <ul>
-<li>Any seed already using single-HTML pattern with IndexedDB and an existing tab/nav</li>
-<li>Drop into the head <code>&lt;script&gt;</code>, call <code>FallKit.init()</code> on boot, wire <code>aiComplete</code> into your assist features</li>
-<li>Help tab? Add <code>helpEl.innerHTML += FallKit.helpSection()</code> — consistent across the estate</li>
+<li><strong>A key in a browser tab can be read by any script running on that page.</strong> Put keys only into pages you trust, set a content security policy, and close the tab when done. The key does not outlive it unless kept on purpose.</li>
+<li><strong>In-browser models need a recent browser with WebGPU and room for the model.</strong> On older machines, Off and Your own key still work.</li>
+<li><strong>Providers change models and prices.</strong> The model lists live in one file; the calculator takes the rates as inputs.</li>
+<li><strong>Recycling needs a long enough opening and questions within five minutes.</strong> Below that, you pay the normal price and nothing breaks.</li>
+</ul>
+<h3>The case for the board</h3>
+<p>AI in every tool, owned outright, no per-seat licence, no new data processor, and a provider bill that falls as people use it more, because the repeated part is recycled. The source is open, and the tests run where anyone can see them.</p>
+
+<h2>Doctrine</h2>
+<ul>
+<li><strong>Off must always work.</strong> The kit never hides a build's core feature behind AI.</li>
+<li><strong>Keys are never proxied.</strong> They go straight from the browser to the provider, held in the tab unless the person keeps them.</li>
+<li><strong>Models download only when asked.</strong> The kit itself is one file.</li>
+<li><strong>One channel name.</strong> Builds on the same device meet on <code>fall-signal</code> (a BroadcastChannel; it does not cross devices).</li>
 </ul>
 
 <div class="foot">
-  ◊ Fall Kit v1.2.0 · MIT · <a href="https://github.com/sjgant80-hub/fall-kit">github.com/sjgant80-hub/fall-kit</a> · part of the <a href="https://www.ai-nativesolutions.com">AI Native Solutions estate</a> · ◊·κ=1
+  ◊ Fall Kit v3.0.0 · MIT · <a href="https://github.com/sjgant80-hub/fall-kit">github.com/sjgant80-hub/fall-kit</a> · part of the <a href="https://www.ai-nativesolutions.com">AI Native Solutions estate</a>
 </div>
 
 </main>
 
-<script src="./fall-kit.js"></script>
 <script>
-  FallKit.init({ seedName: 'fall-kit-demo', chipAnchor: 'header nav' });
-  async function testKit() {
+  FallKit.init({ seedName: 'fall-kit', chipAnchor: 'header nav' });
+  document.getElementById('try-go').addEventListener('click', async function () {
     const out = document.getElementById('out');
-    const prompt = document.getElementById('prompt').value;
-    out.textContent = '→ running...';
+    out.textContent = '→ asking…';
     try {
-      const r = await FallKit.aiComplete(
-        'You are a short, plain writer for an off-grid community estate.',
-        prompt,
-        200
-      );
-      if (r === null) {
-        out.textContent = '→ T0 fallback: aiComplete returned null. The kit refuses to silently call AI when not configured. Open the chip top-right and pick T2 (WebLLM) or T3 (BYOK key) first.';
-      } else {
-        out.textContent = '→ ' + r;
-      }
-    } catch (e) {
-      out.textContent = '→ error: ' + e.message;
-    }
-  }
+      const r = await FallKit.aiComplete('You are a short, plain writer for an off-grid community estate.', document.getElementById('prompt').value, 200);
+      out.textContent = r === null
+        ? '→ null: AI is off, so a build would do its own thing here. Open the AI chip in the header and pick In your browser or Your own key for a real answer.'
+        : '→ ' + r;
+    } catch (e) { out.textContent = '→ the provider said no: ' + e.message; }
+  });
+  document.getElementById('trace-go').addEventListener('click', function () {
+    const q = document.getElementById('prompt').value;
+    const r = FallKit.requestOf('anthropic', { model: 'claude-opus-5-5', key: '(your key, held in this tab)', system: 'You are the helper inside an estate build.', messages: [{ role: 'user', content: q }], maxTokens: 200 });
+    document.getElementById('trace-out').textContent = 'POST ' + r.url + '\n\nheaders ' + JSON.stringify(r.headers, null, 2) + '\n\nbody ' + JSON.stringify(r.body, null, 2);
+  });
 </script>
-
-
-
-<!-- ═══════════════════════ AUTOPILOT · fall-autopilot-kit ═══════════════════════ -->
 <script type="module">
-  try {
-    const { installAutopilot } = await import('https://sjgant80-hub.github.io/fall-autopilot-kit/src/autopilot.js');
-    const manifestRes = await fetch('https://sjgant80-hub.github.io/fall-autopilot-kit/manifests/fall-kit.json');
-    const manifest = await manifestRes.json();
-    manifest.actions = manifest.actions.map(a => ({ ...a, run: async (params) => {
-      const fn = window._app?.[a.id];
-      if (typeof fn === 'function') return fn(params);
-      alert('Autopilot proposes: ' + a.name + ' · params: ' + JSON.stringify(params) + '\n\nThis tool has not yet implemented the ' + a.id + ' handler. Proposal logged to audit.');
-      return { stub: true, action: a.id, params };
-    }}));
-    manifest.state = () => ({ ...(window._app || {}), now: new Date().toISOString() });
-    installAutopilot(manifest);
-  } catch (e) { console.warn('[autopilot] init failed:', e); }
+  import { STUDS, HOST, checkKard } from './socket.mjs';
+  import { talkCost, teamCost } from './recycle.mjs';
+
+  const el = (tag, text, cls) => { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+  const tile = (big, small) => { const t = el('div', null, 'tile'); t.append(el('b', big), el('span', small)); return t; };
+  const usd = (x) => '$' + (x >= 100 ? Math.round(x).toLocaleString('en-GB') : x.toFixed(2));
+
+  // ── the calculator: every figure from recycle.mjs ──
+  const num = (id) => { const v = document.getElementById(id).value; return v === '' ? null : Number(v); };
+  function calc() {
+    const out = document.getElementById('calc-out');
+    const talk = { opening: num('c-opening'), asked: num('c-asked'), answered: num('c-answered'), questions: num('c-questions') };
+    const m = teamCost({ people: num('c-people'), talks: num('c-talks') }, talk);
+    out.replaceChildren();
+    if (!m.ok) { out.append(tile('—', m.why)); return; }
+    const t = talkCost(talk);
+    out.append(
+      tile(usd(m.recycled), 'a month for the team, recycled'),
+      tile(usd(m.plain), 'the same month without recycling'),
+      tile(Math.round(t.share * 100) + '%', t.cached ? 'less, on every talk' : 'the opening is under 512 tokens, so nothing is cached'),
+      tile(usd(m.perPerson), 'per person a month'));
+    const seat = num('c-seat');
+    if (seat !== null && seat >= 0) out.append(tile(usd(seat * num('c-people')), 'what you pay now at ' + usd(seat) + ' a seat'));
+  }
+  document.querySelectorAll('.calc input').forEach((i) => i.addEventListener('input', calc));
+  calc();
+
+  // ── the socket: each build's kard.json, read now and checked by socket.mjs ──
+  const body = document.querySelector('#sock-table tbody'), sum = document.getElementById('sock-sum');
+  const yes = (b) => el('td', b ? '●' : '○', b ? 'on' : 'off');
+  async function readKard(name) {
+    try {
+      const r = await fetch(HOST + name + '/kard.json', { cache: 'no-store' });
+      if (!r.ok) return { why: 'no kard.json yet' };
+      const c = checkKard(await r.json());
+      return c.ok ? c : { why: c.why };
+    } catch { return { why: 'no kard.json yet' }; }
+  }
+  async function socket() {
+    let builds;
+    try { builds = await (await fetch('./socket-builds.json')).json(); }
+    catch { sum.replaceChildren(tile('—', 'the list of builds did not load; reload the page')); return; }
+    const results = new Array(builds.length);
+    let next = 0;
+    async function worker() { while (next < builds.length) { const i = next++; results[i] = await readKard(builds[i].name); } }
+    await Promise.all(Array.from({ length: 8 }, worker));
+    let carry = 0, fits = 0;
+    builds.forEach((b, i) => {
+      const r = results[i], tr = document.createElement('tr');
+      const name = el('td'); const a = el('a', b.name); a.href = HOST + b.name + '/'; a.target = '_blank'; a.rel = 'noopener'; name.append(a, el('div', b.category, 'small'));
+      tr.append(name, el('td', b.retires));
+      if (r.ok) {
+        carry++; if (r.kard.fits) fits++;
+        const s = r.kard.studs;
+        tr.append(el('td', s.brain.how === 'none' ? '○' : s.brain.how + (s.brain.version ? ' ' + s.brain.version : ''), s.brain.how === 'none' ? 'off' : 'on'),
+          el('td', s.mesh.peer ? 'device + peer' : s.mesh.device ? 'device' : '○', s.mesh.device || s.mesh.peer ? 'on' : 'off'),
+          yes(s.memory.indexeddb || s.memory.localstorage),
+          el('td', s.proof.workflows ? s.proof.workflows + ' wf · ' + s.proof.tests + ' tests' : '○', s.proof.workflows ? 'on' : 'off'),
+          el('td', r.kard.fits ? 'fits' : 'lacks ' + r.missing.join(', '), r.kard.fits ? 'on' : 'off'));
+      } else {
+        const td = el('td', r.why, 'off'); td.colSpan = 5; tr.append(td);
+      }
+      body.append(tr);
+    });
+    sum.replaceChildren(tile(String(builds.length), 'builds on the list'), tile(String(carry), 'carry a valid kard.json'), tile(String(fits), 'fit every one of the ' + STUDS.length + ' studs'));
+  }
+  socket();
 </script>
 
-<script src="https://sjgant80-hub.github.io/fall-kit/shim.js" defer></script>
+
 </body>
 </html>
