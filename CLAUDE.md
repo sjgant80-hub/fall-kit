@@ -16,12 +16,12 @@ It is also the home of the estate's Lego socket: `socket.mjs` (the five studs an
 
 ## How to run and verify
 
-- `npm test` — `node --test`: `test.mjs` (the kit under Node), `socket.test.mjs`,
+- `npm test` — `node --test`: `test.mjs` (the kit under Node), `socket.test.mjs`, `markup.test.mjs`,
   `recycle.test.mjs`.
 - Mutation witness on the pure kernels (CI runs it):
   `git clone --depth 1 --branch v0.2 https://github.com/sjgant80-hub/witness .witness`, then
   `node .witness/witness.mjs mutate socket.mjs --cap 400 --test node --test socket.test.mjs`
-  (and the same for `recycle.mjs`). Both must be clean; kill a survivor with a test, or
+  (and the same for `recycle.mjs` and `markup.mjs`). All must be clean; kill a survivor with a test, or
   restructure an equivalent mutant away. Never baseline one.
 
 ## Ground rules for changes

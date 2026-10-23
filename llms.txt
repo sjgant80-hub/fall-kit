@@ -1,6 +1,6 @@
 # fall-kit
 
-> Fall Kit v3.1.0: one script that gives any web page an AI helper the person controls (off, WebLLM in the browser, or their own key straight to the provider; keys held in the tab), with recycling of the opening, and the home of the Lego socket (kard.v1) every estate build carries. MIT.
+> Fall Kit v3.1.1: one script that gives any web page an AI helper the person controls (off, WebLLM in the browser, or their own key straight to the provider; keys held in the tab), with recycling of the opening, and the home of the Lego socket (kard.v1) every estate build carries. MIT.
 
 ## Canonical URL
 
@@ -14,7 +14,7 @@ https://sjgant80-hub.github.io/fall-kit/
 - socket-watch.mjs: clones all 100 builds and re-measures each against its kard.json (daily workflow)
 - recycle.mjs: talkCost and teamCost at published rates (default Claude Opus 5.5)
 - socket-builds.json: the 100 builds that carry the socket
-- porter.mjs: inlines the kit into a build; shim.js: one-line loader
+- porter.mjs: inlines the kit into a build before its own </head> (markup.mjs: never inside a script); shim.js: one-line loader
 - kard.json: this repo's own kard
 
 ## License

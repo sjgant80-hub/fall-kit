@@ -26,7 +26,7 @@ test('the module attaches its public API to the global', () => {
 });
 
 test('version is a semver string equal to the module constant', () => {
-  assert.equal(FK.version, '3.1.0');
+  assert.equal(FK.version, '3.1.1');
   assert.equal(typeof FK.version, 'string');
   assert.match(FK.version, /^\d+\.\d+\.\d+$/);
 });

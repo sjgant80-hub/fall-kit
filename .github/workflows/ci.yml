@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Run unit tests (the kit, the socket, recycling)
+      - name: Run unit tests (the kit, the socket, recycling, markup)
         run: npm test
       - name: kard.json is what this repo's files show now
         run: npm run kard:check
@@ -22,3 +22,4 @@ jobs:
           git clone --depth 1 --branch v0.2 https://github.com/sjgant80-hub/witness.git .witness
           node .witness/witness.mjs mutate socket.mjs  --cap 400 --test node --test socket.test.mjs
           node .witness/witness.mjs mutate recycle.mjs --cap 400 --test node --test recycle.test.mjs
+          node .witness/witness.mjs mutate markup.mjs  --cap 400 --test node --test markup.test.mjs

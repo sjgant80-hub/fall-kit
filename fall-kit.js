@@ -1,5 +1,5 @@
 /*!
- * Fall Kit · v3.1.0 · the shared cascade for every estate seed (the brain stud of the estate's Lego socket)
+ * Fall Kit · v3.1.1 · the shared cascade for every estate seed (the brain stud of the estate's Lego socket)
  * MIT · AI-Native Solutions · ai-nativesolutions.com
  *
  * Inlineable JS module. Drop into any seed via <script> or copy-paste inline.
@@ -35,7 +35,7 @@
 (function (root) {
   'use strict';
 
-  const FALL_KIT_VERSION = '3.1.0';
+  const FALL_KIT_VERSION = '3.1.1';
 
   // ─── WebLLM (T2) model registry ─────────────────────────────────────
   const WEBLLM_MODELS = {
@@ -826,7 +826,8 @@
 
   // ─── CSS for AI chip ────────────────────────────────────────────────
   function injectCss() {
-    if (document.getElementById('fk-css')) return;
+    if (STATE.cssIn) return;   // the kit knows it added its styles; no lookup of an id the build's own page never has
+    STATE.cssIn = true;
     const s = document.createElement('style');
     s.id = 'fk-css';
     s.textContent = `
