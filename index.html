@@ -1076,7 +1076,8 @@ td.off{color:var(--cream-muted)}
 <ol>
 <li>Add one line before <code>&lt;/body&gt;</code>: <code>&lt;script src="https://sjgant80-hub.github.io/fall-kit/shim.js" defer&gt;&lt;/script&gt;</code>. Or copy the kit into the page with <code>node porter.mjs &lt;your-build&gt;</code> so it works offline.</li>
 <li>Call <code>FallKit.aiComplete(system, question)</code> or <code>FallKit.aiChat(system, history, question)</code> wherever you want help. Both return <code>null</code> when AI is off: your page then does its own thing.</li>
-<li>Write the build's <code>kard.json</code> with <code>node kard-writer.mjs &lt;your-build&gt; …</code> so the build fits <a href="#socket">the socket</a>.</li>
+<li>Write the build's <code>kard.json</code> with <code>node kard-writer.mjs &lt;your-build&gt; --name &lt;repo&gt; --title "…" --retires "…" --category "…"</code> so the build fits <a href="#socket">the socket</a>.</li>
+<li>Check it: open the page, click the chip and ask about the page; then add <code>node kard-writer.mjs . --check</code> to the build's tests so the kard can never drift from its files.</li>
 </ol>
 
 <h2 id="how">How it works</h2>
@@ -1095,7 +1096,7 @@ td.off{color:var(--cream-muted)}
 </figure>
 <ol>
 <li><strong>The page asks.</strong> It passes an opening (who the helper is and what it knows), the conversation so far, and the new question.</li>
-<li><strong>Off:</strong> the kit answers <code>null</code> at once. No download, no call. Every estate build must still work this way.</li>
+<li><strong>Off:</strong> the kit gives no answer, at once (in code, <code>null</code>), and the build carries on without AI. No download, no call. Every estate build must still work this way.</li>
 <li><strong>In your browser:</strong> the kit loads WebLLM the first time you choose it, then the model answers on your own graphics chip. Nothing is sent anywhere.</li>
 <li><strong>Your own key:</strong> the kit builds the provider's request itself (below is the real one), sends it from your browser straight to the provider, and reads back only the words of the answer, never the model's private thinking.</li>
 <li><strong>The receipt:</strong> <code>FallKit.lastUsage()</code> then says how many tokens the provider read, how many it recycled from its cache, and how many it wrote.</li>
@@ -1110,6 +1111,7 @@ td.off{color:var(--cream-muted)}
 <h2 id="recycling">Recycling: the opening is paid for once</h2>
 <p>Every question in a talk sends the same opening before the new words. Fall Kit puts that opening first, keeps it the same every time, and marks it for the provider's cache. The provider then stores it once and reads it back for every later question at a fraction of the price. On Claude Opus 5.5 a cache read costs <strong>$0.20 per million tokens instead of $4</strong>; writing it costs $5 per million, once. OpenAI, Google and OpenRouter recycle repeated openings on their own.</p>
 <p class="small">Two conditions, stated straight: the opening must be at least 512 tokens on the newest Claude models, and the next question must start within five minutes (each read restarts the five minutes). Prices: Anthropic's published Claude API rates for Claude Opus 5.5.</p>
+<p class="small"><strong>In your own code:</strong> keep your opening the same string on every call, and hand the conversation back exactly as <code>FallKit.aiChat</code> returned it (see <a href="#embed">Embed</a>). The kit does the marking; <code>FallKit.lastUsage().recycled</code> tells you it worked.</p>
 <div class="demo-box">
   <h3>What it costs your team, worked out by <code>recycle.mjs</code></h3>
   <div class="calc">
@@ -1122,13 +1124,14 @@ td.off{color:var(--cream-muted)}
     <label>What you pay now, per seat a month ($) <input id="c-seat" type="number" min="0" max="100000" step="0.01" placeholder="your figure"></label>
   </div>
   <div id="calc-out" class="tiles" aria-live="polite"></div>
+  <p class="small"><strong>The sum, with the starting figures:</strong> without recycling, each of 6 questions pays for 2,150 tokens in at $4 a million and 400 out at $20 a million: $0.0996 a talk. With recycling, the 2,000-token opening is written once at $5 a million and read back 5 times at $0.20 a million, the 150 new tokens of each question are paid at $4, and the answers cost the same: $0.0636 a talk. 20 people × 40 talks = 800 talks a month.</p>
   <p class="small">Answers include the model's thinking, which is billed as output. Only the opening is counted as recycled; a real talk also re-reads its earlier turns from the cache, so the true saving is larger.</p>
 </div>
 
 <h2 id="keys">Your keys stay in the tab</h2>
 <p>Every estate page lives at the same web address, <code>sjgant80-hub.github.io</code>, and browsers give pages at one address one shared storage. A key kept there could be read by any of them. So from version 3:</p>
 <ul>
-<li>A key you paste is held <strong>in this tab's memory only</strong>. Close the tab and it is gone.</li>
+<li>A key you paste is held <strong>in this tab's memory only</strong>. Close the tab and it is gone. Unless you choose to remember it (next point), another tab needs the key pasted again; another device always does, as nothing syncs between devices.</li>
 <li>If you want it kept, tick <strong>remember my keys on this device</strong>. The panel tells you what that means first.</li>
 <li><strong>Forget my keys</strong> clears every key at once, kept or not.</li>
 <li>A key saved by an older version is moved out of shared storage the first time version 3 loads. You will see a note saying so, and you paste it once more.</li>
@@ -1220,6 +1223,12 @@ td.off{color:var(--cream-muted)}
   if (r) { history.push({ role: 'user', content: question }, r.assistant); show(r.text); }
   console.log(FallKit.lastUsage());   // { read, recycled, written, out }
 &lt;/script&gt;</pre>
+<h3>When something goes wrong</h3>
+<ul>
+<li><strong>No answer (<code>null</code>):</strong> AI is off, the in-browser model is not loaded, or no key is set. Do your page's own thing; the chip tells the person what to switch on.</li>
+<li><strong>An error thrown:</strong> the provider refused the call: a wrong key, no credit, or too many calls at once. The message names the provider and its status (for example <code>Anthropic Claude 401</code>). Wrap calls in <code>try</code>/<code>catch</code> and show the person the message.</li>
+<li><strong>Seeing what was sent:</strong> <code>FallKit.requestOf(type, opts)</code> returns the exact request without sending it; <code>FallKit.lastUsage()</code> says what the last call read, recycled and wrote.</li>
+</ul>
 <h3>Public API</h3>
 <div class="scroll"><table>
 <thead><tr><th>Call</th><th>Returns</th><th>What</th></tr></thead>
@@ -1256,8 +1265,14 @@ td.off{color:var(--cream-muted)}
 <ul>
 <li><strong>Where data goes:</strong> Off sends nothing. In your browser sends nothing. Your own key sends the question to that provider only, under your agreement with that provider. Fall Kit adds no processor of its own: it has no server, no analytics and no account.</li>
 <li><strong>Keys:</strong> held in tab memory; kept on the device only when the person ticks the box; cleared with one button.</li>
-<li><strong>Locking it down:</strong> set a content security policy on your pages that allows only your approved providers. Kardlings, an estate build, does exactly this for four providers.</li>
+<li><strong>Handling keys well:</strong> create a separate key for this use in the provider's own console, give it a monthly spending limit there, and revoke it there the moment it may have leaked. A revoked key stops working everywhere at once; nothing in Fall Kit needs changing.</li>
+<li><strong>Locking it down:</strong> set a content security policy on your pages that allows only your approved providers. Kardlings, an estate build, does exactly this for four providers. For a page that carries the kit inline and allows Your own key with those four:</li>
 </ul>
+<pre>&lt;meta http-equiv="Content-Security-Policy" content="default-src 'self';
+  script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+  connect-src 'self' https://api.anthropic.com https://api.openai.com
+    https://generativelanguage.googleapis.com https://openrouter.ai"&gt;</pre>
+<p class="small">Any address the policy leaves out is blocked by the browser, so a call to an unapproved provider fails before it leaves. Allowing In your browser as well means adding WebLLM's script host and the hosts its models download from; open the browser's console, which names every address a policy blocks.</p>
 <h3>Rolling it out</h3>
 <ol>
 <li><strong>Week 1:</strong> add the kit to one tool. It starts Off, so nothing changes for anyone.</li>
@@ -1269,7 +1284,7 @@ td.off{color:var(--cream-muted)}
 <h3>Risks, answered straight</h3>
 <ul>
 <li><strong>A key in a browser tab can be read by any script running on that page.</strong> Put keys only into pages you trust, set a content security policy, and close the tab when done. The key does not outlive it unless kept on purpose.</li>
-<li><strong>In-browser models need a recent browser with WebGPU and room for the model.</strong> On older machines, Off and Your own key still work.</li>
+<li><strong>In-browser models need a browser with WebGPU and room for the model.</strong> WebGPU runs in Chrome and Edge 113 or later on desktop, Chrome on recent Android phones, Safari 26, and Firefox 141 or later on Windows. On older machines, Off and Your own key still work.</li>
 <li><strong>Providers change models and prices.</strong> The model lists live in one file; the calculator takes the rates as inputs.</li>
 <li><strong>Recycling needs a long enough opening and questions within five minutes.</strong> Below that, you pay the normal price and nothing breaks.</li>
 </ul>
