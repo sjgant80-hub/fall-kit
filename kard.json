@@ -21,7 +21,7 @@
       "localstorage": false
     },
     "proof": {
-      "workflows": 2,
+      "workflows": 3,
       "tests": 3
     }
   },

@@ -1,0 +1,16 @@
+name: socket-watch
+# Every build that carries the socket says in its kard.json which studs it has. This re-measures each one from its
+# own files, every day, so a kard.json that no longer matches its build turns this red instead of quietly lying.
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: re-measure all 100 builds against their own kard.json
+        run: node socket-watch.mjs

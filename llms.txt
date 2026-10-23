@@ -10,7 +10,8 @@ https://sjgant80-hub.github.io/fall-kit/
 
 - fall-kit.js: the kit (FallKit global): aiComplete, aiChat, askPage, pageOpening, aiImage, aiVideo, aiTTS, aiSTT, lastUsage, forgetKeys, requestOf, textOf, usageOf, init, openSettings, meshStart, meshPost, helpSection
 - socket.mjs: the five studs (brain, manifest, mesh, memory, proof); studsOf, present, kardOf, checkKard, kardText
-- kard-writer.mjs: writes a build's kard.json from its files; --check for CI
+- kard-writer.mjs: writes a build's kard.json from its files; --check for CI (with no --name, re-measures against the existing kard.json)
+- socket-watch.mjs: clones all 100 builds and re-measures each against its kard.json (daily workflow)
 - recycle.mjs: talkCost and teamCost at published rates (default Claude Opus 5.5)
 - socket-builds.json: the 100 builds that carry the socket
 - porter.mjs: inlines the kit into a build; shim.js: one-line loader

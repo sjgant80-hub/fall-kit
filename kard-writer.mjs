@@ -5,7 +5,7 @@
 // The build's studs are read from its index.html and the files git tracks there. --check writes nothing and exits 1
 // unless the kard.json already in the build is exactly what its files show now (a build's CI can run this).
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, basename, resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { studsOf, kardOf, checkKard, kardText } from './socket.mjs';
 
@@ -22,7 +22,7 @@ if (check && !o.name) {   // re-measure a build against its own kard.json: who i
   let had = null;
   try { had = JSON.parse(readFileSync(join(dir, 'kard.json'), 'utf8')); } catch { /* missing or not JSON */ }
   const c = checkKard(had);
-  if (!c.ok) { console.error('KARD MISSING · ' + dir + ': ' + (had === null ? 'no readable kard.json' : c.why)); process.exit(1); }
+  if (!c.ok) { console.error('KARD MISSING · ' + basename(resolve(dir)) + ': ' + (had === null ? 'no readable kard.json' : c.why)); process.exit(1); }
   for (const k of ['name', 'title', 'retires', 'category', 'license']) o[k] = had[k];
 }
 const html = readFileSync(join(dir, 'index.html'), 'utf8');
