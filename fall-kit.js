@@ -845,6 +845,36 @@
     document.head.appendChild(s);
   }
 
+  // ─── The floating chip keeps clear of the build's own fixed bars and controls ─────────
+  // A build's bottom tab bar or floating button stays put while the page scrolls, so a chip over it would hide it. The
+  // chip looks at what is under it and moves up past it; a fixed container as tall as the page counts only by the
+  // control under the chip. Content that scrolls is not in the way.
+  function blockerUnder(el) {
+    let fixed = null;
+    for (let e = el; e && e !== document.body && e !== document.documentElement; e = e.parentElement) {
+      const pos = getComputedStyle(e).position;
+      if (pos === 'fixed' || pos === 'sticky') { fixed = e; break; }
+    }
+    if (!fixed) return null;
+    if (fixed.getBoundingClientRect().height <= innerHeight * 0.4) return fixed;
+    return el.closest('button, a, input, select, textarea, label, [role=button], [tabindex]');
+  }
+  function placeChip(chip) {
+    if (!chip || chip.dataset.anchored) return;
+    chip.style.top = ''; chip.style.bottom = '14px';
+    for (let i = 0; i < 6; i++) {
+      const r = chip.getBoundingClientRect();
+      chip.style.visibility = 'hidden';
+      const hit = [[r.left + 2, r.top + 2], [r.right - 2, r.top + 2], [r.left + 2, r.bottom - 2], [r.right - 2, r.bottom - 2]]
+        .map(([x, y]) => document.elementFromPoint(x, y)).filter(Boolean).map(blockerUnder).find(Boolean);
+      chip.style.visibility = '';
+      if (!hit) return;
+      const bottom = innerHeight - hit.getBoundingClientRect().top + 8;
+      if (bottom > innerHeight * 0.6) { chip.style.bottom = ''; chip.style.top = '14px'; return; }
+      chip.style.bottom = bottom + 'px';
+    }
+  }
+
   // ─── Init ───────────────────────────────────────────────────────────
   function init(opts) {
     opts = opts || {};
@@ -857,10 +887,13 @@
     chip.innerHTML = '<span class="fk-dot"></span><span id="fk-ai-chip-text">T0 · off</span>';
     chip.onclick = () => openSettings();
     const anchor = opts.chipAnchor ? $(opts.chipAnchor) : null;
-    if (anchor) { anchor.appendChild(chip); }
+    if (anchor) { anchor.appendChild(chip); chip.dataset.anchored = '1'; }
     else {
       chip.style.cssText += ';position:fixed;bottom:14px;left:14px;z-index:9998;box-shadow:0 4px 14px rgba(0,0,0,.4)';
       document.body.appendChild(chip);
+      const place = () => placeChip(chip);
+      setTimeout(place, 0); setTimeout(place, 1200);   // once now, once after the build has laid itself out
+      let t = null; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(place, 200); });
     }
     renderAiChip();
     if (BOOT.moved) notify('AI keys are now held in this tab only · tick “remember” in AI settings to keep them', 'info');
