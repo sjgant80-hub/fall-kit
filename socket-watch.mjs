@@ -11,16 +11,19 @@ import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const HERE = fileURLToPath(new URL('.', import.meta.url));
-const all = JSON.parse(readFileSync(join(HERE, 'socket-builds.json'), 'utf8')).map((b) => b.name);
+const builds = JSON.parse(readFileSync(join(HERE, 'socket-builds.json'), 'utf8'));   // branch and page: where a site is served from, when not the default branch's root
+const all = builds.map((b) => b.name);
 const names = process.argv.slice(2).length ? process.argv.slice(2) : all;
+const where = (name) => builds.find((b) => b.name === name) || {};
 const work = mkdtempSync(join(tmpdir(), 'socket-watch-'));
 const sh = (cmd, args, cwd) => new Promise((ok) => execFile(cmd, args, { cwd, maxBuffer: 16 << 20 }, (e, out, err) => ok({ code: e ? (e.code || 1) : 0, out: (out + err).trim() })));
 
 async function one(name) {
   const dir = join(work, name);
-  const c = await sh('git', ['clone', '-q', '--depth', '1', 'https://github.com/sjgant80-hub/' + name + '.git', dir], work);
+  const w = where(name);
+  const c = await sh('git', ['clone', '-q', '--depth', '1', ...(w.branch ? ['--branch', w.branch] : []), 'https://github.com/sjgant80-hub/' + name + '.git', dir], work);
   if (c.code) return { name, ok: false, said: 'clone failed: ' + c.out.split('\n')[0] };
-  const k = await sh(process.execPath, [join(HERE, 'kard-writer.mjs'), dir, '--check'], HERE);
+  const k = await sh(process.execPath, [join(HERE, 'kard-writer.mjs'), dir, '--check', ...(w.page ? ['--page', w.page] : [])], HERE);
   return { name, ok: k.code === 0, said: k.out.split('\n').pop() };
 }
 

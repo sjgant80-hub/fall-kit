@@ -1,7 +1,7 @@
 [
  { "name": "honestly", "category": "AI you own", "retires": "a rented AI search engine (Perplexity-style)" },
  { "name": "botler", "category": "AI you own", "retires": "a rented personal assistant" },
- { "name": "fallcore", "category": "AI you own", "retires": "a rented model API (a local, API-compatible brain)" },
+ { "name": "fallcore", "category": "AI you own", "retires": "a rented model API (a local, API-compatible brain)", "page": "docs/index.html" },
  { "name": "fallforgemint", "category": "AI you own", "retires": "renting a model for one task" },
  { "name": "mint-a-node", "category": "AI you own", "retires": "renting a model instead of owning one" },
  { "name": "csv-forge", "category": "AI you own", "retires": "a rented AutoML service" },
@@ -76,7 +76,7 @@
  { "name": "tradeshub", "category": "Property and trades", "retires": "trades job software" },
  { "name": "wishwood-keeper", "category": "Property and trades", "retires": "a housekeeping and turnover board" },
  { "name": "falloffice", "category": "Office, notes and design", "retires": "an office suite subscription (Microsoft 365-style)" },
- { "name": "fallnote", "category": "Office, notes and design", "retires": "a notes and database workspace (Notion-style)" },
+ { "name": "fallnote", "category": "Office, notes and design", "retires": "a notes and database workspace (Notion-style)", "branch": "main" },
  { "name": "fallgarden", "category": "Office, notes and design", "retires": "a linked-notes app (Obsidian-style)" },
  { "name": "fallscribe", "category": "Office, notes and design", "retires": "a meeting-notes subscription" },
  { "name": "fallpage", "category": "Office, notes and design", "retires": "page-layout software (InDesign-style)" },

@@ -13,7 +13,7 @@ https://sjgant80-hub.github.io/fall-kit/
 - kard-writer.mjs: writes a build's kard.json from its files; --check for CI (with no --name, re-measures against the existing kard.json)
 - socket-watch.mjs: clones all 100 builds and re-measures each against its kard.json (daily workflow)
 - recycle.mjs: talkCost and teamCost at published rates (default Claude Opus 5.5)
-- socket-builds.json: the 100 builds that carry the socket
+- socket-builds.json: the 100 builds that carry the socket (branch/page where a site is not served from the default branch's root)
 - porter.mjs: inlines the kit into a build before its own </head> (markup.mjs: never inside a script); shim.js: one-line loader
 - kard.json: this repo's own kard
 

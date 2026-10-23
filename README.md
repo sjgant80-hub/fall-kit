@@ -34,6 +34,7 @@ tests). A build fits when it has every stud.
 ```bash
 node kard-writer.mjs <build-dir> --name <repo> --title "<title>" --retires "<rented tool>" --category "<category>"
 node kard-writer.mjs <build-dir> ... --check      # exits 1 if kard.json no longer matches the files
+node kard-writer.mjs <build-dir> ... --page docs/index.html   # a site served from a folder: kard.json goes beside its page
 ```
 
 ## Use it

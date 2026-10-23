@@ -118,8 +118,13 @@ test('the builds that carry the socket: 100 named repositories, each with a cate
   assert.equal(builds.length, 100);
   assert.equal(new Set(builds.map((b) => b.name)).size, 100, 'no build twice');
   for (const b of builds) {
-    assert.deepEqual(Object.keys(b), ['name', 'category', 'retires']);
-    const k = kardOf({ ...b, title: b.name, license: 'MIT' }, studsFull());
+    const { name, category, retires, ...where } = b;   // where its site is served from, only when not main's root
+    assert.deepEqual(Object.keys(b).slice(0, 3), ['name', 'category', 'retires']);
+    for (const [k, v] of Object.entries(where)) {
+      assert.ok(['branch', 'page'].includes(k), b.name + ': ' + k);
+      assert.match(v, k === 'page' ? /^[a-z0-9_-]+\/index\.html$/ : /^[A-Za-z0-9._/-]+$/, b.name + ' ' + k);
+    }
+    const k = kardOf({ name, category, retires, title: b.name, license: 'MIT' }, studsFull());
     assert.equal(k.ok, true, b.name + ': ' + k.why);
   }
 });
