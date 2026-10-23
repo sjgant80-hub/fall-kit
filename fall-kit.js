@@ -1,5 +1,5 @@
 /*!
- * Fall Kit · v3.0.0 · the shared cascade for every estate seed (the brain stud of the estate's Lego socket)
+ * Fall Kit · v3.1.0 · the shared cascade for every estate seed (the brain stud of the estate's Lego socket)
  * MIT · AI-Native Solutions · ai-nativesolutions.com
  *
  * Inlineable JS module. Drop into any seed via <script> or copy-paste inline.
@@ -17,6 +17,8 @@
  *  - NEW in v3 · Recycling: the system prompt is sent first and the same each call, marked for Anthropic's cache;
  *    OpenAI, Google and OpenRouter cache repeated openings themselves. FallKit.lastUsage() says what the last call
  *    read, how much of it the provider reused, and what it wrote.
+ *  - NEW in v3.1 · Ask about this page: the chip's panel answers questions from the page's own words through the brain
+ *    the person picked, so the chip is useful in any build: FallKit.askPage(question) → { text, why }
  *  - AI chip UI in header · settings modal with tabs for each modality
  *  - Same-device mesh (BroadcastChannel: estate seeds open on this device find each other; not cross-device)
  *  - Help section partial: FallKit.helpSection()
@@ -33,7 +35,7 @@
 (function (root) {
   'use strict';
 
-  const FALL_KIT_VERSION = '3.0.0';
+  const FALL_KIT_VERSION = '3.1.0';
 
   // ─── WebLLM (T2) model registry ─────────────────────────────────────
   const WEBLLM_MODELS = {
@@ -151,6 +153,7 @@
     ai: { ready: false, loading: false, progress: 0, engine: null, model: null },
     mesh: { active: false, peers: new Map(), bc: null, signal: null },
     lastUsage: null,
+    ask: { opening: null, talk: [], last: null },   // the talk about this page: its opening, kept identical, and its turns
   };
 
   function saveConfig() { try { localStorage.setItem('fall-kit.config', JSON.stringify(storedForm(STATE.config, STATE.secrets))); } catch (e) {} }
@@ -323,6 +326,43 @@
     const text = textOf(p.type, j);
     if (text === null) return null;
     return { text: text, assistant: p.type === 'anthropic' ? { role: 'assistant', content: j.content } : { role: 'assistant', content: text } };
+  }
+
+  // ═══════════════════════ ASK · about this page ═════════════════════
+  // The kit's own use of the brain, so the chip is useful in any build, wired or not: a question about the page, answered
+  // from the page's own words. The opening is read once per talk and sent byte-identical every question, so a provider
+  // that caches recycles it; a talk starts afresh after MAX_ASKS questions or when the person starts again.
+  const PAGE_MAX = 12000, MAX_ASKS = 20;
+  const ASK_OPENING = 'You are the helper inside a web page. Answer questions about this page and how to use it, briefly and in plain words. Use only what the page says below; when it does not say, say so.';
+  /** the opening for questions about a page: who the helper is, then the page's title, description and text. Pure. */
+  function pageOpening(page) {
+    const p = isObj(page) ? page : {};
+    const line = (s, n) => (typeof s === 'string' ? s : '').replace(/\s+/g, ' ').trim().slice(0, n);
+    const text = (typeof p.text === 'string' ? p.text : '').replace(/[ \t\r\f\v]+/g, ' ').replace(/ *\n[\s]*/g, '\n').trim().slice(0, PAGE_MAX);
+    const about = line(p.description, 400);
+    return ASK_OPENING + '\n\nPAGE: ' + (line(p.title, 200) || '(no title)') + '\n' + (about ? 'ABOUT: ' + about + '\n' : '') + 'TEXT:\n' + text;
+  }
+  function readPage() {   // the page as its reader has it, without the kit's own chip, panel and code
+    const d = document.querySelector('meta[name="description"]');
+    const body = document.body ? document.body.cloneNode(true) : null;
+    if (body) {
+      body.querySelectorAll('#fk-modal-bg, #fk-ai-chip, #fk-toast, script, style, noscript, template').forEach((e) => e.remove());
+      body.querySelectorAll('td, th').forEach((e) => e.append(' | '));   // keep cells and blocks apart, as a reader sees them
+      body.querySelectorAll('p, div, li, tr, h1, h2, h3, h4, h5, h6, br, pre, dt, dd, figcaption, blockquote, section, article, header, footer, nav, label, button, option').forEach((e) => e.append('\n'));
+    }
+    return { title: document.title, description: d ? d.getAttribute('content') : '', text: body ? body.textContent : '' };
+  }
+  async function askPage(question) {
+    const q = String(question == null ? '' : question).trim();
+    if (!q) return { text: null, why: 'Type a question first.' };
+    if (aiTier() === 'T0') return { text: null, why: 'AI is off. Pick T2 (a model in your browser) or T3 (your own key) below, press Save, then ask.' };
+    const t = STATE.ask;
+    if (!t.opening || t.talk.length >= MAX_ASKS * 2) { t.opening = pageOpening(readPage()); t.talk = []; }
+    const r = await aiChat(t.opening, t.talk, q, 600);
+    if (!r) return { text: null, why: aiTier() === 'T2' ? 'The in-browser model is not loaded yet: press Load model below.' : 'No key is set for this provider: add one below and press Save.' };
+    t.talk.push({ role: 'user', content: q }, r.assistant);
+    t.last = r.text;
+    return { text: r.text, why: null };
   }
 
   // ═══════════════════════ IMAGE · aiImage ═══════════════════════════
@@ -643,7 +683,18 @@
 
     bg.innerHTML = `
       <div style="background:#13121a;border:1px solid #c08a3a;border-radius:5px;max-width:640px;width:100%;padding:22px 24px;color:#ebe3d2;font-family:system-ui,-apple-system,sans-serif;font-size:13.5px;line-height:1.55">
-        <h3 style="font-family:Georgia,serif;font-size:18px;color:#c08a3a;margin-bottom:14px">◊ Fall Kit · AI cascade settings</h3>
+        <h3 style="font-family:Georgia,serif;font-size:18px;color:#c08a3a;margin-bottom:14px">◊ Fall Kit · your AI helper</h3>
+
+        <div style="margin-bottom:14px;padding:12px 14px;background:#1a1922;border:1px solid #2a2934;border-radius:4px">
+          <label for="fk-ask" style="${styleLabel}">Ask about this page</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input id="fk-ask" type="text" placeholder="How do I use this?" autocomplete="off" style="${styleInput};flex:1;min-width:180px;margin-bottom:0">
+            <button id="fk-ask-go" style="padding:7px 14px;background:#c08a3a;color:#0a0a0a;border:none;border-radius:3px;font-weight:600;font-size:12px;cursor:pointer;font-family:inherit">Ask</button>
+            <button id="fk-ask-new" style="padding:7px 12px;background:transparent;color:#a89e88;border:1px solid #3a342c;border-radius:3px;font-size:11px;cursor:pointer;font-family:inherit">Start again</button>
+          </div>
+          <div id="fk-ask-out" aria-live="polite" style="white-space:pre-wrap;margin-top:10px;font-size:13px;color:#ebe3d2;line-height:1.6"></div>
+          <div style="font-size:11px;color:#6e6a5e;line-height:1.55;margin-top:6px">Answered from this page’s own words, by the brain you pick below. The page is read once per talk and sent the same each time, so a provider that caches pays for it once.</div>
+        </div>
 
         <div style="margin-bottom:14px"><label style="${styleLabel}">Tier</label>
           <select id="fk-tier" style="${styleInput}">
@@ -694,6 +745,18 @@
         </div>
         <div style="margin-top:14px;font-family:ui-monospace,Menlo,monospace;font-size:9px;color:#6e6a5e;letter-spacing:.08em;text-align:center">◊ Fall Kit v${FALL_KIT_VERSION} · MIT · ai-nativesolutions.com</div>
       </div>`;
+
+    const askOut = $('#fk-ask-out');
+    if (STATE.ask.last) askOut.textContent = STATE.ask.last;
+    const ask = async () => {
+      const go = $('#fk-ask-go'); go.disabled = true; askOut.textContent = '…';
+      try { const r = await askPage($('#fk-ask').value); askOut.textContent = r.text === null ? r.why : r.text; }
+      catch (e) { askOut.textContent = 'The provider said no: ' + e.message; }
+      go.disabled = false;
+    };
+    $('#fk-ask-go').onclick = ask;
+    $('#fk-ask').onkeydown = (e) => { if (e.key === 'Enter') ask(); };
+    $('#fk-ask-new').onclick = () => { STATE.ask = { opening: null, talk: [], last: null }; askOut.textContent = 'A fresh talk: the page is read again at the next question.'; };
 
     $('#fk-tier').onchange = () => {
       const t = $('#fk-tier').value;
@@ -790,7 +853,7 @@
     if ($('#fk-ai-chip')) { renderAiChip(); return { version: FALL_KIT_VERSION, mounted: false }; }
     const chip = document.createElement('button');
     chip.id = 'fk-ai-chip';
-    chip.title = 'AI cascade · click to configure tier and provider';
+    chip.title = 'AI helper · ask about this page, or pick the brain';
     chip.innerHTML = '<span class="fk-dot"></span><span id="fk-ai-chip-text">T0 · off</span>';
     chip.onclick = () => openSettings();
     const anchor = opts.chipAnchor ? $(opts.chipAnchor) : null;
@@ -811,6 +874,8 @@
     aiTier: aiTier,
     aiComplete: aiComplete,
     aiChat: aiChat,
+    askPage: askPage,
+    pageOpening: pageOpening,
     lastUsage: () => STATE.lastUsage,
     forgetKeys: forgetKeys,
     requestOf: requestOf,

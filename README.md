@@ -8,8 +8,11 @@ Fall Kit is one small script. Put it in a web page and that page gets an AI help
 **their own key** to a frontier model, sent from the browser straight to the provider. No server, no account, no
 middleman. MIT.
 
-## v3.0.0
+## v3.1.0
 
+- **Ask about this page.** The chip's panel answers questions from the page's own words, through the brain the
+  person picked, so the chip is useful in every build whether or not the build calls the kit itself.
+  `FallKit.askPage(question)` → `{ text, why }`; the page is read once per talk and sent byte-identical, so it recycles.
 - **Keys are held in the tab.** Every estate page shares one origin and so one browser storage; a key kept there
   could be read by any of them. A key is now held in tab memory and stored only if the owner ticks *remember my
   keys on this device*. Keys stored by v1/v2 are moved out on the first v3 load. *Forget my keys* clears them all.

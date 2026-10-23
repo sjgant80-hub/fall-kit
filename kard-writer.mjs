@@ -18,6 +18,13 @@ for (let i = 0; i < args.length; i++) {
   else if (dir === null) dir = args[i];
 }
 if (!dir || !existsSync(join(dir, 'index.html'))) { console.error('usage: node kard-writer.mjs <build-dir> --name <repo> --title "<title>" --retires "<text>" --category "<text>" [--license MIT] [--check]'); process.exit(1); }
+if (check && !o.name) {   // re-measure a build against its own kard.json: who it is comes from the file, the studs from its files
+  let had = null;
+  try { had = JSON.parse(readFileSync(join(dir, 'kard.json'), 'utf8')); } catch { /* missing or not JSON */ }
+  const c = checkKard(had);
+  if (!c.ok) { console.error('KARD MISSING · ' + dir + ': ' + (had === null ? 'no readable kard.json' : c.why)); process.exit(1); }
+  for (const k of ['name', 'title', 'retires', 'category', 'license']) o[k] = had[k];
+}
 const html = readFileSync(join(dir, 'index.html'), 'utf8');
 const files = execFileSync('git', ['ls-files'], { cwd: dir, encoding: 'utf8' }).split('\n').filter(Boolean);
 const s = studsOf({ html, files });

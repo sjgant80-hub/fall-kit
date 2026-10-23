@@ -26,7 +26,7 @@ test('the module attaches its public API to the global', () => {
 });
 
 test('version is a semver string equal to the module constant', () => {
-  assert.equal(FK.version, '3.0.0');
+  assert.equal(FK.version, '3.1.0');
   assert.equal(typeof FK.version, 'string');
   assert.match(FK.version, /^\d+\.\d+\.\d+$/);
 });
@@ -195,4 +195,26 @@ test('usage: what was read, how much the provider reused, what it cached and wro
 test('a conversation degrades to null at T0, and nothing has been used', async () => {
   assert.equal(await FK.aiChat('you are a test', [{ role: 'user', content: 'a' }, { role: 'assistant', content: 'b' }], 'c', 64), null);
   assert.equal(FK.lastUsage(), null);
+});
+
+// ── v3.1 · ask about this page ──────────────────────────────────────────────────────────────────────────────────
+
+test('the page opening: who the helper is, then the page in its own words, the same bytes every time', () => {
+  const page = { title: '  FallNote  · notes ', description: 'A notes\n workspace.', text: 'Start here\n\n\n  1.  Open   a note \t\n Save it ' };
+  const o = FK.pageOpening(page);
+  assert.ok(o.startsWith('You are the helper inside a web page. Answer questions about this page and how to use it'));
+  assert.ok(o.endsWith('\n\nPAGE: FallNote · notes\nABOUT: A notes workspace.\nTEXT:\nStart here\n1. Open a note\nSave it'), JSON.stringify(o.slice(-80)));
+  assert.equal(FK.pageOpening(page), o, 'the same page gives the same opening, so it can be recycled');
+  assert.ok(!FK.pageOpening({ title: 'T', text: 'x' }).includes('ABOUT:'), 'no description, no ABOUT line');
+  assert.ok(FK.pageOpening({}).endsWith('PAGE: (no title)\nTEXT:\n'));
+  const long = FK.pageOpening({ title: 'x'.repeat(500), description: 'd'.repeat(900), text: 'w'.repeat(20000) });
+  assert.ok(long.includes('PAGE: ' + 'x'.repeat(200) + '\n')); assert.ok(long.includes('ABOUT: ' + 'd'.repeat(400) + '\n'));
+  assert.ok(long.endsWith('TEXT:\n' + 'w'.repeat(12000)), 'the page text is capped at 12,000 characters');
+  for (const junk of [null, 5, 'x', [], { title: 5, description: {}, text: [1] }]) assert.ok(FK.pageOpening(junk).endsWith('PAGE: (no title)\nTEXT:\n'));
+});
+
+test('asking about the page with AI off says how to switch it on, and asks nothing', async () => {
+  assert.deepEqual(await FK.askPage('How do I use this?'), { text: null, why: 'AI is off. Pick T2 (a model in your browser) or T3 (your own key) below, press Save, then ask.' });
+  assert.deepEqual(await FK.askPage('   '), { text: null, why: 'Type a question first.' });
+  assert.equal(FK.state.ask.opening, null, 'the page is not read until a question can be answered');
 });

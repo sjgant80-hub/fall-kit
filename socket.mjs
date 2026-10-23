@@ -1,7 +1,7 @@
 // socket.mjs — THE LEGO SOCKET: what every estate build carries, so anything built now or later fits any other.
 //
 // Five studs, each MEASURED from the build's own files, never claimed:
-//   brain    — fall-kit, inlined between its markers or loaded by its shim (and which version)
+//   brain    — fall-kit, inlined between its markers (and which version), loaded by its shim, or linked as a file
 //   manifest — this file's kard.json, saying all of this in one shape anyone can read
 //   mesh     — same-device (fall-kit's BroadcastChannel, or the build's own) and cross-device (WebRTC)
 //   memory   — on the device: IndexedDB or localStorage
@@ -23,15 +23,17 @@ const count = (x) => Number.isInteger(x) && x >= 0 && x <= 100000;
 
 /**
  * The studs a build has, read from its index.html and the list of its files (paths as git lists them).
- * → { ok, studs: { brain: { how: 'inline' | 'shim' | 'none', version }, mesh: { device, peer }, memory: { indexeddb,
+ * → { ok, studs: { brain: { how: 'inline' | 'shim' | 'linked' | 'none', version }, mesh: { device, peer }, memory: { indexeddb,
  *   localstorage }, proof: { workflows, tests } } }
  */
 export function studsOf(build) {
   if (!isObj(build) || typeof build.html !== 'string' || !Array.isArray(build.files)) return no('a build is its index.html and the list of its files');
   const html = build.html, files = build.files.filter((f) => typeof f === 'string');
-  const inline = html.indexOf('<!-- FALL_KIT_BEGIN') >= 0, shim = /fall-kit\/shim\.js/.test(html);
+  const inline = html.indexOf('<!-- FALL_KIT_BEGIN') >= 0;
+  const shim = /<script[^>]+src=["'][^"']*fall-kit\/shim\.js["']/.test(html);
+  const linked = /<script[^>]+src=["'][^"']*fall-kit\.js["']/.test(html);   // a copy of the kit loaded from its own file
   const v = inline ? /Fall Kit · v(\d{1,3}\.\d{1,3}\.\d{1,3})/.exec(html) : null;
-  const brain = { how: inline ? 'inline' : shim ? 'shim' : 'none', version: v ? v[1] : null };
+  const brain = { how: inline ? 'inline' : shim ? 'shim' : linked ? 'linked' : 'none', version: v ? v[1] : null };
   const own = html.replace(KIT_BLOCK, '');   // memory and cross-device mesh are the build's own, not the kit's settings
   const mesh = { device: brain.how !== 'none' || /BroadcastChannel/.test(own), peer: /RTCPeerConnection/.test(own) };
   const memory = { indexeddb: /indexedDB/.test(own), localstorage: /localStorage/.test(own) };
@@ -78,9 +80,9 @@ export function checkKard(x) {
   if (x.repo !== REPOS + x.name) return no('a kard’s repository is ' + REPOS + '<name>');
   const s = x.studs;
   if (!exactly(s, ['brain', 'mesh', 'memory', 'proof'])) return no('a kard’s studs are brain, mesh, memory and proof');
-  if (!exactly(s.brain, ['how', 'version']) || ['inline', 'shim', 'none'].indexOf(s.brain.how) < 0) return no('the brain is inline, shim or none, with its version');
+  if (!exactly(s.brain, ['how', 'version']) || ['inline', 'shim', 'linked', 'none'].indexOf(s.brain.how) < 0) return no('the brain is inline, shim, linked or none, with its version');
   if (s.brain.version !== null && !(typeof s.brain.version === 'string' && VERSION.test(s.brain.version))) return no('the brain’s version is x.y.z, or null');
-  if (s.brain.how !== 'inline' && s.brain.version !== null) return no('only an inlined brain carries a version (a shim loads the newest)');
+  if (s.brain.how !== 'inline' && s.brain.version !== null) return no('only an inlined brain carries a version (a shim or a linked file holds its own)');
   if (!exactly(s.mesh, ['device', 'peer']) || typeof s.mesh.device !== 'boolean' || typeof s.mesh.peer !== 'boolean') return no('the mesh says device and peer, each true or false');
   if (s.brain.how !== 'none' && !s.mesh.device) return no('a build with fall-kit has its same-device mesh');
   if (!exactly(s.memory, ['indexeddb', 'localstorage']) || typeof s.memory.indexeddb !== 'boolean' || typeof s.memory.localstorage !== 'boolean') return no('memory says indexeddb and localstorage, each true or false');

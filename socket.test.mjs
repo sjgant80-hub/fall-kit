@@ -21,6 +21,13 @@ test('the standard: kard.v1, five studs, one host and one home for the code', ()
 test('studs are measured from the files: an inlined brain and its version, mesh, memory, workflows and tests', () => {
   assert.deepEqual(studsOf(FULL), { ok: true, studs: { brain: { how: 'inline', version: '3.0.0' }, mesh: { device: true, peer: true }, memory: { indexeddb: true, localstorage: false }, proof: { workflows: 2, tests: 2 } } });
   assert.deepEqual(studsOf({ html: '<script src="https://sjgant80-hub.github.io/fall-kit/shim.js" defer></script>', files: [] }).studs.brain, { how: 'shim', version: null });
+  assert.deepEqual(studsOf({ html: '<script defer src=\'https://sjgant80-hub.github.io/fall-kit/shim.js\'></script>', files: [] }).studs.brain.how, 'shim');
+  assert.equal(studsOf({ html: '<p>load https://sjgant80-hub.github.io/fall-kit/shim.js</p>', files: [] }).studs.brain.how, 'none', 'naming the shim is not loading it');
+  assert.deepEqual(studsOf({ html: '<script src="fall-kit.js" onerror="x"></script>', files: [] }).studs.brain, { how: 'linked', version: null });
+  assert.equal(studsOf({ html: '<script src="https://sjgant80-hub.github.io/fall-kit/fall-kit.js"></script>', files: [] }).studs.brain.how, 'linked');
+  assert.equal(studsOf({ html: '<script src="my-fall-kit.json"></script><p>fall-kit.js</p>', files: [] }).studs.brain.how, 'none');
+  assert.equal(studsOf({ html: '<script src="fall-kit.js"></script><script src="/fall-kit/shim.js"></script>', files: [] }).studs.brain.how, 'shim', 'a shim beside a linked copy is named a shim');
+  assert.equal(studsOf({ html: '<script src="fall-kit.js"></script>', files: [] }).studs.mesh.device, true, 'a linked kit brings the same-device mesh');
   const bare = studsOf({ html: '<p>hi</p>', files: ['README.md', '.github/workflows/sub/x.yml', '.github/x.yml', 'nottest.mjs', 'attest.mjs'] }).studs;
   assert.deepEqual(bare, { brain: { how: 'none', version: null }, mesh: { device: false, peer: false }, memory: { indexeddb: false, localstorage: false }, proof: { workflows: 0, tests: 0 } });
   assert.deepEqual(studsOf({ html: 'new BroadcastChannel("c"); localStorage.x', files: [] }).studs.mesh, { device: true, peer: false });
@@ -87,11 +94,13 @@ test('studs that are not measured studs are refused, by name; fits must agree wi
   const s = studsFull(), k = (studs, fits = present(studs).length === STUDS.length) => kard({ studs, fits });
   assert.equal(why(k({ ...s, extra: 1 })), 'a kard’s studs are brain, mesh, memory and proof');
   assert.equal(why(kard({ studs: 'x' })), 'a kard’s studs are brain, mesh, memory and proof');
-  for (const brain of [{ how: 'other', version: null }, { how: 'inline' }, 5]) assert.equal(why(k({ ...s, brain })), 'the brain is inline, shim or none, with its version');
+  for (const brain of [{ how: 'other', version: null }, { how: 'inline' }, 5]) assert.equal(why(k({ ...s, brain })), 'the brain is inline, shim, linked or none, with its version');
+  assert.equal(checkKard(k({ ...s, brain: { how: 'linked', version: null } })).ok, true);
+  assert.equal(why(k({ ...s, brain: { how: 'linked', version: '3.0.0' } })), 'only an inlined brain carries a version (a shim or a linked file holds its own)');
   for (const version of ['3.0', 'v3.0.0', 3, '1234.0.0']) assert.equal(why(k({ ...s, brain: { how: 'inline', version } })), 'the brain’s version is x.y.z, or null');
   assert.equal(checkKard(k({ ...s, brain: { how: 'inline', version: null } })).ok, true);
-  assert.equal(why(k({ ...s, brain: { how: 'shim', version: '3.0.0' } })), 'only an inlined brain carries a version (a shim loads the newest)');
-  assert.equal(why(k({ ...s, brain: { how: 'none', version: '3.0.0' } })), 'only an inlined brain carries a version (a shim loads the newest)');
+  assert.equal(why(k({ ...s, brain: { how: 'shim', version: '3.0.0' } })), 'only an inlined brain carries a version (a shim or a linked file holds its own)');
+  assert.equal(why(k({ ...s, brain: { how: 'none', version: '3.0.0' } })), 'only an inlined brain carries a version (a shim or a linked file holds its own)');
   for (const mesh of [{ device: true }, { device: 'yes', peer: false }, { device: true, peer: 1 }]) assert.equal(why(k({ ...s, mesh })), 'the mesh says device and peer, each true or false');
   assert.equal(why(k({ ...s, mesh: { device: false, peer: true } })), 'a build with fall-kit has its same-device mesh');
   assert.equal(checkKard(k({ ...s, brain: { how: 'none', version: null }, mesh: { device: false, peer: true } })).ok, true);

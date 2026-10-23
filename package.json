@@ -1,6 +1,6 @@
 {
   "name": "fall-kit",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "The estate's shared brain (T0 off / T2 WebLLM / T3 your own key, keys held in the tab, recycling) and the Lego socket every build carries.",
   "type": "module",
   "main": "fall-kit.js",

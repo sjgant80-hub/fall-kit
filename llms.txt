@@ -1,6 +1,6 @@
 # fall-kit
 
-> Fall Kit v3.0.0: one script that gives any web page an AI helper the person controls (off, WebLLM in the browser, or their own key straight to the provider; keys held in the tab), with recycling of the opening, and the home of the Lego socket (kard.v1) every estate build carries. MIT.
+> Fall Kit v3.1.0: one script that gives any web page an AI helper the person controls (off, WebLLM in the browser, or their own key straight to the provider; keys held in the tab), with recycling of the opening, and the home of the Lego socket (kard.v1) every estate build carries. MIT.
 
 ## Canonical URL
 
@@ -8,7 +8,7 @@ https://sjgant80-hub.github.io/fall-kit/
 
 ## Files
 
-- fall-kit.js: the kit (FallKit global): aiComplete, aiChat, aiImage, aiVideo, aiTTS, aiSTT, lastUsage, forgetKeys, requestOf, textOf, usageOf, init, openSettings, meshStart, meshPost, helpSection
+- fall-kit.js: the kit (FallKit global): aiComplete, aiChat, askPage, pageOpening, aiImage, aiVideo, aiTTS, aiSTT, lastUsage, forgetKeys, requestOf, textOf, usageOf, init, openSettings, meshStart, meshPost, helpSection
 - socket.mjs: the five studs (brain, manifest, mesh, memory, proof); studsOf, present, kardOf, checkKard, kardText
 - kard-writer.mjs: writes a build's kard.json from its files; --check for CI
 - recycle.mjs: talkCost and teamCost at published rates (default Claude Opus 5.5)
