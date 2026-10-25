@@ -1,0 +1,4740 @@
+{
+ "kind": "socket-kards.v1",
+ "at": "2026-10-25T13:39:20Z",
+ "builds": [
+  {
+   "name": "honestly",
+   "category": "AI you own",
+   "retires": "a rented AI search engine (Perplexity-style)",
+   "live": "https://sjgant80-hub.github.io/honestly/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/honestly",
+   "branch": "main",
+   "sha": "9eb68778fcd40fc9da6ab3bd1d2a3572eaf019d5",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082161986,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "honestly",
+    "title": "HONESTLY",
+    "retires": "a rented AI search engine (Perplexity-style)",
+    "category": "AI you own",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/honestly/",
+    "repo": "https://github.com/sjgant80-hub/honestly",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "botler",
+   "category": "AI you own",
+   "retires": "a rented personal assistant",
+   "live": "https://sjgant80-hub.github.io/botler/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/botler",
+   "branch": "main",
+   "sha": "5866709953f5bccc0593cbb0739cb4efba3b6ed1",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082200341,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "botler",
+    "title": "botler",
+    "retires": "a rented personal assistant",
+    "category": "AI you own",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/botler/",
+    "repo": "https://github.com/sjgant80-hub/botler",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallcore",
+   "category": "AI you own",
+   "retires": "a rented model API (a local, API-compatible brain)",
+   "live": "https://sjgant80-hub.github.io/fallcore/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallcore",
+   "branch": "main",
+   "sha": "c4cbf126f325f898911aff03ebddc3e5c3ff9ba0",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallcore",
+    "title": "FallCore",
+    "retires": "a rented model API (a local, API-compatible brain)",
+    "category": "AI you own",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallcore/",
+    "repo": "https://github.com/sjgant80-hub/fallcore",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.1"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallforgemint",
+   "category": "AI you own",
+   "retires": "renting a model for one task",
+   "live": "https://sjgant80-hub.github.io/fallforgemint/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallforgemint",
+   "branch": "main",
+   "sha": "c95e3c127286da5d0a06be77a94fcf341136d7d9",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 39620054965,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": null,
+   "kardWhy": "no kard.json at its live page (404)"
+  },
+  {
+   "name": "mint-a-node",
+   "category": "AI you own",
+   "retires": "renting a model instead of owning one",
+   "live": "https://sjgant80-hub.github.io/mint-a-node/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/mint-a-node",
+   "branch": "master",
+   "sha": "0a5ba84a04b89d04a437d4ffdb1937911e0161dc",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "mint-a-node",
+    "title": "Mint a Node",
+    "retires": "renting a model instead of owning one",
+    "category": "AI you own",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/mint-a-node/",
+    "repo": "https://github.com/sjgant80-hub/mint-a-node",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "csv-forge",
+   "category": "AI you own",
+   "retires": "a rented AutoML service",
+   "live": "https://sjgant80-hub.github.io/csv-forge/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/csv-forge",
+   "branch": "main",
+   "sha": "5c8bbb0a053aa007f4a5a9b7f118826c92893cd5",
+   "runs": [
+    {
+     "workflow": "proof-of-play",
+     "id": 40008427294,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "csv-forge",
+    "title": "CSV Forge",
+    "retires": "a rented AutoML service",
+    "category": "AI you own",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/csv-forge/",
+    "repo": "https://github.com/sjgant80-hub/csv-forge",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 2
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallnode",
+   "category": "AI you own",
+   "retires": "rented model hosting",
+   "live": "https://sjgant80-hub.github.io/fallnode/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallnode",
+   "branch": "master",
+   "sha": "80eb43648d40abb45eebb73b3ef38df0ae5b5455",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40008580434,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallnode",
+    "title": "FallNode",
+    "retires": "rented model hosting",
+    "category": "AI you own",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallnode/",
+    "repo": "https://github.com/sjgant80-hub/fallnode",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallforge-catalogue",
+   "category": "AI you own",
+   "retires": "rented task models",
+   "live": "https://sjgant80-hub.github.io/fallforge-catalogue/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallforge-catalogue",
+   "branch": "master",
+   "sha": "da018a35ebe88ad66ad507e5159eb085e0f6ce0d",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40008709514,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallforge-catalogue",
+    "title": "FallForge Catalogue",
+    "retires": "rented task models",
+    "category": "AI you own",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallforge-catalogue/",
+    "repo": "https://github.com/sjgant80-hub/fallforge-catalogue",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallfloor",
+   "category": "AI you own",
+   "retires": "a company-wide AI subscription",
+   "live": "https://sjgant80-hub.github.io/fallfloor/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallfloor",
+   "branch": "main",
+   "sha": "0c7759e8410c28d114d68f87890e35bd2ce24f01",
+   "runs": [
+    {
+     "workflow": "ci",
+     "id": 40018672330,
+     "status": "completed",
+     "conclusion": "success"
+    },
+    {
+     "workflow": "gate",
+     "id": 40018672195,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallfloor",
+    "title": "fallfloor",
+    "retires": "a company-wide AI subscription",
+    "category": "AI you own",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallfloor/",
+    "repo": "https://github.com/sjgant80-hub/fallfloor",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.1"
+     },
+     "mesh": {
+      "device": true,
+      "peer": true
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 2,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallstack",
+   "category": "AI you own",
+   "retires": "the audit that maps what a business rents",
+   "live": "https://sjgant80-hub.github.io/fallstack/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallstack",
+   "branch": "main",
+   "sha": "d42dc4d4454d8e6a3db81155e4f5afec7a72e371",
+   "runs": [
+    {
+     "workflow": "ci",
+     "id": 40008915651,
+     "status": "completed",
+     "conclusion": "success"
+    },
+    {
+     "workflow": "gate",
+     "id": 40008915947,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallstack",
+    "title": "fallstack",
+    "retires": "the audit that maps what a business rents",
+    "category": "AI you own",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallstack/",
+    "repo": "https://github.com/sjgant80-hub/fallstack",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 2,
+      "tests": 3
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallcrm",
+   "category": "CRM and sales",
+   "retires": "a rented CRM (HubSpot-style)",
+   "live": "https://sjgant80-hub.github.io/fallcrm/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallcrm",
+   "branch": "main",
+   "sha": "9a0a41d9014a0890fed604197e781c25cdd94dfd",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallcrm",
+    "title": "fallcrm",
+    "retires": "a rented CRM (HubSpot-style)",
+    "category": "CRM and sales",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallcrm/",
+    "repo": "https://github.com/sjgant80-hub/fallcrm",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallsalescrm",
+   "category": "CRM and sales",
+   "retires": "a rented sales CRM (Salesforce-style)",
+   "live": "https://sjgant80-hub.github.io/fallsalescrm/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallsalescrm",
+   "branch": "main",
+   "sha": "bb40ac7af4ed94f5f686476a3e5e93170eb18d3c",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallsalescrm",
+    "title": "FallSalesCRM",
+    "retires": "a rented sales CRM (Salesforce-style)",
+    "category": "CRM and sales",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallsalescrm/",
+    "repo": "https://github.com/sjgant80-hub/fallsalescrm",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallcrm-elite",
+   "category": "CRM and sales",
+   "retires": "a rented CRM with follow-up automation",
+   "live": "https://sjgant80-hub.github.io/fallcrm-elite/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallcrm-elite",
+   "branch": "main",
+   "sha": "34b9cdd0fa270f8e242eb18b233f3f27a98cbf67",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallcrm-elite",
+    "title": "FallCRM Elite",
+    "retires": "a rented CRM with follow-up automation",
+    "category": "CRM and sales",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallcrm-elite/",
+    "repo": "https://github.com/sjgant80-hub/fallcrm-elite",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallreach",
+   "category": "CRM and sales",
+   "retires": "a rented sales-outreach tool",
+   "live": "https://sjgant80-hub.github.io/fallreach/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallreach",
+   "branch": "main",
+   "sha": "215ff9bb3eb6c1b899c559d6205444962d4b8712",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallreach",
+    "title": "FallReach",
+    "retires": "a rented sales-outreach tool",
+    "category": "CRM and sales",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallreach/",
+    "repo": "https://github.com/sjgant80-hub/fallreach",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallpost",
+   "category": "CRM and sales",
+   "retires": "a rented social-posting tool",
+   "live": "https://sjgant80-hub.github.io/fallpost/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallpost",
+   "branch": "main",
+   "sha": "2875722331a330bae1863950655ca203b697807a",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallpost",
+    "title": "fallpost",
+    "retires": "a rented social-posting tool",
+    "category": "CRM and sales",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallpost/",
+    "repo": "https://github.com/sjgant80-hub/fallpost",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fall-sales-marketing",
+   "category": "CRM and sales",
+   "retires": "a rented sales and marketing stack",
+   "live": "https://sjgant80-hub.github.io/fall-sales-marketing/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fall-sales-marketing",
+   "branch": "main",
+   "sha": "78cbd142b142fb362bab04f811d0968cb7050887",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082239874,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fall-sales-marketing",
+    "title": "Fall Sales & Marketing",
+    "retires": "a rented sales and marketing stack",
+    "category": "CRM and sales",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fall-sales-marketing/",
+    "repo": "https://github.com/sjgant80-hub/fall-sales-marketing",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallhire",
+   "category": "CRM and sales",
+   "retires": "a rented hiring pipeline",
+   "live": "https://sjgant80-hub.github.io/fallhire/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallhire",
+   "branch": "main",
+   "sha": "e8309ea261ed8e7fd0fcbc723073778e9664d3e0",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40009782071,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallhire",
+    "title": "fallhire",
+    "retires": "a rented hiring pipeline",
+    "category": "CRM and sales",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallhire/",
+    "repo": "https://github.com/sjgant80-hub/fallhire",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallaccount",
+   "category": "Accounting and tax",
+   "retires": "a sole trader accounting subscription",
+   "live": "https://sjgant80-hub.github.io/fallaccount/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallaccount",
+   "branch": "main",
+   "sha": "018786c19360da5de9b8c04bf41b40e199fd0f40",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082277042,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallaccount",
+    "title": "FallAccount Elite",
+    "retires": "a sole trader accounting subscription",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallaccount/",
+    "repo": "https://github.com/sjgant80-hub/fallaccount",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallaccount-trades",
+   "category": "Accounting and tax",
+   "retires": "an accounts app for trades, with HMRC returns",
+   "live": "https://sjgant80-hub.github.io/fallaccount-trades/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallaccount-trades",
+   "branch": "main",
+   "sha": "9bcf02f6d01c5124792063afd5abf9680af4aa02",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallaccount-trades",
+    "title": "FallAccount Trades",
+    "retires": "an accounts app for trades, with HMRC returns",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallaccount-trades/",
+    "repo": "https://github.com/sjgant80-hub/fallaccount-trades",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "konomium-vault",
+   "category": "Accounting and tax",
+   "retires": "an accounting vault with Making Tax Digital submission",
+   "live": "https://sjgant80-hub.github.io/konomium-vault/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/konomium-vault",
+   "branch": "master",
+   "sha": "e7508538d214ecb67834091b624fbabe1e9b7baa",
+   "runs": [
+    {
+     "workflow": "ci",
+     "id": 40010055906,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "konomium-vault",
+    "title": "Konomium",
+    "retires": "an accounting vault with Making Tax Digital submission",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/konomium-vault/",
+    "repo": "https://github.com/sjgant80-hub/konomium-vault",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallbooks",
+   "category": "Accounting and tax",
+   "retires": "accountancy practice software",
+   "live": "https://sjgant80-hub.github.io/fallbooks/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallbooks",
+   "branch": "main",
+   "sha": "fc150bb87da12e22413adffee6992ab0afee62a9",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082351720,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallbooks",
+    "title": "FallBooks",
+    "retires": "accountancy practice software",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallbooks/",
+    "repo": "https://github.com/sjgant80-hub/fallbooks",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 2
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallbookspractice",
+   "category": "Accounting and tax",
+   "retires": "accountancy practice management",
+   "live": "https://sjgant80-hub.github.io/fallbookspractice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallbookspractice",
+   "branch": "main",
+   "sha": "2bed8aef1c89431130cd3060ff9f445ea91ddfe8",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082400536,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallbookspractice",
+    "title": "FallBooksPractice",
+    "retires": "accountancy practice management",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallbookspractice/",
+    "repo": "https://github.com/sjgant80-hub/fallbookspractice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallbooksonboard",
+   "category": "Accounting and tax",
+   "retires": "client onboarding and AML checks",
+   "live": "https://sjgant80-hub.github.io/fallbooksonboard/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallbooksonboard",
+   "branch": "main",
+   "sha": "c1ad837553e3690fc6005de6082e7dfe28a1c031",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082461047,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallbooksonboard",
+    "title": "FallBooksOnboard",
+    "retires": "client onboarding and AML checks",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallbooksonboard/",
+    "repo": "https://github.com/sjgant80-hub/fallbooksonboard",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallbookspaper",
+   "category": "Accounting and tax",
+   "retires": "engagement letters and return paperwork",
+   "live": "https://sjgant80-hub.github.io/fallbookspaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallbookspaper",
+   "branch": "main",
+   "sha": "609c7debd24d8ac25d6d2ea4687bfd7075103039",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082519597,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallbookspaper",
+    "title": "FallBooksPaper",
+    "retires": "engagement letters and return paperwork",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallbookspaper/",
+    "repo": "https://github.com/sjgant80-hub/fallbookspaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallinvoice",
+   "category": "Accounting and tax",
+   "retires": "an invoicing subscription",
+   "live": "https://sjgant80-hub.github.io/fallinvoice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallinvoice",
+   "branch": "main",
+   "sha": "421a8b3033e0e3da3f535eed2dce3983675db96f",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40010651564,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallinvoice",
+    "title": "fallinvoice",
+    "retires": "an invoicing subscription",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallinvoice/",
+    "repo": "https://github.com/sjgant80-hub/fallinvoice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallap",
+   "category": "Accounting and tax",
+   "retires": "an invoice and payment-reminder tool",
+   "live": "https://sjgant80-hub.github.io/fallap/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallap",
+   "branch": "main",
+   "sha": "cfa0694aa02377f15362371731dfbb8bb416f95d",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallap",
+    "title": "fallap",
+    "retires": "an invoice and payment-reminder tool",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallap/",
+    "repo": "https://github.com/sjgant80-hub/fallap",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallledger",
+   "category": "Accounting and tax",
+   "retires": "a rented general ledger (NetSuite-style)",
+   "live": "https://sjgant80-hub.github.io/fallledger/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallledger",
+   "branch": "main",
+   "sha": "7a080de176e1037ad01ff452e59702f4dffb3190",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082576862,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallledger",
+    "title": "FallLedger",
+    "retires": "a rented general ledger (NetSuite-style)",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallledger/",
+    "repo": "https://github.com/sjgant80-hub/fallledger",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "falladviser",
+   "category": "Accounting and tax",
+   "retires": "a financial-planning subscription",
+   "live": "https://sjgant80-hub.github.io/falladviser/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/falladviser",
+   "branch": "main",
+   "sha": "75fb733327e14e4e84ee0afc5254561019b453c1",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082615800,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "falladviser",
+    "title": "FallAdviser",
+    "retires": "a financial-planning subscription",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/falladviser/",
+    "repo": "https://github.com/sjgant80-hub/falladviser",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallpay",
+   "category": "Accounting and tax",
+   "retires": "a payment-receipt service",
+   "live": "https://sjgant80-hub.github.io/fallpay/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallpay",
+   "branch": "main",
+   "sha": "31e451a3f8b369deef7a0dbee0cacf2fc7c677aa",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082656266,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallpay",
+    "title": "fallpay",
+    "retires": "a payment-receipt service",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallpay/",
+    "repo": "https://github.com/sjgant80-hub/fallpay",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallseed-accountancy",
+   "category": "Accounting and tax",
+   "retires": "an accountancy firm toolkit",
+   "live": "https://sjgant80-hub.github.io/fallseed-accountancy/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallseed-accountancy",
+   "branch": "main",
+   "sha": "05ec6882d621e0f476cd68ade0bc5ba546923a6a",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082703178,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallseed-accountancy",
+    "title": "FallSeed",
+    "retires": "an accountancy firm toolkit",
+    "category": "Accounting and tax",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallseed-accountancy/",
+    "repo": "https://github.com/sjgant80-hub/fallseed-accountancy",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "falllegal",
+   "category": "Legal",
+   "retires": "matter management for a small law firm",
+   "live": "https://sjgant80-hub.github.io/falllegal/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/falllegal",
+   "branch": "main",
+   "sha": "db4e53bd859779b7a4b38f1544b815ce679188fd",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082739521,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "falllegal",
+    "title": "FallLegal",
+    "retires": "matter management for a small law firm",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/falllegal/",
+    "repo": "https://github.com/sjgant80-hub/falllegal",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 2
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "falllegalpractice",
+   "category": "Legal",
+   "retires": "law-firm accounts and client money",
+   "live": "https://sjgant80-hub.github.io/falllegalpractice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/falllegalpractice",
+   "branch": "main",
+   "sha": "20221787fa86c35bb30d1bd0e186c7fa2502efd4",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082774899,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "falllegalpractice",
+    "title": "FallLegalPractice",
+    "retires": "law-firm accounts and client money",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/falllegalpractice/",
+    "repo": "https://github.com/sjgant80-hub/falllegalpractice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "falllegalonboard",
+   "category": "Legal",
+   "retires": "law-firm client onboarding",
+   "live": "https://sjgant80-hub.github.io/falllegalonboard/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/falllegalonboard",
+   "branch": "main",
+   "sha": "aa2b0a6c6eaea326162d29c86561d3f7f3a50ef3",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082823952,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "falllegalonboard",
+    "title": "FallLegalOnboard",
+    "retires": "law-firm client onboarding",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/falllegalonboard/",
+    "repo": "https://github.com/sjgant80-hub/falllegalonboard",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "falllegalpaper",
+   "category": "Legal",
+   "retires": "law-firm document generation",
+   "live": "https://sjgant80-hub.github.io/falllegalpaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/falllegalpaper",
+   "branch": "main",
+   "sha": "626a26791e60cfe3b4514c1deada60127cadcba7",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "falllegalpaper",
+    "title": "FallLegalPaper",
+    "retires": "law-firm document generation",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/falllegalpaper/",
+    "repo": "https://github.com/sjgant80-hub/falllegalpaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallseed-law",
+   "category": "Legal",
+   "retires": "a law-firm toolkit",
+   "live": "https://sjgant80-hub.github.io/fallseed-law/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallseed-law",
+   "branch": "main",
+   "sha": "840f0cfe386eb707592a4f7f61b0dddbb792cd38",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082907413,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallseed-law",
+    "title": "FallSeed",
+    "retires": "a law-firm toolkit",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallseed-law/",
+    "repo": "https://github.com/sjgant80-hub/fallseed-law",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "falljustice",
+   "category": "Legal",
+   "retires": "paid letter-before-action and DSAR help",
+   "live": "https://sjgant80-hub.github.io/falljustice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/falljustice",
+   "branch": "master",
+   "sha": "5fa4016df6ec26b8997a4cd86fc16e2d09ab3cce",
+   "runs": [
+    {
+     "workflow": "ci",
+     "id": 40011984589,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "falljustice",
+    "title": "FallJustice",
+    "retires": "paid letter-before-action and DSAR help",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/falljustice/",
+    "repo": "https://github.com/sjgant80-hub/falljustice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 5
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "divorcerbot",
+   "category": "Legal",
+   "retires": "paid divorce paperwork help",
+   "live": "https://sjgant80-hub.github.io/divorcerbot/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/divorcerbot",
+   "branch": "master",
+   "sha": "3d17fd091a35be78c4625d7ae1a6366a3f96de7a",
+   "runs": [
+    {
+     "workflow": "ci",
+     "id": 40012115000,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "divorcerbot",
+    "title": "divorcerbot",
+    "retires": "paid divorce paperwork help",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/divorcerbot/",
+    "repo": "https://github.com/sjgant80-hub/divorcerbot",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 3
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallclaim",
+   "category": "Legal",
+   "retires": "claims case management",
+   "live": "https://sjgant80-hub.github.io/fallclaim/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallclaim",
+   "branch": "main",
+   "sha": "cfedd0cf1d13e9baebc06a44709ad4fbea358692",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082943209,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallclaim",
+    "title": "FallClaim",
+    "retires": "claims case management",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallclaim/",
+    "repo": "https://github.com/sjgant80-hub/fallclaim",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 2
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallclaimpractice",
+   "category": "Legal",
+   "retires": "claims-firm accounts",
+   "live": "https://sjgant80-hub.github.io/fallclaimpractice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallclaimpractice",
+   "branch": "main",
+   "sha": "be10fb0628f337065f70e120982437cad39d052c",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40082993798,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallclaimpractice",
+    "title": "FallClaimPractice",
+    "retires": "claims-firm accounts",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallclaimpractice/",
+    "repo": "https://github.com/sjgant80-hub/fallclaimpractice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallclaimpaper",
+   "category": "Legal",
+   "retires": "claims-firm documents",
+   "live": "https://sjgant80-hub.github.io/fallclaimpaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallclaimpaper",
+   "branch": "main",
+   "sha": "0c7e7369943b46d9f81efb4cd2f72517848257ab",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallclaimpaper",
+    "title": "FallClaimPaper",
+    "retires": "claims-firm documents",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallclaimpaper/",
+    "repo": "https://github.com/sjgant80-hub/fallclaimpaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "kardv5",
+   "category": "Legal",
+   "retires": "a paralegal service",
+   "live": "https://sjgant80-hub.github.io/kardv5/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/kardv5",
+   "branch": "main",
+   "sha": "eec86bb2d664a82631301344b89c2cbadb59f901",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "kardv5",
+    "title": "kardv5",
+    "retires": "a paralegal service",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/kardv5/",
+    "repo": "https://github.com/sjgant80-hub/kardv5",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "redress-engine",
+   "category": "Legal",
+   "retires": "paid consumer-rights advice",
+   "live": "https://sjgant80-hub.github.io/redress-engine/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/redress-engine",
+   "branch": "master",
+   "sha": "2bb7734fa9c6356e0a1c5d322000271b2d00dcaf",
+   "runs": [
+    {
+     "workflow": "proof-of-play",
+     "id": 40012648603,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "redress-engine",
+    "title": "The Redress Engine",
+    "retires": "paid consumer-rights advice",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/redress-engine/",
+    "repo": "https://github.com/sjgant80-hub/redress-engine",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fall-euaiact",
+   "category": "Legal",
+   "retires": "an AI-compliance subscription",
+   "live": "https://sjgant80-hub.github.io/fall-euaiact/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fall-euaiact",
+   "branch": "main",
+   "sha": "5d8d27b65f68fe02921e6f624c0dc104c1f22e65",
+   "runs": [
+    {
+     "workflow": "ci",
+     "id": 40083086318,
+     "status": "completed",
+     "conclusion": "success"
+    },
+    {
+     "workflow": "gate",
+     "id": 40083086454,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fall-euaiact",
+    "title": "fall-euaiact",
+    "retires": "an AI-compliance subscription",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fall-euaiact/",
+    "repo": "https://github.com/sjgant80-hub/fall-euaiact",
+    "studs": {
+     "brain": {
+      "how": "shim",
+      "version": null
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 2,
+      "tests": 2
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallseed-compliance",
+   "category": "Legal",
+   "retires": "a compliance-posture platform (ISO 27001, SOC 2)",
+   "live": "https://sjgant80-hub.github.io/fallseed-compliance/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallseed-compliance",
+   "branch": "main",
+   "sha": "4276236ac0b8a821b15966591bd9feb783fcac65",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083140836,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallseed-compliance",
+    "title": "FallSeed",
+    "retires": "a compliance-posture platform (ISO 27001, SOC 2)",
+    "category": "Legal",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallseed-compliance/",
+    "repo": "https://github.com/sjgant80-hub/fallseed-compliance",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallclinic",
+   "category": "Health and care",
+   "retires": "clinic management software",
+   "live": "https://sjgant80-hub.github.io/fallclinic/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallclinic",
+   "branch": "master",
+   "sha": "8be45791f541e95d519ef51d9ed3880b1c96eb8f",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083180290,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallclinic",
+    "title": "FallClinic",
+    "retires": "clinic management software",
+    "category": "Health and care",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallclinic/",
+    "repo": "https://github.com/sjgant80-hub/fallclinic",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallclinicpractice",
+   "category": "Health and care",
+   "retires": "clinic practice management",
+   "live": "https://sjgant80-hub.github.io/fallclinicpractice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallclinicpractice",
+   "branch": "master",
+   "sha": "a1e607fc58d941472e76444af4ecf3eb6c62ca92",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083231605,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallclinicpractice",
+    "title": "FallClinicPractice",
+    "retires": "clinic practice management",
+    "category": "Health and care",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallclinicpractice/",
+    "repo": "https://github.com/sjgant80-hub/fallclinicpractice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallcliniconboard",
+   "category": "Health and care",
+   "retires": "patient registration",
+   "live": "https://sjgant80-hub.github.io/fallcliniconboard/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallcliniconboard",
+   "branch": "master",
+   "sha": "fe9406d1279e25c9f8ddc6fc8c25e370dcc5db50",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083279322,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallcliniconboard",
+    "title": "FallClinicOnboard",
+    "retires": "patient registration",
+    "category": "Health and care",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallcliniconboard/",
+    "repo": "https://github.com/sjgant80-hub/fallcliniconboard",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallclinicpaper",
+   "category": "Health and care",
+   "retires": "clinic paperwork",
+   "live": "https://sjgant80-hub.github.io/fallclinicpaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallclinicpaper",
+   "branch": "master",
+   "sha": "666a3702812d8632d340d570d7f2a1439a68ecbe",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083312749,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallclinicpaper",
+    "title": "FallClinicPaper",
+    "retires": "clinic paperwork",
+    "category": "Health and care",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallclinicpaper/",
+    "repo": "https://github.com/sjgant80-hub/fallclinicpaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallseed-clinic",
+   "category": "Health and care",
+   "retires": "a clinic toolkit",
+   "live": "https://sjgant80-hub.github.io/fallseed-clinic/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallseed-clinic",
+   "branch": "main",
+   "sha": "2b098cc7ac91b99eda6d8cc0ca2e444b5b71d6ee",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083354756,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallseed-clinic",
+    "title": "FallSeed",
+    "retires": "a clinic toolkit",
+    "category": "Health and care",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallseed-clinic/",
+    "repo": "https://github.com/sjgant80-hub/fallseed-clinic",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "falldental",
+   "category": "Health and care",
+   "retires": "dental practice software",
+   "live": "https://sjgant80-hub.github.io/falldental/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/falldental",
+   "branch": "main",
+   "sha": "29d12a0e430fc1836df56890b32cbbd183632e5e",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40013615580,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "falldental",
+    "title": "FallDental",
+    "retires": "dental practice software",
+    "category": "Health and care",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/falldental/",
+    "repo": "https://github.com/sjgant80-hub/falldental",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallvet",
+   "category": "Health and care",
+   "retires": "veterinary practice software",
+   "live": "https://sjgant80-hub.github.io/fallvet/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallvet",
+   "branch": "master",
+   "sha": "1c8cd550c6c67f9bb7a34921f7166af604ba8360",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083403926,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallvet",
+    "title": "FallVet",
+    "retires": "veterinary practice software",
+    "category": "Health and care",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallvet/",
+    "repo": "https://github.com/sjgant80-hub/fallvet",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 2
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallvetpaper",
+   "category": "Health and care",
+   "retires": "veterinary clinical documents",
+   "live": "https://sjgant80-hub.github.io/fallvetpaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallvetpaper",
+   "branch": "master",
+   "sha": "4aa463a91e03d99495054af1f857fef9e635579f",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083440012,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallvetpaper",
+    "title": "FallVetPaper",
+    "retires": "veterinary clinical documents",
+    "category": "Health and care",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallvetpaper/",
+    "repo": "https://github.com/sjgant80-hub/fallvetpaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallseed-vet",
+   "category": "Health and care",
+   "retires": "a vet practice toolkit",
+   "live": "https://sjgant80-hub.github.io/fallseed-vet/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallseed-vet",
+   "branch": "main",
+   "sha": "3116623dc8ed70470d29580e516ca8e5c1d34c58",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083476611,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallseed-vet",
+    "title": "FallSeed",
+    "retires": "a vet practice toolkit",
+    "category": "Health and care",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallseed-vet/",
+    "repo": "https://github.com/sjgant80-hub/fallseed-vet",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallinsurance",
+   "category": "Insurance, mortgages and advice",
+   "retires": "insurance broker policy management",
+   "live": "https://sjgant80-hub.github.io/fallinsurance/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallinsurance",
+   "branch": "master",
+   "sha": "95533738c96193aafe43fb5221e0ba11b794eb5a",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083536800,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallinsurance",
+    "title": "FallInsurance",
+    "retires": "insurance broker policy management",
+    "category": "Insurance, mortgages and advice",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallinsurance/",
+    "repo": "https://github.com/sjgant80-hub/fallinsurance",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 2
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallinsurancepractice",
+   "category": "Insurance, mortgages and advice",
+   "retires": "broker practice accounts",
+   "live": "https://sjgant80-hub.github.io/fallinsurancepractice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallinsurancepractice",
+   "branch": "main",
+   "sha": "af42b770d0eb8a89a333a7364fdbe1e4dd668794",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083567881,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallinsurancepractice",
+    "title": "FallInsurancePractice",
+    "retires": "broker practice accounts",
+    "category": "Insurance, mortgages and advice",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallinsurancepractice/",
+    "repo": "https://github.com/sjgant80-hub/fallinsurancepractice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallinsuranceonboard",
+   "category": "Insurance, mortgages and advice",
+   "retires": "broker client onboarding",
+   "live": "https://sjgant80-hub.github.io/fallinsuranceonboard/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallinsuranceonboard",
+   "branch": "main",
+   "sha": "fe01a974e58104456d25a04361678081b662d402",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083604530,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallinsuranceonboard",
+    "title": "FallInsuranceOnboard",
+    "retires": "broker client onboarding",
+    "category": "Insurance, mortgages and advice",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallinsuranceonboard/",
+    "repo": "https://github.com/sjgant80-hub/fallinsuranceonboard",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallinsurancepaper",
+   "category": "Insurance, mortgages and advice",
+   "retires": "broker documents",
+   "live": "https://sjgant80-hub.github.io/fallinsurancepaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallinsurancepaper",
+   "branch": "main",
+   "sha": "b58a0b61fabcbfe680971550a44c02e06b292ac5",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallinsurancepaper",
+    "title": "FallInsurancePaper",
+    "retires": "broker documents",
+    "category": "Insurance, mortgages and advice",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallinsurancepaper/",
+    "repo": "https://github.com/sjgant80-hub/fallinsurancepaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallmortgage",
+   "category": "Insurance, mortgages and advice",
+   "retires": "mortgage broker software",
+   "live": "https://sjgant80-hub.github.io/fallmortgage/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallmortgage",
+   "branch": "master",
+   "sha": "cd8dea12c9e2dffff95de02f0e9af752dd572903",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083709170,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallmortgage",
+    "title": "FallMortgage",
+    "retires": "mortgage broker software",
+    "category": "Insurance, mortgages and advice",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallmortgage/",
+    "repo": "https://github.com/sjgant80-hub/fallmortgage",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallmortgagepractice",
+   "category": "Insurance, mortgages and advice",
+   "retires": "mortgage practice accounts",
+   "live": "https://sjgant80-hub.github.io/fallmortgagepractice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallmortgagepractice",
+   "branch": "master",
+   "sha": "472730dc62fdb101de77160fd2b71593117b2124",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083743562,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallmortgagepractice",
+    "title": "FallMortgagePractice",
+    "retires": "mortgage practice accounts",
+    "category": "Insurance, mortgages and advice",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallmortgagepractice/",
+    "repo": "https://github.com/sjgant80-hub/fallmortgagepractice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallmortgageonboard",
+   "category": "Insurance, mortgages and advice",
+   "retires": "mortgage client onboarding",
+   "live": "https://sjgant80-hub.github.io/fallmortgageonboard/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallmortgageonboard",
+   "branch": "master",
+   "sha": "08ce4b5f69c14da481068d20d1ea3f7ae77d223c",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40014774928,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallmortgageonboard",
+    "title": "FallMortgageOnboard",
+    "retires": "mortgage client onboarding",
+    "category": "Insurance, mortgages and advice",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallmortgageonboard/",
+    "repo": "https://github.com/sjgant80-hub/fallmortgageonboard",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallmortgagepaper",
+   "category": "Insurance, mortgages and advice",
+   "retires": "mortgage documents",
+   "live": "https://sjgant80-hub.github.io/fallmortgagepaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallmortgagepaper",
+   "branch": "main",
+   "sha": "11b144c0fc14572ee65263f81cde665392a25085",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallmortgagepaper",
+    "title": "FallMortgagePaper",
+    "retires": "mortgage documents",
+    "category": "Insurance, mortgages and advice",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallmortgagepaper/",
+    "repo": "https://github.com/sjgant80-hub/fallmortgagepaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallpractice",
+   "category": "Insurance, mortgages and advice",
+   "retires": "adviser fee ledgers",
+   "live": "https://sjgant80-hub.github.io/fallpractice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallpractice",
+   "branch": "main",
+   "sha": "8609e12ef091dc99fb3d8982f60c0dfeeba52021",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083825580,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallpractice",
+    "title": "FallPractice",
+    "retires": "adviser fee ledgers",
+    "category": "Insurance, mortgages and advice",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallpractice/",
+    "repo": "https://github.com/sjgant80-hub/fallpractice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 2
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallpaper",
+   "category": "Insurance, mortgages and advice",
+   "retires": "adviser compliance paperwork",
+   "live": "https://sjgant80-hub.github.io/fallpaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallpaper",
+   "branch": "main",
+   "sha": "33d3eff6b5fe3fecd070d320759d4b1544ea7435",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallpaper",
+    "title": "FallPaper",
+    "retires": "adviser compliance paperwork",
+    "category": "Insurance, mortgages and advice",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallpaper/",
+    "repo": "https://github.com/sjgant80-hub/fallpaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallhr",
+   "category": "HR and recruitment",
+   "retires": "an HR platform",
+   "live": "https://sjgant80-hub.github.io/fallhr/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallhr",
+   "branch": "master",
+   "sha": "5a44af0a96bb36a24b66be6a1505ec4ccc60a283",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083896913,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallhr",
+    "title": "FallHR",
+    "retires": "an HR platform",
+    "category": "HR and recruitment",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallhr/",
+    "repo": "https://github.com/sjgant80-hub/fallhr",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 2
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallhronboard",
+   "category": "HR and recruitment",
+   "retires": "new-starter onboarding",
+   "live": "https://sjgant80-hub.github.io/fallhronboard/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallhronboard",
+   "branch": "master",
+   "sha": "307ff5cc79b826daea6a69cd0b50442af79c5acb",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083943522,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallhronboard",
+    "title": "FallHROnboard",
+    "retires": "new-starter onboarding",
+    "category": "HR and recruitment",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallhronboard/",
+    "repo": "https://github.com/sjgant80-hub/fallhronboard",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallhrpaper",
+   "category": "HR and recruitment",
+   "retires": "HR documents",
+   "live": "https://sjgant80-hub.github.io/fallhrpaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallhrpaper",
+   "branch": "master",
+   "sha": "3720de4bd52b57e17ed1879305251d067d9c5990",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40083977814,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallhrpaper",
+    "title": "FallHRPaper",
+    "retires": "HR documents",
+    "category": "HR and recruitment",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallhrpaper/",
+    "repo": "https://github.com/sjgant80-hub/fallhrpaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallhrpractice",
+   "category": "HR and recruitment",
+   "retires": "payroll practice management",
+   "live": "https://sjgant80-hub.github.io/fallhrpractice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallhrpractice",
+   "branch": "master",
+   "sha": "f348d3188c0cea13db2e17010acb49b0d0557eed",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084009575,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallhrpractice",
+    "title": "FallHRPractice",
+    "retires": "payroll practice management",
+    "category": "HR and recruitment",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallhrpractice/",
+    "repo": "https://github.com/sjgant80-hub/fallhrpractice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallseed-hr",
+   "category": "HR and recruitment",
+   "retires": "an HR firm toolkit",
+   "live": "https://sjgant80-hub.github.io/fallseed-hr/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallseed-hr",
+   "branch": "master",
+   "sha": "197b409bd43c217efdb2d5f622c050b1f30e32bb",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40018613274,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallseed-hr",
+    "title": "FallSeed",
+    "retires": "an HR firm toolkit",
+    "category": "HR and recruitment",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallseed-hr/",
+    "repo": "https://github.com/sjgant80-hub/fallseed-hr",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallrecruit",
+   "category": "HR and recruitment",
+   "retires": "recruitment agency software",
+   "live": "https://sjgant80-hub.github.io/fallrecruit/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallrecruit",
+   "branch": "master",
+   "sha": "7f59ea8ac594732789052df306830c884ce92040",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084057690,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallrecruit",
+    "title": "FallRecruit",
+    "retires": "recruitment agency software",
+    "category": "HR and recruitment",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallrecruit/",
+    "repo": "https://github.com/sjgant80-hub/fallrecruit",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 2
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallrecruitpractice",
+   "category": "HR and recruitment",
+   "retires": "recruitment practice management",
+   "live": "https://sjgant80-hub.github.io/fallrecruitpractice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallrecruitpractice",
+   "branch": "master",
+   "sha": "aeb5a9a72a1df2c43408d86410b650a23c0a2d32",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084102173,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallrecruitpractice",
+    "title": "FallRecruitPractice",
+    "retires": "recruitment practice management",
+    "category": "HR and recruitment",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallrecruitpractice/",
+    "repo": "https://github.com/sjgant80-hub/fallrecruitpractice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallrecruitpaper",
+   "category": "HR and recruitment",
+   "retires": "recruitment documents",
+   "live": "https://sjgant80-hub.github.io/fallrecruitpaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallrecruitpaper",
+   "branch": "master",
+   "sha": "bf9161797d1f5abfb62d6345ca0d1a06709f34c3",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084133995,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallrecruitpaper",
+    "title": "FallRecruitPaper",
+    "retires": "recruitment documents",
+    "category": "HR and recruitment",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallrecruitpaper/",
+    "repo": "https://github.com/sjgant80-hub/fallrecruitpaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallestatepaper",
+   "category": "Property and trades",
+   "retires": "estate and letting agent documents",
+   "live": "https://sjgant80-hub.github.io/fallestatepaper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallestatepaper",
+   "branch": "master",
+   "sha": "acd44a74dab47a48256411c69ca552e08389c16a",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallestatepaper",
+    "title": "FallEstatePaper",
+    "retires": "estate and letting agent documents",
+    "category": "Property and trades",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallestatepaper/",
+    "repo": "https://github.com/sjgant80-hub/fallestatepaper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallestateonboard",
+   "category": "Property and trades",
+   "retires": "letting agent onboarding",
+   "live": "https://sjgant80-hub.github.io/fallestateonboard/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallestateonboard",
+   "branch": "master",
+   "sha": "68e17c9c88b8b7388a177ca8a32ff288b1489183",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084237620,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallestateonboard",
+    "title": "FallEstateOnboard",
+    "retires": "letting agent onboarding",
+    "category": "Property and trades",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallestateonboard/",
+    "repo": "https://github.com/sjgant80-hub/fallestateonboard",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallestatepractice",
+   "category": "Property and trades",
+   "retires": "letting agent accounts",
+   "live": "https://sjgant80-hub.github.io/fallestatepractice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallestatepractice",
+   "branch": "master",
+   "sha": "d861afe9ddcacf3f0b7262e593292be9494bb79a",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40016236961,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallestatepractice",
+    "title": "FallEstatePractice",
+    "retires": "letting agent accounts",
+    "category": "Property and trades",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallestatepractice/",
+    "repo": "https://github.com/sjgant80-hub/fallestatepractice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "tradeshub",
+   "category": "Property and trades",
+   "retires": "trades job software",
+   "live": "https://sjgant80-hub.github.io/tradeshub/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/tradeshub",
+   "branch": "main",
+   "sha": "0ebc803b994203f8821204d7bf1d9fa73b39f96c",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084276114,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "tradeshub",
+    "title": "TradesHub",
+    "retires": "trades job software",
+    "category": "Property and trades",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/tradeshub/",
+    "repo": "https://github.com/sjgant80-hub/tradeshub",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "wishwood-keeper",
+   "category": "Property and trades",
+   "retires": "a housekeeping and turnover board",
+   "live": "https://sjgant80-hub.github.io/wishwood-keeper/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/wishwood-keeper",
+   "branch": "main",
+   "sha": "3e691be01392841080ca752b1693ecdbf13e9338",
+   "runs": [
+    {
+     "workflow": "witness",
+     "id": 40016392055,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "wishwood-keeper",
+    "title": "Wishwood Keeper",
+    "retires": "a housekeeping and turnover board",
+    "category": "Property and trades",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/wishwood-keeper/",
+    "repo": "https://github.com/sjgant80-hub/wishwood-keeper",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "falloffice",
+   "category": "Office, notes and design",
+   "retires": "an office suite subscription (Microsoft 365-style)",
+   "live": "https://sjgant80-hub.github.io/falloffice/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/falloffice",
+   "branch": "main",
+   "sha": "fdb0e646648840d88a79946269842bc6fcc252cd",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "falloffice",
+    "title": "FallOffice",
+    "retires": "an office suite subscription (Microsoft 365-style)",
+    "category": "Office, notes and design",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/falloffice/",
+    "repo": "https://github.com/sjgant80-hub/falloffice",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallnote",
+   "category": "Office, notes and design",
+   "retires": "a notes and database workspace (Notion-style)",
+   "live": "https://sjgant80-hub.github.io/fallnote/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallnote",
+   "branch": "main",
+   "sha": "e95578b4a7538de283c4496792a76e55bcc8240b",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084366091,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallnote",
+    "title": "FallNote",
+    "retires": "a notes and database workspace (Notion-style)",
+    "category": "Office, notes and design",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallnote/",
+    "repo": "https://github.com/sjgant80-hub/fallnote",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.1"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallgarden",
+   "category": "Office, notes and design",
+   "retires": "a linked-notes app (Obsidian-style)",
+   "live": "https://sjgant80-hub.github.io/fallgarden/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallgarden",
+   "branch": "main",
+   "sha": "6889f7225c10a6e2a6a0048ccfac8385b242ec87",
+   "runs": [
+    {
+     "workflow": "proof-of-play",
+     "id": 40007820985,
+     "status": "completed",
+     "conclusion": "success"
+    },
+    {
+     "workflow": "publish",
+     "id": 40007821016,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallgarden",
+    "title": "FallGarden",
+    "retires": "a linked-notes app (Obsidian-style)",
+    "category": "Office, notes and design",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallgarden/",
+    "repo": "https://github.com/sjgant80-hub/fallgarden",
+    "studs": {
+     "brain": {
+      "how": "linked",
+      "version": null
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 2,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallscribe",
+   "category": "Office, notes and design",
+   "retires": "a meeting-notes subscription",
+   "live": "https://sjgant80-hub.github.io/fallscribe/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallscribe",
+   "branch": "main",
+   "sha": "5c7c142b9b3db1b9588b192eb675e2ca9f8b5675",
+   "runs": [
+    {
+     "workflow": "Deploy Pages",
+     "id": 40016636013,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallscribe",
+    "title": "FallScribe",
+    "retires": "a meeting-notes subscription",
+    "category": "Office, notes and design",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallscribe/",
+    "repo": "https://github.com/sjgant80-hub/fallscribe",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallpage",
+   "category": "Office, notes and design",
+   "retires": "page-layout software (InDesign-style)",
+   "live": "https://sjgant80-hub.github.io/fallpage/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallpage",
+   "branch": "main",
+   "sha": "95ea8838a5f18fa084c983061d31a8d608095460",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084403207,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallpage",
+    "title": "FallPage",
+    "retires": "page-layout software (InDesign-style)",
+    "category": "Office, notes and design",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallpage/",
+    "repo": "https://github.com/sjgant80-hub/fallpage",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallmage",
+   "category": "Office, notes and design",
+   "retires": "photo editing (Photoshop-style)",
+   "live": "https://sjgant80-hub.github.io/fallmage/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallmage",
+   "branch": "main",
+   "sha": "9e1ad8a8086b362a5eda4992ea77725221413ee8",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084438944,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallmage",
+    "title": "FallMage",
+    "retires": "photo editing (Photoshop-style)",
+    "category": "Office, notes and design",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallmage/",
+    "repo": "https://github.com/sjgant80-hub/fallmage",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallscene",
+   "category": "Office, notes and design",
+   "retires": "3D scene software",
+   "live": "https://sjgant80-hub.github.io/fallscene/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallscene",
+   "branch": "main",
+   "sha": "b3e24e9792a738e06623b908c3d7a888aaf234cb",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084481729,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallscene",
+    "title": "FallScene",
+    "retires": "3D scene software",
+    "category": "Office, notes and design",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallscene/",
+    "repo": "https://github.com/sjgant80-hub/fallscene",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallreport",
+   "category": "Office, notes and design",
+   "retires": "a rented analytics suite",
+   "live": "https://sjgant80-hub.github.io/fallreport/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallreport",
+   "branch": "main",
+   "sha": "bf1521e00e0ef5125032b57ff8ed9141c7751ccd",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084534299,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallreport",
+    "title": "FallReport",
+    "retires": "a rented analytics suite",
+    "category": "Office, notes and design",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallreport/",
+    "repo": "https://github.com/sjgant80-hub/fallreport",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallbuild",
+   "category": "Office, notes and design",
+   "retires": "a low-code app builder",
+   "live": "https://sjgant80-hub.github.io/fallbuild/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallbuild",
+   "branch": "main",
+   "sha": "41e57902605cc1d957e7dbd4f534c27055c202d5",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallbuild",
+    "title": "FallBuild",
+    "retires": "a low-code app builder",
+    "category": "Office, notes and design",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallbuild/",
+    "repo": "https://github.com/sjgant80-hub/fallbuild",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallcube-api",
+   "category": "Files, identity and security",
+   "retires": "cloud file storage (Dropbox-style)",
+   "live": "https://sjgant80-hub.github.io/fallcube-api/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallcube-api",
+   "branch": "main",
+   "sha": "a5c3c12ed02128fb0f3c02eb1eca830aeb02dd04",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallcube-api",
+    "title": "FallCube API",
+    "retires": "cloud file storage (Dropbox-style)",
+    "category": "Files, identity and security",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallcube-api/",
+    "repo": "https://github.com/sjgant80-hub/fallcube-api",
+    "studs": {
+     "brain": {
+      "how": "shim",
+      "version": null
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallvault",
+   "category": "Files, identity and security",
+   "retires": "a backup subscription",
+   "live": "https://sjgant80-hub.github.io/fallvault/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallvault",
+   "branch": "main",
+   "sha": "b7190ff39113e0829f72250828f45a732c53cad1",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallvault",
+    "title": "fallvault",
+    "retires": "a backup subscription",
+    "category": "Files, identity and security",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallvault/",
+    "repo": "https://github.com/sjgant80-hub/fallvault",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallstore",
+   "category": "Files, identity and security",
+   "retires": "cloud object storage",
+   "live": "https://sjgant80-hub.github.io/fallstore/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallstore",
+   "branch": "main",
+   "sha": "e1be4b80932a2be4839c2f7ed80fb736138f3fcc",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40020130696,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallstore",
+    "title": "FallStore",
+    "retires": "cloud object storage",
+    "category": "Files, identity and security",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallstore/",
+    "repo": "https://github.com/sjgant80-hub/fallstore",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallpod",
+   "category": "Files, identity and security",
+   "retires": "scattered app data stores",
+   "live": "https://sjgant80-hub.github.io/fallpod/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallpod",
+   "branch": "main",
+   "sha": "4ea8aa547fb8e6d1f665220ec2e4cc912baf32da",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40017325876,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallpod",
+    "title": "FallPod",
+    "retires": "scattered app data stores",
+    "category": "Files, identity and security",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallpod/",
+    "repo": "https://github.com/sjgant80-hub/fallpod",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallid",
+   "category": "Files, identity and security",
+   "retires": "a rented identity provider",
+   "live": "https://sjgant80-hub.github.io/fallid/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallid",
+   "branch": "main",
+   "sha": "c303a4180d521164c8a65270e03fe10fe2eb50d8",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084686579,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallid",
+    "title": "FallID",
+    "retires": "a rented identity provider",
+    "category": "Files, identity and security",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallid/",
+    "repo": "https://github.com/sjgant80-hub/fallid",
+    "studs": {
+     "brain": {
+      "how": "shim",
+      "version": null
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallshield",
+   "category": "Files, identity and security",
+   "retires": "identity verification",
+   "live": "https://sjgant80-hub.github.io/fallshield/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallshield",
+   "branch": "main",
+   "sha": "6079f0aca7db9c6f5323e652a1189d3c13fa3c73",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084723167,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallshield",
+    "title": "fallshield",
+    "retires": "identity verification",
+    "category": "Files, identity and security",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallshield/",
+    "repo": "https://github.com/sjgant80-hub/fallshield",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallroom",
+   "category": "Files, identity and security",
+   "retires": "a rented chat and call room",
+   "live": "https://sjgant80-hub.github.io/fallroom/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallroom",
+   "branch": "main",
+   "sha": "bbd0d940482f2cdab3f07362fe9e8e971504f7da",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallroom",
+    "title": "Fallroom",
+    "retires": "a rented chat and call room",
+    "category": "Files, identity and security",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallroom/",
+    "repo": "https://github.com/sjgant80-hub/fallroom",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": true
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallmail",
+   "category": "Files, identity and security",
+   "retires": "a hosted email service",
+   "live": "https://sjgant80-hub.github.io/fallmail/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallmail",
+   "branch": "main",
+   "sha": "aaaf1bb0fabafc5c4f2222844d48806c8726dfda",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40084768413,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallmail",
+    "title": "FallMail",
+    "retires": "a hosted email service",
+    "category": "Files, identity and security",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallmail/",
+    "repo": "https://github.com/sjgant80-hub/fallmail",
+    "studs": {
+     "brain": {
+      "how": "shim",
+      "version": null
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallslot",
+   "category": "Bookings, forms and marketing",
+   "retires": "a scheduling link service (Calendly-style)",
+   "live": "https://sjgant80-hub.github.io/fallslot/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallslot",
+   "branch": "main",
+   "sha": "f9dd00d895027c78d74acf9c59859d61199a5155",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40017679358,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallslot",
+    "title": "FallSlot",
+    "retires": "a scheduling link service (Calendly-style)",
+    "category": "Bookings, forms and marketing",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallslot/",
+    "repo": "https://github.com/sjgant80-hub/fallslot",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallform",
+   "category": "Bookings, forms and marketing",
+   "retires": "a forms subscription (Typeform-style)",
+   "live": "https://sjgant80-hub.github.io/fallform/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallform",
+   "branch": "main",
+   "sha": "0a2de5c965c1aa48c7838f3f9853c8d95eaa0e3e",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40017752470,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallform",
+    "title": "FallForm",
+    "retires": "a forms subscription (Typeform-style)",
+    "category": "Bookings, forms and marketing",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallform/",
+    "repo": "https://github.com/sjgant80-hub/fallform",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "falllist",
+   "category": "Bookings, forms and marketing",
+   "retires": "a newsletter platform",
+   "live": "https://sjgant80-hub.github.io/falllist/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/falllist",
+   "branch": "main",
+   "sha": "02fddb54ef51c3c04b47e229fd65f66adb5da5ac",
+   "runs": [
+    {
+     "workflow": "gate",
+     "id": 40017834455,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "falllist",
+    "title": "FallList",
+    "retires": "a newsletter platform",
+    "category": "Bookings, forms and marketing",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/falllist/",
+    "repo": "https://github.com/sjgant80-hub/falllist",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 1,
+      "tests": 1
+     }
+    },
+    "fits": true
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallhub",
+   "category": "Bookings, forms and marketing",
+   "retires": "booking channels and a shared inbox",
+   "live": "https://sjgant80-hub.github.io/fallhub/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallhub",
+   "branch": "main",
+   "sha": "49ab0957c6ca90af96ac98c64fecd4c61d7e986a",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallhub",
+    "title": "FallHub",
+    "retires": "booking channels and a shared inbox",
+    "category": "Bookings, forms and marketing",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallhub/",
+    "repo": "https://github.com/sjgant80-hub/fallhub",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "glampos",
+   "category": "Bookings, forms and marketing",
+   "retires": "site automation for small stays",
+   "live": "https://sjgant80-hub.github.io/glampos/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/glampos",
+   "branch": "main",
+   "sha": "89297553743b812532fbb4810cabbc637cebcd29",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "glampos",
+    "title": "GLAMPOS",
+    "retires": "site automation for small stays",
+    "category": "Bookings, forms and marketing",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/glampos/",
+    "repo": "https://github.com/sjgant80-hub/glampos",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 1
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "roost",
+   "category": "Bookings, forms and marketing",
+   "retires": "a booking marketplace with fees",
+   "live": "https://sjgant80-hub.github.io/roost/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/roost",
+   "branch": "main",
+   "sha": "48fa8cfe0fdd41da0ef0f3121e6a530849f8f02c",
+   "runs": [
+    {
+     "workflow": "CI",
+     "id": 40084810146,
+     "status": "completed",
+     "conclusion": "success"
+    },
+    {
+     "workflow": "gate",
+     "id": 40084810119,
+     "status": "completed",
+     "conclusion": "success"
+    }
+   ],
+   "verdict": "green",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "roost",
+    "title": "Roost",
+    "retires": "a booking marketplace with fees",
+    "category": "Bookings, forms and marketing",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/roost/",
+    "repo": "https://github.com/sjgant80-hub/roost",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": false,
+      "localstorage": false
+     },
+     "proof": {
+      "workflows": 2,
+      "tests": 1
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  },
+  {
+   "name": "fallcarousel",
+   "category": "Bookings, forms and marketing",
+   "retires": "a social-carousel design tool",
+   "live": "https://sjgant80-hub.github.io/fallcarousel/",
+   "status": 200,
+   "repo": "https://github.com/sjgant80-hub/fallcarousel",
+   "branch": "main",
+   "sha": "b652b69b7d427fd8c3696ed7e45b0fd2accb2052",
+   "runs": [],
+   "verdict": "none",
+   "kard": {
+    "kind": "kard.v1",
+    "name": "fallcarousel",
+    "title": "fallcarousel",
+    "retires": "a social-carousel design tool",
+    "category": "Bookings, forms and marketing",
+    "license": "MIT",
+    "live": "https://sjgant80-hub.github.io/fallcarousel/",
+    "repo": "https://github.com/sjgant80-hub/fallcarousel",
+    "studs": {
+     "brain": {
+      "how": "inline",
+      "version": "3.1.0"
+     },
+     "mesh": {
+      "device": true,
+      "peer": false
+     },
+     "memory": {
+      "indexeddb": true,
+      "localstorage": true
+     },
+     "proof": {
+      "workflows": 0,
+      "tests": 0
+     }
+    },
+    "fits": false
+   },
+   "kardWhy": null
+  }
+ ]
+}

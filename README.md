@@ -53,6 +53,9 @@ is off, and your page does its own thing.
 - CI also checks this repo's own `kard.json` and runs the mutation witness on `socket.mjs` and `recycle.mjs`:
   every planted bug must be caught.
 - The `gate` workflow checks the page: scripts parse, no placeholders, no dead links, no committed keys.
+- `node socket-snapshot.mjs` writes `socket-kards.json`: for each build its kard, the commit its site serves, every
+  GitHub run on that commit and `verdictOf` them (green only when one succeeded and none failed), and its live status.
+  Kardlings vendors it byte for byte to make its gear cards; each run id is a receipt.
 - The `socket-watch` workflow clones all 100 builds daily and re-measures each against its own `kard.json`
   (`node socket-watch.mjs [name...]`); a kard that no longer matches its build turns it red, by name.
 

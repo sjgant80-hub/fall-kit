@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { KARD, STUDS, HOST, REPOS, studsOf, present, kardOf, checkKard, kardText } from './socket.mjs';
+import { KARD, STUDS, HOST, REPOS, studsOf, present, kardOf, checkKard, kardText, verdictOf } from './socket.mjs';
 
 const KIT = '<!-- FALL_KIT_BEGIN v1 · DO NOT EDIT THIS BLOCK MANUALLY -->\n<script>/*!\n * Fall Kit · v3.0.0 · the shared cascade\n */</script>\n<!-- FALL_KIT_END v1 -->';
 const FULL = { html: '<html>' + KIT + '<script>indexedDB.open("x"); new RTCPeerConnection();</script></html>', files: ['index.html', '.github/workflows/gate.yml', '.github/workflows/ci.yaml', 'test.mjs', 'src/a.test.mjs', 'tools/x.mjs'] };
@@ -129,7 +129,20 @@ test('the builds that carry the socket: 100 named repositories, each with a cate
   }
 });
 
+test('a build’s tests on GitHub: green only when one succeeded and none failed or is still running', () => {
+  const run = (conclusion, status = 'completed') => ({ workflow: 'gate', id: 1, status, conclusion });
+  assert.equal(verdictOf([run('success')]), 'green');
+  assert.equal(verdictOf([run('success'), run('skipped'), run('neutral')]), 'green', 'a skipped or neutral run does not count against it');
+  assert.equal(verdictOf([run('skipped')]), 'none', 'nothing succeeded');
+  for (const c of ['failure', 'cancelled', 'timed_out', 'action_required', 'startup_failure', 'stale', null, 'odd']) assert.equal(verdictOf([run('success'), run(c)]), 'red', String(c));
+  assert.equal(verdictOf([run('success'), run(null, 'in_progress')]), 'running');
+  assert.equal(verdictOf([run('failure'), run(null, 'queued')]), 'red', 'a failure outranks a run still going');
+  assert.equal(verdictOf([run('success', 'in_progress')]), 'running', 'a run is finished only when its status says so');
+  for (const junk of [[], null, 5, 'x', {}, [5, 'x', null]]) assert.equal(verdictOf(junk), 'none');
+  assert.equal(verdictOf([run('success'), 5, null]), 'green', 'anything that is not a run is not counted');
+});
+
 test('fuzz: junk into every function is refused or answered, never thrown', () => {
   const junk = [undefined, null, 0, -1, 1.5, NaN, '', 'x', [], [1], {}, { a: 1 }, () => 1, true, { html: '', files: [] }, { studs: {} }];
-  for (const a of junk) for (const b of junk) { studsOf(a); present(a); kardOf(a, b); checkKard(a); }
+  for (const a of junk) for (const b of junk) { studsOf(a); present(a); kardOf(a, b); checkKard(a); verdictOf(a); verdictOf([a, b]); }
 });

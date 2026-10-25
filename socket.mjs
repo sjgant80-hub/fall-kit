@@ -94,3 +94,17 @@ export function checkKard(x) {
 
 /** a kard as the file holds it: two-space JSON in the field order kardOf writes, and a final newline */
 export const kardText = (kard) => JSON.stringify(kard, null, 2) + '\n';
+
+const PASS = ['success', 'skipped', 'neutral'];
+/**
+ * Did a build's tests pass on GitHub? runs: every workflow run on the commit its site serves (deploy runs left out), as
+ * GitHub lists them: { workflow, id, status, conclusion }; anything else in the list is not a run. → 'green' (one
+ * succeeded and every other passed or was skipped) | 'red' (a finished run did not pass) | 'running' (one is still going,
+ * none failed) | 'none' (no run, or none that succeeded).
+ */
+export function verdictOf(runs) {
+  const rows = Array.isArray(runs) ? runs.filter(isObj) : [];
+  if (rows.some((r) => r.status === 'completed' && PASS.indexOf(r.conclusion) < 0)) return 'red';
+  if (rows.some((r) => r.status !== 'completed')) return 'running';
+  return rows.some((r) => r.conclusion === 'success') ? 'green' : 'none';
+}
