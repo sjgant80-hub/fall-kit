@@ -24,6 +24,13 @@ by answers that check, routing around a dead node or relay, a shared map by CRDT
 sealed first (`core/phase3/claims.json`): 11 held, 2 failed and kept (J3, J4: each asker routes on its own evidence).
 Run a mesh in your browser on the page, or re-run the whole thing with `node core/phase3/measure.mjs --check`.
 
+**Live: https://sjgant80-hub.github.io/fall-kit/core/phase3/#fix** — Phase 3b, the fix for J3 and J4: routing that shares
+what it learns (`core/node.mjs`). Askers share signed notes of a silence or a lie, nothing moves until the receiver's own
+check agrees (the liar's own signed answer, or its own unanswered probe), and every asker tries every holder once. Four
+claims sealed first (`core/phase3b/claims.json`), measured on Phase 3's scenario with Phase 3's routing as the control:
+1 ask to the dead node instead of 4, the dishonest link at 3.1% instead of 50%; W1–W3 held, W4 failed and kept (four false
+notes answered "already judged" instead of refused; none moved a link). Re-run it with `node core/phase3b/measure.mjs --check`.
+
 ## v3.2.0
 
 - **The mesh speaks LIGHT.** Every message on the same-device mesh is a LIGHT packet signed by this device's own

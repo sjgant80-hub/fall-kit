@@ -88,3 +88,16 @@ test('credits, supplier, honest scope, and no price of our own', () => {
   assert.doesNotMatch(html.replace(/<script[\s\S]*?<\/script>/g, ''), /[£$€]\s?\d/, 'no prices on the page itself — the cost case prints only AWS list prices, at run time');
   assert.doesNotMatch(html + js, /si-didy|KCC|kcc-/i, 'no private names');
 });
+
+test('Phase 3b on this page: the fix explains itself, its receipt is re-judged in the tab as CI judged it, and its failure is read plainly', async () => {
+  for (const id of ['fix', 'w-sum', 'w-rows', 'w-compare', 'w4-line', 't-dead']) assert.ok(ids.has(id), 'no #' + id);
+  for (const h of ['What changed, in plain words', 'The receipt', 'Phase 3\'s routing against the routing that shares, on the same run', 'W4, the one that failed, read plainly', 'What it costs, and how close it came']) assert.ok(html.includes('<h3>' + h + '</h3>'), 'no "' + h + '"');
+  assert.ok((html.match(/<svg viewBox/g) || []).length >= 3, 'the fix has its diagram');
+  assert.match(html, /<a href="#fix">The fix<\/a>/, 'the nav reaches it');
+  const { judge: judge3b } = await import('../phase3b/judge.mjs');
+  const receipt = JSON.parse(readFileSync(join(HERE, '..', 'receipts', 'phase3b.json'), 'utf8')), claims = JSON.parse(readFileSync(join(HERE, '..', 'phase3b', 'claims.json'), 'utf8'));
+  assert.match(js, /judge3b\(claims, receipt\.facts\)/, 'the page judges the Phase 3b receipt\'s facts as they are');
+  assert.match(js, /getJson\('\.\.\/phase3b\/claims\.json'\), getJson\('\.\.\/receipts\/phase3b\.json'\)/);
+  assert.deepEqual(judge3b(claims, receipt.facts).verdicts, receipt.verdicts);
+  for (const v of receipt.verdicts.filter((x) => x.held === false)) assert.match(html, new RegExp('<h3>' + v.id + ', the one that failed, read plainly</h3>'), v.id + ' failed and the page must say why');
+});
