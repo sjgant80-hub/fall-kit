@@ -1,0 +1,265 @@
+{
+ "kind": "fall-kit.core.phase2.receipt",
+ "v": 1,
+ "sealedIn": "4166de40a7703d7af3ae9693d614519959dbd29b",
+ "corpus": {
+  "fall-kit": "b19478fd0dba6af9495afce37cdd1cb3c2861be5",
+  "break-it": "5c9b91eae746120adcf43a0c77c18e1bdb6763ff",
+  "konomi-slm": "faf44f7896e9d9def45e5a407cb3d9ca5dc31c1d",
+  "kar-mind": "3a8890756c02dfe61d54c34e4d8261fc2100d922",
+  "konomi-tongue": "c5ef3dafb453a175cca3561f6df1f3e650d34298"
+ },
+ "facts": {
+  "passes": [
+   1
+  ],
+  "pass1": {
+   "corpus": {
+    "files": 578,
+    "perRepo": {
+     "break-it": 103,
+     "fall-kit": 66,
+     "kar-mind": 109,
+     "konomi-slm": 134,
+     "konomi-tongue": 166
+    },
+    "payloads": 5532,
+    "byKind": {
+     "other": 655,
+     "JavaScript": 1415,
+     "Markdown": 65,
+     "JSON": 665,
+     "HTML": 90,
+     "HTTP": 1142,
+     "form": 500,
+     "random": 1000
+    },
+    "digest": "0166e1b5e0cecf3981f66989502c6945a0275b261c06105f077e2916fb22e4bf",
+    "jsonValues": 4671
+   },
+   "slots": {
+    "barrier": 238,
+    "friend": 108,
+    "edge": 12,
+    "stranger": 189
+   },
+   "g1": {
+    "heard": 5532,
+    "admitted": 0,
+    "decoded": 0,
+    "recognised": 320,
+    "stages": {
+     "size": 365,
+     "magic": 5167
+    }
+   },
+   "g2": {
+    "kinds": {
+     "unsigned": {
+      "n": 1000,
+      "admitted": 0,
+      "decoded": 0,
+      "stages": {
+       "signature": 1000
+      }
+     },
+     "unpinned": {
+      "n": 1000,
+      "admitted": 0,
+      "decoded": 0,
+      "stages": {
+       "sender": 1000
+      }
+     },
+     "tampered": {
+      "n": 1000,
+      "admitted": 0,
+      "decoded": 0,
+      "stages": {
+       "signature": 1000
+      }
+     },
+     "replayed": {
+      "n": 1000,
+      "admitted": 0,
+      "decoded": 0,
+      "stages": {
+       "counter": 1000
+      }
+     },
+     "dictionary": {
+      "n": 1000,
+      "admitted": 0,
+      "decoded": 0,
+      "stages": {
+       "dictionary": 1000
+      }
+     },
+     "length": {
+      "n": 1000,
+      "admitted": 0,
+      "decoded": 0,
+      "stages": {
+       "length": 1000
+      }
+     }
+    },
+    "firstHearings": {
+     "n": 1000,
+     "admitted": 1000
+    }
+   },
+   "g3": {
+    "n": 4671,
+    "admitted": 4671,
+    "equal": 4671
+   },
+   "e1": {
+    "good": {
+     "n": 133,
+     "admitted": 133,
+     "equal": 133,
+     "skipped": 0
+    },
+    "bad": {
+     "n": 532,
+     "refused": 532,
+     "packets": 0,
+     "stages": {
+      "json": 133,
+      "utf8": 133,
+      "shape": 133,
+      "size": 133
+     }
+    }
+   },
+   "e2": {
+    "n": 20000,
+    "inbound": 10000,
+    "outbound": 10000,
+    "throws": 0,
+    "malformed": 0
+   },
+   "e3": {
+    "g3": {
+     "n": 4671,
+     "roundTrip": 4671
+    },
+    "g2": {
+     "n": 6000,
+     "output": 0
+    }
+   }
+  }
+ },
+ "verdicts": [
+  {
+   "id": "G1",
+   "pass": 1,
+   "held": true,
+   "measured": "5532 standard-format payloads heard: 0 admitted, 0 decoded; refused at size 365, magic 5167",
+   "predicted": "HOLD — by construction most fail at the first four bytes; what this adds is that it is measured on the estate's real bytes, not argued"
+  },
+  {
+   "id": "G2",
+   "pass": 1,
+   "held": true,
+   "measured": "unsigned 1000 (signature 1000); unpinned 1000 (sender 1000); tampered 1000 (signature 1000); replayed 1000 (counter 1000); dictionary 1000 (dictionary 1000); length 1000 (length 1000)",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "G3",
+   "pass": 1,
+   "held": true,
+   "measured": "4671 packets a pinned peer signed: 4671 admitted, 4671 equal to what was sent, after the node had learned from every refusal above",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "E1",
+   "pass": 1,
+   "held": true,
+   "measured": "133 well-formed requests: 133 admitted, 133 equal; 532 malformed: 532 refused (json 133, utf8 133, shape 133, size 133), 0 packets built",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "E2",
+   "pass": 1,
+   "held": true,
+   "measured": "20000 garbage inputs (10000 in, 10000 out): 0 throws, 0 results that were neither a refusal with a stage nor a well-formed result",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "E3",
+   "pass": 1,
+   "held": true,
+   "measured": "4671 trusted packets out through the edge: 4671 parsed back exactly; 6000 untrusted packets: 0 produced output",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "M1",
+   "pass": 2,
+   "held": null,
+   "measured": "not measured yet: pass 2",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "M2",
+   "pass": 2,
+   "held": null,
+   "measured": "not measured yet: pass 2",
+   "predicted": "unsure — LIGHT beat Brotli on small messages and tied it overall; a journal is repetitive JSON, where gzip is strong"
+  },
+  {
+   "id": "M3",
+   "pass": 2,
+   "held": null,
+   "measured": "not measured yet: pass 2",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "I1",
+   "pass": 3,
+   "held": null,
+   "measured": "not measured yet: pass 3",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "B1",
+   "pass": 4,
+   "held": null,
+   "measured": "not measured yet: pass 4",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "B2",
+   "pass": 4,
+   "held": null,
+   "measured": "not measured yet: pass 4",
+   "predicted": "unsure — about 99 builds, and some pages were broken before the socket repaired them"
+  },
+  {
+   "id": "C1",
+   "pass": 5,
+   "held": null,
+   "measured": "not measured yet: pass 5",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "C2",
+   "pass": 5,
+   "held": null,
+   "measured": "not measured yet: pass 5",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "C3",
+   "pass": 5,
+   "held": null,
+   "measured": "not measured yet: pass 5",
+   "predicted": "unsure — it rests on B2"
+  }
+ ],
+ "held": 6,
+ "failed": 0,
+ "open": 9
+}

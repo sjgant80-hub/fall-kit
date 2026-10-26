@@ -10,6 +10,8 @@ https://sjgant80-hub.github.io/fall-kit/
 
 https://sjgant80-hub.github.io/fall-kit/core/ — the modules every estate node runs: a LIGHT packet door that verifies before it decodes (vendor/light), antibodies on the LIGHT wire shared by negative selection (antibody.mjs, vendor/immune), identity as a capability with a budget it cannot cross (identity.mjs, vendor/wallet), geometric memory kept as a LIGHT vault (vendor/memory), a signed contribution ledger counting only re-checkable work (vendor/ledger), and evidence-weighted couplings (node.mjs). break-it and konomi-slm run on it as nodes. Nine claims sealed first (core/claims.json); the receipt (core/receipts/foundation.json) re-runs byte for byte in CI.
 
+https://sjgant80-hub.github.io/fall-kit/core/phase2/ — Phase 2, LIGHT everywhere: the estate keeps and carries everything as signed LIGHT packets checked before they are read, and one thin, mutation-tested edge (core/edge.mjs) turns outside JSON into signed packets and back, refusing anything malformed at a named stage (size, UTF-8, JSON, declared shape). Fifteen claims sealed first over five passes (core/phase2/claims.json); pass 1 measured the door on 5,532 payloads in standard formats from five pinned public repos (none admitted, none decoded), 6,000 LIGHT packets no trusted key signed (each refused at its own stage), and 4,671 trusted packets (all admitted intact). The receipt (core/receipts/phase2.json) re-runs byte for byte in CI.
+
 ## Files
 
 - fall-kit.js: the kit (FallKit global): aiComplete, aiChat, askPage, pageOpening, aiImage, aiVideo, aiTTS, aiSTT, lastUsage, forgetKeys, requestOf, textOf, usageOf, init, openSettings, meshStart, meshPost, helpSection

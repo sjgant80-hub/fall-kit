@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>LIGHT everywhere · Fall Kit core, phase 2</title>
+<meta name="description" content="Phase 2 of the estate going live: every part of the estate keeps and carries what it knows in one signed format, LIGHT, and only a thin, tested edge speaks the outside's formats. Measured on the estate's own files: bytes in any standard format never pass the door, packets no trusted key signed never pass, and everything a trusted key signs gets through intact. Try the door and the edge in your browser.">
+<link rel="canonical" href="https://sjgant80-hub.github.io/fall-kit/core/phase2/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Fall Kit core, phase 2 — LIGHT everywhere","codeRepository":"https://github.com/sjgant80-hub/fall-kit","programmingLanguage":"JavaScript","license":"https://opensource.org/licenses/MIT","description":"The estate's parts keep and carry everything as signed LIGHT packets checked before they are read; a thin, mutation-tested edge turns outside JSON into signed packets and back, refusing anything malformed at a named stage.","author":{"@type":"Organization","name":"AI Native Solutions","url":"https://www.ai-nativesolutions.com"}}</script>
+<script type="application/ld+json" id="faq-ld">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is LIGHT?","acceptedAnswer":{"@type":"Answer","text":"The estate's own compact message format: a lossless coder, a signed packet, and a door every packet passes before it is read. A packet carries who sent it, a counter so it cannot be replayed, and an Ed25519 signature; the door checks all of that on the raw bytes before decoding a single byte of the body."}},{"@type":"Question","name":"What does 'LIGHT everywhere' change?","acceptedAnswer":{"@type":"Answer","text":"The estate's parts keep and carry what they know as signed LIGHT, so there is one format to check, one door, and no part that parses untrusted bytes. The outside world still speaks JSON and the web, so one thin edge takes those in, checks them against a declared shape, and re-says them inside as signed packets."}},{"@type":"Question","name":"Does LIGHT stop harmful content?","acceptedAnswer":{"@type":"Answer","text":"No, and it does not claim to. The signature and the counter keep out bytes that no trusted key signed. Content carried inside a packet a trusted key did sign is decoded faithfully, and the part that uses it must still judge it. A stolen key and a compromised machine are outside what it protects."}},{"@type":"Question","name":"How was it measured?","acceptedAnswer":{"@type":"Answer","text":"Fifteen claims were committed before any Phase 2 code existed. The first six were measured on a corpus pinned to five public repositories: every file, cut four ways, plus web requests to every live estate page, form bodies and random bytes. A pure judge turns the facts into verdicts, and CI re-runs the whole measurement and demands the same receipt byte for byte."}},{"@type":"Question","name":"What does it cost?","acceptedAnswer":{"@type":"Answer","text":"It is MIT-licensed, with no licence fee, and runs on machines you already have. The cost case on this page is the one the foundation's own page uses: the same traffic sent through a managed API gateway and firewall, at dated public list prices."}}]}</script>
+<style>
+:root{--void:#1a1612;--void-2:#231f1a;--ink:#2b2722;--line:#3a342c;--line-soft:#2e2922;--cream:#ebe3d2;--cream-dim:#a89e88;--cream-muted:#736b5a;--brass:#c08a3a;--amber:#e8a83a;--leaf:#6b8d4a;--rust:#c25a35;
+--serif:Georgia,'Times New Roman',ui-serif,serif;--sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--void);color:var(--cream);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--brass);text-decoration:none}a:hover{text-decoration:underline}
+code,pre,.mono{font-family:var(--mono)}
+code{background:var(--ink);padding:1px 5px;border-radius:2px;font-size:12.5px;color:var(--brass);word-break:break-word}
+pre{background:var(--ink);padding:14px 16px;border-radius:4px;border:1px solid var(--line);overflow-x:auto;color:var(--cream-dim);line-height:1.55;font-size:12px;margin:10px 0 14px}
+header{background:var(--void-2);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{width:32px;height:32px;background:linear-gradient(135deg,var(--brass),var(--amber));border-radius:5px;display:grid;place-items:center;font:700 18px var(--serif);color:var(--void)}
+.name{font:700 18px var(--serif)}.sub{font:9px var(--mono);color:var(--cream-muted);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+header nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}header nav a{color:var(--cream-dim);font-size:13px}
+main{max-width:900px;margin:0 auto;padding:30px 24px 100px}
+h1{font:700 30px/1.15 var(--serif);margin-bottom:12px}
+h2{font:700 22px var(--serif);margin:42px 0 10px;color:var(--brass)}
+h3{font:700 16px var(--serif);margin:20px 0 8px}
+p{margin-bottom:12px}ul,ol{margin:0 0 14px 24px}li{margin-bottom:5px;color:var(--cream-dim)}
+.lede{font-size:17px;color:var(--cream-dim);margin-bottom:16px}
+.small{font-size:13px}
+.hero{background:linear-gradient(135deg,rgba(192,138,58,.10),rgba(107,141,74,.04));border:1px solid var(--brass);border-radius:5px;padding:24px 28px;margin-bottom:22px}
+.seal{font:10px var(--mono);color:var(--cream-muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.tile{background:var(--void-2);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.tile b{display:block;font:700 22px var(--serif);color:var(--brass)}.tile span{font-size:12px;color:var(--cream-dim)}
+.btn{padding:9px 16px;background:var(--brass);color:var(--void);border:none;border-radius:3px;font:600 13px var(--sans);cursor:pointer}
+.btn:hover{background:var(--amber)}
+.btn.ghost{background:transparent;color:var(--cream-dim);border:1px solid var(--line)}
+.chip{padding:5px 10px;background:transparent;color:var(--cream-dim);border:1px solid var(--line);border-radius:999px;font:12px var(--sans);cursor:pointer;margin:4px 6px 0 0}
+.box{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin:16px 0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}
+textarea{width:100%;min-height:84px;padding:9px 10px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:12.5px/1.5 var(--mono);resize:vertical}
+label.blk{display:block;font-size:12px;color:var(--cream-dim);margin:8px 0 4px}
+.out{margin-top:10px;font-size:13.5px;color:var(--cream-dim);min-height:1.5em;word-break:break-word}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:var(--void-2);padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.08em;text-transform:uppercase}
+td{padding:8px 10px;border-bottom:1px solid var(--line-soft);color:var(--cream-dim);vertical-align:top}
+.scroll{overflow-x:auto}
+.ok{color:var(--leaf);font-weight:600}.no{color:var(--rust);font-weight:600}.dim{color:var(--cream-muted)}
+.tag{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;padding:2px 6px;border-radius:2px}
+.tag.held{background:rgba(107,141,74,.2);color:var(--leaf)}.tag.failed{background:rgba(194,90,53,.2);color:var(--rust)}.tag.na{background:var(--void-2);color:var(--cream-muted)}
+.diagram{margin:14px 0;background:var(--ink);border:1px solid var(--line);border-radius:5px;padding:12px;overflow-x:auto}
+.diagram svg{width:100%;min-width:620px;height:auto;display:block}
+.diagram .b{fill:var(--void-2);stroke:var(--line);stroke-width:1.5}.diagram .hot{stroke:var(--brass)}
+.diagram .t{fill:var(--cream);font:700 14px var(--serif)}.diagram .s{fill:var(--cream-dim);font:11.5px var(--sans)}
+.diagram .ln{fill:none;stroke:var(--brass);stroke-width:1.8}.diagram .no-ln{fill:none;stroke:var(--rust);stroke-width:1.8;stroke-dasharray:5 4}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:8px 0 12px}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--cream-dim)}
+.calc input,.calc select{padding:7px 9px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:inherit;width:100%}
+.line{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-soft);padding:5px 0;font-size:13px}
+.line span:last-child{font-family:var(--mono);color:var(--cream)}
+.bottom{font-size:15px;margin:6px 0 10px}
+details{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:600;color:var(--cream)}
+.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.06em;text-align:center;line-height:1.9}
+.foot a{color:var(--cream-dim)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media (max-width:640px){header{padding:12px 16px}main{padding:22px 16px 80px}.hero{padding:18px 16px}h1{font-size:24px}.lede{font-size:15.5px}th,td{padding:6px 7px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="mark" aria-hidden="true">F</div><div><div class="name">Fall Kit · core</div><div class="sub">phase 2 · LIGHT everywhere</div></div></div>
+  <nav aria-label="Sections"><a href="#start">Start here</a><a href="#try">Try the door</a><a href="#how">How it works</a><a href="#receipt">Receipt</a><a href="#blueprint">Blueprint</a><a href="#business">For a business</a><a href="#paper">Paper</a><a href="../">Phase 1</a></nav>
+</header>
+<main>
+
+<section class="hero" aria-labelledby="what">
+  <div class="seal">Phase 2 of the estate going live · fifteen claims sealed before the code</div>
+  <h1 id="what">One language inside, and one checked edge to the outside</h1>
+  <p class="lede">LIGHT is the estate's own compact message format. A LIGHT packet carries who sent it, a counter so it can never be replayed, and a signature, and the door checks all of that on the raw bytes before it reads a single byte of the body. Phase 2 makes LIGHT the language every part of the estate keeps and carries things in. The outside still speaks JSON and the web, so one thin edge takes those in, checks them against a declared shape, and re-says them inside as signed packets.</p>
+  <p>The point is that nothing inside ever parses bytes it cannot trust. Bytes in any other format stop at the first four. Bytes in LIGHT's own format that no trusted key signed stop at the sender or the signature. Everything a trusted key does sign gets through, intact.</p>
+  <div class="tiles" aria-live="polite">
+    <div class="tile"><b id="t-g1">…</b><span>payloads in standard formats heard: none admitted, none decoded</span></div>
+    <div class="tile"><b id="t-g2">…</b><span>LIGHT packets no trusted key signed: none admitted</span></div>
+    <div class="tile"><b id="t-g3">…</b><span>packets a trusted key signed, admitted intact</span></div>
+    <div class="tile"><b id="t-held">…</b><span>claims measured so far, holding</span></div>
+  </div>
+  <div class="row"><a class="btn" href="#try">Try the door in this tab</a><a class="btn ghost" href="#paper">Read the paper</a></div>
+</section>
+
+<h2 id="start">Start here</h2>
+<h3>If you want to see it work</h3>
+<ol>
+  <li><b>Throw anything at the door.</b> Paste text, JSON, a web request, anything, or pick an example. Press <b>Hear it</b>: the door says exactly where it stopped it, and that it never decoded the body.</li>
+  <li><b>Make a real packet.</b> Press <b>Sign it as a packet</b>: the same text, signed with a public test key the door has pinned. It is admitted. Then press <b>Change one byte</b> (refused at the signature) and <b>Send it again</b> (refused at the counter).</li>
+  <li><b>Go through the edge.</b> Give the edge an example of what it should accept, then a request. A request that fits becomes a signed packet inside and comes back out as the same JSON; one that does not is refused at a named stage and no packet is built.</li>
+  <li><b>Read the receipt.</b> The measured claims below are re-judged in your tab from the receipt's own facts.</li>
+</ol>
+<h3>If you build an app</h3>
+<p>The edge is one module in the shared foundation (<code>core/edge.mjs</code>). Copy the foundation into your repo with <code>node core/tools/vendor-into.mjs &lt;your repo&gt;</code>, then:</p>
+<pre>import { sealInside, outbound, shapeOf } from './vendor/fall-kit-core/edge.mjs';
+
+// declare what this edge accepts (or write the shape by hand: string, int, list, object, any…)
+const shape = shapeOf({ customer: 'ACME', amount: 12, lines: [{ sku: 'X1', qty: 1 }] });
+
+// outside → inside: checked (size, UTF-8, JSON, shape), then signed by the edge's own key
+const inn = await sealInside(requestBytes, { shape, sender: edge.slot, counter }, edge.sign);
+if (!inn.ok) return reply(400, inn.stage + ': ' + inn.why);          // no packet was built
+node.hear(inn.bytes);                                                  // inside, only signed LIGHT
+
+// inside → outside: through the door first, then standard JSON
+const out = await outbound(packetBytes, { peers, verifyBytes, lastCounter });
+if (out.ok) reply(200, out.json);</pre>
+
+<h2 id="try">Try the door</h2>
+<div class="box">
+  <label class="blk" for="d-in">Anything at all</label>
+  <textarea id="d-in" spellcheck="false">{"customer": "ACME", "amount": 12}</textarea>
+  <div aria-label="Examples">
+    <button class="chip" type="button" data-try='{"customer": "ACME", "amount": 12}'>JSON</button>
+    <button class="chip" type="button" data-try="GET /fall-kit/ HTTP/1.1&#13;&#10;Host: sjgant80-hub.github.io&#13;&#10;&#13;&#10;">a web request</button>
+    <button class="chip" type="button" data-try="&lt;html&gt;&lt;body&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;">HTML</button>
+    <button class="chip" type="button" data-try="LGT1 this starts like LIGHT but is not a packet, just text that happens to begin with the right four letters and is long enough to be read past the size check">text that starts with LGT1</button>
+  </div>
+  <div class="row"><button class="btn" id="d-hear" type="button">Hear it</button><button class="btn ghost" id="d-make" type="button">Sign it as a packet</button><button class="btn ghost" id="d-flip" type="button">Change one byte</button><button class="btn ghost" id="d-again" type="button">Send it again</button></div>
+  <p class="small dim" id="d-pkt"></p>
+  <p class="out" id="d-out" aria-live="polite">The verdict appears here.</p>
+</div>
+<h3>Through the edge</h3>
+<div class="box">
+  <label class="blk" for="e-shape">An example of what this edge accepts (its exact shape is declared from it)</label>
+  <textarea id="e-shape" spellcheck="false">{"customer": "ACME", "amount": 12}</textarea>
+  <label class="blk" for="e-in">A request from outside</label>
+  <textarea id="e-in" spellcheck="false">{"customer": "ACME", "amount": 12}</textarea>
+  <div class="row"><button class="btn" id="e-go" type="button">Send it through the edge</button><span class="small dim">Try changing the amount, adding a field, or breaking the JSON.</span></div>
+  <p class="out" id="e-out" aria-live="polite">The result appears here.</p>
+</div>
+<p class="small dim">These run the real door and the real edge in your tab, with public test keys (fixed seeds; never use them for anything real). Nothing leaves the page.</p>
+
+<h2 id="how">How it works</h2>
+<div class="diagram" role="img" aria-label="Outside requests pass the edge's checks and are signed into LIGHT packets; inside, every packet passes the door before it is read; going out, the door comes first and then the edge says it as JSON">
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <rect class="b" x="14" y="40" width="150" height="80" rx="6"/><text class="t" x="89" y="72" text-anchor="middle">the outside</text><text class="s" x="89" y="92" text-anchor="middle">JSON, HTML, web requests</text>
+  <rect class="b hot" x="214" y="20" width="200" height="120" rx="6"/><text class="t" x="314" y="46" text-anchor="middle">the edge</text><text class="s" x="314" y="68" text-anchor="middle">size → UTF-8 → JSON → shape</text><text class="s" x="314" y="88" text-anchor="middle">then signed by the edge's key</text><text class="s" x="314" y="108" text-anchor="middle">refused: no packet is built</text>
+  <rect class="b hot" x="464" y="20" width="150" height="120" rx="6"/><text class="t" x="539" y="46" text-anchor="middle">the door</text><text class="s" x="539" y="68" text-anchor="middle">size · magic · version</text><text class="s" x="539" y="86" text-anchor="middle">length · dictionary</text><text class="s" x="539" y="104" text-anchor="middle">sender · signature · counter</text><text class="s" x="539" y="122" text-anchor="middle">then, only then, the body</text>
+  <rect class="b" x="654" y="40" width="96" height="80" rx="6"/><text class="t" x="702" y="72" text-anchor="middle">an organ</text><text class="s" x="702" y="92" text-anchor="middle">reads LIGHT</text>
+  <path class="ln" d="M164 80 L214 80 M414 80 L464 80 M614 80 L654 80"/>
+  <path class="no-ln" d="M314 140 L314 190 M539 140 L539 190"/>
+  <text class="s" x="314" y="208" text-anchor="middle">malformed, oversized, off-shape</text><text class="s" x="539" y="208" text-anchor="middle">other formats, unsigned, forged, replayed</text>
+  <rect class="b" x="214" y="232" width="400" height="46" rx="6"/><text class="s" x="414" y="252" text-anchor="middle">going out: the door first, then the edge says it as standard JSON</text><text class="s" x="414" y="268" text-anchor="middle">a packet the door refuses says nothing at all</text>
+</svg></div>
+<ol>
+  <li><b>The edge is the only place outside formats are read.</b> A request is checked in a fixed order: its size, whether it is valid UTF-8, whether it parses as JSON, and whether it fits the shape the edge declared it would take. Only then is the value re-said as a LIGHT packet, signed by the edge's own key. A request refused at any step builds no packet.</li>
+  <li><b>The door decides on raw bytes.</b> Every packet inside, from the edge or from another part, passes the same stages before its body is decoded: size, the four-byte magic <code>LGT1</code>, the version, the length, the dictionary, a sender with a pinned key, a signature that verifies, and a counter that has not been used.</li>
+  <li><b>Learning makes it stricter, never blind.</b> Each refusal is remembered as an antibody. The measurement checks that after learning from every refused payload, the node still admits everything its trusted peer signs.</li>
+  <li><b>Going out, the door comes first.</b> A packet leaves as JSON only if it passes the door. A forged or replayed packet produces no output at all.</li>
+</ol>
+<h3>The passes</h3>
+<p>Phase 2 moves one organ per pass, each with its own claims, sealed together before any of the code.</p>
+<div class="scroll"><table><thead><tr><th>Pass</th><th>Organ</th><th>Claims</th><th>Status</th></tr></thead><tbody id="pass-rows"><tr><td colspan="4" class="dim">Loading…</td></tr></tbody></table></div>
+
+<h2 id="receipt">The receipt</h2>
+<p class="small" id="r-sum">Loading the committed receipt…</p>
+<div class="scroll"><table><thead><tr><th>Claim</th><th></th><th>Measured</th></tr></thead><tbody id="r-rows"></tbody></table></div>
+<h3>What was thrown at the door (G1)</h3>
+<div class="row" style="align-items:flex-start">
+  <div class="scroll" style="flex:1 1 220px"><table><thead><tr><th>Format</th><th>Payloads</th></tr></thead><tbody id="k-rows"></tbody></table></div>
+  <div class="scroll" style="flex:2 1 360px"><table><thead><tr><th>Stopped at</th><th>Payloads</th><th>Which means</th></tr></thead><tbody id="s-rows"></tbody></table></div>
+</div>
+<p class="small">The corpus is every file in five public estate repositories at sealed commits, whole and cut four ways (each half, a 512-byte window from the middle, and every tenth byte flipped), plus a GET and a POST to every live estate page, 500 form bodies and 1,000 runs of random bytes from fixed seeds.</p>
+<h3>LIGHT's own format, from no trusted signer (G2)</h3>
+<div class="scroll"><table><thead><tr><th>Kind</th><th>Packets</th><th>Stopped at</th><th>Admitted</th><th>Decoded</th></tr></thead><tbody id="g2-rows"></tbody></table></div>
+<p class="small">Re-run it yourself: clone <a href="https://github.com/sjgant80-hub/fall-kit">fall-kit</a> and run <code>node core/phase2/measure.mjs --check</code>. It clones the five repositories at the sealed commits, measures everything again, and exits with an error unless the receipt is the same byte for byte. The claims are in <a href="claims.json">claims.json</a>; the receipt is <a href="../receipts/phase2.json">receipts/phase2.json</a>.</p>
+
+<h2 id="blueprint">Blueprint</h2>
+<div class="scroll"><table><thead><tr><th>Part</th><th>What it decides</th><th>Gate</th></tr></thead><tbody>
+  <tr><td><code>core/edge.mjs</code></td><td>Outside requests in (size, UTF-8, JSON, declared shape, then signed); packets out (the door, then JSON). Pure; the signer and verifier are handed in.</td><td>Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>vendor/light/packet.mjs</code></td><td>The door: every stage on raw bytes, then the body. Copied byte for byte from konomi-tongue's LIGHT at a pinned commit.</td><td>Gated at its source; CI checks every vendored byte</td></tr>
+  <tr><td><code>core/node.mjs</code></td><td>The node that hears: the door, its antibodies, its memory.</td><td>Mutation-tested (Phase 1)</td></tr>
+  <tr><td><code>core/phase2/judge.mjs</code></td><td>The verdicts: the sealed rules over the measured facts. Pure.</td><td>Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/phase2/corpus.mjs</code>, <code>measure.mjs</code></td><td>Build the pinned corpus from fresh clones and measure; no verdicts of their own.</td><td>CI re-runs them and compares the receipt byte for byte</td></tr>
+  <tr><td><code>core/phase2/claims.json</code></td><td>The fifteen claims, sealed before any of the above existed.</td><td>Its commit is named in the receipt</td></tr>
+</tbody></table></div>
+
+<h2 id="business">For a business</h2>
+<p class="lede">What it gives you: inside your estate, nothing reads a message it cannot prove came from a key you trust, and only one small, tested edge reads the outside world's formats.</p>
+<div class="scroll"><table><thead><tr><th>Who</th><th>What changes</th></tr></thead><tbody>
+  <tr><td>CISO</td><td>The parsing surface shrinks to one edge with a declared shape per door. Every internal message is authenticated and replay-proof before it is read, and bytes in any other format are refused at four bytes. The measurement is on your own kind of bytes, re-run by CI.</td></tr>
+  <tr><td>CTO</td><td>One format, one door, one edge, in plain modules with no runtime dependencies. Teams keep writing JSON at the edge; inside, LIGHT is invisible to them.</td></tr>
+  <tr><td>CFO</td><td>No per-message gateway between your own systems. The cost case below prices the same traffic through a managed gateway and firewall, at dated public list prices.</td></tr>
+  <tr><td>COO</td><td>It moves one part at a time, and every edge still takes the old formats while a part is moved, so nothing working stops working.</td></tr>
+  <tr><td>The teams</td><td>A malformed request is refused with the stage and the reason, before anything is built, so a bad call is easy to find.</td></tr>
+</tbody></table></div>
+<h3>The cost case</h3>
+<p>Traffic between your systems through AWS API Gateway and AWS WAF, against foundation nodes on your own machines. The sums are break-it's gated cost kernel, on break-it's dated list prices.</p>
+<div class="box">
+  <div class="calc">
+    <label>Messages between your systems, a month<input id="c-req" type="number" min="0" value="100000000"></label>
+    <label>Gateway in front of them<select id="c-api"><option value="http">HTTP API</option><option value="rest">REST API</option><option value="none">none</option></select></label>
+    <label>Firewall web ACLs<input id="c-acl" type="number" min="0" value="1"></label>
+    <label>Firewall rules<input id="c-rules" type="number" min="0" value="10"></label>
+    <label>Node rate, messages a second<input id="c-rate" type="number" min="1" value="50"></label>
+    <label>Power per node, watts<input id="c-watts" type="number" min="1" value="55"></label>
+    <label>Hours a month the nodes run<input id="c-hours" type="number" min="1" max="744" value="730"></label>
+    <label>Dollars to the pound<input id="c-fx" type="number" step="0.0001" value="1.3363"></label>
+    <label>Cost of each new machine, £ (0 if you own them)<input id="c-machine" type="number" min="0" value="0"></label>
+    <label>Machine life, months<input id="c-life" type="number" min="1" value="48"></label>
+  </div>
+  <div id="c-out"><p class="dim">Loading the prices…</p></div>
+  <ul class="small" id="c-sources"></ul>
+</div>
+<h3>Security and data protection, answered straight</h3>
+<ul>
+  <li><b>What it stops.</b> Bytes in any format other than LIGHT, at the first four bytes. LIGHT-shaped bytes that no pinned key signed, at the sender or the signature. A signed packet changed after signing, at the signature. A packet sent twice, at the counter. A request the edge was not declared to take, at the shape, before any packet exists.</li>
+  <li><b>What it does not stop.</b> Content that is harmful once read, carried inside a packet a trusted key signed: it is decoded faithfully, and the part that shows or acts on it must still judge it. A stolen key. A machine already compromised.</li>
+  <li><b>Where data goes.</b> Nowhere the modules send it: they open no connections. You carry the bytes over your own channel. On this page, everything stays in your tab.</li>
+  <li><b>Personal data.</b> The edge declares exactly which fields it takes, so a field nobody declared is refused rather than stored. That makes data minimisation (UK GDPR and GDPR) a line of code you can read.</li>
+</ul>
+<h3>Rolling it out</h3>
+<ol>
+  <li><b>Put the edge in front of one service</b> you already run. Declare the shapes it takes from real examples, and watch what it refuses.</li>
+  <li><b>Move that service's inside traffic to LIGHT</b>, one part at a time; the edge keeps taking the old format while you do.</li>
+  <li><b>Then the next service</b>, with its own declared shapes. Each move is measured before the next.</li>
+</ol>
+<h3>Support and ownership</h3>
+<p>Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>; start through that site. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed and keeps running without us.</p>
+<h3>Risks, answered</h3>
+<ul>
+  <li><b>"Most of this is refused at four bytes, so of course it holds."</b> Yes: that is the design, and it is still worth measuring on real bytes. The harder claims are G2 and G3: LIGHT-shaped packets without a trusted signature never pass, and a node that has learned from thousands of refusals still admits everything its trusted peer signs.</li>
+  <li><b>"An exact shape is strict."</b> It is meant to be. <code>shapeOf</code> declares an example's exact shape; a real edge usually writes a looser one by hand (a list of up to N, text up to N characters, any JSON within a depth).</li>
+  <li><b>"Phase 2 is not finished."</b> True, and the page says so: the passes table shows which organs have moved. Each pass is measured before the next begins.</li>
+</ul>
+<h3>The case for the board</h3>
+<p>The organisation stops parsing untrusted input everywhere and starts parsing it in one place, with a declared shape, in front of a door that reads nothing a trusted key did not sign. Every claim behind that is re-run by a machine anyone can watch.</p>
+
+<h2 id="paper">The paper: one language inside</h2>
+<p><b>The problem.</b> Most breaches start with a parser: some part of a system reads bytes it should not have trusted, in a format rich enough to hide something. Every service that accepts JSON, HTML, form bodies or its own wire format is another parser, and each is written a little differently.</p>
+<p><b>The design.</b> Give the inside of the estate one format, LIGHT, and one door that decides on raw bytes before anything is parsed: the magic number, the version, the length, the dictionary, a pinned sender, a verified signature and a fresh counter, then the body. Put the outside's formats behind one thin edge that checks size, encoding, syntax and a declared shape, and only then re-says the value inside, signed. Outbound, reverse it: the door first, then JSON.</p>
+<p><b>What is measured.</b> Fifteen claims were committed before any of Phase 2's code, across five passes. The first pass throws the estate's own files at the door, every one whole and cut four ways, with web requests, form bodies and random bytes. It then throws six kinds of LIGHT-shaped packet that no trusted key signed, and checks that everything a trusted key signs still gets through, intact, after the node has learned from every refusal. A pure judge turns the facts into verdicts, and CI re-runs the measurement and demands the same receipt byte for byte.</p>
+<p><b>Honest limits.</b> The signature and counter are the floor; the format is the surface reduction. Neither judges content a trusted key signed. LIGHT here is the estate's wire codec (konomi-tongue's LIGHT); falllight is a separate vocabulary for how nodes connect, not this codec. The cards and the contribution records move to LIGHT in their own phases and sessions, not here.</p>
+
+<h2>Questions</h2>
+<details><summary>What is LIGHT?</summary><p>The estate's own compact message format: a lossless coder, a signed packet, and a door every packet passes before it is read. A packet carries who sent it, a counter so it cannot be replayed, and an Ed25519 signature; the door checks all of that on the raw bytes before decoding a single byte of the body.</p></details>
+<details><summary>What does 'LIGHT everywhere' change?</summary><p>The estate's parts keep and carry what they know as signed LIGHT, so there is one format to check, one door, and no part that parses untrusted bytes. The outside world still speaks JSON and the web, so one thin edge takes those in, checks them against a declared shape, and re-says them inside as signed packets.</p></details>
+<details><summary>Does LIGHT stop harmful content?</summary><p>No, and it does not claim to. The signature and the counter keep out bytes that no trusted key signed. Content carried inside a packet a trusted key did sign is decoded faithfully, and the part that uses it must still judge it. A stolen key and a compromised machine are outside what it protects.</p></details>
+<details><summary>How was it measured?</summary><p>Fifteen claims were committed before any Phase 2 code existed. The first six were measured on a corpus pinned to five public repositories: every file, cut four ways, plus web requests to every live estate page, form bodies and random bytes. A pure judge turns the facts into verdicts, and CI re-runs the whole measurement and demands the same receipt byte for byte.</p></details>
+<details><summary>What does it cost?</summary><p>It is MIT-licensed, with no licence fee, and runs on machines you already have. The cost case on this page is the one the foundation's own page uses: the same traffic sent through a managed API gateway and firewall, at dated public list prices.</p></details>
+
+<div class="foot">Fall Kit core · phase 2 · MIT · supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · <a href="https://github.com/sjgant80-hub/fall-kit">source</a> · <a href="../">phase 1: the shared foundation</a><br>Powered by the Konomi architecture, created by Thomas Frumkin.</div>
+</main>
+<script type="module" src="./page.mjs"></script>
+</body>
+</html>

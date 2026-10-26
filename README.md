@@ -8,6 +8,15 @@ Fall Kit is one small script. Put it in a web page and that page gets an AI help
 **their own key** to a frontier model, sent from the browser straight to the provider. No server, no account, no
 middleman. MIT.
 
+## The shared foundation (core/)
+
+**Live: https://sjgant80-hub.github.io/fall-kit/core/** — the modules every estate node runs (Phase 1 of the estate going
+live: nine claims sealed first, the receipt re-runs byte for byte in CI).
+
+**Live: https://sjgant80-hub.github.io/fall-kit/core/phase2/** — Phase 2, LIGHT everywhere: the estate keeps and carries
+everything as signed LIGHT, and one mutation-tested edge (`core/edge.mjs`) speaks the outside's formats. Fifteen claims
+sealed first over five passes (`core/phase2/claims.json`); re-run pass 1 with `node core/phase2/measure.mjs --check`.
+
 ## v3.1.1
 
 - **Ask about this page.** The chip's panel answers questions from the page's own words, through the brain the
