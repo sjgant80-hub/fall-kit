@@ -26,7 +26,7 @@ test('the module attaches its public API to the global', () => {
 });
 
 test('version is a semver string equal to the module constant', () => {
-  assert.equal(FK.version, '3.1.1');
+  assert.equal(FK.version, '3.2.0');
   assert.equal(typeof FK.version, 'string');
   assert.match(FK.version, /^\d+\.\d+\.\d+$/);
 });
@@ -55,6 +55,13 @@ test('image / video / tts / stt all resolve to null without an API key', async (
 test('meshPost returns false while the mesh is inactive', () => {
   assert.equal(FK.state.mesh.active, false);
   assert.equal(FK.meshPost('ping', { x: 1 }), false);
+});
+
+test('meshStats: an inactive mesh has sent and heard nothing, and speaks no LIGHT yet', () => {
+  assert.deepEqual(FK.meshStats(), { active: false, light: false, tab: null, sent: 0, admitted: 0, legacy: 0, refused: {} });
+  const s = FK.meshStats();
+  s.refused.magic = 9;
+  assert.deepEqual(FK.meshStats().refused, {}, 'the counts handed out are a copy');
 });
 
 test('helpSection returns HTML naming every tier and the mesh channel', () => {

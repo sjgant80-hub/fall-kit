@@ -17,6 +17,15 @@ live: nine claims sealed first, the receipt re-runs byte for byte in CI).
 everything as signed LIGHT, and one mutation-tested edge (`core/edge.mjs`) speaks the outside's formats. Fifteen claims
 sealed first over five passes (`core/phase2/claims.json`); re-run pass 1 with `node core/phase2/measure.mjs --check`.
 
+## v3.2.0
+
+- **The mesh speaks LIGHT.** Every message on the same-device mesh is a LIGHT packet signed by this device's own
+  key (made by WebCrypto, its private half unextractable, kept in this origin's IndexedDB) and checked before it is
+  read: the sender, the signature, and a counter per tab, so a changed or replayed message is refused. The LIGHT part
+  is one gated module on this origin (`core/mesh.mjs`), loaded only when the mesh is switched on; an old JSON message
+  still arrives, marked legacy; on a page served anywhere else the mesh speaks JSON as before. `FallKit.meshStats()`
+  counts what it heard. Part of Phase 2 of the estate going live: https://sjgant80-hub.github.io/fall-kit/core/phase2/
+
 ## v3.1.1
 
 - **Ask about this page.** The chip's panel answers questions from the page's own words, through the brain the

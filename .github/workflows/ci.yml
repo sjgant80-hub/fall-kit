@@ -30,7 +30,7 @@ jobs:
         run: |
           git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git .witness6
           # each test file runs in one process under the OS timeout, so a mutant that hangs is killed cleanly
-          for k in antibody identity node judge edge phase2/judge; do
+          for k in antibody identity node judge edge mesh phase2/judge; do
             node .witness6/witness.mjs mutate core/$k.mjs --timeout 120000 --cap 800 --test timeout -k 5 90 node core/$k.test.mjs | tee /tmp/w.txt
             grep -q '"clean": true' /tmp/w.txt || { echo "::error::mutants survived in core/$k.mjs"; exit 1; }
           done
@@ -46,5 +46,5 @@ jobs:
           node core/prove.mjs --nodes .nodes --check
       - name: Phase 2 — the edge, its page, and the door measured as a barrier; the receipt must reproduce byte for byte from fresh clones
         run: |
-          node --test core/edge.test.mjs core/phase2/judge.test.mjs core/phase2/page.test.mjs
+          node --test core/edge.test.mjs core/mesh.test.mjs core/phase2/judge.test.mjs core/phase2/page.test.mjs
           node core/phase2/measure.mjs --check
