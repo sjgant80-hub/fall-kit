@@ -156,7 +156,7 @@ export async function createNode(opts) {
   const g = await W.genesis(wc, { caps: ['ask'], budget: Number.isSafeInteger(o.budget) && o.budget >= 0 ? o.budget : DEFAULT_BUDGET });
   const st = {
     wallet: g.wallet, sk: g.sk, out: 0n, asks: 0,
-    peers: new Map(), pending: new Map(), served: new Map(), used: new Map(),
+    peers: new Map(), pending: new Map(), served: new Map(), used: new Map(), retired: new Map(),
     library: emptyLibrary(), antigens: [], memory: new FallRemember(), ledger: L.empty(),
     seen: { admitted: 0, refused: 0, recognised: 0, sent: 0 },
     docs: new Map((Array.isArray(o.docs) ? o.docs : ['mesh']).map(emptyDoc).filter(Boolean).map((d) => [d.docId, d])),
@@ -357,7 +357,9 @@ export async function createNode(opts) {
     if (!r.ok) return r;
     if (c.id === me.id) return { ok: false, why: 'a node does not pin itself' };
     const prev = st.peers.get(c.id);
-    st.peers.set(c.id, { id: c.id, raw: unhex(c.id), slot: c.slot, name: c.name, wallet: c.wallet, skills: c.skills.slice(), body: r.body, inCounter: prev ? prev.inCounter : 0n, links: prev ? prev.links : new Map() });
+    // a key pinned again after an unpin keeps its last counter, so nothing it sent before can be replayed
+    const inCounter = prev ? prev.inCounter : st.retired.has(c.id) ? st.retired.get(c.id) : 0n;
+    st.peers.set(c.id, { id: c.id, raw: unhex(c.id), slot: c.slot, name: c.name, wallet: c.wallet, skills: c.skills.slice(), body: r.body, inCounter, links: prev ? prev.links : new Map() });
     const released = isObj(c.release) ? await record(c.release) : false;   // the ledger refuses a second release, or one with no genesis
     return { ok: true, id: c.id, released };
   }
@@ -383,6 +385,19 @@ export async function createNode(opts) {
     const real = await me.sign(msg);
     const bundle = makeBundle(me.id, st.antigens, () => real);
     return say(to, { t: 'antibody', bundle });
+  }
+
+  /** Stop trusting a peer (the founder's roster no longer names it): its key is dropped, so what it sends stops at the
+   *  sender, and the asks waiting on it are given up. Its last counter is kept for a later pin. */
+  function unpin(id) {
+    const p = st.peers.get(id);
+    if (p === undefined) return { ok: false, why: 'no pinned peer ' + String(id).slice(0, 40) };
+    st.peers.delete(id);
+    st.retired.set(id, p.inCounter);
+    let dropped = 0;
+    for (const [job, q] of [...st.pending]) if (q.to === id) { st.pending.delete(job); dropped++; }
+    remember('unpinned ' + p.name + ': no longer trusted', { kind: 'unpinned', peer: id, dropped });
+    return { ok: true, id, dropped };
   }
 
   /** An ask nobody answered, given up: it counts as a failed answer, so a peer that died is routed around. */
@@ -425,7 +440,8 @@ export async function createNode(opts) {
   return Object.freeze({
     id: me.id, name, slot: me.slot,
     card: () => card,
-    pin, hear, ask, shareAntibodies, shareLedger, vault, expire, setShared, shareSync,
+    pin, unpin, hear, ask, shareAntibodies, shareLedger, vault, expire, setShared, shareSync,
+    pinned: () => [...st.peers.keys()].sort(),
     shared: (docId) => (st.docs.has(docId) ? valueOf(st.docs.get(docId)) : null),
     sharedDoc: (docId) => (st.docs.has(docId) ? st.docs.get(docId) : null),
     pending: () => [...st.pending.keys()],

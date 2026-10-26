@@ -7,7 +7,7 @@
 import { createRelay, KIND, HEAD } from '../relay.mjs';
 import { createNode, stableJson } from '../node.mjs';
 import { makeIdentity, hex, unhex } from '../identity.mjs';
-import { makeRoster, readRoster, onRoster } from '../roster.mjs';
+import { makeRoster, readRoster, onRoster, rosterChanges } from '../roster.mjs';
 import { prepare, finish, KINDS } from '../vendor/light/packet.mjs';
 import { sha256 } from '../vendor/light/sha256.mjs';
 import { judge } from './judge.mjs';
@@ -45,7 +45,7 @@ async function loadReceipt() {
     $('t-relay').textContent = f.r2 ? f.r2.answeredAfterKill + ' of ' + f.r2.asksAfterKill : '…';
     $('t-held').textContent = j.held + ' of ' + j.verdicts.length;
     const j4 = (f.j4 && f.j4.links) || [];
-    if (j4.length) $('j4-line').textContent = 'Measured: at every asker the live honest holder\'s link is ' + n0(j4[0].honest) + ' parts in a million and the dishonest one\'s ' + n0(j4[0].liar) + ', exactly where every link starts. It was never asked.';
+    if (j4.length) $('j4-line').textContent = 'Measured: at every asker the live honest holder\'s link is ' + n0(j4[0].honest) + ' parts in a million and the dishonest one\'s ' + n0(j4[0].liar) + ', exactly where every link starts. The first half held: the honest link outgrew the dishonest one. The second did not: the dishonest link never fell below the floor, because it was never asked.';
     if (f.j3) $('j3-line').textContent = 'Measured: ' + f.j3.killed + ', the holder the triage asks were going to, was killed. ' + f.j3.toDead + ' of the next ' + f.j3.asks + ' asks went to it, one from each of the ' + f.j3.askers + ' askers, against a sealed bar of 2. Every ask after that went to a live holder and was answered.';
     $('t-held-label').textContent = 'sealed claims holding; ' + (j.failed ? j.failed + ' failed and kept' : 'none failed') + (j.open ? ', ' + j.open + ' not measured yet' : '');
     if (f.x1 && f.x1.tabs) $('x1-line').innerHTML = 'Measured on ' + esc(f.x1.where || 'the live page') + ': tab A sent ' + esc(f.x1.tabs.a.sent) + ' packets over the data channel; tab B\'s door admitted ' + esc(f.x1.tabs.b.admitted) + ' and refused ' + esc(Object.entries(f.x1.tabs.b.refused || {}).map(([s, c]) => c + ' at the ' + s).join(' and ')) + '. What the tabs gathered: <a href="local/x1.json">local/x1.json</a>.';
@@ -65,7 +65,7 @@ const honest = (domain) => async (input) => {
 };
 const liar = async () => ({ verdict: 'VERIFIED', label: 1, receipt: { model: 'phase3/1', domain: 'triage', label: 1, verdict: 'VERIFIED', receiptHash: 'f'.repeat(64) } });
 const ROLES = [['h1', 81, 'honest', 'triage, honest'], ['h2', 82, 'honest', 'triage, honest'], ['liar', 83, 'liar', 'triage, its receipts do not check'], ['scribe', 84, 'scribe', 'echo'], ['a1', 85, 'asker', 'asks'], ['a2', 86, 'asker', 'asks']];
-const M = { ready: false, nodes: {}, relays: {}, byConn: new Map(), answers: new Map(), asks: 0, x: null, forged: null, read: null, busy: false, fresh: 0 };
+const M = { ready: false, nodes: {}, relays: {}, byConn: new Map(), answers: new Map(), asks: 0, x: null, forged: null, read: null, founder: null, dropped: false, busy: false, fresh: 0 };
 const now = () => 1767000000000 + (M.fresh += 1000);
 
 function log(html) {
@@ -126,6 +126,7 @@ async function start() {
   $('m-start').textContent = 'Starting…';
   try {
     const founder = await makeIdentity(seed(80));
+    M.founder = founder;
     for (const [name, s, role, does] of ROLES) {
       const id = await makeIdentity(seed(s));
       const skills = role === 'honest' ? { triage: honest('triage') } : role === 'liar' ? { triage: liar } : role === 'scribe' ? { echo: honest('echo') } : {};
@@ -241,6 +242,29 @@ async function variant() {
   const v = await forge(1 + (M.asks % 50));
   for (const n of Object.values(M.nodes)) if (n.alive) await send(M.x, n.id, v);
 }
+/** The founder signs a new roster without the dishonest holder (or with it again); every node reads it and changes its pins. */
+async function dropLiar() {
+  M.dropped = !M.dropped;
+  const members = Object.values(M.nodes).filter((n) => !(M.dropped && n.name === 'liar'));
+  const read = await readRoster((await makeRoster(M.founder, members.map((n) => n.node.card()))).roster, M.founder.id);
+  if (!read.ok) { log('<span class="no">The new roster did not read:</span> ' + esc(read.why)); return; }
+  M.read = read;
+  let unpinned = 0, pinned = 0;
+  for (const n of Object.values(M.nodes)) {
+    const ch = rosterChanges(read, n.node.pinned(), n.id);
+    for (const c of ch.pin) if ((await n.node.pin(c)).ok) pinned++;
+    for (const id of ch.unpin) if (n.node.unpin(id).ok) unpinned++;
+  }
+  if (M.dropped) {
+    log('The founder signs a new roster without <b>liar</b>. Every node reads it and <span class="ok">unpins it (' + unpinned + ' pins dropped)</span>, keeping its last counter so nothing it sent before can be replayed.');
+    const liarNode = M.nodes.liar, a1 = M.nodes.a1;
+    if (liarNode.alive && a1.alive) {
+      log('The dropped member still holds its key, and sends a1 a sync.');
+      const bytes = await liarNode.node.shareSync(a1.id, 'mesh');
+      if (bytes) await send(liarNode, a1.id, bytes);
+    }
+  } else log('The founder signs the full roster again. Every node reads it and <span class="ok">pins liar again (' + pinned + ' pins)</span>.');
+}
 async function strangerJoins() {
   const card = M.x.node.card();
   const results = [];
@@ -309,7 +333,7 @@ function cost() {
     (r.node.nodes === 1 ? 'One node carries them' : esc(n0(r.node.nodes)) + ' nodes carry them') + ' for <b>' + esc(gbp(r.node.totalPence)) + '</b> a month. ' +
     (save >= 0 ? 'You keep <b>' + esc(gbp(save)) + '</b> a month, <b>' + esc(gbp(r.yearlyPence)) + '</b> a year.' : 'At these figures the node path costs <b>' + esc(gbp(-save)) + '</b> a month more.') + '</p>' +
     [['AWS WAF (web ACLs, rules, requests)', usd(r.managed.wafCents)], ['API Gateway (' + inputs.api + ')', usd(r.managed.gatewayCents)], ['Managed path in pounds, at the rate you set', gbp(r.managed.totalPence)],
-      ['Nodes the rate needs for this volume', n0(r.node.nodes)], ['Their electricity at the Ofgem cap', gbp(r.node.electricityPence)], ['New machines, spread over their life', gbp(r.node.machinePence)], ['Relays', 'a few hundred lines each, on the same machines'], ['Licence', 'MIT, no licence fee']]
+      ['Nodes the rate needs for this volume', n0(r.node.nodes)], ['Their electricity at the Ofgem cap', gbp(r.node.electricityPence)], ['New machines, spread over their life', gbp(r.node.machinePence)], ['Relays', 'a small process each, on the same machines'], ['Licence', 'MIT, no licence fee']]
       .map(([k, v]) => '<div class="line"><span>' + esc(k) + '</span><span>' + esc(v) + '</span></div>').join('');
 }
 for (const id of ['c-req', 'c-acl', 'c-rules', 'c-api', 'c-rate', 'c-watts', 'c-hours', 'c-fx', 'c-machine', 'c-life']) $(id).addEventListener('input', cost);
@@ -320,7 +344,7 @@ const ACT = {
   ask10: async () => { for (let i = 0; i < 10; i++) await ask(i % 2 === 0 ? 'a1' : 'a2', i % 5 === 4 ? 'echo' : 'triage'); },
   echo: () => ask('a1', 'echo'),
   killA: () => killRelay('A'), killB: () => killRelay('B'), h1: () => killNode('h1'), h2: () => killNode('h2'), scribe: () => killNode('scribe'),
-  write: () => write(), sync: () => syncAll(), forge: () => forgeAt(), share: () => shareImmunity(), same: () => sameToAll(), variant: () => variant(), join: () => strangerJoins(),
+  write: () => write(), sync: () => syncAll(), forge: () => forgeAt(), share: () => shareImmunity(), same: () => sameToAll(), variant: () => variant(), join: () => strangerJoins(), drop: () => dropLiar(),
 };
 for (const b of document.querySelectorAll('[data-m]')) b.addEventListener('click', () => run(ACT[b.dataset.m]));
 loadReceipt();

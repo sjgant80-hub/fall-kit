@@ -12,7 +12,7 @@
 import { connect } from 'node:net';
 import { createNode, stableJson } from '../node.mjs';
 import { makeIdentity, hex, unhex } from '../identity.mjs';
-import { readRoster, onRoster } from '../roster.mjs';
+import { readRoster, onRoster, rosterChanges } from '../roster.mjs';
 import { frameOf, createReader, KIND } from '../relay.mjs';
 import { sha256 } from '../vendor/light/sha256.mjs';
 import { prepare, finish, KINDS } from '../vendor/light/packet.mjs';
@@ -71,9 +71,11 @@ async function run(c) {
     const read = await readRoster(c.roster, c.founder);
     if (!read.ok) return { ok: false, why: read.why };
     roster = read;
+    const ch = rosterChanges(read, node.pinned(), me.id);
     let pinned = 0;
-    for (const card of read.cards) if (card.id !== me.id && (await node.pin(card)).ok) pinned++;
-    return { ok: true, pinned };
+    for (const card of ch.pin) if ((await node.pin(card)).ok) pinned++;
+    for (const id of ch.unpin) node.unpin(id);
+    return { ok: true, pinned, unpinned: ch.unpin.length };
   }
   if (c.op === 'offer') {
     if (!onRoster(roster, c.card)) return { pinned: false, why: 'not on the roster' };

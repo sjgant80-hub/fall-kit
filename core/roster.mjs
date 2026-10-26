@@ -10,6 +10,8 @@
 //   makeRoster(founder, cards)      → { ok, roster } | { ok: false, why }     founder = an identity (identity.mjs)
 //   readRoster(roster, founderId)   → { ok, cards, ids } | { ok: false, why }  every check, or a refusal naming it
 //   onRoster(read, card)            → is this exact card one the roster names?
+//   rosterChanges(read, pinned, me) → { pin: [cards], unpin: [ids] }   what a node does to match a roster it has read:
+//                                     pin the members it lacks, and unpin every key the roster no longer names
 // Powered by the Konomi architecture, created by Thomas Frumkin.
 // ════════════════════════════════════════════════════════════════
 import { readCard, stableJson } from './node.mjs';
@@ -47,6 +49,14 @@ export async function readRoster(roster, founderId) {
     ids.push(c.id);
   }
   return { ok: true, cards: roster.cards, ids };
+}
+
+/** What a node must change to match a roster it has read: the members it has not pinned (never itself), and the keys it
+ *  has pinned that the roster no longer names — the founder drops a member by signing a roster without it. */
+export function rosterChanges(read, pinnedIds, selfId) {
+  if (!isObj(read) || read.ok !== true || !Array.isArray(read.cards)) return { pin: [], unpin: [] };
+  const named = new Set(read.cards.map((c) => c.id)), have = new Set(Array.isArray(pinnedIds) ? pinnedIds : []);
+  return { pin: read.cards.filter((c) => c.id !== selfId && !have.has(c.id)), unpin: [...have].filter((id) => !named.has(id)).sort() };
 }
 
 /** Is this exact card one the read roster names: the same key, and the same signed card? */

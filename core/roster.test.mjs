@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { makeRoster, readRoster, onRoster, ROSTER, MAX_MEMBERS } from './roster.mjs';
+import { makeRoster, readRoster, onRoster, rosterChanges, ROSTER, MAX_MEMBERS } from './roster.mjs';
 import { createNode, stableJson } from './node.mjs';
 import { makeIdentity, hex } from './identity.mjs';
 
@@ -84,4 +84,18 @@ test('makeRoster refuses what cannot be a roster', async () => {
   assert.deepEqual(order, fakes(40).map((c) => c.id), 'sorted by key, whatever the order given');
   assert.equal((await makeRoster(founder, [cards[0]])).ok, true, 'one member');
   assert.equal((await makeRoster(founder, [null, cards[0]])).ok, true, 'junk is sorted, and refused when the roster is read');
+});
+
+test('rosterChanges: pin the members a node lacks, unpin every key the roster no longer names', async () => {
+  const all = await readRoster((await makeRoster(founder, cards)).roster, founder.id);
+  const ids = cards.map((c) => c.id);
+  assert.deepEqual(rosterChanges(all, [], ids[0]), { pin: all.cards.filter((c) => c.id !== ids[0]), unpin: [] }, 'joining: every other member, never itself');
+  assert.deepEqual(rosterChanges(all, [ids[1], ids[2]], ids[0]), { pin: [], unpin: [] }, 'already matching: nothing to do');
+  const two = await readRoster((await makeRoster(founder, [cards[0], cards[1]])).roster, founder.id);
+  assert.deepEqual(rosterChanges(two, [ids[1], ids[2]], ids[0]), { pin: [], unpin: [ids[2]] }, 'the founder dropped a member');
+  const s = stranger.card().id, extra = [ids[2], s, 'a'].sort();
+  assert.deepEqual(rosterChanges(two, [ids[1], ...extra], ids[0]).unpin, [...extra].sort(), 'every key not named, in one order');
+  assert.deepEqual(rosterChanges(two, [ids[1]], ids[2]).pin.map((c) => c.id), [ids[0]], 'a node the roster dropped still reads the rest');
+  for (const bad of [null, { ok: false, cards }, { ok: true, cards: 'x' }, 'x']) assert.deepEqual(rosterChanges(bad, [ids[1]], ids[0]), { pin: [], unpin: [] }, 'a roster that did not read changes nothing');
+  assert.deepEqual(rosterChanges(two, 'x', ids[0]), { pin: two.cards.filter((c) => c.id !== ids[0]), unpin: [] }, 'no list of pins: nothing to unpin');
 });

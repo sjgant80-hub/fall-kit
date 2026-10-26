@@ -684,3 +684,30 @@ test('hearing is one packet at a time: two heard at once cannot set a counter ba
   const junk = await Promise.all([m.A.hear(new Uint8Array(3)), m.A.hear(high)]);
   assert.deepEqual(junk.map((r) => r.stage), ['size', 'counter'], 'junk in the queue does not stop it');
 });
+
+test('unpin: a peer the roster drops stops at the sender, its waiting asks are given up, and pinned again it cannot replay', async () => {
+  const m = await mesh();
+  const before = await m.B.shareLedger(m.A.id);
+  assert.equal((await m.A.hear(before)).t, 'ledger', 'pinned: heard');
+  const waiting = await m.A.ask('triage', { spO2: 88 });
+  assert.equal(waiting.to, m.B.id, 'an ask is waiting on B');
+  assert.deepEqual(m.A.pinned(), [m.B.id, m.C.id].sort());
+  const u = m.A.unpin(m.B.id);
+  assert.deepEqual(u, { ok: true, id: m.B.id, dropped: 1 });
+  assert.deepEqual(m.A.pinned(), [m.C.id]);
+  assert.deepEqual(m.A.pending(), [], 'the ask waiting on it is given up');
+  assert.equal((await m.A.hear(await m.B.shareLedger(m.A.id))).stage, 'sender', 'what it sends now stops at the sender');
+  assert.equal((await m.A.ask('triage', { spO2: 88 })).to, m.C.id, 'asks go to who is still pinned');
+  assert.equal(m.A.expire(waiting.id).ok, false, 'the given-up ask is gone');
+  assert.deepEqual(m.A.unpin(m.B.id), { ok: false, why: 'no pinned peer ' + m.B.id.slice(0, 40) }, 'unpinned twice');
+  assert.equal(m.A.unpin('nobody').ok, false);
+  const mem = m.A.recall('unpinned honest', 1).center;
+  assert.deepEqual([mem.text, mem.meta.kind, mem.meta.peer, mem.meta.dropped], ['unpinned honest: no longer trusted', 'unpinned', m.B.id, 1], 'remembered');
+  assert.equal((await m.A.pin(m.B.card())).ok, true, 'the founder may pin it again');
+  assert.equal((await m.A.hear(before)).stage, 'counter', 'and nothing it sent before can be replayed');
+  assert.equal((await m.A.hear(await m.B.shareLedger(m.A.id))).t, 'ledger', 'what it sends next is heard');
+  const fresh = await mesh();
+  fresh.A.unpin(fresh.B.id);
+  assert.equal((await fresh.A.pin(fresh.B.card())).ok, true);
+  assert.equal((await fresh.A.hear(await fresh.B.shareLedger(fresh.A.id))).t, 'ledger', 'a key unpinned before it said anything starts from nothing');
+});
