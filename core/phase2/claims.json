@@ -1,0 +1,50 @@
+{
+ "kind": "fall-kit.core.phase2.claims",
+ "v": 1,
+ "sealed": "2026-10-26",
+ "what": "Phase 2 of the estate go-live: LIGHT everywhere. LIGHT is the estate's wire codec (konomi-tongue/light, vendored in fall-kit/core): one lossless coder, a signed packet and the door every packet passes, and a vault. Phase 2 makes it the language the estate keeps and carries things in, organ by organ, and puts a thin, gated edge where the estate meets the outside, which still speaks standard formats. Sealed before edge.mjs, the corpus tool or any measuring code for Phase 2 exists. The organs move one per pass; each pass measures only its own claims, and a claim not yet measured says so.",
+ "passes": [
+  { "pass": 1, "organ": "fall-kit/core edge.mjs, and the door measured as a barrier", "claims": ["G1", "G2", "G3", "E1", "E2", "E3"] },
+  { "pass": 2, "organ": "kar-mind's journal (persist.mjs) and Kar's memory vault", "claims": ["M1", "M2", "M3"] },
+  { "pass": 3, "organ": "the controller's record of every model call", "claims": ["I1"] },
+  { "pass": 4, "organ": "Fall Kit's same-device mesh (fall-kit.js), and the builds that carry it", "claims": ["B1", "B2"] },
+  { "pass": 5, "organ": "the census, counted honestly", "claims": ["C1", "C2", "C3"] }
+ ],
+ "corpus": {
+  "repos": {
+   "fall-kit": "b19478fd0dba6af9495afce37cdd1cb3c2861be5",
+   "break-it": "5c9b91eae746120adcf43a0c77c18e1bdb6763ff",
+   "konomi-slm": "faf44f7896e9d9def45e5a407cb3d9ca5dc31c1d",
+   "kar-mind": "3a8890756c02dfe61d54c34e4d8261fc2100d922",
+   "konomi-tongue": "c5ef3dafb453a175cca3561f6df1f3e650d34298"
+  },
+  "files": "every git-tracked file under 1 MB in those five public repositories at those commits, read from fresh clones",
+  "derived": "each file whole, and four cuts of it: its first half, its second half, a window of 512 bytes from its middle, and the file with every tenth byte flipped",
+  "requests": "for every public page in the estate index marked live, an HTTP/1.1 GET request for it and a POST of a small form body to it, as request text",
+  "forms": "500 form-encoded bodies, generated from a fixed seed",
+  "random": "1,000 runs of random bytes from a fixed seed, 1 to 4,096 bytes long"
+ },
+ "claims": [
+  { "id": "G1", "pass": 1, "claim": "Bytes in a standard format never pass the door: JSON, HTML, Markdown, JavaScript, CSV, HTTP request text, form bodies and random bytes are each refused before a body is decoded.", "measure": "every payload of the sealed corpus (at least 5,000), heard by a foundation node", "holds_if": "at least 5,000 payloads, 0 admitted, 0 decoded", "predicted": "HOLD — by construction most fail at the first four bytes; what this adds is that it is measured on the estate's real bytes, not argued" },
+  { "id": "G2", "pass": 1, "claim": "Packets in LIGHT's own format that no pinned peer signed never pass: unsigned, signed by a key the node never pinned, changed after signing, replayed, naming a dictionary the node does not hold, or with a length that does not match.", "measure": "at least 1,000 of each of the six kinds, made from the corpus's JSON values", "holds_if": "0 admitted, 0 decoded, and every one refused at the stage named for its kind (signature, sender, signature, counter, dictionary, length)", "predicted": "HOLD" },
+  { "id": "G3", "pass": 1, "claim": "The barrier does not block the language: every packet a pinned peer signs, with a fresh counter, is admitted and decodes to exactly what was sent.", "measure": "at least 1,000 signed packets carrying the corpus's JSON values", "holds_if": "every one admitted and equal to the value sent", "predicted": "HOLD" },
+  { "id": "E1", "pass": 1, "claim": "The edge turns a well-formed outside request into a signed LIGHT packet the node admits, and refuses a malformed one at a named stage without building a packet.", "measure": "the corpus's JSON values as requests against a declared shape each fits (good), and the same requests cut short, mis-encoded, oversized or off the shape (bad)", "holds_if": "every good request admitted by the node and equal to what was sent; every bad one refused at size, utf8, json or shape, with no packet built", "predicted": "HOLD" },
+  { "id": "E2", "pass": 1, "claim": "The edge never throws: garbage in either direction is a refusal with a stage.", "measure": "20,000 inputs from a fixed seed, half inbound and half outbound: random bytes, random strings, random JSON, nested to depth 64, and non-bytes", "holds_if": "0 throws, and every result is either a refusal naming its stage or a well-formed result", "predicted": "HOLD" },
+  { "id": "E3", "pass": 1, "claim": "Out through the edge, a packet from inside becomes standard JSON that parses back to exactly the value sent, and a packet the door refuses produces no output.", "measure": "the G3 packets and the G2 packets, out through the edge", "holds_if": "every G3 packet round-trips exactly; 0 of the G2 packets produce output", "predicted": "HOLD" },
+  { "id": "M1", "pass": 2, "claim": "Kar's mind journal is kept in LIGHT and reloads whole.", "measure": "the journals kar-mind's own demos and tests write, a 10,000-event journal from its autonomous loop, each saved as LIGHT and reloaded; and every gzip journal migrated to LIGHT", "holds_if": "every reload gives the same organ counts and the same receipt as the journal saved", "predicted": "HOLD" },
+  { "id": "M2", "pass": 2, "claim": "The LIGHT journal is no larger than the gzip journal it replaces.", "measure": "bytes of each M1 journal, gzip and LIGHT", "holds_if": "LIGHT at most gzip on every journal measured", "predicted": "unsure — LIGHT beat Brotli on small messages and tied it overall; a journal is repetitive JSON, where gzip is strong" },
+  { "id": "M3", "pass": 2, "claim": "Kar's whole memory is vaulted in LIGHT by the nightly loop, and the vault unpacks byte-identical.", "measure": "the vault the nightly loop's own step makes of the memory directory (run once by hand, then each night)", "holds_if": "every file byte-identical on unpack, and the vault smaller than the files", "predicted": "HOLD" },
+  { "id": "I1", "pass": 3, "claim": "Every model call the controller makes is recorded as a LIGHT record (the prompt, the reply, the maker, the tokens) and reads back exactly.", "measure": "the records of the controller's measured run and of one nightly run", "holds_if": "every record reads back identical and none is missing", "predicted": "HOLD" },
+  { "id": "B1", "pass": 4, "claim": "Fall Kit's same-device mesh speaks LIGHT: every message is a LIGHT packet signed by the device's key and verified before it is parsed; one signed by another key, changed, or replayed is refused; an old JSON message still arrives, marked as legacy.", "measure": "two real browser pages on one device", "holds_if": "every signed message admitted; each refused kind refused at its stage; every legacy message marked", "predicted": "HOLD" },
+  { "id": "B2", "pass": 4, "claim": "The builds that carry Fall Kit carry its LIGHT mesh.", "measure": "the gear builds re-ported by the socket's own porter; each build's CI and live page", "holds_if": "every re-ported build's CI is green and its live page carries the kit version with the LIGHT mesh", "predicted": "unsure — about 99 builds, and some pages were broken before the socket repaired them" },
+  { "id": "C1", "pass": 5, "claim": "The census counts a repository as speaking LIGHT only when its own code, outside any vendored copy, reads or writes LIGHT.", "measure": "the census run; vendored-only repositories counted apart", "holds_if": "every repository counted as speaking LIGHT has a non-vendored file that imports the codec, the door, the vault or the foundation node, and for public repositories that file is named", "predicted": "HOLD" },
+  { "id": "C2", "pass": 5, "claim": "After Phase 2, LIGHT is the inner language of the estate's running core.", "measure": "the census after the passes, not counting the gear builds", "holds_if": "at least 5 public repositories speak LIGHT in their own code, and every organ this phase moved is among them", "predicted": "HOLD" },
+  { "id": "C3", "pass": 5, "claim": "LIGHT reaches the estate's pages.", "measure": "the census after the passes, counting the gear builds", "holds_if": "at least 50 public repositories speak LIGHT in their own code", "predicted": "unsure — it rests on B2" }
+ ],
+ "scope": [
+  "Crypto is the floor: the signature and the counter are what keep untrusted bytes out. LIGHT's format is the surface reduction: bytes in any other format fail at its first four bytes, before anything reads them. Neither stops harmful content carried as data inside a packet a trusted peer signed; that is decoded, and it is the receiving organ's to judge. A stolen key and a compromised host are outside this.",
+  "A model reads and writes plain words. LIGHT is what the words are kept and carried in; the edge turns them back into standard formats where the outside, or a model, needs them.",
+  "The cards are led by the DIGI and PixelWhisperer sessions and move to LIGHT there; the contribution records move in Phase 6. Neither is claimed here.",
+  "LIGHT here is the wire codec in konomi-tongue/light. falllight is a separate vocabulary for how nodes connect; it is not this codec."
+ ]
+}
