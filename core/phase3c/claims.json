@@ -1,0 +1,17 @@
+{
+ "kind": "fall-kit.core.phase3c.claims",
+ "v": 1,
+ "sealed": "2026-10-26",
+ "what": "Phase 3c of the estate go-live: a false note is refused by name. Phase 3b's W4 failed and is kept: four false notes that repeated bytes the receiver had just judged were answered 'already judged' instead of being refused, so a node's own record of what a dishonest member tried came out four short. Nothing moved; the record was wrong. This pass changes one thing in core/node.mjs: a note of a lie is judged against its bytes (signed by the holder it names, that holder's answer to the note's sender, for that ask) before the receiver asks whether it has judged those bytes, so 'already judged' can only mean the same evidence again. Sealed before the change. Phase 3b's claims and receipt are not touched: CI re-derives Phase 3b's receipt from the commit it was measured at.",
+ "scope": [
+  "The same harness, scenario and seeds as Phase 3b: eight nodes and two relays, each its own operating-system process, on local TCP, one step at a time.",
+  "The false notes are Phase 3b's W4 notes, unchanged, written by the measuring code, not by a model."
+ ],
+ "passes": [
+  { "pass": 1, "organ": "notes judged by name before they are known (core/node.mjs: takeNote)", "claims": ["V1", "V2"] }
+ ],
+ "claims": [
+  { "id": "V1", "pass": 1, "claim": "A note moves nothing on its sender's word, and every false one is refused by name (W4, re-measured at its sealed bar).", "measure": "Phase 3b's W4 run, unchanged, with the change", "holds_if": "W4's sealed bar: 0 links change at any member; every false silence note's probe is answered and no asker holds that holder quiet afterwards; all 16 false 'lied' notes are refused; all 4 of the stranger's notes are refused at the door; and each asker's next triage ask goes to an honest holder and is answered", "predicted": "HOLD — 16 refused: 4 because the honest holder's answer checks, 12 because the packet is not signed by the holder the note names (the four that repeated bytes among them)." },
+  { "id": "V2", "pass": 1, "claim": "The change moves nothing else the routing measured: Phase 3b's W1, W2 and W3, re-measured with it, come out exactly as in Phase 3b's receipt.", "measure": "Phase 3b's two mesh runs, one with each routing, re-run with the change; each of W1, W2 and W3's facts reduced to the SHA-256 of its canonical JSON and compared with the same digest of Phase 3b's committed receipt", "holds_if": "all three digests equal", "predicted": "HOLD — every note in those runs is true evidence, judged the same way before and after." }
+ ]
+}
