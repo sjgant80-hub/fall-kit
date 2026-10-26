@@ -1,0 +1,909 @@
+{
+ "kind": "fall-kit.core.phase2.local",
+ "v": 1,
+ "claim": "B2",
+ "what": "Fall Kit 3.2.0 re-ported into the gear builds on socket-builds.json by fall-kit’s own porter, one plan gate per build (2026-10-26). For each build: how it carries the kit, whether it was re-ported, the conclusion of its CI on the exact pushed commit (GitHub’s Pages deployment is not counted as CI; a build with no CI says none), and whether its live page now carries 3.2.0 with the LIGHT mesh (a shim build loads the newest kit itself).",
+ "at": "2026-10-26T15:05:21.901Z",
+ "builds": [
+  {
+   "name": "honestly",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "c7d39c8f263f306dd61070b61c03c339252a2879",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "botler",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "48ebb89be369b0c9b17c18901f685d159d169fb5",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallcore",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "ef0b8f7d8db1d0c0099fb7816758ca163f256ebf",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallforgemint",
+   "how": null,
+   "ported": false,
+   "skip": "plan NO-GO: ✗ = fallforge-mint  https://sjgant80-hub.github.io/fallforge-mint/",
+   "sha": null,
+   "ci": "none",
+   "live": false
+  },
+  {
+   "name": "mint-a-node",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "bb6b2bd77bfc3ff1c6fbf21d632536ce9b4affea",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "csv-forge",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "f20d59cade43b7e883930086786b384702b2f25d",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallnode",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "b0383d053e32efaca67538995be406e1f5baa4f8",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallforge-catalogue",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "234506ff91909f9eb6f5564fa5f4fbc7b26c46fa",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallfloor",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "dda70a7675d22d7ce8f6286f6eba5dafcebcd305",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallstack",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "91064b633626f34d345194c2443bb1a2aaf96686",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallcrm",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "5cee90fcc1d47cfc2c4384b6e36e08d986841d97",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallsalescrm",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "d1e3883d4b7c8a18e564cb5030ac501df437a361",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallcrm-elite",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "a091cd798eb89c33bba9acbb00a0e877cb8b4323",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallreach",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "111158a06d67f3a2c2c3e4a5dfdb648e9c3679fe",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallpost",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "260f23325e97ef4a5e8b9558f8f8d64ecaad40a9",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fall-sales-marketing",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "768e5c833675824cce1610ac228735fe9ac55476",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallhire",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "a6da0d7a60fa023167c17c89b599048cccc57f3e",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallaccount",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "c0afedc7af6fa2acce43b18287b553681b31126b",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallaccount-trades",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "dfe9942db4660f62b239dcd6d6a4153761bd56ea",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "konomium-vault",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "d1186c19da17ed07506f0d1e80afabfc622affe9",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallbooks",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "cefe4508d652efa2c04be3e9b67fc588ecc7dedb",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallbookspractice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "be5ed74a2e0140fd389f913a752c61407daa0db0",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallbooksonboard",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "34e517a9f8cced8bfe55f95bf11074e9a862df89",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallbookspaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "0d2a3384d7e18b4667c88b76f95c322345d80233",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallinvoice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "46e20fa5adc57a5911e90d0c218f086cdc60d6bb",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallap",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "57a6964b735c4f16818468f946b80f4b078050b4",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallledger",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "6bc2c912b8e38b3a5df754348030a3f846234d78",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "falladviser",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "1db84d2ea5a97b9f8fa05be134180cf4940b09f4",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallpay",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "d550b160880bdaf7c2763b19372f750ce9148023",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallseed-accountancy",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "4a8c2b184ed618f1a680f79b6737325fc4542c93",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "falllegal",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "b3b9347bf0ba0d2b2d9fd6fd3223b6137655e390",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "falllegalpractice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "a0515ff8c436c48888e404cea5c24ac4b969692b",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "falllegalonboard",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "7c54743dd17216614a4b427aa68c1b24587a0d46",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "falllegalpaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "1e8c6efe5e5665534972d23e7a554cec0ef2d417",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallseed-law",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "50bbe6028289c1cca44dc47b3b2b7a2995c0aaf3",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "falljustice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "a4ed0f9f79763f3d1711405c22342bc2cd5e0e68",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "divorcerbot",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "cccc95adf60411ebcf2eaf0896628eb7c237b3a5",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallclaim",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "4871f22ba8c5c903b5d4294eb114a7c6203dc34d",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallclaimpractice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "c6dfdb2bf1510ba2f0bbb7ab34a39c161f868d22",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallclaimpaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "c8d2a80e31c8d778c28b9ad8b584e7d79bac9e72",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "kardv5",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "8b2023d794ee77cf5556b894581229cdb6041685",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "redress-engine",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "cecfb7c077b70c5fafb7e1f3d0a6aaf6d9f08631",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fall-euaiact",
+   "how": "shim",
+   "ported": false,
+   "skip": null,
+   "sha": null,
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallseed-compliance",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "f77fe9372578da030fda404743d5e29226ca4508",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallclinic",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "0ddc3793a135c480bed9c37f5a34b3683f131bd5",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallclinicpractice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "c692efe6cc67bf8407171b83ec6291a00193c7a6",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallcliniconboard",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "b388d5c6e000e1138d72c762baeb8fe312d96d36",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallclinicpaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "c21ccf3b0b83ad3b7a6f50454a01fab89e57e3e6",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallseed-clinic",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "4fca04b179896fadbab416de5cff457e2f7f3314",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "falldental",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "6ce8b2aed319d993684f8f1fdb72d3e2f377004d",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallvet",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "74a54708184a620fa9cee108f6ff732f3954d7e8",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallvetpaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "bb67382e2163b13ea5c1237dbafd52f4fe624c2e",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallseed-vet",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "cb725d394bd6b3d17d0f12715209b364ea1b65a3",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallinsurance",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "871d5c5fe290384b718e69f1f72b5d984652a1ad",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallinsurancepractice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "c4cdbe4e8eb016463d7c4cbb9c2a4682f6374f86",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallinsuranceonboard",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "d0d880cd3e2e6d5ffba8cb2c926f2e21d98ee4b3",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallinsurancepaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "b5a5e20e97332d35d3839f433b1e2143f1c21588",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallmortgage",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "1f8991fbcb560711afb4ab4a4e4b4becf2fe1e9e",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallmortgagepractice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "01ba6ca82ea7f10eec67e1fcc8dfbe5f20a39b95",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallmortgageonboard",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "9b4add8568fce8e9370234bf3ccac07afa64bcc3",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallmortgagepaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "33df5e4f0ef0b73bfa9bb177cb72c68f520894b9",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallpractice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "0f36695b5d2d62a31d5697eb1671a5d8f359761a",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallpaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "42354a28d52b3a42ad480fb31550642fc2e247c5",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallhr",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "31aef4be71c3d67bf23dfd666fff0a85800765f1",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallhronboard",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "c15c00cc337c225ebd707cf228899e452b3e8079",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallhrpaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "ce51650929da3162b61b35762f60b21288329a43",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallhrpractice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "762f16d0bde842a127aaaf8709e8d8aa3d4eabfa",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallseed-hr",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "a2f8273543fb4d2268fcfead10d44532442cbf00",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallrecruit",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "74b978fa59be34cfdaafa6f015cabd779ec12151",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallrecruitpractice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "974ad68f483d9024a31c963cff74f4ebac7ff86a",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallrecruitpaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "732adc7df5708f7f97af50a33de5433cbbf4c661",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallestatepaper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "6038bc89bd2eeca3bb6eda41757b63ab6f59d494",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallestateonboard",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "3f7d8f310988169e505a2adb398e3c7b88d1ebf6",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallestatepractice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "6b4b21c87d91b344e6e2e049cb41305b073b26b6",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "tradeshub",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "9cf2156c79aed94bcc7085dde685ee289d67295d",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "wishwood-keeper",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "c27289de3008f3ff47cf10c7d7e278f06b0ba424",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "falloffice",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "17d753c84c8db4ad4ab478a05d6c88d46444e211",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallnote",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "aff5034af8172d29ca7d8f3a41e7f1c17b94eb09",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallgarden",
+   "how": "linked",
+   "ported": true,
+   "skip": null,
+   "sha": "1c33d6a0ae0c5c40ff5aa3aeb2e28df435d580ae",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallscribe",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "c2d69fdd2df97ff8c627835cdc4c2ad628b75d29",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallpage",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "65b4baf2765e49bfe9aab09bc8407bf989145c31",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallmage",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "abfcace14c1400bde455120c78a938e50685f246",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallscene",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "17f4f47e5b1f92869c0c1d1ee0f35cd8099df242",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallreport",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "e4af948eab299aae851cbc14d11206f9db3f8c75",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallbuild",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "e95f5a5ad4ee6fce34a2d4d86c9a40fb059ace56",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallcube-api",
+   "how": "shim",
+   "ported": false,
+   "skip": null,
+   "sha": null,
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallvault",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "2249af2297d22e23a6875ce8de7f8aa4ff50cd90",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallstore",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "8735d4ed57c8897ca727c6483d0d6568dcc12c57",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallpod",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "e4a9ad623e23a8af709f74356be6718b2da099b3",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallid",
+   "how": "shim",
+   "ported": false,
+   "skip": null,
+   "sha": null,
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallshield",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "cdaedd22d9808a5bbc2a4c975d9f66a6681efd73",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallroom",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "a2957b4a002f0a26de6608620c3b9c82ff441208",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallmail",
+   "how": "shim",
+   "ported": false,
+   "skip": null,
+   "sha": null,
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "fallslot",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "2e1fd2dd26acdc5191cc0b429b7d40c917477d33",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallform",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "ac3907ddcb193c9436c9cf0437336d3e50b590a8",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "falllist",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "0b6b6054e831a6ea3bf2b4b080e54db466f48d45",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallhub",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "4b647a741995ddafe945dc8856bacad4f93dcf2e",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "glampos",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "20c581513d9aea1904f29cdf971bf690eb0ae35d",
+   "ci": "none",
+   "live": true
+  },
+  {
+   "name": "roost",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "7066a2dda739b9428931a48f7218774bb62e003c",
+   "ci": "success",
+   "live": true
+  },
+  {
+   "name": "fallcarousel",
+   "how": "inline",
+   "ported": true,
+   "skip": null,
+   "sha": "1b840f2046c8b1bc917b5220648fe9e52ba1b3c5",
+   "ci": "none",
+   "live": true
+  }
+ ]
+}

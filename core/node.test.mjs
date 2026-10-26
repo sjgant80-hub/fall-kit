@@ -588,3 +588,99 @@ test('a release counts only if it matches the card it travels with', async () =>
   assert.equal((await n.pin(c)).released, false, 'once');
   assert.equal((await n.pin({ ...c, release: null })).released, false);
 });
+
+// ── Phase 3: routing around a node that died, and shared state ──
+
+test('expire: an ask nobody answers counts as a failed answer, and the next ask goes elsewhere', async () => {
+  const m = await mesh();
+  const a = await m.A.ask('triage', { spO2: 90 });   // B (the smaller key) is chosen first
+  assert.equal(a.to, m.B.id);
+  assert.deepEqual(m.A.pending(), [a.id]);
+  const before = m.A.weight(m.B.id, 'triage');
+  const e = m.A.expire(a.id);
+  assert.deepEqual(e, { ok: true, to: m.B.id, skill: 'triage', weight: hebb(before, 'failed') });
+  assert.deepEqual(m.A.pending(), []);
+  assert.equal(m.A.weight(m.B.id, 'triage'), 250000);
+  assert.deepEqual(m.A.expire(a.id), { ok: false, why: 'no ask ' + a.id + ' is waiting' }, 'once');
+  assert.deepEqual(m.A.expire('nope'), { ok: false, why: 'no ask nope is waiting' });
+  assert.equal(m.A.expire('x'.repeat(80)).why, 'no ask ' + 'x'.repeat(40) + ' is waiting');
+  const next = await m.A.ask('triage', { spO2: 90 });
+  assert.equal(next.to, m.C.id, 'routed around the node that did not answer');
+  assert.equal(m.A.recall('expired unanswered', 1).center.meta.kind, 'expired');
+  // a late answer to the expired ask is an answer to nothing
+  const late = await m.B.hear(a.bytes);
+  assert.equal(late.replies.length, 1);
+  const r = await m.A.hear(late.replies[0].bytes);
+  assert.deepEqual([r.ok, r.reason], [false, 'an answer to nothing this node asked that peer']);
+  // a second expiry of a link already weakened halves it again
+  const b2 = await m.A.ask('triage', { spO2: 91 });
+  m.A.expire(b2.id);
+  assert.equal(m.A.weight(m.C.id, 'triage'), 250000);
+  const b3 = await m.A.ask('triage', { spO2: 92 });
+  assert.equal(b3.to, m.B.id, 'two failures each: the tie goes to the smaller key');
+  m.A.expire(b3.id);
+  assert.equal(m.A.weight(m.B.id, 'triage'), 125000);
+});
+
+test('readMessage: a sync message carries a document', () => {
+  const to = 'a'.repeat(64), doc = { docId: 'mesh', lamport: 1, entries: { k: { value: 1, ts: 1, nodeId: 'n', deleted: false } } };
+  assert.deepEqual(readMessage({ to, t: 'sync', doc }), { ok: true, t: 'sync', to, doc });
+  for (const bad of [{ to, t: 'sync' }, { to, t: 'sync', doc: 'x' }, { to, t: 'sync', doc: { ...doc, lamport: 0 } }]) assert.deepEqual(readMessage(bad), { ok: false, why: 'a sync message carries a document' });
+});
+
+test('shared state: writes merge across the mesh by the CRDT law, whatever order the syncs arrive in', async () => {
+  const m = await mesh();
+  assert.deepEqual(m.A.shared('mesh'), {});
+  assert.deepEqual(m.A.sharedDoc('mesh'), { docId: 'mesh', lamport: 0, entries: {} });
+  assert.equal(m.A.shared('nope'), null);
+  assert.equal(m.A.sharedDoc('nope'), null);
+  assert.equal(m.A.setShared('mesh', 'who', 'A').ok, true);
+  assert.deepEqual(m.B.setShared('mesh', 'who', 'B').entry, { value: 'B', ts: 1, nodeId: m.B.id, deleted: false });
+  m.C.setShared('mesh', 'c-only', [1, 2]);
+  assert.deepEqual(m.A.setShared('nope', 'k', 1), { ok: false, why: 'this node keeps no document nope' });
+  assert.equal(m.A.setShared('mesh', '', 1).why, 'a key is 1–256 characters');
+  assert.equal(m.A.setShared('x'.repeat(80), 'k', 1).why, 'this node keeps no document ' + 'x'.repeat(40));
+  // every node sends its document to every other, in two different orders; all end the same
+  const send = async (from, to) => { const b = await from.shareSync(to.id, 'mesh'); return to.hear(b); };
+  const r = await send(m.B, m.A);
+  assert.deepEqual([r.ok, r.t, r.from, r.doc, r.changed], [true, 'sync', m.B.id, 'mesh', 1]);
+  for (const [x, y] of [[m.C, m.A], [m.A, m.B], [m.C, m.B], [m.A, m.C], [m.B, m.C]]) await send(x, y);
+  const want = JSON.stringify(m.A.shared('mesh'));
+  assert.equal(JSON.stringify(m.B.shared('mesh')), want);
+  assert.equal(JSON.stringify(m.C.shared('mesh')), want);
+  assert.deepEqual(Object.keys(m.A.shared('mesh')), ['c-only', 'who']);
+  assert.equal(m.A.shared('mesh').who, [m.A.id, m.B.id].sort()[1] === m.A.id ? 'A' : 'B', 'a tie at time 1: the larger node id');
+  assert.equal((await send(m.B, m.A)).changed, 0, 'idempotent');
+  assert.equal(m.A.recall('merged keys of mesh', 1).center.meta.kind, 'sync');
+  assert.equal(await m.A.shareSync('f'.repeat(64), 'mesh'), null, 'only to a pinned peer');
+  assert.equal(await m.A.shareSync(m.B.id, 'nope'), null, 'only a document it keeps');
+  // a node that keeps another document hears a sync for one it does not keep, and refuses it by name
+  const other = await createNode({ name: 'other', identity: await makeIdentity(seed(9)), clock, docs: ['notes'] });
+  await other.pin(m.A.card()); await m.A.pin(other.card());
+  assert.deepEqual(other.shared('mesh'), null);
+  assert.deepEqual(other.shared('notes'), {});
+  const x = await other.hear(await m.A.shareSync(other.id, 'mesh'));
+  assert.deepEqual([x.ok, x.t, x.reason], [false, 'sync', 'this node keeps no document mesh']);
+  const none = await createNode({ name: 'none', identity: await makeIdentity(seed(10)), clock, docs: 'x' });
+  assert.deepEqual(none.shared('mesh'), {}, 'docs that are not a list: the mesh document');
+  const junk = await createNode({ name: 'junk', identity: await makeIdentity(seed(11)), clock, docs: ['', 5, 'ok'] });
+  assert.deepEqual([junk.shared('ok'), junk.shared('')], [{}, null], 'only documents with a name');
+});
+
+test('hearing is one packet at a time: two heard at once cannot set a counter back and let a replay in', async () => {
+  const m = await mesh();
+  const low = await m.B.shareLedger(m.A.id), high = await m.B.shareLedger(m.A.id);
+  const [a, b] = await Promise.all([m.A.hear(high), m.A.hear(low)]);
+  assert.equal(a.t, 'ledger', 'the higher counter, heard first, is admitted');
+  assert.equal(b.stage, 'counter', 'the lower one, heard at the same moment, is out of order');
+  const again = await m.A.hear(high);
+  assert.deepEqual([again.ok, again.stage], [false, 'counter'], 'and the higher one cannot be replayed');
+  const many = [];
+  for (let i = 0; i < 6; i++) many.push(await m.B.shareLedger(m.A.id));
+  const rs = await Promise.all(many.map((x) => m.A.hear(x)));
+  assert.equal(rs.filter((r) => r.t === 'ledger').length, 6, 'heard together, in order, every one is admitted');
+  const replays = await Promise.all(many.map((x) => m.A.hear(x)));
+  assert.equal(replays.filter((r) => r.stage === 'counter').length, 6, 'and every replay refused');
+  const junk = await Promise.all([m.A.hear(new Uint8Array(3)), m.A.hear(high)]);
+  assert.deepEqual(junk.map((r) => r.stage), ['size', 'counter'], 'junk in the queue does not stop it');
+});

@@ -304,11 +304,19 @@ export async function pass3() {
   };
 }
 
+// ── passes 4 and 5: measured where only a browser or this machine can (two real pages; the clones on this machine).
+// Their facts are committed in core/phase2/local/; CI re-judges them and cannot re-measure them.
+export function local45() {
+  const read = (name) => JSON.parse(readFileSync(join(HERE, 'local', name), 'utf8'));
+  const b1 = read('b1.json'), b2 = read('b2.json'), census = read('census.json');
+  return { b1: { from: 'core/phase2/local/b1.json', a: b1.a, b: b1.b }, b2: { from: 'core/phase2/local/b2.json', builds: b2.builds }, census: { from: 'core/phase2/local/census.json', ...census } };
+}
+
 const sealedIn = () => execFileSync('git', ['-C', ROOT, 'log', '--diff-filter=A', '--format=%H', '--', CLAIMS_PATH], { encoding: 'utf8' }).trim().split('\n').pop();
 
 async function receipt() {
-  const facts = { passes: [1, 2, 3], pass1: await pass1(), pass2: await pass2(), pass3: await pass3() };
-  const flat = { passes: facts.passes, ...facts.pass1, m1: { journals: facts.pass2.journals }, m2: { journals: facts.pass2.journals }, m3: facts.pass2.m3, i1: facts.pass3 };
+  const facts = { passes: [1, 2, 3, 4, 5], pass1: await pass1(), pass2: await pass2(), pass3: await pass3(), local45: local45() };
+  const flat = { passes: facts.passes, ...facts.pass1, m1: { journals: facts.pass2.journals }, m2: { journals: facts.pass2.journals }, m3: facts.pass2.m3, i1: facts.pass3, b1: facts.local45.b1, b2: facts.local45.b2, census: facts.local45.census };
   const j = judge(claims, flat);
   return { kind: 'fall-kit.core.phase2.receipt', v: 1, sealedIn: sealedIn(), corpus: claims.corpus.repos, facts, verdicts: j.verdicts, held: j.held, failed: j.failed, open: j.open };
 }

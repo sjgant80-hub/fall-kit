@@ -55,6 +55,19 @@ async function loadReceipt() {
     ? '<b>The controller\'s measured run:</b> ' + n0(p3.run.records) + ' of ' + n0(p3.run.calls) + ' calls in the book (' + n0(p3.run.bytes) + ' bytes; ' + n0(p3.run.jsonBytes) + ' as plain JSON), ' + (p3.run.readBack && p3.run.matches ? 'every one read back as its call' : '<span class="no">not read back whole</span>')
       + '. <b>The nightly loop:</b> ' + n0(p3.nightly.records) + ' call(s) so far, ' + (p3.nightly.readBack ? 'read back' : '<span class="no">not read back</span>') + '; its prompts carry Kar\'s private memory, so that book stays on the machine and only its totals are published.'
     : 'Pass 3 is not measured yet.';
+  const l45 = receipt.facts.local45;
+  if (l45) {
+    const a = l45.b1.a, b = l45.b1.b;
+    $('b1-line').innerHTML = '<b>Two real pages on one device</b> (' + esc(a.at.slice(0, 10)) + '): A admitted ' + n0(a.admitted) + ' signed messages, marked ' + n0(a.legacyMarked) + ' old JSON messages as legacy, and refused ' + n0(a.refused.signature || 0) + ' at the signature (another key, or a changed byte), '
+      + n0(a.refused.sender || 0) + ' at the sender and ' + n0(a.refused.counter || 0) + ' at the counter (sent twice); it wrongly admitted ' + n0(a.wronglyAdmitted) + '.';
+    const bs = l45.b2.builds, ported = bs.filter((x) => x.ported), withCi = ported.filter((x) => x.ci !== 'none');
+    $('b2-line').innerHTML = '<b>The gear builds:</b> Fall Kit 3.2.0 re-ported into ' + n0(ported.length) + ' of ' + n0(bs.length) + ' by the kit\'s own porter; ' + n0(withCi.filter((x) => x.ci === 'success').length) + ' of the ' + n0(withCi.length) + ' with CI green, ' + n0(ported.length - withCi.length) + ' with no CI; '
+      + n0(ported.filter((x) => x.live).length) + ' live pages now carry the LIGHT mesh; ' + n0(bs.filter((x) => x.how === 'shim').length) + ' load the newest kit through the shim. Not ported: ' + esc(bs.filter((x) => !x.ported && x.how !== 'shim').map((x) => x.name + (x.skip ? ' (' + x.skip + ')' : '')).join('; ') || 'none') + '.';
+    const c = l45.census;
+    $('c-rows').innerHTML = c.speaks.map((x) => '<tr><td>' + esc(x.name) + '</td><td><code>' + esc(x.file) + '</code>' + (x.files > 1 ? ' <span class="dim">and ' + n0(x.files - 1) + ' more</span>' : '') + '</td></tr>').join('');
+    $('c-line').innerHTML = 'Read: ' + n0(c.read) + ' of the estate\'s ' + n0(c.repos) + ' repositories (the rest are not cloned on this machine and are not guessed). Also ' + n0(c.privateSpeaking) + ' private repositories speak it (not named); ' + n0(c.throughFoundationOnly) + ' carry it only as a vendored foundation; '
+      + n0(c.throughKitOnly) + ' carry it only through a copy of the kit, inlined in a page or as its own file (' + n0(c.carryingTheKitMesh) + ' carry the LIGHT mesh in all).';
+  } else { $('b1-line').textContent = 'Pass 4 is not measured yet.'; $('b2-line').textContent = ''; $('c-rows').innerHTML = '<tr><td colspan="2" class="dim">Pass 5 is not measured yet.</td></tr>'; $('c-line').textContent = ''; }
   $('pass-rows').innerHTML = claims.passes.map((p) => {
     const vs = j.verdicts.filter((v) => v.pass === p.pass);
     const st = vs.every((v) => v.held === null) ? '<span class="tag na">SEALED</span>' : vs.every((v) => v.held === true) ? '<span class="tag held">HELD</span>' : '<span class="tag failed">SEE RECEIPT</span>';

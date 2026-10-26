@@ -1,0 +1,8 @@
+{
+ "kind": "fall-kit.core.phase2.local",
+ "v": 1,
+ "claim": "B1",
+ "what": "Measured in two real browser tabs on one device (the Claude desktop app's browser), both on https://sjgant80-hub.github.io/fall-kit/core/phase2/mesh-test.html at fall-kit 8ccc70f with Fall Kit 3.2.0: A listened through FallKit.meshStart; B spoke 20 messages and its hello through the kit, then posted on the same BroadcastChannel 10 packets signed by another key on the device's slot, 10 from another key on its own slot, 10 real packets with one byte changed, 10 real packets each sent twice, and 10 old-style JSON messages. A's own counts (FallKit.meshStats and what reached onMessage). A browser run cannot be re-run by CI; anyone can re-run it by opening the page as A and then as B.",
+ "a": { "at": "2026-10-26T13:48:27.004Z", "version": "3.2.0", "light": true, "admitted": 31, "legacy": 10, "refused": { "counter": 10, "sender": 10, "signature": 20 }, "heardHello": 1, "heardProbes": 20, "heardReplayFirsts": 10, "legacyMarked": 10, "wronglyAdmitted": 0 },
+ "b": { "version": "3.2.0", "light": true, "sent": 21, "posted": { "forged": 10, "stranger": 10, "tampered": 10, "replayed": 10, "legacy": 10 } }
+}

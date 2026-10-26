@@ -1,0 +1,391 @@
+{
+ "kind": "fall-kit.core.phase3.receipt",
+ "v": 1,
+ "sealedIn": "59a451cbdcee38b8fe10183e55482ab633303fdd",
+ "facts": {
+  "passes": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "r1": {
+   "relay": {
+    "imports": 0,
+    "dynamic": false
+   },
+   "heard": 200,
+   "delivered": 200,
+   "waiting": 0,
+   "dropped": 0
+  },
+  "r2": {
+   "asksAfterKill": 50,
+   "answeredAfterKill": 50,
+   "sameStates": true,
+   "relayAKilled": true
+  },
+  "r3": {
+   "sentWhileAway": 5,
+   "queuedAtRelay": 5,
+   "lateDelivered": 10,
+   "admitted": 5,
+   "refusedAtCounter": 5,
+   "other": 0,
+   "answeredLate": 5
+  },
+  "j1": {
+   "pinned": [
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7
+   ],
+   "strangerRefused": 8,
+   "badRosterRefused": 8
+  },
+  "j2": {
+   "asks": 100,
+   "toHolder": 100,
+   "answered": 100,
+   "triageAfter20": 64,
+   "toHonestAfter20": 64
+  },
+  "j3": {
+   "killed": "h2",
+   "askers": 4,
+   "asks": 40,
+   "toDead": 4,
+   "lastToDead": 3,
+   "answeredAfterLastDead": true
+  },
+  "j4": {
+   "links": [
+    {
+     "asker": "a1",
+     "honest": 962456,
+     "liar": 500000
+    },
+    {
+     "asker": "a2",
+     "honest": 962456,
+     "liar": 500000
+    },
+    {
+     "asker": "a3",
+     "honest": 962456,
+     "liar": 500000
+    },
+    {
+     "asker": "a4",
+     "honest": 962456,
+     "liar": 500000
+    }
+   ]
+  },
+  "s1": {
+   "nodes": 8,
+   "writesEach": 3,
+   "digests": {
+    "s1": [
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4"
+    ],
+    "s2": [
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4"
+    ],
+    "s3": [
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4",
+     "8b7551478f5ae87161bbfb4dbd90496f4a08a4f07b715c56945ebf78fa4754d4"
+    ]
+   },
+   "sizes": {
+    "s1": [
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10
+    ],
+    "s2": [
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10
+    ],
+    "s3": [
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10
+    ]
+   },
+   "relayKilledIn": "s2",
+   "syncsPerOrder": 56
+  },
+  "s2": {
+   "kinds": {
+    "stranger": {
+     "sent": 8,
+     "heard": 8,
+     "admitted": 0,
+     "decoded": 0,
+     "recognised": 0,
+     "variantNamed": 0,
+     "stages": {
+      "sender": 8
+     }
+    },
+    "forged": {
+     "sent": 8,
+     "heard": 8,
+     "admitted": 0,
+     "decoded": 0,
+     "recognised": 0,
+     "variantNamed": 0,
+     "stages": {
+      "signature": 8
+     }
+    },
+    "changed": {
+     "sent": 8,
+     "heard": 8,
+     "admitted": 0,
+     "decoded": 0,
+     "recognised": 0,
+     "variantNamed": 7,
+     "stages": {
+      "signature": 7,
+      "sender": 1
+     }
+    }
+   },
+   "mapsChanged": 0
+  },
+  "h1": {
+   "members": 8,
+   "firstRefusedAt": "signature",
+   "sharedTo": 7,
+   "adopted": 7,
+   "onSight": {
+    "sent": 8,
+    "heard": 8,
+    "admitted": 0,
+    "decoded": 0,
+    "recognised": 8,
+    "variantNamed": 0,
+    "stages": {
+     "recognised": 8
+    }
+   }
+  },
+  "h2": {
+   "hostile": 16,
+   "members": 8,
+   "kinds": {
+    "unpinned": {
+     "sent": 128,
+     "heard": 128,
+     "admitted": 0,
+     "decoded": 0,
+     "recognised": 0,
+     "variantNamed": 121,
+     "stages": {
+      "sender": 121,
+      "signature": 7
+     }
+    },
+    "forged": {
+     "sent": 128,
+     "heard": 128,
+     "admitted": 0,
+     "decoded": 0,
+     "recognised": 0,
+     "variantNamed": 127,
+     "stages": {
+      "signature": 128
+     }
+    },
+    "junk": {
+     "sent": 128,
+     "heard": 128,
+     "admitted": 0,
+     "decoded": 0,
+     "recognised": 0,
+     "variantNamed": 6,
+     "stages": {
+      "magic": 128
+     }
+    },
+    "replayed": {
+     "sent": 16,
+     "heard": 16,
+     "admitted": 0,
+     "decoded": 0,
+     "recognised": 14,
+     "variantNamed": 1,
+     "stages": {
+      "counter": 2,
+      "recognised": 14
+     }
+    },
+    "changed": {
+     "sent": 128,
+     "heard": 128,
+     "admitted": 0,
+     "decoded": 0,
+     "recognised": 48,
+     "variantNamed": 72,
+     "stages": {
+      "signature": 56,
+      "sender": 8,
+      "version": 12,
+      "length": 4,
+      "recognised": 48
+     }
+    }
+   }
+  },
+  "h3": {
+   "asks": 100,
+   "answered": 100,
+   "heard": 200,
+   "admitted": 200,
+   "recognised": 0
+  },
+  "x1": {
+   "from": "core/phase3/local/x1.json",
+   "missing": true
+  }
+ },
+ "verdicts": [
+  {
+   "id": "R1",
+   "pass": 1,
+   "held": true,
+   "measured": "200 frames delivered by the relays, 200 heard by the nodes they named; 0 left waiting, 0 dropped; relay.mjs imports 0 modules and loads none (it cannot decode a body)",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "R2",
+   "pass": 1,
+   "held": true,
+   "measured": "relay A killed after 50 asks: 50 of the 50 later asks answered through relay B; every node's state the same as the run where nothing was killed",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "R3",
+   "pass": 1,
+   "held": true,
+   "measured": "5 asks sent while the node was away; on its return 5 admitted, 5 second copies (the relay delivered 10) refused at the counter, 0 other",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "J1",
+   "pass": 2,
+   "held": true,
+   "measured": "eight nodes pinned 7, 7, 7, 7, 7, 7, 7, 7 members each from the founder's roster; the ninth card refused by 8 of 8; a roster signed by another key refused by 8 of 8",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "J2",
+   "pass": 2,
+   "held": true,
+   "measured": "100 of 100 asks went to a holder of their skill (100 answered); after the first 20, 64 of 64 triage asks (100%) went to an honest holder (bar 90%)",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "J3",
+   "pass": 2,
+   "held": false,
+   "measured": "h2, the holder the triage asks were going to, killed; each of the 4 askers finds out on its own; 4 of the 40 asks after the holder died went to it (bar 2), the last at ask 3; every ask after that went to a live holder and was answered",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "J4",
+   "pass": 2,
+   "held": false,
+   "measured": "a1: honest 962456, dishonest 500000 (NOT); a2: honest 962456, dishonest 500000 (NOT); a3: honest 962456, dishonest 500000 (NOT); a4: honest 962456, dishonest 500000 (NOT) (parts of a million; the floor is 50000)",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "S1",
+   "pass": 3,
+   "held": true,
+   "measured": "8 nodes each wrote 3 keys, then synced pair by pair (56 signed syncs through the relays) in three shuffled orders, relay A killed halfway through the s2 order: in s1 1 digest across the 8 nodes, in s2 1 digest across the 8 nodes, in s3 1 digest across the 8 nodes, all 8b7551478f5a…, every map holding 10 keys",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "S2",
+   "pass": 3,
+   "held": true,
+   "measured": "8 stranger (0 admitted, 0 decoded; sender 8); 8 forged (0 admitted, 0 decoded; signature 8); 8 changed (0 admitted, 0 decoded; signature 7, sender 1); 0 of the nodes' maps changed",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "H1",
+   "pass": 4,
+   "held": true,
+   "measured": "one forged packet refused at one node (at the signature stage); its antibodies shared with 7, adopted by 7 after each re-ran it on its own door; the same bytes then sent to all 8: 8 refused them as recognised on sight, 0 decoded, 0 admitted",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "H2",
+   "pass": 4,
+   "held": true,
+   "measured": "16 hostile nodes sent 528 packets to the 8 members: 128 unpinned (0 admitted, 0 decoded), 128 forged (0 admitted, 0 decoded), 128 junk (0 admitted, 0 decoded), 16 replayed (0 admitted, 0 decoded), 128 changed (0 admitted, 0 decoded); of the 128 forged variants, 127 (99.2%) named as a variant of a family already learned (bar 50%)",
+   "predicted": "unsure — the variant share depends on how close the variants fall to the shapes learned first"
+  },
+  {
+   "id": "H3",
+   "pass": 4,
+   "held": true,
+   "measured": "after all the learning, 100 of 100 ordinary asks answered; the doors heard 200 packets of that work, admitted 200, refused 0 as recognised",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "X1",
+   "pass": 5,
+   "held": null,
+   "measured": "not measured yet: pass 5",
+   "predicted": "HOLD"
+  }
+ ],
+ "held": 10,
+ "failed": 2,
+ "open": 1
+}

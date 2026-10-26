@@ -15,7 +15,14 @@ live: nine claims sealed first, the receipt re-runs byte for byte in CI).
 
 **Live: https://sjgant80-hub.github.io/fall-kit/core/phase2/** — Phase 2, LIGHT everywhere: the estate keeps and carries
 everything as signed LIGHT, and one mutation-tested edge (`core/edge.mjs`) speaks the outside's formats. Fifteen claims
-sealed first over five passes (`core/phase2/claims.json`); re-run pass 1 with `node core/phase2/measure.mjs --check`.
+sealed first over five passes (`core/phase2/claims.json`): 13 held, 2 failed and kept. Re-run it with
+`node core/phase2/measure.mjs --check`.
+
+**Live: https://sjgant80-hub.github.io/fall-kit/core/phase3/** — Phase 3, the mesh is live: foundation nodes as separate
+processes on thin relays that read no body (`core/relay.mjs`), joined by the founder's roster (`core/roster.mjs`), routing
+by answers that check, routing around a dead node or relay, a shared map by CRDT, and shared immunity. Thirteen claims
+sealed first (`core/phase3/claims.json`); run a mesh in your browser on the page, or re-run the whole thing with
+`node core/phase3/measure.mjs --check`.
 
 ## v3.2.0
 

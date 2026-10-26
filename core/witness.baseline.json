@@ -3,5 +3,10 @@
     "mutation": "< → <=",
     "snippet": "const better = best === null || (live && !best.live) || (live === best.live && (w > best.w",
     "reason": "the routing tie-break compares the ids of two different peers: ids are the unique keys of the node’s peer map, so p.id === best.id never happens and < and <= cannot decide differently — a reviewed equivalent"
+  },
+  {
+    "mutation": "< → <=",
+    "snippet": "const sorted = cards.slice().sort((a, b) => (String(a && a.id) < String(b && b.id) ? -1 : ",
+    "reason": "makeRoster refuses a repeated id before it sorts, so no two cards in the sort share an id and < and <= cannot decide differently — a reviewed equivalent"
   }
 ]

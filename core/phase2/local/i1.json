@@ -2,7 +2,7 @@
  "kind": "fall-kit.core.phase2.local",
  "v": 1,
  "claim": "I1",
- "what": "The totals of the nightly loop’s own call book (si-didy kar-loop.mjs, step 2: every real call the controller makes is appended to a LIGHT call book through kar-mind/callbook.mjs). Its prompts carry Kar’s private memory, so the book stays on the machine; only these totals are published. CI cannot re-read it; it re-judges these.",
+ "what": "The totals of the nightly loop’s own call book (Kar’s nightly loop, kar-loop.mjs, step 2: every real call the controller makes is appended to a LIGHT call book through kar-mind/callbook.mjs). Its prompts carry Kar’s private memory, so the book stays on the machine; only these totals are published. CI cannot re-read it; it re-judges these.",
  "nightly": {
   "records": 1,
   "readBack": true,

@@ -212,3 +212,88 @@ test('I1: every call of the run in the book and read back, and the nightly loopâ
   assert.equal(v2({ ...good3(), i1: null }, 'I1').held, false);
   assert.deepEqual([judge(claims, good3()).held, judge(claims, good3()).open], [10, 5], 'with pass 3: ten held, five still open');
 });
+
+const b1facts = () => ({ a: { light: true, admitted: 31, legacy: 10, legacyMarked: 10, wronglyAdmitted: 0, refused: { signature: 20, sender: 10, counter: 10 } }, b: { light: true, sent: 21, posted: { forged: 10, stranger: 10, tampered: 10, replayed: 10, legacy: 10 } } });
+const B = (name, how, ported, ci, live) => ({ name, how, ported, ci, live });
+const b2facts = () => ({ builds: [B('a', 'inline', true, 'success', true), B('b', 'inline', true, 'none', true), B('c', 'shim', false, 'none', true), B('d', 'inline', false, 'none', false)] });
+const census = () => ({ rule: 'own code only', privateSpeaking: 1, throughFoundationOnly: 2, throughKitOnly: 90, carryingTheKitMesh: 95, speaks: ['break-it', 'fall-kit', 'kar-mind', 'konomi-slm', 'konomi-tongue'].map((name) => ({ name, file: 'src/' + name + '.mjs', files: 1 })) });
+const good5 = () => ({ ...good3(), passes: [1, 2, 3, 4, 5], b1: b1facts(), b2: b2facts(), census: census() });
+
+test('B1: two pages: every signed message in, each refused kind at its stage, legacy marked', () => {
+  assert.equal(v2(good5(), 'B1').held, true);
+  assert.equal(v2(good5(), 'B1').measured, 'two pages on one device: 31 of 31 signed messages admitted; refused at the signature 20 of 20, at the sender 10 of 10, at the counter 10 of 10; 10 of 10 old JSON messages marked legacy; 0 wrongly admitted');
+  const t = (mut) => { const f = good5(); mut(f.b1); return v2(f, 'B1').held; };
+  assert.equal(t((x) => { x.a.admitted = 30; }), false);
+  assert.equal(t((x) => { x.a.admitted = 32; }), false, 'more admitted than were signed');
+  assert.equal(t((x) => { x.a.refused.signature = 19; }), false);
+  assert.equal(t((x) => { x.a.refused.sender = 9; }), false);
+  assert.equal(t((x) => { x.a.refused.counter = 11; }), false);
+  assert.equal(t((x) => { x.a.refused.magic = 1; }), false, 'a refusal at a stage nothing was sent for');
+  assert.equal(t((x) => { x.a.refused.magic = 0; }), false, 'any other stage named, even at zero');
+  assert.equal(t((x) => { x.a.legacy = 9; }), false);
+  assert.equal(t((x) => { x.a.legacyMarked = 9; }), false);
+  assert.equal(t((x) => { x.a.wronglyAdmitted = 1; }), false);
+  assert.equal(t((x) => { x.a.light = false; }), false, 'a page on the JSON mesh measures nothing');
+  assert.equal(t((x) => { x.b.light = false; }), false);
+  for (const k of ['forged', 'stranger', 'tampered', 'replayed', 'legacy']) assert.equal(t((x) => { x.b.posted[k] = 0; }), false, 'nothing ' + k + ' sent');
+  assert.equal(t((x) => { x.b.sent = 0; x.a.admitted = 10; }), false, 'no message spoken through the kit');
+  assert.equal(t((x) => { x.b.sent = 1; x.a.admitted = 11; }), true, 'one message is enough');
+  assert.equal(t((x) => { x.b.posted.legacy = 1; x.a.legacy = 1; x.a.legacyMarked = 1; }), true);
+  assert.equal(t((x) => { x.b.posted.forged = 1; x.a.refused.signature = 11; }), true, 'one forged packet is enough');
+  assert.equal(t((x) => { x.b.posted.tampered = 1; x.a.refused.signature = 11; }), true, 'one changed packet is enough');
+  assert.equal(t((x) => { x.b.posted.stranger = 1; x.a.refused.sender = 1; }), true, 'one stranger is enough');
+  assert.equal(t((x) => { x.b.posted.replayed = 1; x.a.refused.counter = 1; x.a.admitted = 22; }), true, 'one replay is enough');
+  assert.equal(t((x) => { x.a.refused = null; }), false);
+  assert.equal(t((x) => { delete x.a; }), false);
+  assert.equal(v2({ ...good5(), b1: null }, 'B1').held, false);
+});
+
+test('B2: every re-ported build live with the mesh, and green where it has CI', () => {
+  assert.equal(v2(good5(), 'B2').held, true);
+  assert.equal(v2(good5(), 'B2').measured, '2 builds re-ported: 1 of the 1 with CI green, 1 have no CI; 2 live pages carry the LIGHT mesh; 1 load the newest kit through the shim; 1 not ported');
+  const t = (mut) => { const f = good5(); mut(f.b2.builds); return v2(f, 'B2'); };
+  assert.equal(t((bs) => { bs[0].ci = 'failure'; }).held, false);
+  assert.match(t((bs) => { bs[0].ci = 'failure'; }).measured, /NOT green: a\)/);
+  assert.equal(t((bs) => { bs[0].ci = 'in_progress'; }).held, false, 'not yet green is not green');
+  assert.equal(t((bs) => { bs[1].live = false; }).held, false);
+  assert.match(t((bs) => { bs[1].live = false; }).measured, /NOT: b\)/);
+  assert.equal(t((bs) => { bs[2].live = false; bs[3].ci = 'failure'; }).held, true, 'what was not ported is reported apart, not judged');
+  assert.equal(t((bs) => { for (const b of bs) b.ported = false; }).held, false, 'nothing ported shows nothing');
+  assert.equal(t((bs) => { bs[1].ported = false; }).held, true, 'one ported build is enough to show it');
+  assert.match(t((bs) => { bs.push(B('e', 'none', false, 'none', false)); }).measured, /; 1 load the newest kit through the shim; 2 not ported$/, 'the shim builds are not counted as not ported');
+  assert.equal(v2({ ...good5(), b2: { builds: [null, ...b2facts().builds] } }, 'B2').held, true, 'junk is no build');
+  assert.equal(v2({ ...good5(), b2: { builds: 'x' } }, 'B2').held, false);
+  assert.equal(v2({ ...good5(), b2: null }, 'B2').held, false);
+});
+
+test('C1â€“C3: the census, by its own rule', () => {
+  assert.equal(v2(good5(), 'C1').held, true);
+  assert.match(v2(good5(), 'C1').measured, /^5 public repositories speak LIGHT in their own code, each named with one own file \(break-it: src\/break-it\.mjs; /);
+  assert.match(v2(good5(), 'C1').measured, /\); 1 private; 2 only through a vendored foundation; 90 only through a copy of the kit$/);
+  const t = (id, mut) => { const f = good5(); mut(f.census); return v2(f, id).held; };
+  assert.equal(t('C1', (c) => { c.speaks[0].file = 'vendor/light/codec.mjs'; }), false, 'a vendored file is not own code');
+  assert.equal(t('C1', (c) => { c.speaks[0].file = 'x/node_modules/y.js'; }), false);
+  assert.equal(t('C1', (c) => { c.speaks[0].file = 'myvendor/a.mjs'; }), true, 'a folder merely named like vendor is own code');
+  assert.equal(t('C1', (c) => { c.speaks[0].file = ''; }), false, 'a repository counted must name its file');
+  assert.equal(t('C1', (c) => { delete c.speaks[0].file; }), false);
+  assert.equal(t('C1', (c) => { c.speaks[0].name = 5; }), false);
+  assert.equal(t('C1', (c) => { c.rule = ''; }), false, 'the rule applied is said');
+  assert.equal(t('C1', (c) => { delete c.rule; }), false);
+  assert.equal(t('C1', (c) => { c.speaks = []; }), false, 'no repository shows nothing');
+  assert.equal(t('C1', (c) => { c.speaks = c.speaks.slice(0, 1); }), true, 'one repository, named, is the rule applied');
+  assert.equal(t('C2', () => {}), true);
+  assert.equal(v2(good5(), 'C2').measured, '5 public repositories speak LIGHT in their own code (bar 5); the organs this phase moved live in fall-kit, kar-mind, konomi-tongue, all counted');
+  assert.equal(t('C2', (c) => { c.speaks = c.speaks.slice(1); }), false, 'four is under the bar');
+  for (const m of ['fall-kit', 'kar-mind', 'konomi-tongue']) {
+    const f = good5(); f.census.speaks = f.census.speaks.filter((s) => s.name !== m); f.census.speaks.push({ name: 'other', file: 'a.mjs' });
+    assert.equal(v2(f, 'C2').held, false, m + ' missing');
+    assert.match(v2(f, 'C2').measured, new RegExp('NOT counted: ' + m + '$'));
+  }
+  assert.equal(t('C3', () => {}), false, 'five is under fifty');
+  assert.equal(v2(good5(), 'C3').measured, '5 public repositories speak LIGHT in their own code, counting the gear builds (bar 50); 90 carry the LIGHT mesh only through a copy of the kit (inlined in a page, or as its own file), which the census\'s own rule (C1) does not count');
+  assert.equal(t('C3', (c) => { c.speaks = Array.from({ length: 50 }, (_, i) => ({ name: 'r' + i, file: 'a.mjs' })); }), true, 'fifty is the bar');
+  assert.equal(t('C3', (c) => { c.speaks = Array.from({ length: 49 }, (_, i) => ({ name: 'r' + i, file: 'a.mjs' })); }), false);
+  assert.equal(v2({ ...good5(), census: null }, 'C1').held, false);
+  assert.equal(v2({ ...good5(), census: { speaks: 'x', rule: 'r' } }, 'C1').held, false);
+  assert.deepEqual([judge(claims, good5()).held, judge(claims, good5()).failed, judge(claims, good5()).open], [14, 1, 0], 'all fifteen measured: C3 fails at five');
+});

@@ -1,4 +1,4 @@
-// core/phase2/mesh-test.mjs — pass 4's claim B1, measured in two real pages on one device. A listens through Fall Kit's
+// core/phase2/mesh-tab.mjs — (named -tab, not -test: node --test would run it as a Node test) pass 4's claim B1, measured in two real pages on one device. A listens through Fall Kit's
 // mesh and counts; B speaks through the kit, then posts on the same channel what no page should accept, and old JSON.
 import { speak } from '../mesh.mjs';
 import { openDevice } from '../mesh-device.mjs';

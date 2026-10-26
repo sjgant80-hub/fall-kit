@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>The mesh is live · Fall Kit core, phase 3</title>
+<meta name="description" content="Phase 3 of the estate going live: the foundation's nodes, each its own process, find each other through thin relays that read no body, route work to the node whose answers check, route around a node or relay that dies, keep shared state the same everywhere by CRDT, and share immunity. Thirteen claims sealed before the code; a crowd of hostile nodes got none of 552 packets through. Run a mesh in your browser.">
+<link rel="canonical" href="https://sjgant80-hub.github.io/fall-kit/core/phase3/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Fall Kit core, phase 3 — the mesh is live","codeRepository":"https://github.com/sjgant80-hub/fall-kit","programmingLanguage":"JavaScript","license":"https://opensource.org/licenses/MIT","description":"Foundation nodes as separate processes on thin relays that carry bytes and read no body; asks routed by measured competence; a dead node or relay routed around; shared state by a last-writer-wins CRDT; immunity shared across the mesh; browsers as nodes over WebRTC. Every claim sealed before the code and re-run by CI byte for byte.","author":{"@type":"Organization","name":"AI Native Solutions","url":"https://www.ai-nativesolutions.com"}}</script>
+<script type="application/ld+json" id="faq-ld">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is a relay, and can it read my data?","acceptedAnswer":{"@type":"Answer","text":"A relay is a small process that carries frames to the node each frame names, and holds them a while for a node that is away. It reads the recipient's id and nothing else. Every body is a LIGHT packet the sending node signed, and the receiving node's own door checks it, so a relay that lies, drops or replays costs delivery, never safety. The relay's code imports no codec, door or vault at all; the receipt checks that."}},{"@type":"Question","name":"What happens when a node or a relay dies?","acceptedAnswer":{"@type":"Answer","text":"Every node says hello to every relay, so when a relay dies the nodes go on through another: in the measured run relay A was killed halfway and all 50 later asks were answered through relay B, with every node's state the same as a run where nothing died. When a node dies, its unanswered asks expire, count as failed answers, and the next ask goes to another holder of the skill; each asker does lose one ask to it first, because one asker's silence is not shared with the others (J3, failed and kept)."}},{"@type":"Question","name":"How is shared state kept the same?","acceptedAnswer":{"@type":"Answer","text":"Each node keeps a copy of a shared map, a last-writer-wins CRDT by Lamport time with the node id as the tie-break, gated in fallsync first. Changes travel as signed LIGHT packets; only a pinned member's sync is merged. In the measured run eight nodes ended with the same map in three different shuffled orders, one of them with a relay killed halfway."}},{"@type":"Question","name":"What is shared immunity?","acceptedAnswer":{"@type":"Answer","text":"When a node's door refuses a packet it remembers it as an antibody. It can share its antibodies with the mesh, and each node adopts one only after re-running it on its own door. In the measured run one forged packet refused at one node was, after one round of sharing, recognised on sight by all eight, without decoding."}},{"@type":"Question","name":"What did not hold?","acceptedAnswer":{"@type":"Answer","text":"Two claims failed and are kept. J3: when the holder the asks were going to died, each of the four askers sent one ask to it before moving on, four against a bar of two, because one asker's silence is not shared with the others. J4: the dishonest triage holder was never asked, because routing ranked the honest holders first, so its link never fell and the mesh never learned that it lies."}}]}</script>
+<style>
+:root{--void:#1a1612;--void-2:#231f1a;--ink:#2b2722;--line:#3a342c;--line-soft:#2e2922;--cream:#ebe3d2;--cream-dim:#a89e88;--cream-muted:#736b5a;--brass:#c08a3a;--amber:#e8a83a;--leaf:#6b8d4a;--rust:#c25a35;
+--serif:Georgia,'Times New Roman',ui-serif,serif;--sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--void);color:var(--cream);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--brass);text-decoration:none}a:hover{text-decoration:underline}
+code,pre,.mono{font-family:var(--mono)}
+code{background:var(--ink);padding:1px 5px;border-radius:2px;font-size:12.5px;color:var(--brass);word-break:break-word}
+pre{background:var(--ink);padding:14px 16px;border-radius:4px;border:1px solid var(--line);overflow-x:auto;color:var(--cream-dim);line-height:1.55;font-size:12px;margin:10px 0 14px}
+header{background:var(--void-2);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{width:32px;height:32px;background:linear-gradient(135deg,var(--brass),var(--amber));border-radius:5px;display:grid;place-items:center;font:700 18px var(--serif);color:var(--void)}
+.name{font:700 18px var(--serif)}.sub{font:9px var(--mono);color:var(--cream-muted);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+header nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}header nav a{color:var(--cream-dim);font-size:13px}
+main{max-width:900px;margin:0 auto;padding:30px 24px 100px}
+h1{font:700 30px/1.15 var(--serif);margin-bottom:12px}
+h2{font:700 22px var(--serif);margin:42px 0 10px;color:var(--brass)}
+h3{font:700 16px var(--serif);margin:20px 0 8px}
+p{margin-bottom:12px}ul,ol{margin:0 0 14px 24px}li{margin-bottom:5px;color:var(--cream-dim)}
+.lede{font-size:17px;color:var(--cream-dim);margin-bottom:16px}
+.small{font-size:13px}
+.hero{background:linear-gradient(135deg,rgba(192,138,58,.10),rgba(107,141,74,.04));border:1px solid var(--brass);border-radius:5px;padding:24px 28px;margin-bottom:22px}
+.seal{font:10px var(--mono);color:var(--cream-muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.tile{background:var(--void-2);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.tile b{display:block;font:700 22px var(--serif);color:var(--brass)}.tile span{font-size:12px;color:var(--cream-dim)}
+.btn{padding:9px 16px;background:var(--brass);color:var(--void);border:none;border-radius:3px;font:600 13px var(--sans);cursor:pointer}
+.btn:hover{background:var(--amber)}.btn:disabled{opacity:.6;cursor:default}
+.btn.ghost{background:transparent;color:var(--cream-dim);border:1px solid var(--line)}.btn.ghost:hover{border-color:var(--brass);color:var(--cream)}
+.box{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin:16px 0}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.row b.lbl{font:10px var(--mono);color:var(--cream-muted);letter-spacing:.1em;text-transform:uppercase;min-width:96px}
+input[type=text],select{padding:7px 9px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:13px var(--sans)}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:var(--void-2);padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.08em;text-transform:uppercase}
+td{padding:8px 10px;border-bottom:1px solid var(--line-soft);color:var(--cream-dim);vertical-align:top}
+.scroll{overflow-x:auto}
+.ok{color:var(--leaf);font-weight:600}.no{color:var(--rust);font-weight:600}.dim{color:var(--cream-muted)}
+.tag{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;padding:2px 6px;border-radius:2px}
+.tag.held{background:rgba(107,141,74,.2);color:var(--leaf)}.tag.failed{background:rgba(194,90,53,.2);color:var(--rust)}.tag.na{background:var(--void-2);color:var(--cream-muted)}
+.diagram{margin:14px 0;background:var(--ink);border:1px solid var(--line);border-radius:5px;padding:12px;overflow-x:auto}
+.diagram svg{width:100%;min-width:620px;height:auto;display:block}
+.diagram .b{fill:var(--void-2);stroke:var(--line);stroke-width:1.5}.diagram .hot{stroke:var(--brass)}.diagram .dead{stroke:var(--rust);stroke-dasharray:4 3;opacity:.6}
+.diagram .t{fill:var(--cream);font:700 14px var(--serif)}.diagram .s{fill:var(--cream-dim);font:11.5px var(--sans)}.diagram .mono{font:10.5px var(--mono)}
+.diagram .ln{fill:none;stroke:var(--line);stroke-width:1.5}.diagram .hotln{fill:none;stroke:var(--amber);stroke-width:3}.diagram .deadln{fill:none;stroke:var(--rust);stroke-width:1;stroke-dasharray:3 4;opacity:.5}
+.diagram .arrow{fill:none;stroke:var(--brass);stroke-width:1.8}.diagram .no-ln{fill:none;stroke:var(--rust);stroke-width:1.8;stroke-dasharray:5 4}
+#m-log{list-style:none;margin:10px 0 0;padding:0;max-height:300px;overflow-y:auto;border-top:1px solid var(--line-soft)}
+#m-log li{font-size:13px;padding:6px 0;border-bottom:1px solid var(--line-soft);color:var(--cream-dim)}
+.bar{display:inline-block;width:70px;height:7px;background:var(--void-2);border:1px solid var(--line);border-radius:2px;vertical-align:middle;margin-right:4px}.bar span{display:block;height:100%;background:var(--brass)}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:8px 0 12px}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--cream-dim)}
+.calc input,.calc select{padding:7px 9px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:inherit;width:100%}
+.line{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-soft);padding:5px 0;font-size:13px}
+.line span:last-child{font-family:var(--mono);color:var(--cream)}
+.bottom{font-size:15px;margin:6px 0 10px}
+.note{border-left:3px solid var(--rust);padding:10px 14px;background:var(--void-2);margin:12px 0;font-size:14px}
+details{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:600;color:var(--cream)}
+.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.06em;text-align:center;line-height:1.9}
+.foot a{color:var(--cream-dim)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media (max-width:640px){header{padding:12px 16px}main{padding:22px 16px 80px}.hero{padding:18px 16px}h1{font-size:24px}.lede{font-size:15.5px}th,td{padding:6px 7px}.row b.lbl{min-width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="mark" aria-hidden="true">F</div><div><div class="name">Fall Kit · core</div><div class="sub">phase 3 · the mesh is live</div></div></div>
+  <nav aria-label="Sections"><a href="#start">Start here</a><a href="#try">Run a mesh</a><a href="#how">How it works</a><a href="#receipt">Receipt</a><a href="#blueprint">Blueprint</a><a href="#business">For a business</a><a href="#paper">Paper</a><a href="../phase2/">Phase 2</a><a href="../">Phase 1</a></nav>
+</header>
+<main>
+
+<section class="hero" aria-labelledby="what">
+  <div class="seal">Phase 3 of the estate going live · thirteen claims sealed before the code</div>
+  <h1 id="what">Many nodes, one mesh, and nothing in the middle you have to trust</h1>
+  <p class="lede">The foundation's nodes now run together as a mesh. Each node is its own program. They find each other through small relays that carry bytes and read nothing else. Work goes to the node whose answers check, and a node or relay that dies is routed around. A shared map stays the same everywhere, and when one node learns to refuse an attack, the whole mesh soon recognises it.</p>
+  <p>Every message is a LIGHT packet its sender signed. The node it is for checks it at its own door before reading a byte of it. So the relays, the network and every other node can be wrong, or hostile, and the worst they can do is fail to deliver.</p>
+  <div class="tiles" aria-live="polite">
+    <div class="tile"><b id="t-hostile">…</b><span>packets from hostile nodes admitted anywhere</span></div>
+    <div class="tile"><b id="t-relay">…</b><span>asks answered after a relay was killed mid-run</span></div>
+    <div class="tile"><b id="t-sync">…</b><span>nodes ending with the same shared map, in every order</span></div>
+    <div class="tile"><b id="t-held">…</b><span id="t-held-label">sealed claims holding</span></div>
+  </div>
+  <div class="row"><a class="btn" href="#try">Run a mesh in this tab</a><a class="btn ghost" href="#receipt">See the receipt</a></div>
+</section>
+
+<h2 id="start">Start here</h2>
+<h3>If you want to see it work</h3>
+<ol>
+  <li><b>Start the mesh</b> below. Six real foundation nodes start in your tab: two honest triage holders, one dishonest one, a scribe, and two askers. The founder signs a roster of them, and each node pins every member on it.</li>
+  <li><b>Ask for triage</b> a few times. Each ask goes to a holder of the skill. The answer's receipt is checked, and the asker's link to that holder grows. The table shows each asker's links.</li>
+  <li><b>Kill relay A</b>, then ask again. Everything goes through relay B. Now <b>kill the holder the asks are going to</b> (the log says which) and ask: each asker's first ask to it is not answered, expires, and counts as a failure, so its next ask goes elsewhere. <b>Bring it back</b>: the relay hands it what it held while it was away.</li>
+  <li><b>Write and sync.</b> Write a key at one node, then sync. Every live node ends with the same map: the short code under each node is its map's fingerprint.</li>
+  <li><b>Attack it.</b> Have the stranger forge a packet at a1, then share what a1 learned, then send the same bytes to everyone. Every node now recognises them on sight. Try a variant.</li>
+  <li><b>Read the receipt</b>: the measured claims, re-judged in your tab from the receipt's own facts.</li>
+</ol>
+<h3>If you run the estate</h3>
+<p>The measured run is one command, and CI runs it on every push:</p>
+<pre>git clone https://github.com/sjgant80-hub/fall-kit && cd fall-kit
+node core/phase3/measure.mjs --check     # starts 3 relays and up to 24 nodes as their own processes; same receipt, byte for byte</pre>
+<p>To put a node of yours on a mesh, start a relay and point nodes at it:</p>
+<pre>node core/relay-server.mjs 47301                       # a relay on this machine
+node core/relay-server.mjs 47301 --host 0.0.0.0        # or one another device on your network can reach
+node core/phase3/cell.mjs 81 honest 47301              # a node: its seed, its role, the relays (port, or host:port)
+node core/phase3/cell.mjs 85 asker 192.168.1.20:47301  # a node on a second device</pre>
+<p class="small dim">A second device is a door you open: the receipt measures one machine and two browser tabs, and does not claim more. The seeds above are public test seeds; give a real node its own key.</p>
+
+<h2 id="try">Run a mesh in this tab</h2>
+<div class="box">
+  <div class="row"><button class="btn" id="m-start" type="button">Start the mesh</button><span class="small dim" id="m-state">Six nodes and two relays, all here in your tab, on the real organs.</span></div>
+  <div class="diagram" role="img" aria-label="The mesh: six nodes, each connected to relay A and relay B; a line lights up when a packet crosses it"><svg viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg" id="m-svg"><text class="s" x="350" y="175" text-anchor="middle">Start the mesh to see it.</text></svg></div>
+  <div class="row"><b class="lbl">Work</b><button class="btn ghost" type="button" data-m="ask">Ask for triage</button><button class="btn ghost" type="button" data-m="ask10">Ask ten times</button><button class="btn ghost" type="button" data-m="echo">Ask the scribe</button></div>
+  <div class="row"><b class="lbl">Break it</b><button class="btn ghost" type="button" data-m="killA">Kill / restore relay A</button><button class="btn ghost" type="button" data-m="killB">Kill / restore relay B</button><button class="btn ghost" type="button" data-m="h1">Kill / restore h1</button><button class="btn ghost" type="button" data-m="h2">Kill / restore h2</button><button class="btn ghost" type="button" data-m="scribe">Kill / restore the scribe</button></div>
+  <div class="row"><b class="lbl">Shared map</b><label class="small" for="m-at">at</label><select id="m-at"><option>a1</option><option>a2</option><option>h1</option><option>h2</option><option>liar</option><option>scribe</option></select><input type="text" id="m-key" value="status" aria-label="Key" size="8"><input type="text" id="m-val" value="open for orders" aria-label="Value" size="14"><button class="btn ghost" type="button" data-m="write">Write</button><button class="btn ghost" type="button" data-m="sync">Sync the mesh</button></div>
+  <div class="row"><b class="lbl">Attack it</b><button class="btn ghost" type="button" data-m="join">A stranger asks to join</button><button class="btn ghost" type="button" data-m="forge">Forge a packet at a1</button><button class="btn ghost" type="button" data-m="share">Share what a1 learned</button><button class="btn ghost" type="button" data-m="same">Same bytes to everyone</button><button class="btn ghost" type="button" data-m="variant">Try a variant</button></div>
+  <div class="scroll"><table><thead><tr><th>Asker</th><th>link to h1</th><th>link to h2</th><th>link to the dishonest one</th></tr></thead><tbody id="m-links"><tr><td colspan="4" class="dim">Every link starts at 50%.</td></tr></tbody></table></div>
+  <ul id="m-log" aria-live="polite"></ul>
+</div>
+<p class="small dim">These are the real organs (the relay, the roster, the node with its door, its antibodies and its shared map) running in your tab with public test keys. In the measured run each node and relay is its own process on local TCP; here the relays' frames are handed over in memory. Nothing leaves the page.</p>
+<p class="small dim">Want to see the dishonest holder caught? Kill h1 and h2 and ask a few times: the asks go to it, its receipts do not check, and its link falls. With both honest holders up, it is never asked. That is the J4 result below; J3 is the same lesson from the other side.</p>
+<h3>A browser tab as a node (pass 5)</h3>
+<p>Open <a href="webrtc-test.html?role=a">the WebRTC test as A</a> and <a href="webrtc-test.html?role=b">as B</a>, in two tabs of one browser. The tabs find each other on this device and open a real WebRTC data channel through falllink, the estate's connection layer, with no STUN server, so nothing leaves the machine. Each tab runs a foundation node. A sends ten signed packets, then one with a byte changed and one sent twice, and B's door decides each.</p>
+<p class="small" id="x1-line">Loading…</p>
+
+<h2 id="how">How it works</h2>
+<div class="diagram" role="img" aria-label="Nodes say hello to every relay; a node sends a frame naming the recipient; the relay delivers it, or holds it if the recipient is away; the recipient's door checks the signed packet before reading it">
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <rect class="b" x="14" y="30" width="170" height="110" rx="6"/><text class="t" x="99" y="56" text-anchor="middle">node a1</text><text class="s" x="99" y="78" text-anchor="middle">signs a LIGHT packet</text><text class="s" x="99" y="96" text-anchor="middle">wraps it in a frame:</text><text class="s" x="99" y="114" text-anchor="middle">LRY1 · send · to h1 · bytes</text>
+  <rect class="b hot" x="294" y="30" width="170" height="110" rx="6"/><text class="t" x="379" y="56" text-anchor="middle">a relay</text><text class="s" x="379" y="78" text-anchor="middle">reads one thing: who it is for</text><text class="s" x="379" y="96" text-anchor="middle">here → deliver now</text><text class="s" x="379" y="114" text-anchor="middle">away → hold it, a while</text>
+  <rect class="b hot" x="574" y="30" width="170" height="110" rx="6"/><text class="t" x="659" y="56" text-anchor="middle">node h1's door</text><text class="s" x="659" y="78" text-anchor="middle">sender pinned? signed?</text><text class="s" x="659" y="96" text-anchor="middle">counter fresh? for me?</text><text class="s" x="659" y="114" text-anchor="middle">then, only then, read it</text>
+  <path class="arrow" d="M184 85 L294 85 M464 85 L574 85"/>
+  <path class="no-ln" d="M379 140 L379 180 M659 140 L659 180"/>
+  <text class="s" x="379" y="198" text-anchor="middle">a dead relay: nodes use another</text><text class="s" x="659" y="198" text-anchor="middle">forged, changed, replayed, unpinned: refused</text>
+  <rect class="b" x="14" y="226" width="730" height="60" rx="6"/><text class="s" x="379" y="250" text-anchor="middle">every node keeps its own links (who answers well), its own shared map, and its own antibodies</text><text class="s" x="379" y="270" text-anchor="middle">nothing lives on a relay but a short queue for nodes that are away</text>
+</svg></div>
+<ol>
+  <li><b>Joining.</b> The founder signs a roster: the card of every member. Each node reads it, checks the founder's signature and every card, and pins the members' keys. A card not on the roster is not pinned, however well it is signed. Pinning is the only way a node trusts anyone.</li>
+  <li><b>Carrying.</b> A node says hello to every relay it knows. To say something, it wraps a signed packet in a frame naming the recipient and hands it to the first relay that is up. The relay delivers it, or holds it for a node that is away and delivers it when that node says hello again.</li>
+  <li><b>Routing.</b> To ask for a skill, a node picks the holder its links rate highest. When an answer comes back, its receipt is re-checked. The link grows if it checks and falls if it does not. An ask nobody answers expires and counts as a failed answer, so a node that died is routed around.</li>
+  <li><b>Sharing state.</b> Each node keeps a copy of a shared map. A write is stamped with the writer's Lamport time and id. A sync carries a node's whole map as a signed packet, and the receiver merges it entry by entry: the later stamp wins, and the node id breaks a tie. Whatever order syncs arrive in, every copy ends the same. The kernel is fallsync's, gated in its own repository first, copied byte for byte.</li>
+  <li><b>Sharing immunity.</b> Every packet a door refuses becomes an antibody. A node can share its antibodies as a signed bundle. The receiver re-runs each one on its own door and adopts only those its own door also refuses, so one node's mistake cannot teach the others to refuse their own peers.</li>
+  <li><b>One packet at a time.</b> A node hears one packet at a time, in order. Found while going live: two packets heard at the same moment could both read a sender's old counter, and the lower could set it back, letting the higher be replayed. Hearing is now a queue, and a test holds it there.</li>
+</ol>
+<h3>The passes</h3>
+<p>Phase 3 builds one organ per pass, each with its own claims, all sealed together before any of the code.</p>
+<div class="scroll"><table><thead><tr><th>Pass</th><th>Organ</th><th>Claims</th><th>Status</th></tr></thead><tbody id="pass-rows"><tr><td colspan="4" class="dim">Loading…</td></tr></tbody></table></div>
+
+<h2 id="receipt">The receipt</h2>
+<p class="small" id="r-sum">Loading the committed receipt…</p>
+<div class="scroll"><table><thead><tr><th>Claim</th><th></th><th>The claim, and what was measured</th></tr></thead><tbody id="r-rows"></tbody></table></div>
+<h3>The two that failed, J3 and J4, read plainly</h3>
+<p>Both come from one fact about the routing as built: <b>each asker routes on its own evidence, and takes the best it knows.</b> Nothing tells the mesh that a node is down, and nothing makes an asker try a holder it has never asked.</p>
+<div class="note">
+  <p><b>J3, the claim:</b> a node that dies is routed around, with at most 2 asks going to it before every later one goes to a live holder.</p>
+  <p id="j3-line">Loading…</p>
+  <p><b>Why:</b> each asker finds out on its own, by an ask of its own going unanswered, so with four askers four asks go to the dead node. The bar of 2 assumed the mesh would share that a node had died, and it does not.</p>
+  <p><b>Corrected before it was kept:</b> the first build of this measurement killed h1, a holder no ask was going to, so J3 could not fail, and it "held". That was a fault in the measuring code, not in the claim. The run now kills the holder the asks are actually going to, and J3 fails.</p>
+</div>
+<div class="note">
+  <p><b>J4, the claim:</b> at every asker, the honest holder's link outgrows the dishonest one's, and the dishonest one's falls below the floor.</p>
+  <p id="j4-line">Loading…</p>
+  <p><b>Why:</b> routing asks the holder its links rate highest. Every link starts equal, ties go by key order, and with these test keys both honest holders come first. Once they answered well, the dishonest holder was never the best choice again. It was never asked, so it did no harm, but the mesh never learned that it lies.</p>
+  <p><b>What it means for J2:</b> J2 held, 64 of 64 triage asks to an honest holder after the first 20, but for the same reason. The routing never had to move away from a liar. A dishonest node that ranks first is caught on its first bad answer, as in Phase 1. One that ranks last is never used, and never exposed.</p>
+</div>
+<p><b>What would fix both:</b> share a node's silence the way antibodies are shared, so one asker's expired ask warns the rest, and have askers try an untried holder now and then. Those are routing changes, and they would be measured as new claims. Neither is patched in here, so this receipt stays the one that was sealed.</p>
+<h3>The hostile crowd (H2): sixteen nodes, every kind of packet the door refuses</h3>
+<div class="scroll"><table><thead><tr><th>Kind</th><th>Sent</th><th>Admitted</th><th>Decoded</th><th>Named a variant</th><th>Where the doors stopped them</th></tr></thead><tbody id="h2-rows"></tbody></table></div>
+<p class="small">Unpinned: signed by the hostile node's own key, which no member pinned. Forged: naming a member's sender slot, signed by the wrong key: variants of the forgery H1 taught. Junk: random bytes. Replayed: a real packet sent again to the node it was for. Changed: a real packet with one byte changed. "Recognised on sight" means a door matched the exact bytes to an antibody and refused them without checking or decoding anything.</p>
+<h3>Strangers and forgeries against the shared map (S2)</h3>
+<div class="scroll"><table><thead><tr><th>Kind</th><th>Sent</th><th>Admitted</th><th>Decoded</th><th>Named a variant</th><th>Where the doors stopped them</th></tr></thead><tbody id="s2-rows"></tbody></table></div>
+<p class="small">Re-run it yourself: clone <a href="https://github.com/sjgant80-hub/fall-kit">fall-kit</a> and run <code>node core/phase3/measure.mjs --check</code>. It starts every relay and node as its own process, runs every scenario one step at a time, and exits with an error unless the receipt is the same byte for byte. The claims are in <a href="claims.json">claims.json</a>; the receipt is <a href="../receipts/phase3.json">receipts/phase3.json</a>. X1 runs in two browser tabs, so its facts are committed in <code>local/x1.json</code> and re-judged with the rest.</p>
+
+<h2 id="blueprint">Blueprint</h2>
+<div class="scroll"><table><thead><tr><th>Part</th><th>What it decides</th><th>Gate</th></tr></thead><tbody>
+  <tr><td><code>core/relay.mjs</code></td><td>The relay's law: frames in, who is here, what waits for who is not, what to deliver. Imports nothing; no sockets, no clock, no crypto, no codec.</td><td>Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/relay-server.mjs</code></td><td>The relay as a process: TCP in and out around the law above.</td><td>Glue; exercised by every measured run</td></tr>
+  <tr><td><code>core/roster.mjs</code></td><td>Who is in the mesh: the founder's signed list of member cards, every card checked.</td><td>Mutation-tested; one reviewed equivalent, with its written reason</td></tr>
+  <tr><td><code>core/node.mjs</code></td><td>The node: its door, routing by links, expiring what nobody answers, the shared map, antibodies, hearing one packet at a time.</td><td>Mutation-tested; one reviewed equivalent, with its written reason</td></tr>
+  <tr><td><code>core/vendor/sync/crdt.mjs</code></td><td>The shared map's merge law: last writer wins by Lamport time, node id as tie-break. Copied byte for byte from fallsync at a pinned commit.</td><td>Gated at its source; CI checks every vendored byte</td></tr>
+  <tr><td><code>core/phase3/cell.mjs</code></td><td>One node as its own process on the relays, driven a step at a time; and what a hostile node sends.</td><td>Glue; exercised by every measured run</td></tr>
+  <tr><td><code>core/phase3/judge.mjs</code></td><td>The verdicts: the sealed rules over the measured facts. Pure.</td><td>Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/phase3/measure.mjs</code></td><td>Starts the relays and nodes, runs every scenario, gathers facts; no verdicts of its own.</td><td>CI re-runs it and compares the receipt byte for byte</td></tr>
+  <tr><td><code>core/phase3/claims.json</code></td><td>The thirteen claims, sealed before any of the above existed.</td><td>Its commit is named in the receipt</td></tr>
+</tbody></table></div>
+
+<h2 id="business">For a business</h2>
+<p class="lede">What it gives you: your systems can talk to each other directly, through relays you run, without a broker or gateway in the middle that has to be trusted with every message.</p>
+<div class="scroll"><table><thead><tr><th>Who</th><th>What changes</th></tr></thead><tbody>
+  <tr><td>CEO</td><td>The parts of the business that run on software keep working when one of them fails, and none of them depends on a vendor's cloud being up.</td></tr>
+  <tr><td>CISO</td><td>Trust sits in one place, the founder's roster. Every message is signed by a key on it and checked by the node it is for before it is read. A relay or network that is compromised can delay messages but cannot forge, change or replay one, and the receipt shows hostile nodes getting nothing through. When one node learns an attack, the others recognise it on sight, and adopt that only after re-checking it themselves.</td></tr>
+  <tr><td>CTO</td><td>Plain JavaScript modules with no runtime dependencies. A relay is a few hundred lines that reads no body. State that must be shared converges by a gated CRDT rule instead of a central database lock.</td></tr>
+  <tr><td>CFO</td><td>No per-message fee for traffic between your own systems. The cost case below prices that traffic through a managed gateway and firewall, at dated public list prices.</td></tr>
+  <tr><td>COO</td><td>Kill a relay or a node and work carries on: the receipt kills one of each mid-run and every later ask is answered. Each asker does lose one ask to a node that has just died (J3). Nodes join from the founder's roster, so adding one is a signed list, not a project.</td></tr>
+  <tr><td>The teams</td><td>Every refusal names the stage it happened at, and every node keeps a memory of what it heard, so a failure is easy to find.</td></tr>
+</tbody></table></div>
+<h3>The cost case</h3>
+<p>Messages between your systems through AWS API Gateway and AWS WAF, against foundation nodes and relays on your own machines. The sums are break-it's gated cost kernel, on break-it's dated list prices, as on the foundation's and Phase 2's pages.</p>
+<div class="box">
+  <div class="calc">
+    <label>Messages between your systems, a month<input id="c-req" type="number" min="0" value="100000000"></label>
+    <label>Gateway in front of them<select id="c-api"><option value="http">HTTP API</option><option value="rest">REST API</option><option value="none">none</option></select></label>
+    <label>Firewall web ACLs<input id="c-acl" type="number" min="0" value="1"></label>
+    <label>Firewall rules<input id="c-rules" type="number" min="0" value="10"></label>
+    <label>Node rate, messages a second<input id="c-rate" type="number" min="1" value="50"></label>
+    <label>Power per node, watts<input id="c-watts" type="number" min="1" value="55"></label>
+    <label>Hours a month the nodes run<input id="c-hours" type="number" min="1" max="744" value="730"></label>
+    <label>Dollars to the pound<input id="c-fx" type="number" step="0.0001" value="1.3363"></label>
+    <label>Cost of each new machine, £ (0 if you own them)<input id="c-machine" type="number" min="0" value="0"></label>
+    <label>Machine life, months<input id="c-life" type="number" min="1" value="48"></label>
+  </div>
+  <div id="c-out"><p class="dim">Loading the prices…</p></div>
+  <ul class="small" id="c-sources"></ul>
+</div>
+<h3>Security and data protection, answered straight</h3>
+<ul>
+  <li><b>What it stops.</b> A message from a key not on the founder's roster, at the sender. A forged one, at the signature. One changed in transit, at the signature or earlier. One sent twice, at the counter. One meant for another node, before it is acted on. Junk, at the first bytes. The receipt sends all of these, from sixteen hostile nodes, and none is admitted.</li>
+  <li><b>What it does not stop.</b> A member whose key is stolen, or whose machine is compromised: it signs what it likes, and the mesh trusts it until the founder issues a roster without it. A member that answers badly is not stopped either, only routed away from once its answers fail to check, and J4 shows a liar that was never asked is never found out. A relay that drops everything denies service.</li>
+  <li><b>Where data goes.</b> Only to the node a message names, through relays you run. A relay sees who a frame is for and how long it is, never what is in it. Nothing here calls any outside service.</li>
+  <li><b>Personal data.</b> A relay holds no app data, only a short queue of frames for nodes that are away, which expires. Each node keeps its own copy of the shared map, so personal data in it lives on every member you put on the roster: put on it only the nodes that may hold it (UK GDPR and GDPR).</li>
+</ul>
+<h3>Rolling it out</h3>
+<ol>
+  <li><b>Two services, one relay.</b> Put a node in front of two systems that already talk to each other, run one relay beside them, and sign a roster of the two.</li>
+  <li><b>A second relay</b>, on another machine, so that losing one costs nothing.</li>
+  <li><b>Then the next service</b>, one at a time, each added to the roster, with what it shares in the shared map declared first.</li>
+</ol>
+<h3>Support and ownership</h3>
+<p>Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>; start through that site. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed and keeps running without us: the relays and nodes are yours.</p>
+<h3>Risks, answered</h3>
+<ul>
+  <li><b>"It was measured on one machine."</b> Yes. Every node and relay was its own process, talking only over TCP, which is how they would talk across machines; but a second device and a real network are not on the receipt. The relay takes <code>--host</code> and a node takes <code>host:port</code>, so you can open that door yourself.</li>
+  <li><b>"The hostile nodes were written by you."</b> They send the kinds of packet the door is built to refuse, and variants of them. No model wrote them, and a real outside red team against a live mesh is the owner's to invite. The claims say so.</li>
+  <li><b>"Last writer wins loses edits."</b> When two people change the same key at once, one change wins and the other is kept nowhere. That is the rule, stated in the claims, and it is right for status and settings. A document two people edit together needs a different merge.</li>
+  <li><b>"A liar can hide."</b> Yes, J4 shows exactly that: a dishonest holder that is never asked is never caught. It does no harm while it is not asked, and the routing change that would catch it is a new claim, not a quiet patch.</li>
+  <li><b>"A dead node costs one ask per asker."</b> Yes, J3 shows that: each asker finds out by its own unanswered ask. With many askers that is many slow asks after a failure. Sharing that silence across the mesh is the fix, measured as its own claim when it is built.</li>
+</ul>
+<h3>The case for the board</h3>
+<p>The organisation's systems can depend on each other without depending on a middleman. Trust is one signed list. Failures are routed around instead of escalated. Every claim behind that is re-run by a machine anyone can watch, including the one that failed.</p>
+
+<h2 id="paper">The paper: a mesh with nothing to trust in the middle</h2>
+<p><b>The problem.</b> Systems that talk to each other usually talk through something in the middle: a broker, a gateway, a service mesh's control plane, a cloud queue. That middle sees every message, and it has to be up, so it becomes the thing to defend and the thing that fails. The usual answer is to make the middle stronger.</p>
+<p><b>The design.</b> Make the middle unable to matter. Relays carry frames and read nothing but the recipient's id; their code imports no codec at all. Every body is a LIGHT packet its sender signed, checked by the recipient's own door, so trust lives at the edges, in the founder's roster and each node's pins. Routing is by evidence: each node keeps links to its peers that grow when answers check and fall when they do not or never come. Shared state is a CRDT, so it converges without a coordinator. Immunity is shared, but adopted only after each node re-checks it on its own door.</p>
+<p><b>What is measured.</b> Thirteen claims were committed before any of Phase 3's code, across five passes. The relay fabric: every frame reaches the node it names, no body is decoded, a relay can die, a node that is away gets what was held for it, once. Joining and routing: the roster, routing by skill and by answers that check, routing around a dead node, and links that follow evidence. Shared state: convergence in three shuffled orders with a relay killed, and nothing changed by a stranger or a forgery. Shared immunity: one node's lesson recognised by all, a crowd of sixteen hostile nodes, and the mesh still working afterwards. Browsers: two tabs over WebRTC. Every node and relay runs as its own process, the run goes one step at a time on fixed public test seeds and a fixed clock, and CI re-runs it and demands the same receipt byte for byte.</p>
+<p><b>What it found.</b> Two claims failed and are kept, both from one fact: each asker routes greedily on its own evidence. When the node being asked dies, every asker finds out separately (J3). A liar that routing never asks is never caught (J4). Going live also found a real bug before any claim was judged: two packets heard at the same moment could set a sender's counter back and let a replay in. Hearing is now one packet at a time, with a test that holds it. And it found a fault in its own measuring: the first build of the J3 run killed a holder no ask was going to, which could not fail. It was corrected before the receipt was kept.</p>
+<p><b>Honest limits.</b> One machine, and two tabs of one browser. Hostile nodes that send what the door is built to refuse, not an outside red team. Last writer wins, not a merge of concurrent edits. A stolen member key is trusted until the founder signs a new roster.</p>
+
+<h2>Questions</h2>
+<details><summary>What is a relay, and can it read my data?</summary><p>A relay is a small process that carries frames to the node each frame names, and holds them a while for a node that is away. It reads the recipient's id and nothing else. Every body is a LIGHT packet the sending node signed, and the receiving node's own door checks it, so a relay that lies, drops or replays costs delivery, never safety. The relay's code imports no codec, door or vault at all; the receipt checks that.</p></details>
+<details><summary>What happens when a node or a relay dies?</summary><p>Every node says hello to every relay, so when a relay dies the nodes go on through another: in the measured run relay A was killed halfway and all 50 later asks were answered through relay B, with every node's state the same as a run where nothing died. When a node dies, its unanswered asks expire, count as failed answers, and the next ask goes to another holder of the skill; each asker does lose one ask to it first, because one asker's silence is not shared with the others (J3, failed and kept).</p></details>
+<details><summary>How is shared state kept the same?</summary><p>Each node keeps a copy of a shared map, a last-writer-wins CRDT by Lamport time with the node id as the tie-break, gated in fallsync first. Changes travel as signed LIGHT packets; only a pinned member's sync is merged. In the measured run eight nodes ended with the same map in three different shuffled orders, one of them with a relay killed halfway.</p></details>
+<details><summary>What is shared immunity?</summary><p>When a node's door refuses a packet it remembers it as an antibody. It can share its antibodies with the mesh, and each node adopts one only after re-running it on its own door. In the measured run one forged packet refused at one node was, after one round of sharing, recognised on sight by all eight, without decoding.</p></details>
+<details><summary>What did not hold?</summary><p>Two claims failed and are kept. J3: when the holder the asks were going to died, each of the four askers sent one ask to it before moving on, four against a bar of two, because one asker's silence is not shared with the others. J4: the dishonest triage holder was never asked, because routing ranked the honest holders first, so its link never fell and the mesh never learned that it lies.</p></details>
+
+<div class="foot">Fall Kit core · phase 3 · MIT · supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · <a href="https://github.com/sjgant80-hub/fall-kit">source</a> · <a href="../phase2/">phase 2: LIGHT everywhere</a> · <a href="../">phase 1: the shared foundation</a><br>Powered by the Konomi architecture, created by Thomas Frumkin.</div>
+</main>
+<script type="module" src="./page.mjs"></script>
+</body>
+</html>

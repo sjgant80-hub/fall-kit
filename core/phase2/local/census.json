@@ -1,0 +1,46 @@
+{
+ "kind": "fall-kit.core.phase2.local",
+ "v": 1,
+ "claim": "C1-C3",
+ "at": "2026-10-26T15:14:37.663Z",
+ "rule": "core/phase2/census.mjs lightUse: own code only; vendor/, node_modules/, the inlined Fall Kit block and the kit carried as its own fall-kit.js are copies; relative imports are read where they point",
+ "repos": 1802,
+ "read": 1203,
+ "notRead": 599,
+ "others": [
+  "kardlings",
+  "pixelwhisperer"
+ ],
+ "publicSpeaking": 5,
+ "privateSpeaking": 0,
+ "throughFoundationOnly": 0,
+ "throughKitOnly": 95,
+ "carryingTheKitMesh": 96,
+ "speaks": [
+  {
+   "name": "break-it",
+   "file": "node/breakit-node.mjs",
+   "files": 4
+  },
+  {
+   "name": "fall-kit",
+   "file": "core/antibody.mjs",
+   "files": 17
+  },
+  {
+   "name": "kar-mind",
+   "file": "callbook.mjs",
+   "files": 4
+  },
+  {
+   "name": "konomi-slm",
+   "file": "node/konomi-node.mjs",
+   "files": 2
+  },
+  {
+   "name": "konomi-tongue",
+   "file": "light/packet.mjs",
+   "files": 10
+  }
+ ]
+}

@@ -30,6 +30,7 @@ export const PARTS = [
   ['ledger/contrib.mjs', 'kcc-mesh', 'contrib.mjs', 'the contribution ledger: signed, hash-chained, no money verb'],
   ['memory/fall-remember.mjs', 'fall-remember', 'fall-remember.mjs', 'geometric memory: twelve chambers, recall by resemblance of words'],
   ['memory/cam.mjs', 'fall-remember', 'cam.mjs', 'the balance metric fall-remember reports'],
+  ['sync/crdt.mjs', 'fallsync', 'crdt.mjs', 'shared state: a last-writer-wins map over Lamport time (Phase 3)'],
 ];
 
 const sha = (buf) => createHash('sha256').update(buf).digest('hex');
@@ -48,6 +49,24 @@ function writeFrom(from) {
   }
   writeFileSync(SOURCES, JSON.stringify(sources, null, 1) + '\n');
   return sources.files.length;
+}
+
+/** One part, from a clean clone at its HEAD; the other parts keep the commits they were vendored at. */
+function writeOne(path, dir) {
+  const part = PARTS.find((p) => p[0] === path);
+  if (!part) throw new Error(path + ' is not a part of the foundation');
+  const [, repo, src, what] = part;
+  if (git(dir, 'status', '--porcelain')) throw new Error(repo + ' has uncommitted changes — vendor from a clean clone');
+  const commit = git(dir, 'rev-parse', 'HEAD');
+  const bytes = execFileSync('git', ['show', 'HEAD:' + src], { cwd: dir, stdio: ['ignore', 'pipe', 'ignore'] });
+  mkdirSync(dirname(join(VENDOR, path)), { recursive: true });
+  writeFileSync(join(VENDOR, path), bytes);
+  const sources = JSON.parse(readFileSync(SOURCES, 'utf8'));
+  const entry = { path, repo, commit, src, sha256: sha(bytes), what };
+  const at = sources.files.findIndex((x) => x.path === path);
+  if (at >= 0) sources.files[at] = entry; else sources.files.push(entry);
+  writeFileSync(SOURCES, JSON.stringify(sources, null, 1) + '\n');
+  return entry;
 }
 
 export function pins() {
@@ -85,6 +104,7 @@ function check() {
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const a = process.argv.slice(2);
   if (a[0] === '--from') { console.log('vendored ' + writeFrom(a[1]) + ' files'); }
+  else if (a[0] === '--one') { const e = writeOne(a[1], a[2]); console.log('vendored ' + e.path + ' from ' + e.repo + '@' + e.commit.slice(0, 7)); }
   else {
     const r = a[0] === '--check' ? check() : pins();
     for (const b of r.bad) console.log('  ✗ ' + b);

@@ -2,7 +2,7 @@
  "kind": "fall-kit.core.phase2.local",
  "v": 1,
  "claim": "M3",
- "what": "The totals of the memory vault the nightly loop’s own step made (si-didy kar-loop.mjs, step 2.6, through konomi-tongue/light/tools/memory.mjs with dictionary v1): run once by hand on 2026-10-26, then each night. The memory itself is private and never leaves the machine; only these totals are published. CI cannot re-measure them; it re-judges them.",
+ "what": "The totals of the memory vault the nightly loop’s own step made (Kar’s nightly loop, kar-loop.mjs, step 2.6, through konomi-tongue/light/tools/memory.mjs with dictionary v1): run once by hand on 2026-10-26, then each night. The memory itself is private and never leaves the machine; only these totals are published. CI cannot re-measure them; it re-judges them.",
  "nights": [
   {
    "at": "2026-10-26T13:08:42.846Z",

@@ -73,7 +73,7 @@ summary{cursor:pointer;font-weight:600;color:var(--cream)}
 <body>
 <header>
   <div class="brand"><div class="mark" aria-hidden="true">F</div><div><div class="name">Fall Kit · core</div><div class="sub">phase 2 · LIGHT everywhere</div></div></div>
-  <nav aria-label="Sections"><a href="#start">Start here</a><a href="#try">Try the door</a><a href="#how">How it works</a><a href="#receipt">Receipt</a><a href="#blueprint">Blueprint</a><a href="#business">For a business</a><a href="#paper">Paper</a><a href="../">Phase 1</a></nav>
+  <nav aria-label="Sections"><a href="#start">Start here</a><a href="#try">Try the door</a><a href="#how">How it works</a><a href="#receipt">Receipt</a><a href="#blueprint">Blueprint</a><a href="#business">For a business</a><a href="#paper">Paper</a><a href="../">Phase 1</a><a href="../phase3/">Phase 3</a></nav>
 </header>
 <main>
 
@@ -180,6 +180,16 @@ if (out.ok) reply(200, out.json);</pre>
 <h3>Every model call, kept in LIGHT (pass 3)</h3>
 <p>Kar's controller decides which mind each job goes to: code, the local model, or Claude. Every call it makes is now appended to a call book in LIGHT: what was asked, of which mind, what came back and what it cost. The book is append-only, and each record carries the SHA-256 of its contents, so a changed book is refused at the record that changed.</p>
 <p class="small" id="i1-line">Loading…</p>
+<h3>The mesh between pages, in LIGHT (pass 4)</h3>
+<p>Fall Kit's same-device mesh lets estate pages open on one device find each other. From Fall Kit 3.2.0 every message on it is a LIGHT packet signed by the device's own key, made by the browser and kept so that no page can read its private half, and a page reads one only after the door has checked it. An old JSON message, from a page still on an earlier kit, still arrives, marked legacy.</p>
+<p class="small" id="b1-line">Loading…</p>
+<p class="small" id="b2-line"></p>
+<p class="small">Re-run B1 yourself: open <a href="mesh-test.html?role=a">the mesh test as A</a>, then <a href="mesh-test.html?role=b">as B</a> in another tab.</p>
+<h3>How far LIGHT reaches, counted honestly (pass 5)</h3>
+<p>A repository counts as speaking LIGHT only when its own code does, outside any copy it carries: a vendor folder, the Fall Kit block inlined in its page, or the kit carried as its own <code>fall-kit.js</code> file. The first census counted copies too, so a repository that only carried the foundation looked as if it spoke it.</p>
+<p class="small">This census's own instrument was corrected twice before its numbers were taken, both times towards the sealed rule. It had counted a linked build's copy of <code>fall-kit.js</code> as that build's own code (fallgarden), and it had not read imports relative to a file inside <code>light/</code>, so it missed konomi-tongue, LIGHT's own home. It counts this machine's clones of the estate's repositories, so the receipt says how many it read and how many it could not.</p>
+<div class="scroll"><table><thead><tr><th>Speaks LIGHT in its own code</th><th>One of its own files that does</th></tr></thead><tbody id="c-rows"><tr><td colspan="2" class="dim">Loading…</td></tr></tbody></table></div>
+<p class="small" id="c-line"></p>
 <h3>LIGHT's own format, from no trusted signer (G2)</h3>
 <div class="scroll"><table><thead><tr><th>Kind</th><th>Packets</th><th>Stopped at</th><th>Admitted</th><th>Decoded</th></tr></thead><tbody id="g2-rows"></tbody></table></div>
 <p class="small">Re-run it yourself: clone <a href="https://github.com/sjgant80-hub/fall-kit">fall-kit</a> and run <code>node core/phase2/measure.mjs --check</code>. It clones the five repositories at the sealed commits, measures everything again, and exits with an error unless the receipt is the same byte for byte. The claims are in <a href="claims.json">claims.json</a>; the receipt is <a href="../receipts/phase2.json">receipts/phase2.json</a>.</p>
@@ -241,7 +251,7 @@ if (out.ok) reply(200, out.json);</pre>
   <li><b>"Most of this is refused at four bytes, so of course it holds."</b> Yes: that is the design, and it is still worth measuring on real bytes. The harder claims are G2 and G3: LIGHT-shaped packets without a trusted signature never pass, and a node that has learned from thousands of refusals still admits everything its trusted peer signs.</li>
   <li><b>"Is LIGHT always smaller?"</b> No. On Kar's real journals it is far smaller than gzip, about half on a 10,000-event journal. On a journal of a few events it is a few bytes larger, because every vault carries a 32-byte SHA-256 of its contents and a header. That is why M2, "no larger on every journal", is on the receipt as measured, whichever way it went.</li>
   <li><b>"An exact shape is strict."</b> It is meant to be. <code>shapeOf</code> declares an example's exact shape; a real edge usually writes a looser one by hand (a list of up to N, text up to N characters, any JSON within a depth).</li>
-  <li><b>"Phase 2 is not finished."</b> True, and the page says so: the passes table shows which organs have moved. Each pass is measured before the next begins.</li>
+  <li><b>"So the estate does not speak LIGHT everywhere?"</b> Not in every repository's own code, no, and the receipt says so (C3). The core does, and every gear page carries the LIGHT mesh through the kit; a page's own code moves to LIGHT when that page has something to keep or carry, one at a time.</li>
 </ul>
 <h3>The case for the board</h3>
 <p>The organisation stops parsing untrusted input everywhere and starts parsing it in one place, with a declared shape, in front of a door that reads nothing a trusted key did not sign. Every claim behind that is re-run by a machine anyone can watch.</p>
@@ -249,7 +259,7 @@ if (out.ok) reply(200, out.json);</pre>
 <h2 id="paper">The paper: one language inside</h2>
 <p><b>The problem.</b> Most breaches start with a parser: some part of a system reads bytes it should not have trusted, in a format rich enough to hide something. Every service that accepts JSON, HTML, form bodies or its own wire format is another parser, and each is written a little differently.</p>
 <p><b>The design.</b> Give the inside of the estate one format, LIGHT, and one door that decides on raw bytes before anything is parsed: the magic number, the version, the length, the dictionary, a pinned sender, a verified signature and a fresh counter, then the body. Put the outside's formats behind one thin edge that checks size, encoding, syntax and a declared shape, and only then re-says the value inside, signed. Outbound, reverse it: the door first, then JSON.</p>
-<p><b>What is measured.</b> Fifteen claims were committed before any of Phase 2's code, across five passes. The first pass throws the estate's own files at the door, every one whole and cut four ways, with web requests, form bodies and random bytes. It then throws six kinds of LIGHT-shaped packet that no trusted key signed, and checks that everything a trusted key signs still gets through, intact, after the node has learned from every refusal. A pure judge turns the facts into verdicts, and CI re-runs the measurement and demands the same receipt byte for byte.</p>
+<p><b>What is measured.</b> Fifteen claims were committed before any of Phase 2's code, across five passes. The first pass throws the estate's own files at the door, every one whole and cut four ways, with web requests, form bodies and random bytes. It then throws six kinds of LIGHT-shaped packet that no trusted key signed, and checks that everything a trusted key signs still gets through, intact, after the node has learned from every refusal. The second keeps Kar's mind journal in LIGHT, migrating old journals without loss, and vaults his whole memory every night. The third keeps every model call the controller makes as a LIGHT record. The fourth moves Fall Kit's mesh between pages onto signed LIGHT and carries it into the gear builds. The fifth counts, by a rule written down first, which repositories now speak LIGHT in their own code. A pure judge turns the facts into verdicts, and CI re-runs every measurement it can and demands the same receipt byte for byte; the few facts only a browser or this machine can gather are committed and re-judged.</p>
 <p><b>Honest limits.</b> The signature and counter are the floor; the format is the surface reduction. Neither judges content a trusted key signed. LIGHT here is the estate's wire codec (konomi-tongue's LIGHT); falllight is a separate vocabulary for how nodes connect, not this codec. The cards and the contribution records move to LIGHT in their own phases and sessions, not here.</p>
 
 <h2>Questions</h2>
@@ -259,7 +269,7 @@ if (out.ok) reply(200, out.json);</pre>
 <details><summary>How was it measured?</summary><p>Fifteen claims were committed before any Phase 2 code existed. The first six were measured on a corpus pinned to five public repositories: every file, cut four ways, plus web requests to every live estate page, form bodies and random bytes. A pure judge turns the facts into verdicts, and CI re-runs the whole measurement and demands the same receipt byte for byte.</p></details>
 <details><summary>What does it cost?</summary><p>It is MIT-licensed, with no licence fee, and runs on machines you already have. The cost case on this page is the one the foundation's own page uses: the same traffic sent through a managed API gateway and firewall, at dated public list prices.</p></details>
 
-<div class="foot">Fall Kit core · phase 2 · MIT · supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · <a href="https://github.com/sjgant80-hub/fall-kit">source</a> · <a href="../">phase 1: the shared foundation</a><br>Powered by the Konomi architecture, created by Thomas Frumkin.</div>
+<div class="foot">Fall Kit core · phase 2 · MIT · supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · <a href="https://github.com/sjgant80-hub/fall-kit">source</a> · <a href="../">phase 1: the shared foundation</a> · <a href="../phase3/">phase 3: the mesh is live</a><br>Powered by the Konomi architecture, created by Thomas Frumkin.</div>
 </main>
 <script type="module" src="./page.mjs"></script>
 </body>

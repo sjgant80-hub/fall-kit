@@ -73,7 +73,40 @@ function i1(f) {
   return [ok, 'the measured run: ' + n(r.records) + ' of ' + n(r.calls) + ' calls in the book, ' + (r.readBack === true && r.matches === true ? 'every one read back as its call' : 'NOT read back whole') + ' (' + n(r.bytes) + ' bytes; ' + n(r.jsonBytes) + ' as JSON); the nightly loop: '
     + n(nt.records) + ' call(s), ' + (nt.readBack === true ? 'read back' : 'NOT read back')];
 }
-const RULES = Object.freeze({ G1: g1, G2: g2, G3: g3, E1: e1, E2: e2, E3: e3, M1: m1, M2: m2, M3: m3, I1: i1 });
+function b1(f) {
+  const x = isObj(f.b1) ? f.b1 : {}, a = isObj(x.a) ? x.a : {}, b = isObj(x.b) ? x.b : {}, p = isObj(b.posted) ? b.posted : {}, rf = isObj(a.refused) ? a.refused : {};
+  const want = { admitted: n(b.sent) + n(p.replayed), signature: n(p.forged) + n(p.tampered), sender: n(p.stranger), counter: n(p.replayed), legacy: n(p.legacy) };
+  const ok = a.light === true && b.light === true && n(b.sent) >= 1 && n(p.forged) >= 1 && n(p.stranger) >= 1 && n(p.tampered) >= 1 && n(p.replayed) >= 1 && n(p.legacy) >= 1
+    && n(a.admitted) === want.admitted && n(rf.signature) === want.signature && n(rf.sender) === want.sender && n(rf.counter) === want.counter
+    && Object.keys(rf).every((k) => ['signature', 'sender', 'counter'].includes(k)) && n(a.legacy) === want.legacy && n(a.legacyMarked) === want.legacy && n(a.wronglyAdmitted) === 0;
+  return [ok, 'two pages on one device: ' + n(a.admitted) + ' of ' + want.admitted + ' signed messages admitted; refused at the signature ' + n(rf.signature) + ' of ' + want.signature + ', at the sender ' + n(rf.sender) + ' of ' + want.sender + ', at the counter ' + n(rf.counter) + ' of ' + want.counter
+    + '; ' + n(a.legacyMarked) + ' of ' + want.legacy + ' old JSON messages marked legacy; ' + n(a.wronglyAdmitted) + ' wrongly admitted'];
+}
+function b2(f) {
+  const bs = isObj(f.b2) && Array.isArray(f.b2.builds) ? f.b2.builds.filter(isObj) : [];
+  const ported = bs.filter((b) => b.ported === true), withCi = ported.filter((b) => b.ci !== 'none');
+  const ok = ported.length >= 1 && ported.every((b) => b.live === true) && withCi.every((b) => b.ci === 'success');
+  const red = withCi.filter((b) => b.ci !== 'success').map((b) => b.name), dark = ported.filter((b) => b.live !== true).map((b) => b.name);
+  return [ok, ported.length + ' builds re-ported: ' + withCi.filter((b) => b.ci === 'success').length + ' of the ' + withCi.length + ' with CI green' + (red.length ? ' (NOT green: ' + red.join(', ') + ')' : '') + ', ' + (ported.length - withCi.length) + ' have no CI'
+    + '; ' + ported.filter((b) => b.live === true).length + ' live pages carry the LIGHT mesh' + (dark.length ? ' (NOT: ' + dark.join(', ') + ')' : '') + '; ' + bs.filter((b) => b.how === 'shim').length + ' load the newest kit through the shim; ' + bs.filter((b) => b.ported !== true && b.how !== 'shim').length + ' not ported'];
+}
+const vendoredPath = (p) => /(?:^|\/)(?:vendor|node_modules)\//.test(String(p));
+export const MOVED = Object.freeze(['fall-kit', 'kar-mind', 'konomi-tongue']);
+const speaksOf = (f) => (isObj(f.census) && Array.isArray(f.census.speaks) ? f.census.speaks.filter(isObj) : []);
+function c1(f) {
+  const sp = speaksOf(f), c = isObj(f.census) ? f.census : {};
+  const ok = typeof c.rule === 'string' && c.rule.length > 0 && sp.length >= 1 && sp.every((s) => typeof s.name === 'string' && typeof s.file === 'string' && s.file.length > 0 && !vendoredPath(s.file));
+  return [ok, sp.length + ' public repositories speak LIGHT in their own code, each named with one own file (' + sp.map((s) => s.name + ': ' + s.file).join('; ') + '); ' + n(c.privateSpeaking) + ' private; ' + n(c.throughFoundationOnly) + ' only through a vendored foundation; ' + n(c.throughKitOnly) + ' only through a copy of the kit'];
+}
+function c2(f) {
+  const names = speaksOf(f).map((s) => s.name), missing = MOVED.filter((m) => !names.includes(m));
+  return [names.length >= 5 && missing.length === 0, names.length + ' public repositories speak LIGHT in their own code (bar 5); the organs this phase moved live in ' + MOVED.join(', ') + (missing.length ? ' — NOT counted: ' + missing.join(', ') : ', all counted')];
+}
+function c3(f) {
+  const c = isObj(f.census) ? f.census : {}, k = speaksOf(f).length;
+  return [k >= 50, k + ' public repositories speak LIGHT in their own code, counting the gear builds (bar 50); ' + n(c.throughKitOnly) + ' carry the LIGHT mesh only through a copy of the kit (inlined in a page, or as its own file), which the census\'s own rule (C1) does not count'];
+}
+const RULES = Object.freeze({ G1: g1, G2: g2, G3: g3, E1: e1, E2: e2, E3: e3, M1: m1, M2: m2, M3: m3, I1: i1, B1: b1, B2: b2, C1: c1, C2: c2, C3: c3 });
 
 /** claims = the sealed claims; facts = what measure.mjs measured, keyed by pass. → verdicts in the sealed order. */
 export function judge(claims, facts) {
