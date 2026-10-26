@@ -6,6 +6,10 @@
 
 https://sjgant80-hub.github.io/fall-kit/
 
+## The shared foundation (core/)
+
+https://sjgant80-hub.github.io/fall-kit/core/ — the modules every estate node runs: a LIGHT packet door that verifies before it decodes (vendor/light), antibodies on the LIGHT wire shared by negative selection (antibody.mjs, vendor/immune), identity as a capability with a budget it cannot cross (identity.mjs, vendor/wallet), geometric memory kept as a LIGHT vault (vendor/memory), a signed contribution ledger counting only re-checkable work (vendor/ledger), and evidence-weighted couplings (node.mjs). break-it and konomi-slm run on it as nodes. Nine claims sealed first (core/claims.json); the receipt (core/receipts/foundation.json) re-runs byte for byte in CI.
+
 ## Files
 
 - fall-kit.js: the kit (FallKit global): aiComplete, aiChat, askPage, pageOpening, aiImage, aiVideo, aiTTS, aiSTT, lastUsage, forgetKeys, requestOf, textOf, usageOf, init, openSettings, meshStart, meshPost, helpSection

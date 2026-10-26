@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>The shared foundation · Fall Kit core</title>
+<meta name="description" content="Fall Kit core: one small set of modules every estate app runs, so separate apps work as one system. Each app signs what it says in LIGHT, checks what it hears before reading a byte, learns from attacks any other app refuses, keeps its memory as one LIGHT vault, cannot spend past its budget, and records the work other apps do for it. break-it and konomi-slm run on it. Nine claims sealed before the code; run the proof in your browser.">
+<link rel="canonical" href="https://sjgant80-hub.github.io/fall-kit/core/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Fall Kit core — the shared foundation","codeRepository":"https://github.com/sjgant80-hub/fall-kit","programmingLanguage":"JavaScript","license":"https://opensource.org/licenses/MIT","description":"The shared foundation every estate node imports: a LIGHT packet door that verifies before it decodes, antibodies shared by negative selection, a budget the node cannot cross, geometric memory kept as a LIGHT vault, a signed contribution ledger, and evidence-weighted couplings between nodes.","author":{"@type":"Organization","name":"AI Native Solutions","url":"https://www.ai-nativesolutions.com"}}</script>
+<script type="application/ld+json" id="faq-ld">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the shared foundation?","acceptedAnswer":{"@type":"Answer","text":"A small set of JavaScript modules every app in the estate runs, so the apps can work together safely: they speak one signed format (LIGHT), check each other before reading anything, share what they learn about attacks, keep their memory in one checked file, cannot spend past a budget, and record the useful work other apps do for them."}},{"@type":"Question","name":"Does it send my data anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. The modules make no network calls of their own. Apps hand each other bytes over whatever channel you choose, and on this page everything happens inside your browser tab."}},{"@type":"Question","name":"What does it not protect against?","acceptedAnswer":{"@type":"Answer","text":"A stolen private key, a machine that is already compromised, and data that is harmful once read (LIGHT carries data faithfully; the app that shows it must still escape it). A dishonest peer can waste one answer before its coupling halves. Today it runs on one machine; meshing across devices is the next phase."}},{"@type":"Question","name":"How do I know the claims are true?","acceptedAnswer":{"@type":"Answer","text":"Nine claims were committed before any of the code existed. A pure judge turns the measured facts into verdicts, CI re-runs the measurement on every push and demands the same receipt byte for byte, and this page re-runs it in your browser from the two apps' own live sites."}},{"@type":"Question","name":"What does it cost?","acceptedAnswer":{"@type":"Answer","text":"It is MIT-licensed, with no licence fee. It runs on machines you already have. The cost case on this page compares that with sending the same traffic through a managed API gateway and web application firewall, at dated public list prices."}}]}</script>
+<style>
+:root{--void:#1a1612;--void-2:#231f1a;--ink:#2b2722;--line:#3a342c;--line-soft:#2e2922;--cream:#ebe3d2;--cream-dim:#a89e88;--cream-muted:#736b5a;--brass:#c08a3a;--amber:#e8a83a;--leaf:#6b8d4a;--rust:#c25a35;
+--serif:Georgia,'Times New Roman',ui-serif,serif;--sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--void);color:var(--cream);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--brass);text-decoration:none}a:hover{text-decoration:underline}
+code,pre,.mono{font-family:var(--mono)}
+code{background:var(--ink);padding:1px 5px;border-radius:2px;font-size:12.5px;color:var(--brass)}
+pre{background:var(--ink);padding:14px 16px;border-radius:4px;border:1px solid var(--line);overflow-x:auto;color:var(--cream-dim);line-height:1.55;font-size:12px;margin:10px 0 14px}
+header{background:var(--void-2);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{width:32px;height:32px;background:linear-gradient(135deg,var(--brass),var(--amber));border-radius:5px;display:grid;place-items:center;font:700 18px var(--serif);color:var(--void)}
+.name{font:700 18px var(--serif)}.sub{font:9px var(--mono);color:var(--cream-muted);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+header nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}header nav a{color:var(--cream-dim);font-size:13px}
+main{max-width:900px;margin:0 auto;padding:30px 24px 100px}
+h1{font:700 30px/1.15 var(--serif);margin-bottom:12px}
+h2{font:700 22px var(--serif);margin:42px 0 10px;color:var(--brass)}
+h3{font:700 16px var(--serif);margin:20px 0 8px}
+p{margin-bottom:12px}ul,ol{margin:0 0 14px 24px}li{margin-bottom:5px;color:var(--cream-dim)}
+.lede{font-size:17px;color:var(--cream-dim);margin-bottom:16px}
+.hero{background:linear-gradient(135deg,rgba(192,138,58,.10),rgba(107,141,74,.04));border:1px solid var(--brass);border-radius:5px;padding:24px 28px;margin-bottom:22px}
+.seal{font:10px var(--mono);color:var(--cream-muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.tile{background:var(--void-2);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.tile b{display:block;font:700 22px var(--serif);color:var(--brass)}.tile span{font-size:12px;color:var(--cream-dim)}
+.btn{padding:9px 16px;background:var(--brass);color:var(--void);border:none;border-radius:3px;font:600 13px var(--sans);cursor:pointer}
+.btn:hover{background:var(--amber)}.btn[disabled]{opacity:.5;cursor:wait}
+.btn.ghost{background:transparent;color:var(--cream-dim);border:1px solid var(--line)}
+.box{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin:16px 0}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:var(--void-2);padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.08em;text-transform:uppercase}
+td{padding:8px 10px;border-bottom:1px solid var(--line-soft);color:var(--cream-dim);vertical-align:top}
+.scroll{overflow-x:auto}
+.ok{color:var(--leaf);font-weight:600}.no{color:var(--rust);font-weight:600}.dim{color:var(--cream-muted)}
+.tag{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;padding:2px 6px;border-radius:2px}
+.tag.held{background:rgba(107,141,74,.2);color:var(--leaf)}.tag.failed{background:rgba(194,90,53,.2);color:var(--rust)}.tag.na{background:var(--void-2);color:var(--cream-muted)}
+.log{font:12px/1.5 var(--mono);color:var(--cream-dim);max-height:240px;overflow:auto;background:var(--void);border:1px solid var(--line-soft);border-radius:3px;padding:10px;margin-top:10px;white-space:pre-wrap}
+.diagram{margin:14px 0;background:var(--ink);border:1px solid var(--line);border-radius:5px;padding:12px}
+.diagram svg{width:100%;height:auto;display:block}
+.diagram .b{fill:var(--void-2);stroke:var(--line);stroke-width:1.5}.diagram .hot{stroke:var(--brass)}
+.diagram .t{fill:var(--cream);font:700 14px var(--serif)}.diagram .s{fill:var(--cream-dim);font:11.5px var(--sans)}
+.diagram .ln{fill:none;stroke:var(--brass);stroke-width:1.8}.diagram .no-ln{fill:none;stroke:var(--rust);stroke-width:1.8;stroke-dasharray:5 4}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:8px 0 12px}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--cream-dim)}
+.calc input,.calc select{padding:7px 9px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:inherit;width:100%}
+.line{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-soft);padding:5px 0;font-size:13px}
+.line span:last-child{font-family:var(--mono);color:var(--cream)}
+.bottom{font-size:15px;margin:6px 0 10px}
+details{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:600;color:var(--cream)}
+.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.06em;text-align:center;line-height:1.9}
+.foot a{color:var(--cream-dim)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media (max-width:640px){header{padding:12px 16px}main{padding:22px 16px 80px}.hero{padding:18px 16px}h1{font-size:24px}.lede{font-size:15.5px}th,td{padding:6px 7px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="mark" aria-hidden="true">F</div><div><div class="name">Fall Kit · core</div><div class="sub">the shared foundation</div></div></div>
+  <nav aria-label="Sections"><a href="#start">Start here</a><a href="#how">How it works</a><a href="#run">Run it</a><a href="#blueprint">Blueprint</a><a href="#receipt">Receipt</a><a href="#business">For a business</a><a href="#paper">Paper</a></nav>
+</header>
+<main>
+
+<section class="hero" aria-labelledby="what">
+  <div class="seal">Phase 1 of the estate going live · nine claims sealed before the code</div>
+  <h1 id="what">One foundation, so separate apps work as one system</h1>
+  <p class="lede">Fall Kit core is a small set of modules every app in the estate runs. With it, apps that were built apart can work together safely. Each one signs everything it says in one format (LIGHT) and checks everything it hears before reading a byte. When one app refuses an attack, every other app learns from it. Each keeps its memory in one checked file, cannot spend past the budget it was given, and records the useful work other apps do for it.</p>
+  <p>Two of the estate's real apps run on it today: <a href="https://sjgant80-hub.github.io/break-it/">break-it</a>, an ingest gateway that checks every packet before parsing it, and <a href="https://sjgant80-hub.github.io/konomi-slm/">konomi-slm</a>, a library of verified patterns that answers with a receipt or says it does not know.</p>
+  <div class="tiles" aria-live="polite">
+    <div class="tile"><b id="t-held">…</b><span>of nine sealed claims hold</span></div>
+    <div class="tile"><b id="t-gate">…</b><span>mutants killed by the gate</span></div>
+    <div class="tile"><b id="t-msgs">…</b><span>signed LIGHT packets in the run</span></div>
+    <div class="tile"><b id="t-organs">…</b><span>gated kernels the foundation is made of</span></div>
+  </div>
+  <div class="row"><button class="btn" id="run-top">Run the proof in this tab</button><a class="btn ghost" href="#paper">Read the paper</a><span class="small dim" id="kstat">not run yet</span></div>
+</section>
+
+<h2 id="start">Start here</h2>
+<h3>If you want to see it work</h3>
+<ol>
+  <li>Press <b>Run the proof in this tab</b>. Your browser loads break-it and konomi-slm from their own sites and starts each one as a cell, with a dishonest test peer and a budgeted node beside them.</li>
+  <li>Watch the log. The cells pin each other, ask and answer, and handle forged, tampered and replayed packets. One cell shares what it learned from an attack. They exchange ledgers, a node runs out of budget, and konomi-slm is grown again from its seed.</li>
+  <li>Read the nine results. Each one is judged in your tab and set beside the receipt CI committed. They should match.</li>
+</ol>
+<h3>If you build an app</h3>
+<ol>
+  <li>Copy <code>core/</code> into your repo as <code>vendor/fall-kit-core/</code>. Keep it byte for byte: <code>core/vendor/SOURCES.json</code> pins every kernel to its source commit.</li>
+  <li>Give your app an identity and a node, with the skills it offers:</li>
+</ol>
+<pre>import { makeIdentity } from './vendor/fall-kit-core/identity.mjs';
+import { createNode } from './vendor/fall-kit-core/node.mjs';
+
+const node = await createNode({
+  name: 'my-app',
+  identity: await makeIdentity(),           // an Ed25519 key, kept in WebCrypto
+  budget: 1000,                             // asks it may make, never more
+  skills: { triage: async (input) =&gt; ({ verdict: 'VERIFIED', receipt: { /* … */ } }) },
+});</pre>
+<ol start="3">
+  <li>Pin the peers you trust, out of band: <code>await node.pin(theirCard)</code>. A card proves its key and nothing more. Whether to trust the key is your decision.</li>
+  <li>Carry bytes between nodes over any channel you like. <code>node.ask(skill, input)</code> returns the packet to send, and <code>node.hear(bytes)</code> returns any replies to carry back. The node never opens a connection itself.</li>
+</ol>
+
+<h2 id="how">How it works</h2>
+<p>A node is one identity carrying six things at once. Everything it says is a signed LIGHT packet. Everything it hears passes the LIGHT door, stage by stage on the raw bytes, before one byte of the body is decoded.</p>
+<div class="diagram" role="img" aria-label="A cell: one identity with the LIGHT door, immune memory, budget, geometric memory, contribution record and couplings around it">
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg">
+  <rect class="b hot" x="285" y="118" width="150" height="64" rx="6"/><text class="t" x="360" y="145" text-anchor="middle">identity</text><text class="s" x="360" y="164" text-anchor="middle">one Ed25519 key</text>
+  <g><rect class="b" x="40" y="20" width="200" height="62" rx="5"/><text class="t" x="140" y="44" text-anchor="middle">the LIGHT door</text><text class="s" x="140" y="64" text-anchor="middle">signature before the body is read</text></g>
+  <g><rect class="b" x="260" y="20" width="200" height="62" rx="5"/><text class="t" x="360" y="44" text-anchor="middle">immune memory</text><text class="s" x="360" y="64" text-anchor="middle">every refusal an antibody</text></g>
+  <g><rect class="b" x="480" y="20" width="200" height="62" rx="5"/><text class="t" x="580" y="44" text-anchor="middle">a budget</text><text class="s" x="580" y="64" text-anchor="middle">no ask past it, ever</text></g>
+  <g><rect class="b" x="40" y="218" width="200" height="62" rx="5"/><text class="t" x="140" y="242" text-anchor="middle">geometric memory</text><text class="s" x="140" y="262" text-anchor="middle">one LIGHT vault, recalled</text></g>
+  <g><rect class="b" x="260" y="218" width="200" height="62" rx="5"/><text class="t" x="360" y="242" text-anchor="middle">contribution record</text><text class="s" x="360" y="262" text-anchor="middle">signed, only what it can re-check</text></g>
+  <g><rect class="b" x="480" y="218" width="200" height="62" rx="5"/><text class="t" x="580" y="242" text-anchor="middle">couplings</text><text class="s" x="580" y="262" text-anchor="middle">grow when proofs check</text></g>
+  <path class="ln" d="M140 82 L320 118 M360 82 L360 118 M580 82 L400 118 M140 218 L320 182 M360 218 L360 182 M580 218 L400 182"/>
+</svg></div>
+
+<h3>One ask, step by step, from the real run</h3>
+<ol id="trace">
+  <li><b>The budget first.</b> break-it's wallet authorises the ask before any packet exists, and signs a token that names the ask. A node with a budget of five could make <span id="tr-budget">five</span> asks; the sixth was refused and <span id="tr-sixth">no</span> packet was built for it.</li>
+  <li><b>A signed LIGHT packet.</b> The ask, its input and the token go into one packet: the LIGHT codec's bytes, an Ed25519 signature, a counter, and the recipient's key inside the signed body. The run carried <span id="tr-msgs">…</span> packets, about <span id="tr-avg">…</span> bytes each.</li>
+  <li><b>The door.</b> konomi-slm checks size, magic, version, length, dictionary, sender, signature and counter on the raw bytes. Only then does it decode the body, then check that the message is addressed to it.</li>
+  <li><b>The skill answers.</b> konomi-slm answers from its triage pattern alone. It returns VERIFIED with its own receipt, or ABSTAIN when no verified pattern covers the input.</li>
+  <li><b>The proof is checked.</b> break-it re-hashes the receipt. If it checks, the coupling to konomi-slm grows (500,000 to 625,000 parts of a million on the first one). If it does not, the coupling halves, so the asks go elsewhere. After the run, the honest coupling stood at <span id="tr-honest">…</span> and the dishonest one at <span id="tr-dishonest">…</span>.</li>
+  <li><b>The work is recorded.</b> break-it signs one value record for each verified answer it used. konomi-slm, sent that ledger, records only the values for answers it really gave. Both ledgers then give <span id="tr-credits">the same</span> credits.</li>
+</ol>
+
+<h3>Shared immunity</h3>
+<div class="diagram" role="img" aria-label="Shared immunity: a refused packet becomes an antigen, travels in a signed bundle, is re-run on the receiver's own door, and is adopted only if that door refuses it permanently">
+<svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+  <rect class="b hot" x="20" y="30" width="150" height="60" rx="5"/><text class="t" x="95" y="55" text-anchor="middle">break-it refuses</text><text class="s" x="95" y="74" text-anchor="middle">a forged packet</text>
+  <rect class="b" x="200" y="30" width="150" height="60" rx="5"/><text class="t" x="275" y="55" text-anchor="middle">a signed bundle</text><text class="s" x="275" y="74" text-anchor="middle">the raw attack bytes</text>
+  <rect class="b" x="380" y="30" width="150" height="60" rx="5"/><text class="t" x="455" y="55" text-anchor="middle">konomi-slm re-runs</text><text class="s" x="455" y="74" text-anchor="middle">each on its own door</text>
+  <rect class="b hot" x="560" y="30" width="140" height="60" rx="5"/><text class="t" x="630" y="55" text-anchor="middle">adopted</text><text class="s" x="630" y="74" text-anchor="middle">known on sight</text>
+  <rect class="b" x="560" y="120" width="140" height="60" rx="5"/><text class="t" x="630" y="145" text-anchor="middle">blocked</text><text class="s" x="630" y="164" text-anchor="middle">its door would admit it</text>
+  <path class="ln" d="M170 60 L200 60 M350 60 L380 60 M530 60 L560 60"/><path class="no-ln" d="M530 75 L560 140"/>
+</svg></div>
+<p>A peer cannot make a node refuse a packet the node's own door would admit. Every antigen is re-run on the receiver's door, and adopted only when that door refuses it at a stage that can never become valid. In the run, <span id="im-adopted">…</span> antigens were adopted and the same attack was then <span id="im-sight">…</span> at the receiver. The valid packet hidden in a bundle was <span id="im-blocked">…</span>.</p>
+
+<h2 id="run">Run it here</h2>
+<div class="box">
+  <p>This runs Phase 1's scenario in your tab. It uses the real break-it and konomi-slm, loaded from their own sites on this origin, each carrying its own copy of the foundation. The seeds are fixed public test seeds and the clock is fixed, so your tab should reach the same facts as the committed receipt.</p>
+  <div class="row"><button class="btn" id="run">Run the proof in this tab</button><span class="small dim" id="run-stat">ready</span></div>
+  <div class="log" id="log" aria-live="polite">The log appears here.</div>
+  <div class="scroll"><table><thead><tr><th>Claim</th><th>In your tab</th><th>In the receipt</th><th>Measured here</th></tr></thead><tbody id="run-rows"><tr><td colspan="4" class="dim">Not run yet.</td></tr></tbody></table></div>
+  <p class="small" id="run-note"></p>
+</div>
+
+<h2 id="blueprint">Blueprint</h2>
+<p>The foundation is built from kernels the estate had already gated, copied byte for byte. CI fetches each source repo at its pinned commit and demands every vendored byte matches. It adds three organs of its own, each passed by the mutation gate, which flips one operator at a time and fails unless a test catches it.</p>
+<div class="scroll"><table><thead><tr><th>Part</th><th>What it decides</th><th>From</th><th>Gate</th></tr></thead><tbody id="bp-rows"><tr><td colspan="4" class="dim">Loading…</td></tr></tbody></table></div>
+<p class="small" id="bp-foot"></p>
+
+<h2 id="receipt">The receipt</h2>
+<p class="small" id="r-sum">Loading the committed receipt…</p>
+<div class="scroll"><table><thead><tr><th>Claim</th><th></th><th>Measured</th></tr></thead><tbody id="r-rows"></tbody></table></div>
+<p class="small">Re-run it yourself: clone <a href="https://github.com/sjgant80-hub/fall-kit">fall-kit</a>, clone break-it and konomi-slm next to it at the commits <code>core/nodes.json</code> names, then <code>node core/prove.mjs --nodes .. --check</code>. The claims are in <a href="claims.json">claims.json</a>, committed before any of this code. The receipt is <a href="receipts/foundation.json">receipts/foundation.json</a>.</p>
+
+<h2 id="business">For a business</h2>
+<p class="lede">What it gives you: the apps you already run can work as one system, without trusting each other blindly, without a central broker that can read or stop everything, and without a per-message bill.</p>
+<div class="scroll"><table><thead><tr><th>Who</th><th>What changes for them</th></tr></thead><tbody>
+  <tr><td><b>CEO</b></td><td>Systems that were built apart can share work and defence. An attack on one part makes every part wiser. Nothing new to rent, and nothing a supplier can switch off.</td></tr>
+  <tr><td><b>CFO</b></td><td>No licence fee (MIT) and no per-request charge. It runs on machines you own. The cost case below sets that against a managed gateway and firewall for the same traffic, at dated list prices.</td></tr>
+  <tr><td><b>COO</b></td><td>Every useful answer between systems is recorded and signed, and re-checked before it counts, so you can see which part did the work. A budget per system stops a runaway job from flooding the rest.</td></tr>
+  <tr><td><b>CTO / CISO</b></td><td>Verify-before-parse on raw bytes at every boundary. Signatures, counters and recipient binding stop forgery, tampering and replay before any parser runs. Antibodies are adopted only by negative selection. No network calls inside the modules. Every claim is mutation-gated and re-run in CI.</td></tr>
+  <tr><td><b>Engineering</b></td><td>One import instead of building transport, auth, audit and attack-learning again in every service. Pure kernels, no dependencies, the same code in Node and the browser.</td></tr>
+  <tr><td><b>Compliance</b></td><td>An append-only, hash-chained record of what each system did for another, re-derivable by anyone from the log alone. Data stays where you put it.</td></tr>
+</tbody></table></div>
+
+<h3>The cost case</h3>
+<p>What the traffic between your systems would cost through AWS API Gateway and AWS WAF, set against running foundation nodes on your own machines. The sums are break-it's gated cost kernel (<a href="https://github.com/sjgant80-hub/break-it/blob/main/src/cost.mjs">src/cost.mjs</a>), run here on break-it's dated list prices (<a href="https://github.com/sjgant80-hub/break-it/blob/main/costs/sources.json">costs/sources.json</a>). The node rate defaults to a cautious 50 messages a second; after you press Run it becomes the rate your own tab measured.</p>
+<div class="box">
+  <div class="calc">
+    <label>Messages between your systems, a month<input id="c-req" type="number" min="0" value="100000000"></label>
+    <label>Gateway in front of them<select id="c-api"><option value="http">HTTP API</option><option value="rest">REST API</option><option value="none">none</option></select></label>
+    <label>Firewall web ACLs<input id="c-acl" type="number" min="0" value="1"></label>
+    <label>Firewall rules<input id="c-rules" type="number" min="0" value="10"></label>
+    <label>Node rate, messages a second<input id="c-rate" type="number" min="1" value="50"></label>
+    <label>Power per node, watts<input id="c-watts" type="number" min="1" value="35"></label>
+    <label>Hours a month the nodes run<input id="c-hours" type="number" min="1" max="744" value="730"></label>
+    <label>Dollars to the pound (Bank of England rate)<input id="c-fx" type="number" step="0.0001" value="1.3363"></label>
+    <label>Cost of each new machine, £ (0 if you own them)<input id="c-machine" type="number" min="0" value="0"></label>
+    <label>Machine life, months<input id="c-life" type="number" min="1" value="48"></label>
+  </div>
+  <div id="c-out"><p class="dim">Loading the prices…</p></div>
+  <ul class="small" id="c-sources"></ul>
+</div>
+
+<h3>Security and data protection, answered straight</h3>
+<ul>
+  <li><b>Where does data go?</b> Nowhere the modules send it. They open no connections. You carry the bytes between your own systems, over your own channel.</li>
+  <li><b>Keys.</b> Each node has one Ed25519 key, made and kept in WebCrypto. A peer is trusted only when you pin its card. Losing a private key means losing that node's identity: pin a new one.</li>
+  <li><b>Forgery, tampering, replay, misdirection.</b> Each is refused before any parser runs. The run's six hostile packets were all refused, none decoded, none admitted. A packet replayed to a node it was not addressed to is refused by name.</li>
+  <li><b>Poisoned learning.</b> A shared antibody is adopted only after the node's own door refuses the same bytes. A valid packet slipped into a bundle is blocked, never learned.</li>
+  <li><b>Not covered.</b> A stolen key, a host that is already compromised, and content that is harmful once read: LIGHT carries data faithfully, so the screen that shows it must still escape it. A dishonest peer can cost you one answer before its coupling halves. Receipts are tamper-evident: the asker re-hashes them; it does not recompute the answer.</li>
+</ul>
+
+<h3>Rolling it out</h3>
+<ol>
+  <li><b>Pilot on two systems</b> you already run, one that answers and one that asks, as break-it and konomi-slm do here. Measure your own receipt.</li>
+  <li><b>Model A — join a mesh:</b> your nodes pin the peers you choose. They share immunity and record work on a shared ledger.</li>
+  <li><b>Model B — your own body:</b> the same foundation on your own machines, with your own genesis and peers, sovereign to you. It can reconcile with another ledger later if you choose.</li>
+</ol>
+<h3>Support and ownership</h3>
+<p>Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>. Talk to us through that site. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed and keeps running without us.</p>
+<h3>Risks, answered</h3>
+<ul>
+  <li><b>"It is one machine today."</b> True. Phase 1 proves the cells on one machine, in one process and in separate processes. Meshing across devices is the next phase, and it will have its own sealed claims.</li>
+  <li><b>"A pattern library can be wrong."</b> konomi-slm abstains when no verified pattern covers an input, and every answer carries the held-out score of the pattern behind it. The foundation records which answers were used, so a wrong one can be traced.</li>
+  <li><b>"Another dependency."</b> There are none at runtime. These are plain modules, copied into your repo and pinned, with the gate's results committed.</li>
+</ul>
+<h3>The case for the board</h3>
+<p>The organisation's systems become one defended, auditable whole without a new vendor in the middle. Each claim behind that is re-run by a machine anyone can watch, and none rests on an opinion.</p>
+
+<h2 id="paper">The paper: why one foundation</h2>
+<p><b>The problem.</b> Every app that has to work with another builds the same things again: a way to talk, a way to trust, a way to stop replays, a way to keep records, a way to learn from attacks. Each version is slightly different, so apps cannot safely rely on each other. The usual answer is a central broker that sees and controls everything, which is one more thing to trust, rent and defend.</p>
+<p><b>The design.</b> Put those things in one small foundation that every app imports unchanged, and let apps exchange only bytes. Four choices carry the weight:</p>
+<ul>
+  <li><b>Verify before parse.</b> The LIGHT door decides on raw bytes, in a fixed order, and decodes a body only after the signature and the counter pass. Bytes in any other format fail at the magic number. Bytes from a key nobody pinned fail at the sender or the signature. The decoder is never called for either.</li>
+  <li><b>Negative selection.</b> A refusal becomes an antibody, and antibodies travel. The receiver adopts one only if its own door refuses the same bytes at a stage that can never become valid. So shared learning can only make a node stricter about what it would already refuse.</li>
+  <li><b>Capabilities with budgets.</b> A node's identity is also a wallet with a finite budget. An ask is authorised, and its token signed, before the packet exists. A node cannot exceed what it was given by construction, not by policy.</li>
+  <li><b>Evidence, not reputation.</b> A coupling grows only when an answer's proof checks, and halves when it does not. Contributions are recorded only where the recording node can re-check them, so the ledger counts work, not claims of work.</li>
+</ul>
+<p><b>What is measured.</b> Nine claims were committed before the code. Each has one rule over measured facts, applied by a pure judge, and CI re-runs the whole measurement and demands the receipt byte for byte. The two apps are real estate apps, run from their own repos, not test doubles.</p>
+<p><b>Honest limits.</b> One machine, for now. Recall is by resemblance of words (character n-grams), not by meaning in a deep sense. The cost case uses break-it's measured rate unless you run the proof here; then it uses yours. The foundation keeps its promises only as far as its keys are kept.</p>
+<p><b>What comes next.</b> LIGHT for every store and channel in the estate; the mesh across devices; living websites whose front door is a model in the visitor's own browser above this same verify-first door; and the contribution record running everywhere, its switch off until a human decides with counsel. Each will get its own sealed claims, one phase at a time.</p>
+
+<h2>Questions</h2>
+<details><summary>What is the shared foundation?</summary><p>A small set of JavaScript modules every app in the estate runs, so the apps can work together safely: they speak one signed format (LIGHT), check each other before reading anything, share what they learn about attacks, keep their memory in one checked file, cannot spend past a budget, and record the useful work other apps do for them.</p></details>
+<details><summary>Does it send my data anywhere?</summary><p>No. The modules make no network calls of their own. Apps hand each other bytes over whatever channel you choose, and on this page everything happens inside your browser tab.</p></details>
+<details><summary>What does it not protect against?</summary><p>A stolen private key, a machine that is already compromised, and data that is harmful once read (LIGHT carries data faithfully; the app that shows it must still escape it). A dishonest peer can waste one answer before its coupling halves. Today it runs on one machine; meshing across devices is the next phase.</p></details>
+<details><summary>How do I know the claims are true?</summary><p>Nine claims were committed before any of the code existed. A pure judge turns the measured facts into verdicts, CI re-runs the measurement on every push and demands the same receipt byte for byte, and this page re-runs it in your browser from the two apps' own live sites.</p></details>
+<details><summary>What does it cost?</summary><p>It is MIT-licensed, with no licence fee. It runs on machines you already have. The cost case on this page compares that with sending the same traffic through a managed API gateway and web application firewall, at dated public list prices.</p></details>
+
+<div class="foot">
+  Powered by the Konomi architecture, created by Thomas Frumkin · LIGHT from <a href="https://sjgant80-hub.github.io/konomi-tongue/light/">konomi-tongue</a> · gated by <a href="https://github.com/sjgant80-hub/witness">witness</a> · organs from <a href="https://github.com/sjgant80-hub/immune-exchange">immune-exchange</a>, <a href="https://github.com/sjgant80-hub/the-wallet">the-wallet</a>, <a href="https://github.com/sjgant80-hub/kcc-mesh">kcc-mesh</a>, <a href="https://github.com/sjgant80-hub/fall-remember">fall-remember</a><br>
+  Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · MIT · <a href="../">Fall Kit</a> · <a href="https://github.com/sjgant80-hub/fall-kit/tree/main/core">source</a>
+</div>
+</main>
+<script type="module" src="page.mjs"></script>
+</body>
+</html>

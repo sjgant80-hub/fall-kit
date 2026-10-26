@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }    # full history: the receipt checks the claims against the commit that sealed them
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -25,10 +26,21 @@ jobs:
           node .witness/witness.mjs mutate markup.mjs  --cap 400 --test node --test markup.test.mjs
       - name: the foundation's vendored kernels are byte-identical to their source repos at the pinned commits
         run: node core/tools/vendor.mjs --check
-      - name: mutation gate on the foundation's own organs (witness v0.6, every survivor killed — no baselines)
+      - name: mutation gate on the foundation's own organs (witness v0.6; a survivor is killed, or baselined with a written reason in core/witness.baseline.json)
         run: |
           git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git .witness6
-          for k in antibody; do
-            node .witness6/witness.mjs mutate core/$k.mjs --timeout 60000 --cap 600 --test node --test core/$k.test.mjs | tee /tmp/w.txt
+          # each test file runs in one process under the OS timeout, so a mutant that hangs is killed cleanly
+          for k in antibody identity node judge; do
+            node .witness6/witness.mjs mutate core/$k.mjs --timeout 120000 --cap 800 --test timeout -k 5 90 node core/$k.test.mjs | tee /tmp/w.txt
             grep -q '"clean": true' /tmp/w.txt || { echo "::error::mutants survived in core/$k.mjs"; exit 1; }
           done
+      - name: Phase 1 — break-it and konomi-slm as nodes on the foundation; the receipt must reproduce byte for byte
+        run: |
+          node -e "const n=require('./core/nodes.json');for(const [r,c] of Object.entries(n.nodes))console.log(r+' '+c)" > /tmp/nodes.txt
+          while read repo commit; do
+            mkdir -p .nodes/$repo
+            git -C .nodes/$repo init -q
+            git -C .nodes/$repo fetch -q --depth 1 https://github.com/sjgant80-hub/$repo.git $commit
+            git -C .nodes/$repo checkout -q FETCH_HEAD
+          done < /tmp/nodes.txt
+          node core/prove.mjs --nodes .nodes --check

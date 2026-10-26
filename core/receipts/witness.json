@@ -1,0 +1,39 @@
+{
+ "kind": "fall-kit.core.witness",
+ "v": 1,
+ "gate": "witness v0.6",
+ "clean": true,
+ "killed": 325,
+ "total": 326,
+ "ignored": 1,
+ "kernels": [
+  {
+   "name": "antibody",
+   "killed": 83,
+   "total": 83,
+   "ignored": 0,
+   "clean": true
+  },
+  {
+   "name": "node",
+   "killed": 157,
+   "total": 158,
+   "ignored": 1,
+   "clean": true
+  },
+  {
+   "name": "identity",
+   "killed": 12,
+   "total": 12,
+   "ignored": 0,
+   "clean": true
+  },
+  {
+   "name": "judge",
+   "killed": 73,
+   "total": 73,
+   "ignored": 0,
+   "clean": true
+  }
+ ]
+}
