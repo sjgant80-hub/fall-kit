@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { createNode, meshGenesis, hebb, choose, readMessage, readCard, stableJson, digestOf, assetOf, iso, receiptHolds, vaultMatches, LINK, SCHEMA, MAX_PENDING, DEFAULT_BUDGET, MAX_ANTIGENS, MAX_ANTIGEN_BYTES } from './node.mjs';
+import { createNode, meshGenesis, hebb, choose, readMessage, readNote, readCard, stableJson, digestOf, assetOf, iso, receiptHolds, vaultMatches, LINK, SCHEMA, MAX_PENDING, DEFAULT_BUDGET, MAX_ANTIGENS, MAX_ANTIGEN_BYTES, MAX_NOTES, MAX_NOTED, ROUTING } from './node.mjs';
 import * as W from './vendor/wallet/wallet.mjs';
 import * as L from './vendor/ledger/contrib.mjs';
 import { pack } from './vendor/light/vault.mjs';
@@ -21,12 +21,13 @@ const honest = async (input) => {
 };
 const liar = async () => ({ verdict: 'VERIFIED', label: 1, receipt: { model: 'test/1', domain: 'triage', label: 1, verdict: 'VERIFIED', receiptHash: 'f'.repeat(64) } });
 
-async function mesh({ budget = 50, withGenesis = true } = {}) {
+// the tests written for Phase 3's routing run it by name; the routing that shares what it learns has its own below
+async function mesh({ budget = 50, withGenesis = true, routing = 'greedy' } = {}) {
   const [fi, ai, bi, ci] = await Promise.all([makeIdentity(seed(1)), makeIdentity(seed(2)), makeIdentity(seed(4)), makeIdentity(seed(3))]);   // the honest node holds the smaller key
   const genesis = withGenesis ? await meshGenesis(fi, [ai.id, bi.id, ci.id]) : null;
-  const A = await createNode({ name: 'asker', identity: ai, budget, genesis, clock });
-  const B = await createNode({ name: 'honest', identity: bi, skills: { triage: honest }, genesis, clock, genome: { kind: 'test', seeds: ['s1'] } });
-  const C = await createNode({ name: 'liar', identity: ci, skills: { triage: liar }, genesis, clock });
+  const A = await createNode({ name: 'asker', identity: ai, budget, genesis, clock, routing });
+  const B = await createNode({ name: 'honest', identity: bi, skills: { triage: honest }, genesis, clock, genome: { kind: 'test', seeds: ['s1'] }, routing });
+  const C = await createNode({ name: 'liar', identity: ci, skills: { triage: liar }, genesis, clock, routing });
   for (const [x, y] of [[A, B], [A, C], [B, A], [C, A], [B, C], [C, B]]) assert.equal((await x.pin(y.card())).ok, true);
   const nodes = { [A.id]: A, [B.id]: B, [C.id]: C };
   // carry a packet to a node and every reply back, until the conversation is over
@@ -67,12 +68,12 @@ test('hebb: the coupling law, exactly', () => {
 test('choose: the strongest live link, ties to the smaller id, the pruned only as a last resort', () => {
   const w = (x) => () => x;
   const peers = [{ id: 'b', skills: ['triage'], weight: w(600000) }, { id: 'a', skills: ['triage'], weight: w(600000) }, { id: 'c', skills: ['triage'], weight: w(900000) }, { id: 'd', skills: ['water'], weight: w(LINK.MAX) }];
-  assert.deepEqual(choose(peers, 'triage'), { id: 'c', weight: 900000, live: true });
-  assert.deepEqual(choose(peers.slice(0, 2), 'triage'), { id: 'a', weight: 600000, live: true });
-  assert.deepEqual(choose(peers.slice(0, 2).reverse(), 'triage'), { id: 'a', weight: 600000, live: true }, 'order does not matter');
+  assert.deepEqual(choose(peers, 'triage'), { id: 'c', weight: 900000, live: true, untried: false });
+  assert.deepEqual(choose(peers.slice(0, 2), 'triage'), { id: 'a', weight: 600000, live: true, untried: false });
+  assert.deepEqual(choose(peers.slice(0, 2).reverse(), 'triage'), { id: 'a', weight: 600000, live: true, untried: false }, 'order does not matter');
   const pruned = [{ id: 'x', skills: ['triage'], weight: w(LINK.FLOOR - 1) }, { id: 'y', skills: ['triage'], weight: w(LINK.FLOOR) }];
-  assert.deepEqual(choose(pruned, 'triage'), { id: 'y', weight: LINK.FLOOR, live: true }, 'exactly the floor is live');
-  assert.deepEqual(choose(pruned.slice(0, 1), 'triage'), { id: 'x', weight: LINK.FLOOR - 1, live: false });
+  assert.deepEqual(choose(pruned, 'triage'), { id: 'y', weight: LINK.FLOOR, live: true, untried: false }, 'exactly the floor is live');
+  assert.deepEqual(choose(pruned.slice(0, 1), 'triage'), { id: 'x', weight: LINK.FLOOR - 1, live: false, untried: false });
   const both = [{ id: 'p', skills: ['triage'], weight: w(LINK.FLOOR - 1) }, { id: 'q', skills: ['triage'], weight: w(1) }];
   assert.equal(choose(both, 'triage').id, 'p', 'among the pruned, the strongest');
   assert.equal(choose([{ id: 'l', skills: ['triage'], weight: w(LINK.FLOOR) }, { id: 'm', skills: ['triage'], weight: w(LINK.MAX) }].reverse(), 'triage').id, 'm');
@@ -710,4 +711,303 @@ test('unpin: a peer the roster drops stops at the sender, its waiting asks are g
   fresh.A.unpin(fresh.B.id);
   assert.equal((await fresh.A.pin(fresh.B.card())).ok, true);
   assert.equal((await fresh.A.hear(await fresh.B.shareLedger(fresh.A.id))).t, 'ledger', 'a key unpinned before it said anything starts from nothing');
+});
+
+// ── Phase 3b: routing that shares what it learns ──────────────────────────────────────────────────────────────────
+// two askers, an honest holder (the smaller key) and a dishonest one, every node pinning every other; a node that is
+// "down" hears nothing, so what is sent to it is never answered
+async function fourMesh({ routing } = {}) {
+  const [a1i, a2i, bi, ci] = await Promise.all([2, 6, 4, 3].map((n) => makeIdentity(seed(n))));
+  const mk = (name, identity, skills = {}) => createNode({ name, identity, skills, clock, routing, budget: 80 });
+  const A1 = await mk('a1', a1i), A2 = await mk('a2', a2i), B = await mk('honest', bi, { triage: honest }), C = await mk('liar', ci, { triage: liar });
+  const all = [A1, A2, B, C];
+  for (const x of all) for (const y of all) if (x !== y) assert.equal((await x.pin(y.card())).ok, true);
+  const nodes = new Map(all.map((n) => [n.id, n])), down = new Set();
+  const deliver = async (to, bytes) => {
+    if (down.has(to)) return null;
+    const r = await nodes.get(to).hear(bytes);
+    for (const rep of r.replies) await deliver(rep.to, rep.bytes);
+    return r;
+  };
+  // an ask, carried; r is the holder's side, and its one reply is the answer packet the asker heard
+  const ask = async (who, input = { spO2: 88 }) => { const a = await who.ask('triage', input); return { a, r: a.ok ? await deliver(a.to, a.bytes) : null }; };
+  const share = async (from, to) => deliver(to.id, await from.shareNotes(to.id));
+  return { A1, A2, B, C, a1i, a2i, bi, ci, down, deliver, ask, share };
+}
+// a packet signed by an identity, with a counter of the caller's choosing: what a dishonest member's own software can send
+const sayAs = async (who, to, value, counter, sender = who.slot) => {
+  const p = prepare({ sender, counter: BigInt(counter), kind: KINDS.JSON, value: { ...value, to }, dictId: 0 });
+  return finish(p.unsigned, await who.sign(p.signed)).bytes;
+};
+const badReceipt = { model: 'test/1', domain: 'triage', label: 1, verdict: 'VERIFIED', receiptHash: 'f'.repeat(64) };
+
+test('choose (Phase 3b): an untried live holder first, a quiet one is not live, and a peer that says neither is routed as in Phase 3', () => {
+  const w = (x) => () => x;
+  const p = (id, weight, tried, quiet) => ({ id, skills: ['triage'], weight: w(weight), tried: () => tried, quiet: () => quiet });
+  assert.deepEqual(choose([p('a', 900000, true, false), p('b', 600000, false, false)], 'triage'), { id: 'b', weight: 600000, live: true, untried: true }, 'untried beats a stronger tried link');
+  assert.equal(choose([p('b', 600000, false, false), p('a', 900000, true, false)], 'triage').id, 'b', 'whatever the order');
+  assert.equal(choose([p('a', 900000, true, false), p('b', 600000, true, false)], 'triage').id, 'a', 'two tried: the stronger, as before');
+  assert.equal(choose([p('b', 600000, true, false), p('a', 900000, true, false)], 'triage').id, 'a');
+  assert.equal(choose([p('a', 900000, false, false), p('b', 600000, false, false)], 'triage').id, 'a', 'two untried: the stronger');
+  assert.equal(choose([p('b', 600000, false, false), p('a', 900000, false, false)], 'triage').id, 'a');
+  assert.equal(choose([p('b', 600000, false, false), p('a', 600000, false, false)], 'triage').id, 'a', 'two untried and equal: the smaller id');
+  assert.equal(choose([p('a', 600000, false, false), p('b', 600000, false, false)], 'triage').id, 'a');
+  assert.deepEqual(choose([p('a', 900000, true, true), p('b', LINK.FLOOR, true, false)], 'triage'), { id: 'b', weight: LINK.FLOOR, live: true, untried: false }, 'a quiet link is not live, however strong');
+  assert.deepEqual(choose([p('a', 900000, false, true), p('b', 100000, true, true)], 'triage'), { id: 'a', weight: 900000, live: false, untried: false }, 'all quiet: the strongest is still tried, not live and not counted untried');
+  assert.deepEqual(choose([p('a', LINK.FLOOR - 1, false, false), p('b', 60000, true, false)], 'triage'), { id: 'b', weight: 60000, live: true, untried: false }, 'an untried link under the floor is not live, so it is not explored');
+  assert.equal(choose([p('a', 900000, true, false), p('b', 600000, false, true)], 'triage').id, 'a', 'untried but quiet: not explored');
+  assert.equal(choose([{ id: 'a', skills: ['triage'], weight: w(900000), tried: () => undefined }, p('b', 600000, false, false)], 'triage').id, 'b', 'only a plain false is untried');
+  assert.equal(choose([{ id: 'a', skills: ['triage'], weight: w(900000), quiet: () => 1 }, p('b', 600000, true, false)], 'triage').id, 'a', 'only a plain true is quiet');
+  assert.deepEqual(choose([{ id: 'a', skills: ['triage'], weight: w(600000), tried: 'no', quiet: 'yes' }], 'triage'), { id: 'a', weight: 600000, live: true, untried: false }, 'what is not a function says nothing');
+  for (const junk of [NaN, 1.5, '700000', null, Symbol.iterator, 2 ** 53]) assert.deepEqual(choose([{ id: 'a', skills: ['triage'], weight: () => junk }], 'triage'), { id: 'a', weight: LINK.START, live: true, untried: false }, 'a junk weight is a fresh link');
+});
+
+test('readMessage and readNote (Phase 3b): notes, probes and pongs, and every way a note can be wrong', () => {
+  const to = 'a'.repeat(64), h = 'b'.repeat(64);
+  const silent = { kind: 'silent', holder: h, skill: 'triage', job: 'ask:1' };
+  assert.deepEqual(readMessage({ to, t: 'notes', notes: [silent] }), { ok: true, t: 'notes', to, notes: [silent] });
+  assert.equal(readMessage({ to, t: 'notes', notes: Array(MAX_NOTES).fill(silent) }).ok, true, 'exactly the bound');
+  for (const notes of [[], Array(MAX_NOTES + 1).fill(silent), {}, 'x', null]) assert.deepEqual(readMessage({ to, t: 'notes', notes }), { ok: false, why: 'a notes message carries 1 to 16 notes' });
+  assert.deepEqual(readMessage({ to, t: 'probe', id: 'probe:1' }), { ok: true, t: 'probe', to, id: 'probe:1' });
+  assert.deepEqual(readMessage({ to, t: 'pong', id: 'probe:1' }), { ok: true, t: 'pong', to, id: 'probe:1' });
+  assert.deepEqual(readMessage({ to, t: 'probe', id: 'Probe' }), { ok: false, why: 'a probe names its id' });
+  assert.deepEqual(readMessage({ to, t: 'pong', id: 7 }), { ok: false, why: 'a pong names its id' });
+  assert.deepEqual(readMessage({ to, t: 'pong' }), { ok: false, why: 'a pong names its id' });
+  assert.match(readMessage({ to, t: 'pongs', id: 'p' }).why, /not spoken here/);
+  assert.deepEqual(readNote(silent), { ok: true, ...silent });
+  assert.deepEqual(readNote({ ...silent, extra: 1, packet: 'zz' }), { ok: true, ...silent }, 'a silent note carries no packet, and nothing else is read');
+  const pk = 'ab'.repeat(MAX_ANTIGEN_BYTES), lied = { kind: 'lied', holder: h, skill: 'triage', job: 'ask:1', packet: pk };
+  assert.deepEqual(readNote({ ...lied, extra: 1 }), { ok: true, ...lied }, 'exactly the bound');
+  const why = (x) => readNote(x).why, NO_PACKET = 'a lied note carries the answer packet, in hex, up to 2048 bytes';
+  for (const packet of [pk + 'ab', '', 'abc', 'AB', 'zz', 5, undefined]) assert.equal(why({ ...lied, packet }), NO_PACKET, String(packet).slice(0, 8));
+  for (const kind of ['quiet', undefined, 'SILENT']) assert.equal(why({ ...silent, kind }), 'a note is silent or lied');
+  for (const holder of ['B'.repeat(64), 'b'.repeat(63), 7]) assert.equal(why({ ...silent, holder }), 'a note names the holder it is about');
+  for (const skill of ['Tri', '', 3]) assert.equal(why({ ...lied, skill }), 'a note names a skill');
+  for (const job of ['Ask', '', 'a'.repeat(97), null]) assert.equal(why({ ...lied, job }), 'a note names the ask it is about');
+  for (const junk of [null, 5, 'x', [], [silent], { kind: 'lied' }, new Uint8Array(3), undefined]) assert.equal(readNote(junk).ok, false);
+  const garbage = [null, undefined, 0, -1, NaN, '', 'x', [], [null], {}, { kind: 'lied', holder: {}, skill: [], job: 1, packet: {} }, () => 1, new Uint8Array(4), Symbol.iterator];
+  for (const g of garbage) {
+    assert.doesNotThrow(() => readNote(g));
+    assert.doesNotThrow(() => readMessage({ to, t: 'notes', notes: g }));
+    assert.doesNotThrow(() => choose([g, { id: 'a', skills: ['t'], weight: () => g, tried: () => g, quiet: () => g }], 't'));
+  }
+});
+
+test('routing: the default shares what it learns, and Phase 3\'s greedy routing is kept by name', async () => {
+  assert.deepEqual(ROUTING, ['shared', 'greedy']);
+  for (const [r, want] of [[undefined, 'shared'], ['shared', 'shared'], ['greedy', 'greedy'], ['GREEDY', 'shared'], [7, 'shared']]) assert.equal((await createNode({ identity: await makeIdentity(seed(30)), routing: r })).routing, want, String(r));
+  const g = await fourMesh({ routing: 'greedy' });
+  const first = await g.ask(g.A1), second = await g.ask(g.A1);
+  assert.deepEqual([first.a.to, second.a.to, first.a.untried, second.a.untried], [g.B.id, g.B.id, false, false], 'greedy: the stronger link alone, the liar never tried');
+  assert.equal(g.A1.weight(g.C.id, 'triage'), LINK.START);
+  const lost1 = await g.A1.ask('triage', { spO2: 88 });   // nobody carries these two
+  g.A1.expire(lost1.id);
+  const lost2 = await g.A1.ask('triage', { spO2: 88 });
+  assert.equal(lost2.to, g.C.id);
+  g.A1.expire(lost2.id);
+  assert.deepEqual([g.A1.quiet(g.B.id, 'triage'), g.A1.quiet(g.C.id, 'triage')], [true, true], 'greedy routing keeps the record');
+  const next = await g.A1.ask('triage', { spO2: 88 });
+  assert.deepEqual([next.to, next.live], [g.B.id, true], 'and ignores it: a silent node is still a live link');
+});
+
+test('exploration: an asker tries every holder once before it prefers one, so the liar that ranks last is found', async () => {
+  const m = await fourMesh();
+  assert.ok(m.B.id < m.C.id, 'the honest holder ranks first by key, as in Phase 3');
+  assert.equal(m.A1.routing, 'shared');
+  const one = await m.ask(m.A1);
+  assert.deepEqual([one.a.to, one.a.live, one.a.untried], [m.B.id, true, true]);
+  assert.equal(m.A1.weight(m.B.id, 'triage'), 625000);
+  assert.deepEqual(m.A1.notes(), [], 'a verified answer writes no note');
+  const two = await m.ask(m.A1);
+  assert.deepEqual([two.a.to, two.a.untried], [m.C.id, true], 'the untried liar is asked though the honest link is stronger');
+  assert.equal(m.A1.weight(m.C.id, 'triage'), 250000, 'its receipt did not check');
+  const lie = two.r.replies[0].bytes;
+  assert.deepEqual(m.A1.notes(), [{ kind: 'lied', holder: m.C.id, skill: 'triage', job: two.a.id, packet: toHex(lie) }], 'the lie is kept as evidence: the liar\'s own signed answer');
+  const three = await m.ask(m.A1);
+  assert.deepEqual([three.a.to, three.a.untried], [m.B.id, false], 'both tried: the stronger');
+  assert.deepEqual([m.A1.tried(m.B.id, 'triage'), m.A1.tried(m.C.id, 'triage'), m.A1.tried(m.A2.id, 'triage'), m.A1.tried(m.B.id, 'echo'), m.A1.tried('nobody', 'triage')], [true, true, false, false, false]);
+  const abs = await m.ask(m.A2, { ood: true });
+  assert.equal(abs.a.to, m.B.id);
+  assert.equal(m.A2.tried(m.B.id, 'triage'), true, 'an abstain is a try');
+  assert.equal((await m.ask(m.A2)).a.to, m.C.id, 'so the next goes to the untried one');
+});
+
+test('a lie seen by one asker is counted by another only after its own re-check, once', async () => {
+  const m = await fourMesh();
+  await m.ask(m.A1); await m.ask(m.A1);
+  const r = await m.share(m.A1, m.A2);
+  assert.deepEqual({ ok: r.ok, t: r.t, from: r.from, offered: r.offered, adopted: r.adopted, quiet: r.quiet, already: r.already, refused: r.refused, replies: r.replies }, { ok: true, t: 'notes', from: m.A1.id, offered: 1, adopted: 1, quiet: 0, already: 0, refused: [], replies: [] });
+  assert.equal(m.A2.weight(m.C.id, 'triage'), 250000, 'counted as one failed answer');
+  assert.equal(m.A2.tried(m.C.id, 'triage'), false, 'evidence from another asker is not a try of its own');
+  assert.deepEqual(m.A2.notes(), [], 'and not a note of its own: notes are first-hand');
+  const again = await m.share(m.A1, m.A2);
+  assert.deepEqual([again.adopted, again.already, again.refused], [0, 1, []], 'the same evidence counts once');
+  assert.equal(m.A2.weight(m.C.id, 'triage'), 250000);
+  const mine = await m.A2.ask('triage', { spO2: 88 });
+  assert.equal(mine.to, m.B.id, 'both untried here: the stronger link first');
+  await m.deliver(mine.to, mine.bytes);
+  const own = await m.ask(m.A2);
+  assert.deepEqual([own.a.to, own.a.untried], [m.C.id, true], 'it still tries the liar once itself');
+  assert.equal(m.A2.weight(m.C.id, 'triage'), 125000);
+  assert.equal((await m.share(m.A2, m.A1)).adopted, 1, 'A2\'s own evidence is new to A1');
+  assert.equal(m.A1.weight(m.C.id, 'triage'), 125000, 'two lies, two failures, at each asker');
+  assert.equal((await m.share(m.A1, m.C)).refused[0], 'a note about this node', 'the accused counts nothing against itself');
+  assert.equal((await m.share(m.A1, m.B)).adopted, 1, 'any member may count it');
+  assert.equal(m.B.weight(m.C.id, 'triage'), 250000);
+});
+
+test('a lied note is refused unless it is the accused\'s own signed answer to the sender, and fails the receiver\'s check', async () => {
+  const m = await fourMesh();
+  assert.notEqual(m.bi.slot, m.ci.slot, 'the test keys sit in different slots');
+  await m.ask(m.A1); const two = await m.ask(m.A1);
+  const lie = toHex(two.r.replies[0].bytes), job = two.a.id, C = m.C.id;
+  const n = (packet, over = {}) => ({ kind: 'lied', holder: C, skill: 'triage', job, packet, ...over });
+  const signedByC = async (value, counter, sender) => toHex(await sayAs(m.ci, m.A1.id, value, counter, sender));
+  const answer = (over = {}) => ({ t: 'answer', id: job, skill: 'triage', answer: { verdict: 'VERIFIED', label: 1, receipt: badReceipt }, ...over });
+  const core = { model: 'test/1', domain: 'triage', label: 0, verdict: 'VERIFIED' }, good = { verdict: 'VERIFIED', label: 0, receipt: { ...core, receiptHash: rehash(core) } };
+  const raw = prepare({ sender: m.ci.slot, counter: 9n, kind: KINDS.BYTES, bytes: new Uint8Array([1, 2, 3]), dictId: 0 });
+  const forged = toHex(await sayAs(m.a1i, m.A1.id, answer(), 7, m.ci.slot));
+  const notes = [
+    { kind: 'maybe', holder: C, skill: 'triage', job },
+    n(lie, { holder: m.A2.id }),
+    n(lie, { holder: m.A1.id }),
+    n(lie, { holder: 'd'.repeat(64) }),
+    n(lie, { skill: 'echo' }),
+    n('00ff'),
+    n(forged),                                                              // in C's slot, signed by A1's key
+    n(await signedByC(answer(), 8, m.bi.slot)),                             // signed by C, in another's slot
+    n(lie, { job: 'ask:other:1' }),
+    n(await signedByC(answer({ skill: 'echo' }), 9)),
+    n(toHex(await sayAs(m.ci, m.A2.id, answer(), 10))),                     // C's lie, but to someone else
+    n(await signedByC({ t: 'probe', id: job }, 11)),
+    n(toHex(finish(raw.unsigned, await m.ci.sign(raw.signed)).bytes)),      // signed by C, but not a message
+    n(await signedByC(answer({ answer: { verdict: 'ABSTAIN' } }), 12)),
+    n(await signedByC(answer({ answer: good }), 13)),
+    n(lie),
+  ];
+  assert.equal(notes.length, MAX_NOTES);
+  const r = await m.deliver(m.A2.id, await sayAs(m.a1i, m.A2.id, { t: 'notes', notes }, 1000));
+  const NOT_SIGNED = 'the packet is not signed by the holder it accuses', NOT_ANSWER = 'the packet is not that holder’s answer to that ask of the sender’s';
+  assert.deepEqual(r.refused, ['a note is silent or lied', 'a note about this node', 'a note about its own sender', 'a note about a node this one has not pinned', 'the holder does not hold echo',
+    NOT_SIGNED, NOT_SIGNED, NOT_SIGNED, NOT_ANSWER, NOT_ANSWER, NOT_ANSWER, NOT_ANSWER, NOT_ANSWER, 'an abstain is not a lie', 'the answer checks here']);
+  assert.deepEqual([r.offered, r.adopted, r.quiet, r.already], [16, 1, 0, 0], 'only the liar\'s own signed lie, to the sender, for that ask, counts, though the same bytes came first with the wrong ask');
+  assert.equal(m.A2.weight(C, 'triage'), 250000);
+  assert.equal(m.A2.weight(m.B.id, 'triage'), LINK.START, 'nothing else moved');
+  const dup = await m.deliver(m.A2.id, await sayAs(m.a1i, m.A2.id, { t: 'notes', notes: [n(lie), n(forged), notes[14]] }, 1001));
+  assert.deepEqual([dup.adopted, dup.already, dup.refused], [0, 2, [NOT_SIGNED]], 'evidence already judged is not judged again; a forgery is refused each time it comes');
+  const second = await m.deliver(m.A2.id, await sayAs(m.a1i, m.A2.id, { t: 'notes', notes: [n(await signedByC(answer(), 2))] }, 1002));
+  assert.equal(second.adopted, 1, 'another signed lie is other evidence');
+  assert.equal(m.A2.weight(C, 'triage'), 125000);
+  const mem = m.A2.recall('took notes from a1', 1).center;
+  assert.deepEqual([mem.meta.kind, mem.meta.from, mem.meta.adopted], ['notes', m.A1.id, 1]);
+});
+
+test('silence: an expired ask makes the holder quiet and writes a note; elsewhere the note makes it quiet and sends a probe, and only an expired probe counts', async () => {
+  const m = await fourMesh();
+  await m.ask(m.A1); await m.ask(m.A1); await m.ask(m.A1);            // B verified, C lied, B verified
+  assert.equal(m.A1.weight(m.B.id, 'triage'), 718750);
+  const lost = await m.A1.ask('triage', { spO2: 88 });                 // to B; nobody carries it
+  assert.equal(lost.to, m.B.id);
+  assert.deepEqual(m.A1.expire(lost.id), { ok: true, to: m.B.id, skill: 'triage', weight: 359375 });
+  assert.deepEqual([m.A1.quiet(m.B.id, 'triage'), m.A1.quiet(m.B.id, 'echo'), m.A1.quiet(m.C.id, 'triage'), m.A1.quiet('nobody', 'triage')], [true, false, false, false]);
+  assert.deepEqual(m.A1.notes()[1], { kind: 'silent', holder: m.B.id, skill: 'triage', job: lost.id });
+  const next = await m.A1.ask('triage', { spO2: 88 });
+  assert.deepEqual([next.to, next.live], [m.C.id, true], 'B is quiet, so the weaker live link takes the ask');
+  m.A1.expire(next.id);
+  assert.equal(m.A1.quiet(m.C.id, 'triage'), true);
+  const fall = await m.A1.ask('triage', { spO2: 88 });
+  assert.deepEqual([fall.to, fall.live, fall.untried], [m.B.id, false, false], 'everyone quiet: the strongest is still tried');
+  // the notes reach A2: the lie counted, the two silences make B and C quiet there and send each a probe
+  m.down.add(m.B.id); m.down.add(m.C.id);
+  const r = await m.share(m.A1, m.A2);
+  assert.deepEqual([r.adopted, r.quiet, r.already, r.refused], [1, 2, 0, []]);
+  assert.deepEqual(r.replies.map((x) => x.to), [m.B.id, m.C.id], 'a probe to each');
+  const pre = 'probe:' + m.A2.id.slice(0, 8) + ':';
+  assert.deepEqual(m.A2.probing(), [pre + 1, pre + 2]);
+  assert.deepEqual([m.A2.quiet(m.B.id, 'triage'), m.A2.quiet(m.C.id, 'triage'), m.A2.weight(m.B.id, 'triage')], [true, true, LINK.START], 'quiet at once; the link does not move on A1\'s word');
+  assert.deepEqual([m.A2.stats().quiet, m.A2.stats().probing, m.A2.stats().notes, m.A1.stats().notes], [2, 2, 0, 3]);
+  assert.deepEqual([(await m.share(m.A1, m.A2)).already, m.A2.probing().length], [3, 2], 'the same notes again: no second probe');
+  // B is alive after all: its answer to the probe clears it, and its probe only
+  m.down.delete(m.B.id);
+  const pong = await m.deliver(m.A2.id, (await m.B.hear(r.replies[0].bytes)).replies[0].bytes);
+  assert.deepEqual(pong, { ok: true, t: 'pong', from: m.B.id, id: pre + 1, replies: [] });
+  assert.deepEqual([m.A2.quiet(m.B.id, 'triage'), m.A2.quiet(m.C.id, 'triage'), m.A2.probing()], [false, true, [pre + 2]], 'heard from: B is live again; C\'s probe still waits');
+  assert.equal(m.A2.weight(m.B.id, 'triage'), LINK.START, 'a false silence costs nothing but its probe');
+  assert.match(m.A2.recall('honest was heard from', 1).center.text, /^honest was heard from: no longer quiet$/);
+  // C never answers: the probe expires, and that is A2's own evidence
+  assert.deepEqual(m.A2.expire(pre + 2), { ok: true, to: m.C.id, skill: 'triage', weight: 125000, probe: true });
+  assert.deepEqual([m.A2.probing(), m.A2.quiet(m.C.id, 'triage'), m.A2.pending()], [[], true, []]);
+  assert.equal(m.A2.expire(pre + 2).ok, false, 'once');
+  assert.equal(m.A2.recall('probe expired unanswered', 1).center.meta.kind, 'probe-expired');
+  assert.deepEqual(m.A2.notes(), [], 'an expired probe is not a note: A2 never asked C anything');
+  // a packet from a quiet peer that the door refuses proves nothing; one it admits does
+  assert.equal(await m.C.shareNotes(m.A1.id), null, 'C has no notes of its own');
+  assert.equal(await m.A1.shareNotes('nobody'), null, 'and notes go only to a pinned peer');
+  const sync = await m.C.shareSync(m.A1.id, 'mesh');
+  assert.equal((await m.A1.hear(sync)).ok, true);
+  assert.deepEqual([m.A1.quiet(m.C.id, 'triage'), m.A1.quiet(m.B.id, 'triage')], [false, true], 'C spoke: live again at A1, and only C');
+  m.A1.expire((await m.A1.ask('triage', { spO2: 88 })).id);
+  assert.equal(m.A1.quiet(m.C.id, 'triage'), true);
+  assert.equal((await m.A1.hear(sync)).stage, 'counter');
+  assert.equal(m.A1.quiet(m.C.id, 'triage'), true, 'a replay is not a sign of life');
+});
+
+test('own notes: kept up to the bound, oldest out, handed out as copies; a lie too large to carry is counted but not kept', async () => {
+  const m = await fourMesh();
+  const ids = [];
+  for (let i = 0; i < MAX_NOTES + 1; i++) { const a = await m.A1.ask('triage', { spO2: 88 }); ids.push(a.id); m.A1.expire(a.id); }
+  const kept = m.A1.notes();
+  assert.equal(kept.length, MAX_NOTES);
+  assert.deepEqual(kept.map((x) => x.job), ids.slice(1), 'the oldest went first');
+  kept[0].kind = 'changed';
+  assert.equal(m.A1.notes()[0].kind, 'silent', 'a copy');
+  const pad = Array.from({ length: 300 }, (_, i) => rehash({ i })).join('');
+  const bi = await makeIdentity(seed(31)), ai = await makeIdentity(seed(32));
+  const Big = await createNode({ name: 'big', identity: bi, skills: { triage: async () => ({ verdict: 'VERIFIED', pad, receipt: badReceipt }) }, clock });
+  const A = await createNode({ name: 'a', identity: ai, clock });
+  await A.pin(Big.card()); await Big.pin(A.card());
+  const q = await A.ask('triage', { spO2: 88 });
+  const reply = (await Big.hear(q.bytes)).replies[0].bytes;
+  assert.ok(reply.length > MAX_ANTIGEN_BYTES, 'the answer is bigger than a note may carry');
+  assert.equal((await A.hear(reply)).outcome, 'failed');
+  assert.equal(A.weight(Big.id, 'triage'), 250000, 'counted here');
+  assert.deepEqual(A.notes(), [], 'but not kept to share: no receiver would take it');
+});
+
+test('the memory of notes taken is bounded, the oldest forgotten first', async () => {
+  const m = await fourMesh();
+  m.down.add(m.B.id);
+  const silentB = (k) => ({ kind: 'silent', holder: m.B.id, skill: 'triage', job: 'j:' + k });
+  let counter = 2000, quiet = 0, already = 0;
+  const send = async (ks) => { const r = await m.deliver(m.A2.id, await sayAs(m.a1i, m.A2.id, { t: 'notes', notes: ks.map(silentB) }, counter++)); quiet += r.quiet; already += r.already; return r; };
+  const wake = async () => { assert.equal((await m.A2.hear(await m.B.shareSync(m.A2.id, 'mesh'))).ok, true); assert.equal(m.A2.quiet(m.B.id, 'triage'), false); };
+  for (let k = 0; k < MAX_NOTED; k += MAX_NOTES) await send(Array.from({ length: MAX_NOTES }, (_, i) => k + i));
+  assert.deepEqual([quiet, already], [1, MAX_NOTED - 1], 'the first made B quiet; the rest found it quiet');
+  await wake();
+  assert.equal((await send([0])).already, 1, 'exactly the bound is remembered');
+  assert.equal((await send([MAX_NOTED])).quiet, 1, 'one more…');
+  await wake();
+  assert.equal((await send([1])).already, 1);
+  assert.equal(m.A2.quiet(m.B.id, 'triage'), false);
+  assert.equal((await send([0])).quiet, 1, '…and the oldest is forgotten');
+});
+
+test('pinned again, a peer keeps what was tried and its silence; unpinned, its probes go; an ordinary packet leaves no trace of silence', async () => {
+  const m = await fourMesh();
+  const mem0 = m.A1.stats().memory;
+  await m.ask(m.A1);
+  assert.equal(m.A1.stats().memory, mem0 + 1, 'one answer, one memory: no silence to clear');
+  await m.ask(m.A1);
+  m.A1.expire((await m.A1.ask('triage', { spO2: 88 })).id);   // B
+  m.A1.expire((await m.A1.ask('triage', { spO2: 88 })).id);   // C
+  assert.equal((await m.A1.pin(m.C.card())).ok, true);
+  assert.equal((await m.A1.pin(m.B.card())).ok, true);
+  assert.deepEqual([m.A1.tried(m.C.id, 'triage'), m.A1.quiet(m.B.id, 'triage'), m.A1.quiet(m.C.id, 'triage'), m.A1.weight(m.C.id, 'triage')], [true, true, true, 125000], 'a second pin changes nothing it had learned');
+  m.down.add(m.B.id); m.down.add(m.C.id);
+  await m.share(m.A1, m.A2);
+  assert.equal(m.A2.probing().length, 2);
+  const pre = 'probe:' + m.A2.id.slice(0, 8) + ':';
+  assert.equal(m.A2.unpin(m.C.id).ok, true);
+  assert.deepEqual(m.A2.probing(), [pre + 1], 'only the probe to the dropped peer goes');
+  assert.equal(m.A2.stats().probing, 1);
 });

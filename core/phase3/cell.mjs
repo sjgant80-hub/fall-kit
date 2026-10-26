@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 // core/phase3/cell.mjs — one foundation node as its own operating-system process, on the mesh's relays (glue).
 //
-//   node core/phase3/cell.mjs <seed> <role> <relays, comma-separated: a port on this machine, or host:port>
+//   node core/phase3/cell.mjs <seed> <role> <relays, comma-separated: a port on this machine, or host:port> [routing]
 //
 // role: honest | liar | scribe | asker — honest and liar both offer triage (the liar's receipts do not check), the
 // scribe offers echo, an asker offers nothing. The node connects to every relay it is given and says hello on each, so
 // what is sent to it arrives through whichever relay the sender used; it sends through the first relay that is up, so a
 // relay that dies costs nothing but a reconnect. Driven by one JSON line per command on stdin ({ n, op, ... }); it
 // answers each with one JSON line ({ n, ... }) on stdout. Every identity is a fixed public test seed and the clock is
-// fixed, so two runs of a scenario build the same bytes.
+// fixed, so two runs of a scenario build the same bytes. routing is 'greedy' unless it is given as 'shared': Phase 3
+// measured the greedy routing, so its cells keep it by name; Phase 3b's measurement asks for the routing that shares.
 import { connect } from 'node:net';
 import { createNode, stableJson } from '../node.mjs';
 import { makeIdentity, hex, unhex } from '../identity.mjs';
@@ -17,7 +18,7 @@ import { frameOf, createReader, KIND } from '../relay.mjs';
 import { sha256 } from '../vendor/light/sha256.mjs';
 import { prepare, finish, KINDS } from '../vendor/light/packet.mjs';
 
-const [seedArg, role, portsArg] = process.argv.slice(2);
+const [seedArg, role, portsArg, routingArg] = process.argv.slice(2);
 const CLOCK = () => new Date('2026-10-26T12:00:00Z');
 const rehash = (core) => hex(sha256(new TextEncoder().encode(JSON.stringify(core))));
 const honest = (domain) => async (input) => {
@@ -28,12 +29,12 @@ const liar = async () => ({ verdict: 'VERIFIED', label: 1, receipt: { model: 'ph
 const skills = role === 'honest' ? { triage: honest('triage') } : role === 'liar' ? { triage: liar } : role === 'scribe' ? { echo: honest('echo') } : {};
 
 const me = await makeIdentity(new Uint8Array(32).fill(Number(seedArg)));
-const node = await createNode({ name: role + '-' + seedArg, identity: me, skills, clock: CLOCK, docs: ['mesh', 's1', 's2', 's3'], budget: 5000 });
+const node = await createNode({ name: role + '-' + seedArg, identity: me, skills, clock: CLOCK, docs: ['mesh', 's1', 's2', 's3'], budget: 5000, routing: routingArg === 'shared' ? 'shared' : 'greedy' });
 // a relay on this machine by its port, or on another device by host:port (the owner's door to a second device)
 const relays = String(portsArg || '').split(',').filter(Boolean).map((x) => (x.includes(':') ? { host: x.slice(0, x.lastIndexOf(':')), port: Number(x.slice(x.lastIndexOf(':') + 1)) } : { host: '127.0.0.1', port: Number(x) }));
 const ports = relays.map((x) => x.port), hostOf = new Map(relays.map((x) => [x.port, x.host]));
 let roster = null;
-const heard = [], waiting = new Map(), socks = new Map(), sentLog = [];
+const heard = [], waiting = new Map(), socks = new Map(), sentLog = [], inLog = [];
 const out = (x) => process.stdout.write(JSON.stringify(x) + '\n');
 
 function link(port) {
@@ -59,7 +60,10 @@ let rs = Number(seedArg) * 7919 + 1;
 const rnd = () => { rs = (rs * 1103515245 + 12345) % 2147483648; return rs / 2147483648; };
 async function onBytes(bytes) {
   const r = await node.hear(bytes);
-  heard.push({ ok: r.ok === true, t: r.t || null, stage: r.stage || null, decoded: r.decoded === true || r.ok === true, recognised: r.recognised === true, variant: r.variantOf || null, from: r.from || null, adopted: Number.isInteger(r.adopted) ? r.adopted : null });
+  heard.push({ ok: r.ok === true, t: r.t || null, stage: r.stage || null, decoded: r.decoded === true || r.ok === true, recognised: r.recognised === true, variant: r.variantOf || null, from: r.from || null, adopted: Number.isInteger(r.adopted) ? r.adopted : null,
+    ...(r.t === 'notes' ? { notes: { quiet: r.quiet, already: r.already, refused: r.refused } } : {}) });
+  inLog.push({ hex: hex(bytes), t: r.t || null, id: r.id || null, from: r.from || null, ok: r.ok === true });   // what this node received, for a hostile node to reuse
+  if (inLog.length > 64) inLog.shift();
   for (const rep of r.replies || []) send(rep.to, rep.bytes);
   if (r.t === 'answer' && waiting.has(r.id)) { waiting.get(r.id)(r); waiting.delete(r.id); }
 }
@@ -100,6 +104,16 @@ async function run(c) {
     for (const d of ['mesh', 's1', 's2', 's3']) { docs[d] = hex(sha256(new TextEncoder().encode(stableJson(node.sharedDoc(d).entries)))); sizes[d] = Object.keys(node.shared(d)).length; }
     return { stats: node.stats(), credits: node.credits(), weights, docs, sizes, pending: node.pending(), antigens: node.antigens().length };
   }
+  // ── what Phase 3b's routing adds: notes shared, probes given up, and who is quiet or tried here ──
+  if (c.op === 'notes') { const ns = node.notes(); return { count: ns.length, last: ns.length > 0 ? ns[ns.length - 1].job : null }; }
+  if (c.op === 'shareNotes') { const b = await node.shareNotes(c.to); return { sent: b !== null && send(c.to, b) }; }
+  if (c.op === 'expireProbes') return { expired: node.probing().map((id) => node.expire(id)) };
+  if (c.op === 'routing') {
+    const quiet = {}, tried = {};
+    for (const skill of allSkills) for (const id of c.peers || []) { quiet[skill + ':' + id] = node.quiet(id, skill); tried[skill + ':' + id] = node.tried(id, skill); }
+    return { routing: node.routing, quiet, tried, probing: node.probing().length, weights: Object.fromEntries((c.peers || []).map((id) => [id, node.weight(id, 'triage')])) };
+  }
+  if (c.op === 'captureIn') return { got: inLog.filter((x) => !c.t || x.t === c.t) };
   if (c.op === 'heard') return { heard: heard.splice(0) };
   if (c.op === 'heardSince') return { heard: heard.slice(c.from || 0) };
   if (c.op === 'heardCount') { const until = Date.now() + (c.wait || 0); while (heard.length < (c.atLeast || 0) && Date.now() < until) await new Promise((r) => setTimeout(r, 5)); return { count: heard.length }; }

@@ -26,9 +26,9 @@ const CLOCK = () => new Date('2026-10-26T12:00:00Z');
 const seed = (n) => new Uint8Array(32).fill(n);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 export const ROLES = Object.freeze([['h1', 81, 'honest'], ['h2', 82, 'honest'], ['liar', 83, 'liar'], ['scribe', 84, 'scribe'], ['a1', 85, 'asker'], ['a2', 86, 'asker'], ['a3', 87, 'asker'], ['a4', 88, 'asker']]);
-const PORT = Object.freeze({ A: 47301, B: 47302, F: 47303 });
+export const PORT = Object.freeze({ A: 47301, B: 47302, F: 47303 });
 
-class Proc {
+export class Proc {
   constructor(args) {
     this.p = spawn(process.execPath, args, { stdio: ['pipe', 'pipe', 'inherit'] });
     this.n = 0; this.wait = new Map(); this.buf = ''; this.alive = true;
@@ -52,10 +52,10 @@ class Proc {
   async kill() { this.p.kill('SIGKILL'); while (this.alive) await sleep(20); }
 }
 /** After a relay dies, wait until no node still thinks it is up, so no step writes to a dead socket. */
-async function awaitDown(cells, port) {
+export async function awaitDown(cells, port) {
   for (const c of cells) for (let i = 0; i < 100; i++) { const l = await c.cmd('links'); if (!l.up.includes(port)) break; await sleep(20); }
 }
-const relay = async (port, repeat) => { const r = new Proc([join(CORE, 'relay-server.mjs'), String(port), ...(repeat ? ['--repeat', String(repeat)] : [])]); await r.ready; return r; };
+export const relay = async (port, repeat) => { const r = new Proc([join(CORE, 'relay-server.mjs'), String(port), ...(repeat ? ['--repeat', String(repeat)] : [])]); await r.ready; return r; };
 const cell = async (s, role, ports) => { const c = new Proc([join(HERE, 'cell.mjs'), String(s), role, ports.join(',')]); const m = await c.ready; c.id = m.id; c.role = role; return c; };
 
 /** The mesh scenario: roster, 100 asks (relay A killed halfway when told), a holder killed, 40 asks more. */
@@ -150,7 +150,7 @@ async function startMesh(extra = []) {
   return { relays, cells, stop: async () => { for (const p of [...Object.values(cells), ...Object.values(relays)]) if (p.alive) await p.kill(); } };
 }
 /** Send, then wait until the node it was for has heard it: one step at a time. → what was sent, and what it heard. */
-async function carry(from, toCell, op, args) {
+export async function carry(from, toCell, op, args) {
   const before = (await toCell.cmd('heardCount')).count;
   const r = await from.cmd(op, { to: toCell.id, ...args });
   if (r.sent) await toCell.cmd('heardCount', { atLeast: before + 1, wait: 3000 });

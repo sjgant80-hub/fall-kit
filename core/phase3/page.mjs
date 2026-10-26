@@ -11,6 +11,7 @@ import { makeRoster, readRoster, onRoster, rosterChanges } from '../roster.mjs';
 import { prepare, finish, KINDS } from '../vendor/light/packet.mjs';
 import { sha256 } from '../vendor/light/sha256.mjs';
 import { judge } from './judge.mjs';
+import { judge as judge3b } from '../phase3b/judge.mjs';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -52,6 +53,32 @@ async function loadReceipt() {
     else $('x1-line').textContent = 'Not measured yet: run it yourself with the two links above.';
   } catch (e) {
     $('r-sum').innerHTML = '<span class="no">The receipt could not be loaded.</span>';
+  }
+}
+
+// ── Phase 3b, the fix for J3 and J4, re-judged here from its own receipt ──
+async function loadFix() {
+  try {
+    const [claims, receipt] = await Promise.all([getJson('../phase3b/claims.json'), getJson('../receipts/phase3b.json')]);
+    const j = judge3b(claims, receipt.facts);
+    const same = j.verdicts.every((v, i) => receipt.verdicts[i] && receipt.verdicts[i].id === v.id && receipt.verdicts[i].held === v.held && receipt.verdicts[i].measured === v.measured);
+    const f = receipt.facts;
+    $('w-sum').innerHTML = '<b>' + j.held + ' held, ' + j.failed + ' failed</b>, of ' + j.verdicts.length + ' claims sealed at <code>' + esc(String(receipt.sealedIn || '').slice(0, 7)) + '</code>, before any of this code existed. ' +
+      (same ? '<span class="ok">Re-judged in this tab from the receipt\'s own facts: the same verdicts, word for word.</span>' : '<span class="no">Re-judged in this tab, the verdicts differ from the committed ones.</span>');
+    $('w-rows').innerHTML = j.verdicts.map((v) => { const c = claims.claims.find((x) => x.id === v.id) || {}; return '<tr><td><b>' + esc(v.id) + '</b></td><td>' + tag(v.held) + '</td><td>' + esc(c.claim || '') + '<br><span class="small dim">' + esc(v.measured) + '</span><br><span class="small dim">Predicted before the run: ' + esc(c.predicted || '') + '</span></td></tr>'; }).join('');
+    const liars = (ls) => [...new Set(ls.map((l) => pct(l.liar)))].join(', '), honests = (ls) => [...new Set(ls.map((l) => pct(l.honest)))].join(', ');
+    const asked = f.w3.liarAsks.reduce((k, a) => k + a.asks, 0);
+    const row = (what, greedy, shared) => '<tr><td>' + esc(what) + '</td><td>' + esc(greedy) + '</td><td><b>' + esc(shared) + '</b></td></tr>';
+    $('w-compare').innerHTML = row('Asks that went to the node that died, before the mesh routed around it (bar: 2)', n0(f.w1.control.toDead) + ', one from each asker', n0(f.w1.toDead) + ', the first asker\'s; it warned the rest') +
+      row('The dishonest holder\'s link at each asker (the floor is 5.0%)', liars(f.w2.control) + ': where every link starts', liars(f.w2.links) + ': under the floor') +
+      row('Asks the dishonest holder got in the first 100', n0(f.w3.controlLiarAsks) + ': never tried, never found out', n0(asked) + ': one from each asker, then none') +
+      row('The live honest holder\'s link at each asker', honests(f.w2.control), honests(f.w2.links));
+    $('t-dead').textContent = n0(f.w1.toDead) + ' (was ' + n0(f.w1.control.toDead) + ')';
+    const w4 = f.w4.lied;
+    $('w4-line').textContent = 'Measured: ' + n0(w4.sent) + ' false lie notes reached the four askers. ' + n0(w4.refused) + ' were refused by name and ' + n0(w4.adopted) + ' counted; ' + n0(w4.already) + ' were answered "already judged" instead of being refused. ' +
+      n0(f.w4.linksChanged) + ' of ' + n0(f.w4.linksCompared) + ' links moved anywhere, all ' + n0(f.w4.silence.answered) + ' false silences were cleared by the holder\'s own answer to its probe, and all ' + n0(f.w4.stranger.refusedAtDoor) + ' of the stranger\'s notes stopped at the door.';
+  } catch (e) {
+    $('w-sum').innerHTML = '<span class="no">The Phase 3b receipt could not be loaded.</span>';
   }
 }
 
@@ -108,6 +135,7 @@ async function deliver(conn, bytes, k) {
   const n = M.byConn.get(conn);
   if (!n || !n.alive || n === M.x) return;
   flash(n.name, k);
+  const probing = n.node.probing();
   const r = await n.node.hear(bytes);
   n.last = r;
   if (!r.ok) {
@@ -115,6 +143,9 @@ async function deliver(conn, bytes, k) {
     log('<b>' + esc(n.name) + '</b>\'s door: <span class="no">' + why + '</span>');
   } else if (r.t === 'antibody') log('<b>' + esc(n.name) + '</b> re-ran ' + r.offered + ' shared antibod' + (r.offered === 1 ? 'y' : 'ies') + ' on its own door and <span class="ok">adopted ' + r.adopted + '</span>');
   else if (r.t === 'sync') log('<b>' + esc(n.name) + '</b> merged a signed sync from ' + esc(who(r.from)));
+  else if (r.t === 'notes') log('<b>' + esc(n.name) + '</b> took ' + esc(who(r.from)) + '\'s notes and re-checked each itself: ' + [r.adopted ? r.adopted + ' lie' + (r.adopted === 1 ? '' : 's') + ' <span class="ok">counted</span> (the liar\'s own signed answer, failing its own check)' : '',
+    r.quiet ? r.quiet + ' silence' + (r.quiet === 1 ? '' : 's') + ': that holder is quiet here at once, and probed' : '', r.already ? r.already + ' already judged' : '', r.refused.length ? r.refused.length + ' refused (' + esc([...new Set(r.refused)].join('; ')) + ')' : ''].filter(Boolean).join(', ') + '.');
+  else if (r.t === 'pong') log('<b>' + esc(who(r.from)) + '</b> answered <b>' + esc(n.name) + '</b>\'s probe: it is alive, so it is live there again' + (probing.includes(r.id) ? ', and no link moved on what another node said.' : '. The probe had already gone unanswered, so its link stays where that silence left it, to be earned back.'));
   for (const rep of r.replies || []) await send(n, rep.to, rep.bytes);
   if (r.t === 'answer') M.answers.set(r.id, r);
   draw();
@@ -164,12 +195,25 @@ async function ask(asker, skill) {
   const ans = M.answers.get(q.id);
   if (ans) {
     const after = a.node.weight(q.to, skill);
-    log('<b>' + esc(asker) + '</b> asked for ' + esc(skill) + ' → routed to <b>' + esc(to) + '</b> (its link ' + pct(w) + ') via relay ' + esc(via) + ' → answered; the receipt ' + (ans.outcome === 'verified' ? '<span class="ok">checks</span>' : '<span class="no">does not check</span>') + ', link now ' + pct(after));
+    log('<b>' + esc(asker) + '</b> asked for ' + esc(skill) + ' → routed to <b>' + esc(to) + '</b> (its link ' + pct(w) + (q.untried ? '; never asked by ' + esc(asker) + ' before, and every holder is tried once' : '') + (q.live ? '' : '; every holder is quiet or pruned, so the strongest is tried') + ') via relay ' + esc(via) + ' → answered; the receipt ' + (ans.outcome === 'verified' ? '<span class="ok">checks</span>' : '<span class="no">does not check</span>, and ' + esc(asker) + ' keeps the liar\'s signed answer as evidence') + ', link now ' + pct(after));
   } else {
     const e = a.node.expire(q.id);
-    log('<b>' + esc(asker) + '</b> asked <b>' + esc(to) + '</b> for ' + esc(skill) + ': <span class="no">no answer</span>. The ask expired and counts as a failed answer: link ' + pct(w) + ' → ' + pct(e.weight || 0) + ', so the next ask goes elsewhere.');
+    log('<b>' + esc(asker) + '</b> asked <b>' + esc(to) + '</b> for ' + esc(skill) + ': <span class="no">no answer</span>. The ask expired and counts as a failed answer: link ' + pct(w) + ' → ' + pct(e.weight || 0) + '. ' + esc(to) + ' is quiet at ' + esc(asker) + ' until it is heard from, and ' + esc(asker) + ' tells the others.');
   }
+  await spread(a);
   draw();
+}
+/** Phase 3b: an asker with a new note shares its notes with every live node; each re-checks before anything moves. */
+async function spread(a) {
+  const last = a.node.notes().slice(-1)[0];
+  if (!last || last.job === a.told) return;
+  a.told = last.job;
+  for (const n of Object.values(M.nodes)) if (n !== a && n.alive) { const b = await a.node.shareNotes(n.id); if (b) await send(a, n.id, b); }
+  // here a live node answers a probe at once, so what is still unanswered is given up now, as a cell's timer would
+  for (const n of Object.values(M.nodes)) if (n.alive) for (const id of n.node.probing()) {
+    const e = n.node.expire(id);
+    log('<b>' + esc(n.name) + '</b>\'s probe to <b>' + esc(who(e.to)) + '</b> went unanswered. That is its own evidence now: link ' + pct(e.weight) + ', and quiet until it is heard from.');
+  }
 }
 const pct = (ppm) => (Number(ppm) / 10000).toFixed(1) + '%';
 
@@ -178,7 +222,7 @@ async function killNode(name) {
   if (n.alive) {
     n.alive = false;
     for (const k of Object.keys(n.conns)) if (M.relays[k]) M.relays[k].r.close(n.conns[k]);
-    log('<b>' + esc(name) + '</b> is <span class="no">down</span>. The others do not know yet: they find out when it does not answer.');
+    log('<b>' + esc(name) + '</b> is <span class="no">down</span>. The others do not know yet: the first asker whose ask it leaves unanswered tells the rest.');
   } else {
     n.alive = true;
     const held = [];
@@ -186,7 +230,7 @@ async function killNode(name) {
       const R = M.relays[k];
       if (R && R.alive) for (const o of hello(n, R)) held.push([o, k]);
     }
-    log('<b>' + esc(name) + '</b> is <span class="ok">back</span>' + (held.length ? ' and says hello: the relays held ' + held.length + ' frame' + (held.length === 1 ? '' : 's') + ' for it, delivered now. It answers them, but the askers gave up on those asks, so their doors refuse the late answers.' : '.'));
+    log('<b>' + esc(name) + '</b> is <span class="ok">back</span>' + (held.length ? ' and says hello: the relays held ' + held.length + ' frame' + (held.length === 1 ? '' : 's') + ' for it, delivered now. It answers them: whoever hears from it counts it live again, and the late answers to asks already given up are refused.' : '. Nothing was held for it, so each node counts it live again the next time it hears from it.'));
     for (const [o, k] of held) await deliver(o.conn, o.bytes.slice(HEAD), k);
   }
   draw();
@@ -295,7 +339,8 @@ function draw() {
   $('m-svg').innerHTML = s.join('');
   flashes = [];
   const holders = ['h1', 'h2', 'liar'];
-  $('m-links').innerHTML = ['a1', 'a2'].map((a) => '<tr><td><b>' + a + '</b></td>' + holders.map((h) => { const w = M.nodes[a].node.weight(M.nodes[h].id, 'triage'); return '<td><span class="bar"><span style="width:' + (w / 10000).toFixed(1) + '%"></span></span> ' + pct(w) + '</td>'; }).join('') + '</tr>').join('');
+  $('m-links').innerHTML = ['a1', 'a2'].map((a) => '<tr><td><b>' + a + '</b></td>' + holders.map((h) => { const x = M.nodes[a].node, id = M.nodes[h].id, w = x.weight(id, 'triage');
+    return '<td><span class="bar"><span style="width:' + (w / 10000).toFixed(1) + '%"></span></span> ' + pct(w) + (x.quiet(id, 'triage') ? ' <span class="no small">quiet</span>' : '') + (x.tried(id, 'triage') ? '' : ' <span class="dim small">untried</span>') + '</td>'; }).join('') + '</tr>').join('');
   $('m-state').textContent = Object.values(M.nodes).filter((n) => n.alive).length + ' of 6 nodes up · relays ' + ['A', 'B'].filter((k) => M.relays[k].alive).join(' and ') + ' up · ' + (converged() ? 'every live node holds the same shared map' : 'the shared maps differ until the next sync') + ' · immunity at a1: ' + M.nodes.a1.node.antigens().length + ' antigen' + (M.nodes.a1.node.antigens().length === 1 ? '' : 's');
 }
 
@@ -348,4 +393,5 @@ const ACT = {
 };
 for (const b of document.querySelectorAll('[data-m]')) b.addEventListener('click', () => run(ACT[b.dataset.m]));
 loadReceipt();
+loadFix();
 loadCost();
