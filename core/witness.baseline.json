@@ -8,5 +8,15 @@
     "mutation": "< → <=",
     "snippet": "const sorted = cards.slice().sort((a, b) => (String(a && a.id) < String(b && b.id) ? -1 : ",
     "reason": "makeRoster refuses a repeated id before it sorts, so no two cards in the sort share an id and < and <= cannot decide differently — a reviewed equivalent"
+  },
+  {
+    "mutation": "< → <=",
+    "snippet": ".sort((a, b) => b.lost - a.lost || (a.skill < b.skill ? -1 : 1));",
+    "reason": "two gaps never share a skill name (each is a key of the model's skills), so a.skill === b.skill never reaches this comparison and < and <= cannot decide differently — a reviewed equivalent"
+  },
+  {
+    "mutation": "< → <=",
+    "snippet": "for (let k = 0; k < RESAMPLES; k++) {",
+    "reason": "the one extra pass writes bas[RESAMPLES] and diffs[RESAMPLES], past the end of their Float64Arrays, which JavaScript ignores, and its random draws come after every draw the bounds use; the bounds read only indexes below RESAMPLES, so the verdict is the same — a reviewed equivalent"
   }
 ]

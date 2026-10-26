@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>It grows what it lacks · Fall Kit core, phase 4</title>
+<meta name="description" content="Phase 4 of the estate going live: a mesh of foundation nodes that watches itself, finds what it is bad at, grows a new specialist for the worst gap, and lets it in only if it proves itself on real data it never saw. Bounded, gated, able to fail, with a receipt for every step. Ten claims sealed before the code, measured on five real public datasets. Plant it in your browser.">
+<link rel="canonical" href="https://sjgant80-hub.github.io/fall-kit/core/phase4/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Fall Kit core, phase 4 — the self-model and gated growth","codeRepository":"https://github.com/sjgant80-hub/fall-kit","programmingLanguage":"JavaScript","license":"https://opensource.org/licenses/MIT","description":"A self-model that sees every skill, node and coupling of a mesh against what turned out true, finds its gaps and predicts its own next round; a growth engine that grows an interpretable specialist for the worst gap; and a gate that lets it join only if it beats chance and the mesh without it on rows it never saw. Bounded, reproducible, measured on five UCI datasets.","author":{"@type":"Organization","name":"AI Native Solutions","url":"https://www.ai-nativesolutions.com"}}</script>
+<script type="application/ld+json" id="faq-ld">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this a self-improving AI?","acceptedAnswer":{"@type":"Answer","text":"It is bounded self-improvement with receipts, and no more. The organism watches its own work, finds where it is weakest, grows a specialist for that one gap and lets it in only if it proves itself on data it never saw. It stops at limits sealed in advance. It does not rewrite itself, it does not grow without limit, and nothing here claims awareness."}},{"@type":"Question","name":"What does the self-model see that the mesh cannot?","acceptedAnswer":{"@type":"Answer","text":"Whether answers were right. A mesh trusts a node more each time its receipt checks, but a receipt proves who answered and what, not that the answer was true. The self-model joins what was asked, what came back and what the world later revealed, so it sees a node the mesh trusts completely and that is often wrong, and flags it."}},{"@type":"Question","name":"How does a new node earn its place?","acceptedAnswer":{"@type":"Answer","text":"It is grown only on one slice of the data, then judged on a second slice it never saw. It joins only if, on that slice, it is clearly better than guessing and clearly better than what the organism already had, with the uncertainty measured. The work it then does is a third slice, used by nobody before."}},{"@type":"Question","name":"What did not hold?","acceptedAnswer":{"@type":"Answer","text":"Read the receipt on the page: every failed claim stays on it, with the reason. Two kinds of failure are explained in full there: a control grown on scrambled answers that still carried real signal, and a node that was good on average but whose actual work came from a period it did badly on."}},{"@type":"Question","name":"Where does the data come from?","acceptedAnswer":{"@type":"Answer","text":"Five public datasets from the UCI Machine Learning Repository, each under CC BY 4.0: online shoppers, bank telemarketing, the 1994 US census extract, Taiwanese credit card clients and in-vehicle coupon offers. They are read through gated loaders at a pinned commit, and every file is checked against its recorded SHA-256 before anything runs."}}]}</script>
+<style>
+:root{--void:#1a1612;--void-2:#231f1a;--ink:#2b2722;--line:#3a342c;--line-soft:#2e2922;--cream:#ebe3d2;--cream-dim:#a89e88;--cream-muted:#736b5a;--brass:#c08a3a;--amber:#e8a83a;--leaf:#6b8d4a;--rust:#c25a35;
+--serif:Georgia,'Times New Roman',ui-serif,serif;--sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--void);color:var(--cream);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--brass);text-decoration:none}a:hover{text-decoration:underline}
+code,pre,.mono{font-family:var(--mono)}
+code{background:var(--ink);padding:1px 5px;border-radius:2px;font-size:12.5px;color:var(--brass);word-break:break-word}
+pre{background:var(--ink);padding:14px 16px;border-radius:4px;border:1px solid var(--line);overflow-x:auto;color:var(--cream-dim);line-height:1.55;font-size:12px;margin:10px 0 14px}
+header{background:var(--void-2);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{width:32px;height:32px;background:linear-gradient(135deg,var(--brass),var(--amber));border-radius:5px;display:grid;place-items:center;font:700 18px var(--serif);color:var(--void)}
+.name{font:700 18px var(--serif)}.sub{font:9px var(--mono);color:var(--cream-muted);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+header nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}header nav a{color:var(--cream-dim);font-size:13px}
+main{max-width:900px;margin:0 auto;padding:30px 24px 100px}
+h1{font:700 30px/1.15 var(--serif);margin-bottom:12px}
+h2{font:700 22px var(--serif);margin:42px 0 10px;color:var(--brass)}
+h3{font:700 16px var(--serif);margin:20px 0 8px}
+p{margin-bottom:12px}ul,ol{margin:0 0 14px 24px}li{margin-bottom:5px;color:var(--cream-dim)}
+.lede{font-size:17px;color:var(--cream-dim);margin-bottom:16px}
+.small{font-size:13px}
+.hero{background:linear-gradient(135deg,rgba(192,138,58,.10),rgba(107,141,74,.04));border:1px solid var(--brass);border-radius:5px;padding:24px 28px;margin-bottom:22px}
+.seal{font:10px var(--mono);color:var(--cream-muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.tile{background:var(--void-2);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.tile b{display:block;font:700 22px var(--serif);color:var(--brass)}.tile span{font-size:12px;color:var(--cream-dim)}
+.btn{padding:9px 16px;background:var(--brass);color:var(--void);border:none;border-radius:3px;font:600 13px var(--sans);cursor:pointer}
+.btn:hover{background:var(--amber)}.btn:disabled{opacity:.6;cursor:default}
+.btn.ghost{background:transparent;color:var(--cream-dim);border:1px solid var(--line)}
+.box{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin:16px 0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:var(--void-2);padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.08em;text-transform:uppercase}
+td{padding:8px 10px;border-bottom:1px solid var(--line-soft);color:var(--cream-dim);vertical-align:top}
+.scroll{overflow-x:auto}
+.ok{color:var(--leaf);font-weight:600}.no{color:var(--rust);font-weight:600}.dim{color:var(--cream-muted)}
+.tag{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;padding:2px 6px;border-radius:2px}
+.tag.held{background:rgba(107,141,74,.2);color:var(--leaf)}.tag.failed{background:rgba(194,90,53,.2);color:var(--rust)}.tag.na{background:var(--void-2);color:var(--cream-muted)}
+.diagram{margin:14px 0;background:var(--ink);border:1px solid var(--line);border-radius:5px;padding:12px;overflow-x:auto}
+.diagram svg{width:100%;min-width:620px;height:auto;display:block}
+.diagram .b{fill:var(--void-2);stroke:var(--line);stroke-width:1.5}.diagram .hot{stroke:var(--brass)}
+.diagram .t{fill:var(--cream);font:700 14px var(--serif)}.diagram .s{fill:var(--cream-dim);font:11.5px var(--sans)}
+.diagram .arrow{fill:none;stroke:var(--brass);stroke-width:1.8}.diagram .no-ln{fill:none;stroke:var(--rust);stroke-width:1.8;stroke-dasharray:5 4}
+#tab-log,#log-rows{margin:10px 0 0 18px}#tab-log li,#log-rows li{font-size:13px;margin-bottom:4px}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:8px 0 12px}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--cream-dim)}
+.calc input{padding:7px 9px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:inherit;width:100%}
+.line{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-soft);padding:5px 0;font-size:13px}
+.line span:last-child{font-family:var(--mono);color:var(--cream)}
+.bottom{font-size:15px;margin:6px 0 10px}
+.note{border-left:3px solid var(--rust);padding:10px 14px;background:var(--void-2);margin:12px 0;font-size:14px}
+details{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:600;color:var(--cream)}
+.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.06em;text-align:center;line-height:1.9}
+.foot a{color:var(--cream-dim)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media (max-width:640px){header{padding:12px 16px}main{padding:22px 16px 80px}.hero{padding:18px 16px}h1{font-size:24px}.lede{font-size:15.5px}th,td{padding:6px 7px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="mark" aria-hidden="true">F</div><div><div class="name">Fall Kit · core</div><div class="sub">phase 4 · it grows what it lacks</div></div></div>
+  <nav aria-label="Sections"><a href="#start">Start here</a><a href="#plant">Plant it</a><a href="#how">How it works</a><a href="#life">Its life</a><a href="#receipt">Receipt</a><a href="#blueprint">Blueprint</a><a href="#business">For a business</a><a href="#paper">Paper</a><a href="../phase3/">Phase 3</a></nav>
+</header>
+<main>
+
+<section class="hero" aria-labelledby="what">
+  <div class="seal">Phase 4 of the estate going live · ten claims sealed before the code</div>
+  <h1 id="what">An organism that sees what it is bad at, and grows what it lacks</h1>
+  <p class="lede">A mesh of the foundation's nodes does real work: five kinds of question, asked of real public data. A self-model watches every answer against what turned out to be true. It finds the questions the mesh answers badly or not at all, and has a new specialist grown for the worst of them. That specialist is let in only if it proves itself on data it never saw. Then the organism carries on, and does it again, with no one turning the crank, until a limit sealed in advance.</p>
+  <p>Every step leaves a receipt: what was seen, which gap was chosen, what was grown, the numbers it was judged on, and whether it got in. This is bounded improvement you can check, not open-ended self-improvement, and the claims say so.</p>
+  <div class="tiles" aria-live="polite">
+    <div class="tile"><b id="t-filled">…</b><span>gaps it was planted with, now filled by a node its gate admitted</span></div>
+    <div class="tile"><b id="t-grown">…</b><span>nodes it grew, inside its sealed limit</span></div>
+    <div class="tile"><b id="t-asks">…</b><span>real asks watched by the self-model, every count re-checked</span></div>
+    <div class="tile"><b id="t-held">…</b><span id="t-held-label">sealed claims holding</span></div>
+  </div>
+  <div class="row"><a class="btn" href="#plant">Plant it in this tab</a><a class="btn ghost" href="#receipt">See the receipt</a></div>
+</section>
+
+<h2 id="start">Start here</h2>
+<h3>If you want to see it work</h3>
+<ol>
+  <li><b>Plant it in this tab.</b> It fetches two of the five real datasets, checks every byte against its recorded fingerprint, plants the organism as the run did, and grows. You watch each step: whether a question is a gap, the control grown on scrambled answers, the real candidate, and the gate's numbers on data it never saw.</li>
+  <li><b>Compare with the measured run.</b> The tab grows with the same code and the same seeds as the run on this page's receipt, so it should come out with the same nodes, and it tells you whether it did.</li>
+  <li><b>Read its life.</b> Round by round, how well it answered each kind of question, next to the organism that was planted and never grew. Then every decision it made, in order.</li>
+  <li><b>Read the receipt:</b> the ten sealed claims, re-judged in your tab, with every failure kept and explained.</li>
+</ol>
+<h3>If you run the estate</h3>
+<pre>git clone https://github.com/sjgant80-hub/fall-kit && cd fall-kit
+node core/phase4/measure.mjs --check    # fetches the pinned data, lives the organism twice, same receipt byte for byte</pre>
+<p class="small dim">One command, no input after it starts. It takes about twenty minutes: every one of its 24,000 asks and answers is a signed LIGHT packet through each node's door.</p>
+
+<h2 id="plant">Plant it in this tab</h2>
+<div class="box">
+  <div class="row"><button class="btn" id="tab-go" type="button">Plant it and let it grow</button><label class="small"><input type="checkbox" id="tab-all"> all five datasets (about 18 MB; two by default, about 3 MB)</label></div>
+  <ol id="tab-log" aria-live="polite"></ol>
+  <p class="small" id="tab-out"></p>
+</div>
+<p class="small dim">This runs the real growth engine and the real gate in your tab, on the real data, fetched from <a href="https://sjgant80-hub.github.io/dex-frontier/">dex-frontier</a> on this same site and checked against the SHA-256 pinned with the code. Nothing is sent anywhere. Growing takes a minute or so for the two default datasets. The mesh's traffic is not replayed here: Phase 3 measured it, and it changes no answer.</p>
+<p class="small" id="w1-line"></p>
+
+<h2 id="how">How it works</h2>
+<div class="diagram" role="img" aria-label="Work flows through the mesh; the self-model compares answers with the truth and finds the gaps; the growth engine grows a node on FIT rows; the gate judges it on GATE rows; if it passes, the founder's roster lets it in and it works on TEST rows">
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <rect class="b" x="14" y="20" width="200" height="90" rx="6"/><text class="t" x="114" y="46" text-anchor="middle">the mesh at work</text><text class="s" x="114" y="68" text-anchor="middle">asks and answers, signed,</text><text class="s" x="114" y="86" text-anchor="middle">on TEST rows nobody grew on</text>
+  <rect class="b hot" x="280" y="20" width="200" height="90" rx="6"/><text class="t" x="380" y="46" text-anchor="middle">the self-model</text><text class="s" x="380" y="68" text-anchor="middle">answers against the truth</text><text class="s" x="380" y="86" text-anchor="middle">→ the gaps, ranked by cost</text>
+  <rect class="b hot" x="546" y="20" width="200" height="90" rx="6"/><text class="t" x="646" y="46" text-anchor="middle">the growth engine</text><text class="s" x="646" y="68" text-anchor="middle">grows a specialist for the</text><text class="s" x="646" y="86" text-anchor="middle">worst gap, on FIT rows only</text>
+  <rect class="b hot" x="546" y="170" width="200" height="100" rx="6"/><text class="t" x="646" y="196" text-anchor="middle">the gate</text><text class="s" x="646" y="218" text-anchor="middle">on GATE rows it never saw:</text><text class="s" x="646" y="236" text-anchor="middle">better than chance, and better</text><text class="s" x="646" y="254" text-anchor="middle">than the organism without it</text>
+  <rect class="b" x="280" y="170" width="200" height="100" rx="6"/><text class="t" x="380" y="196" text-anchor="middle">the founder's roster</text><text class="s" x="380" y="218" text-anchor="middle">a new member signed in;</text><text class="s" x="380" y="236" text-anchor="middle">a holder it beat, dropped</text>
+  <path class="arrow" d="M214 65 L280 65 M480 65 L546 65 M646 110 L646 170 M546 220 L480 220 M280 220 L114 220 L114 110"/>
+  <path class="no-ln" d="M746 220 L756 220 M646 270 L646 300"/>
+  <text class="s" x="646" y="318" text-anchor="middle">refused: kept on the receipt with its numbers</text>
+  <text class="s" x="200" y="250" text-anchor="middle">at most one join a cycle; it stops at its limits</text>
+</svg></div>
+<ol>
+  <li><b>Planted.</b> Two askers, a decent shop holder, and a weak bank holder (the growth engine's starting point, never evolved, on three columns). Three of the five kinds of question have nobody to answer them.</li>
+  <li><b>A round of work.</b> 300 real rows of each kind of question, asked through the mesh as signed packets. Each holder's door checks every ask; each asker's door checks every answer and its receipt.</li>
+  <li><b>The self-model looks.</b> It joins what was asked, what came back and what turned out true, and counts by question, by answering node and by link. It ranks the gaps by what they cost: asks × (1 − balanced accuracy). It flags any link the mesh trusts whose answers are often wrong. It predicts every score for the next round.</li>
+  <li><b>It grows for the worst gap.</b> First a control: a node grown on the same rows with their answers scrambled, which should be useless. Then the real candidate. Each is grown on FIT rows only, keeping the best of the dataset's column groups.</li>
+  <li><b>The gate.</b> On GATE rows it never saw, a node must be better than guessing (the lower edge of a 95% bootstrap range above 55%), and better than the organism without it by at least 2 points, with the lower edge of that gain above zero. If it passes, the founder signs it onto the roster and drops a holder it beat.</li>
+  <li><b>Bounded.</b> At most one join a cycle, each gap tried once, at most four nodes grown, at most eight rounds. It stops by one of its rules and keeps working.</li>
+</ol>
+<h3>The passes</h3>
+<div class="scroll"><table><thead><tr><th>Pass</th><th>Organ</th><th>Claims</th><th>Status</th></tr></thead><tbody id="pass-rows"><tr><td colspan="4" class="dim">Loading…</td></tr></tbody></table></div>
+
+<h2 id="life">Its life, from the receipt</h2>
+<p>Balanced accuracy on each kind of question, round by round: 50% is guessing, 0% is nobody answering. Below each grown score, the planted organism's score on exactly the same asks.</p>
+<div class="scroll"><table><thead id="life-head"></thead><tbody id="life-rows"><tr><td class="dim">Loading…</td></tr></tbody></table></div>
+<h3>Every decision, in order</h3>
+<ol id="log-rows"><li class="dim">Loading…</li></ol>
+<h3>The candidates, judged on rows they never saw</h3>
+<div class="scroll"><table><thead><tr><th>After round</th><th>Question</th><th>Columns</th><th>Its score</th><th>Without it</th><th>Gain</th><th>Decision</th></tr></thead><tbody id="cand-rows"></tbody></table></div>
+<h3>The controls, grown on scrambled answers</h3>
+<div class="scroll"><table><thead><tr><th>After round</th><th>Question</th><th>Columns</th><th>Its score</th><th>Without it</th><th>Gain</th><th>Decision</th></tr></thead><tbody id="ctrl-rows"></tbody></table></div>
+<h3>Did the grown nodes help where they worked?</h3>
+<div class="scroll"><table><thead><tr><th>Question</th><th>Joined after round</th><th>Work asks since</th><th>Grown</th><th>Planted only</th><th>Lower edge of the gain</th></tr></thead><tbody id="g3-rows"></tbody></table></div>
+<p class="small" id="o3-line"></p>
+
+<h2 id="receipt">The receipt</h2>
+<p class="small" id="r-sum">Loading the committed receipt…</p>
+<div class="scroll"><table><thead><tr><th>Claim</th><th></th><th>The claim, and what was measured</th></tr></thead><tbody id="r-rows"></tbody></table></div>
+<h3>The failures, read plainly</h3>
+<div class="note">
+  <p><b>G2, the control that got in.</b> The control for the census question was grown on scrambled answers, and the gate still let it in: it scored about 69% on rows it never saw. The other controls sat near guessing, so the scrambling works. The reason is the growth engine itself. It starts every search from one genome, "more of each column counts towards yes", and for income in a census that is already true of age, education and hours. With scrambled answers to learn from, the search finds nothing better and keeps its start. So a node grown on noise is not blank here, and the gate was right that it beats guessing. The sealed claim said the control would be refused every time. It was not, and the claim is kept as failed.</p>
+  <p><b>G3, the node that was good on average.</b> The bank node joined with 72% on rows it never saw, and over all its work rows it scores the same. But the bank's calls are in date order, and the organism's eight rounds of work were the campaign's first months, before the crash, when almost nobody subscribed. On those, the node's pattern (read from the economy's own numbers) says no to everyone, which scores exactly 50%, the same as the weak holder it replaced. It did no harm, but it did not help where it worked, and the claim is kept as failed. The order of the rows was never tuned: it is the order the data is kept in.</p>
+  <p><b>What they mean.</b> A gate is only as good as the slice it judges on. A held-out sample shows how a node does on average; work that arrives in time order can sit in a corner of that average. And a control is only a null if the engine growing it starts from nothing. Both are fixes for a next phase, measured as their own claims: judge on the newest rows, and start a control's search from a blank genome.</p>
+</div>
+<p class="small">Re-run it yourself: clone <a href="https://github.com/sjgant80-hub/fall-kit">fall-kit</a> and run <code>node core/phase4/measure.mjs --check</code>. The claims are in <a href="claims.json">claims.json</a> (sealed, then re-sealed before any code: the reason is in the file); the receipt is <a href="../receipts/phase4.json">receipts/phase4.json</a>; the data's pins are in <a href="dex/SOURCES.json">dex/SOURCES.json</a>.</p>
+
+<h2 id="blueprint">Blueprint</h2>
+<div class="scroll"><table><thead><tr><th>Part</th><th>What it decides</th><th>Gate</th></tr></thead><tbody>
+  <tr><td><code>core/selfmodel.mjs</code></td><td>What the organism sees: tallies by question, node and link against the truth; the gaps by cost; the links the mesh trusts but should not; its prediction of the next round. Pure.</td><td>Mutation-tested; one reviewed equivalent, with its written reason</td></tr>
+  <tr><td><code>core/growth.mjs</code></td><td>Whether a grown node may join (the seeded bootstrap, the chance floor, the margin), and what growth does next. Pure.</td><td>Mutation-tested; one reviewed equivalent, with its written reason</td></tr>
+  <tr><td><code>core/phase4/organism.mjs</code></td><td>The life: planting, rounds of work through real foundation nodes, the self-model's look, growth through the gate, the roster. Runs the same in Node and in a tab.</td><td>Glue; exercised by every measured run</td></tr>
+  <tr><td><code>core/phase4/dex/</code></td><td>dex-frontier's data loaders and the seed-library growth engine, copied byte for byte, and the SHA-256 of every data file.</td><td>CI fetches dex-frontier at the pinned commit and checks every byte</td></tr>
+  <tr><td><code>core/phase4/judge.mjs</code></td><td>The verdicts: the sealed rules over the measured facts. Pure.</td><td>Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/phase4/measure.mjs</code></td><td>Fetches the pinned data, lives the organism twice (growing, and planted only) at once, counts everything again separately.</td><td>CI re-runs it and compares the receipt byte for byte</td></tr>
+  <tr><td><code>core/phase4/claims.json</code></td><td>The ten claims and the policy's limits, sealed before any of the above existed.</td><td>Its commit is named in the receipt</td></tr>
+</tbody></table></div>
+
+<h2 id="business">For a business</h2>
+<p class="lede">What it gives you: a system that notices which questions it answers badly, builds and checks its own specialists for them, and shows you the evidence for every one it lets in, or keeps out.</p>
+<div class="scroll"><table><thead><tr><th>Who</th><th>What changes</th></tr></thead><tbody>
+  <tr><td>CEO</td><td>Capability grows where the work shows it is missing, without a project for each new question, and without anyone signing off a model on faith: the evidence comes with it.</td></tr>
+  <tr><td>CFO</td><td>The staff time spent building, checking and watching models comes off the bill. The cost case below prices it at the legal minimum wage, so the saving is a floor, not a pitch.</td></tr>
+  <tr><td>CISO</td><td>Nothing joins without passing a gate on data it never saw, and the founder's signed roster is still the only door. Every decision, including every refusal, is on a receipt anyone can re-run. Its limits are sealed before it runs.</td></tr>
+  <tr><td>CTO</td><td>The specialists are interpretable scorecards, a handful of readable rules each, not opaque weights. The whole life replays to the same bytes from the same data.</td></tr>
+  <tr><td>COO</td><td>The self-model shows, every round, which questions are being answered badly and which links the system trusts but should not. That is an operations dashboard you do not have to build.</td></tr>
+  <tr><td>The teams</td><td>A refused specialist comes with the numbers it was refused on, so you can see exactly what it would take to get one in.</td></tr>
+</tbody></table></div>
+<h3>The cost case</h3>
+<p>The staff time to build, check and watch a model for each gap, against the organism doing it on a machine you already own. The sums are break-it's gated cost kernel; the hourly rate starts at the UK's legal minimum, on break-it's dated sources. The hours a model takes are yours to set: the starting figure is an assumption, not a measurement.</p>
+<div class="box">
+  <div class="calc">
+    <label>New models a month<input id="c-models" type="number" min="0" value="4"></label>
+    <label>Hours to build, check and watch one (assumed)<input id="c-hours" type="number" min="0" value="7.5"></label>
+    <label>Hourly cost of the person, £<input id="c-rate" type="number" min="0" step="0.01" value="12.71"></label>
+    <label>Machine power, watts<input id="c-watts" type="number" min="1" value="55"></label>
+    <label>Hours a month it runs<input id="c-run" type="number" min="1" max="744" value="730"></label>
+  </div>
+  <div id="c-out"><p class="dim">Loading the sources…</p></div>
+  <ul class="small" id="c-sources"></ul>
+</div>
+<h3>Security and data protection, answered straight</h3>
+<ul>
+  <li><b>What it stops.</b> A specialist that does not beat guessing, or does not beat what you already have, on data it never saw. Growth past its sealed limits. A member the founder's roster does not name.</li>
+  <li><b>What it does not stop.</b> A specialist that is good on average and bad on the work it actually gets: G3 shows exactly that. A dataset that is itself wrong or biased: the gate measures accuracy against the data's own answers, nothing more.</li>
+  <li><b>Where data goes.</b> Nowhere: growth, gating and the mesh all run on your machines, and this page runs in your tab.</li>
+  <li><b>Personal data.</b> The specialists are a few readable rules over columns you choose to give them, so what each one uses is visible. Give it only the columns you may use for that purpose (UK GDPR and GDPR, purpose limitation and minimisation), and keep a person on any decision with legal effect on someone.</li>
+</ul>
+<h3>Rolling it out</h3>
+<ol>
+  <li><b>Start with questions you already know the answers to later</b>: will this customer renew, will this delivery be late. The self-model needs the truth to arrive, eventually.</li>
+  <li><b>Seal the limits first</b>: how many specialists, how often, what score counts as good. Then let it run.</li>
+  <li><b>Read the receipts weekly</b>, the refusals especially. Promote what helps; drop what does not.</li>
+</ol>
+<h3>Support and ownership</h3>
+<p>Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>; start through that site. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed; the specialists it grows are yours.</p>
+<h3>Risks, answered</h3>
+<ul>
+  <li><b>"It is just retraining."</b> No retraining is automatic here: a specialist is grown only for a gap the self-model found, judged on data it never saw, and let in only under sealed limits, with a receipt either way.</li>
+  <li><b>"The data is old and public."</b> Yes, on purpose: anyone can check the numbers. Your own data plugs in the same way: rows, a truth that arrives, and the three-way split.</li>
+  <li><b>"Some claims failed."</b> Yes, and they stay on the receipt with the reasons. A system that only ever reports passes is the one to worry about.</li>
+  <li><b>"Scorecards are simple."</b> They are, deliberately: readable, small, and cheap to check. Where a question needs more, the gate will say so by refusing.</li>
+</ul>
+<h3>The case for the board</h3>
+<p>The organisation gets capability that grows where the work shows it is missing, with evidence attached to every addition and every refusal, inside limits set in advance, and re-runnable by anyone. That is the difference between automation you have to trust and automation you can audit.</p>
+
+<h2 id="paper">The paper: bounded growth you can check</h2>
+<p><b>The problem.</b> A system that can add to itself is only useful if you can tell when an addition helps. Most retraining loops judge a new model on data that leaked from its training, accept it on faith, and keep no record of what they turned down.</p>
+<p><b>The design.</b> Separate seeing from growing from admitting. A self-model sees the organism against the truth: every question, every answering node, every link. It does not change anything; it ranks the gaps by cost. A growth engine grows a candidate for the worst gap from one slice of data. A gate admits it only on a second slice it never saw, against chance and against the organism without it, with the uncertainty measured. The organism's real work is a third slice nobody touched. Limits are sealed before the first run, and a control grown on scrambled answers is offered first, to show the gate can say no.</p>
+<p><b>What is measured.</b> Ten claims were committed before any of Phase 4's code, then re-sealed once, before any code, to close a hole in the gate (the reason is in the claims file). The self-model is checked count for count against a separate tally; its gap lists and flags against their definitions; its predictions against what happened. Every candidate and control is checked against the gate's own rule. The grown organism is compared with the planted one, ask by ask, on the same work. The whole life is replayed by CI to the same bytes.</p>
+<p><b>Honest limits.</b> The specialists are interpretable scorecards, not neural networks. The data is public and historical. The founder's key sits with the growth policy, inside its sealed limits. Bounded improvement with receipts is all that is claimed: not open-ended self-improvement, and not awareness.</p>
+
+<h2>Questions</h2>
+<details><summary>Is this a self-improving AI?</summary><p>It is bounded self-improvement with receipts, and no more. The organism watches its own work, finds where it is weakest, grows a specialist for that one gap and lets it in only if it proves itself on data it never saw. It stops at limits sealed in advance. It does not rewrite itself, it does not grow without limit, and nothing here claims awareness.</p></details>
+<details><summary>What does the self-model see that the mesh cannot?</summary><p>Whether answers were right. A mesh trusts a node more each time its receipt checks, but a receipt proves who answered and what, not that the answer was true. The self-model joins what was asked, what came back and what the world later revealed, so it sees a node the mesh trusts completely and that is often wrong, and flags it.</p></details>
+<details><summary>How does a new node earn its place?</summary><p>It is grown only on one slice of the data, then judged on a second slice it never saw. It joins only if, on that slice, it is clearly better than guessing and clearly better than what the organism already had, with the uncertainty measured. The work it then does is a third slice, used by nobody before.</p></details>
+<details><summary>What did not hold?</summary><p>Read the receipt on the page: every failed claim stays on it, with the reason. Two kinds of failure are explained in full there: a control grown on scrambled answers that still carried real signal, and a node that was good on average but whose actual work came from a period it did badly on.</p></details>
+<details><summary>Where does the data come from?</summary><p>Five public datasets from the UCI Machine Learning Repository, each under CC BY 4.0: online shoppers, bank telemarketing, the 1994 US census extract, Taiwanese credit card clients and in-vehicle coupon offers. They are read through gated loaders at a pinned commit, and every file is checked against its recorded SHA-256 before anything runs.</p></details>
+
+<h3>The data, credited (CC BY 4.0)</h3>
+<ul class="small">
+  <li>C. O. Sakar and Y. Kastro. Online Shoppers Purchasing Intention Dataset. UCI Machine Learning Repository (2018), doi:10.24432/C5F88Q.</li>
+  <li>S. Moro, P. Cortez and P. Rita. A Data-Driven Approach to Predict the Success of Bank Telemarketing. Decision Support Systems 62 (2014), doi:10.1016/j.dss.2014.03.001; Bank Marketing, UCI, doi:10.24432/C5K306.</li>
+  <li>B. Becker and R. Kohavi. Adult. UCI Machine Learning Repository (1996), doi:10.24432/C5XW20.</li>
+  <li>I.-C. Yeh and C.-H. Lien. The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients. Expert Systems with Applications 36(2) (2009), doi:10.1016/j.eswa.2007.12.020; UCI, doi:10.24432/C55S3H.</li>
+  <li>T. Wang, C. Rudin, F. Doshi-Velez, Y. Liu, E. Klampfl and P. MacNeille. A Bayesian Framework for Learning Rule Sets for Interpretable Classification. Journal of Machine Learning Research 18(70) (2017); In-Vehicle Coupon Recommendation, UCI, doi:10.24432/C5GS4P.</li>
+</ul>
+<p class="small dim">The growth engine is the seed-library ribosome (seed-library, fall-spore and pattern-organs, in this estate), read through dex-frontier's copy. The loaders are dex-frontier's.</p>
+
+<div class="foot">Fall Kit core · phase 4 · MIT · supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · <a href="https://github.com/sjgant80-hub/fall-kit">source</a> · <a href="../phase3/">phase 3: the mesh is live</a> · <a href="../phase2/">phase 2</a> · <a href="../">phase 1</a><br>Powered by the Konomi architecture, created by Thomas Frumkin.</div>
+</main>
+<script type="module" src="./page.mjs"></script>
+</body>
+</html>

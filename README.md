@@ -24,6 +24,8 @@ by answers that check, routing around a dead node or relay, a shared map by CRDT
 sealed first (`core/phase3/claims.json`): 11 held, 2 failed and kept (J3, J4: each asker routes on its own evidence).
 Run a mesh in your browser on the page, or re-run the whole thing with `node core/phase3/measure.mjs --check`.
 
+**Live: https://sjgant80-hub.github.io/fall-kit/core/phase4/** — Phase 4, it grows what it lacks: a self-model (`core/selfmodel.mjs`) that sees every skill, node and link against what turned out true, finds the gaps and predicts its own next round; and gated growth (`core/growth.mjs`) that grows a specialist for the worst gap and lets it in only if it beats chance and the mesh without it on rows it never saw. Bounded, with a receipt for every step, on five real UCI datasets. Ten claims sealed first (`core/phase4/claims.json`); plant it in your browser on the page, or re-run it with `node core/phase4/measure.mjs --check`.
+
 ## v3.2.0
 
 - **The mesh speaks LIGHT.** Every message on the same-device mesh is a LIGHT packet signed by this device's own
