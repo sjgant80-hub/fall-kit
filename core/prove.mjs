@@ -69,11 +69,20 @@ async function runAll(nodesDir, make) {
 }
 
 function sealedInfo() {
-  const path = 'core/claims.json', text = readFileSync(join(REPO, path), 'utf8');
+  const path = 'core/claims.json', text = readFileSync(join(REPO, path), 'utf8').replace(/\r\n/g, '\n');
   let commit = null, atCommit = null;
-  try { commit = git(REPO, 'log', '--diff-filter=A', '--format=%H', '--', path).split('\n').pop(); atCommit = git(REPO, 'show', commit + ':' + path); } catch { commit = null; }
-  return { path, sha256: sha(text), commit, matchesCommit: atCommit !== null && atCommit.replace(/\r\n/g, '\n') === text.replace(/\r\n/g, '\n') };
+  try {
+    commit = git(REPO, 'log', '--diff-filter=A', '--format=%H', '--', path).split('\n').pop();
+    // the whole file as committed — not through git(), which trims, and would drop its last newline
+    atCommit = execFileSync('git', ['show', commit + ':' + path], { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).replace(/\r\n/g, '\n');
+  } catch { commit = null; }
+  return { path, sha256: sha(text), commit, matchesCommit: atCommit !== null && atCommit === text };
 }
+
+// what changed in the measurement after a run, said on the receipt itself
+const NOTES = Object.freeze([
+  'F5 was first measured by comparing the two ledgers’ credit reports whole, line items and their log positions included. Those positions depend on the order each ledger received its entries, so that comparison said FAILED while both ledgers held the same 35 entries and credited the same contributors the same totals. The measurement was corrected after that first run to compare what F5 claims — the credit totals and the set of entries; the in-order comparison is still reported, as facts.ledger.lineItemsSameOrder.',
+]);
 
 function nodeInfo(nodesDir) {
   const mine = Object.fromEntries(foundationFiles().map((f) => [f, sha(readFileSync(join(CORE, f)))]));
@@ -95,7 +104,7 @@ export async function measure(nodesDir) {
   const facts = { ...one.facts, processes: { ran: many.steps.length > 0, steps: many.steps.length, identical: JSON.stringify(one.steps) === JSON.stringify(many.steps), cells: ROLES.length } };
   const claims = JSON.parse(readFileSync(join(CORE, 'claims.json'), 'utf8'));
   const j = judge(claims, facts);
-  return { kind: 'fall-kit.core.receipt', v: 1, sealed: sealedInfo(), ...nodeInfo(nodesDir), facts, verdicts: j.verdicts, held: j.held, failed: j.failed, unmeasured: j.unmeasured, steps: one.steps };
+  return { kind: 'fall-kit.core.receipt', v: 1, sealed: sealedInfo(), notes: NOTES, ...nodeInfo(nodesDir), facts, verdicts: j.verdicts, held: j.held, failed: j.failed, unmeasured: j.unmeasured, steps: one.steps };
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {

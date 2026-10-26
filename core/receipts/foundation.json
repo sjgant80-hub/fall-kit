@@ -1,0 +1,765 @@
+{
+ "kind": "fall-kit.core.receipt",
+ "v": 1,
+ "sealed": {
+  "path": "core/claims.json",
+  "sha256": "dac56ba912e20647e58145e16c54168c2d9b9f7199cb4bb86d40b7a3e278cb36",
+  "commit": "7eb399e5d2e173e885f5e7201fa708a49394c6b5",
+  "matchesCommit": true
+ },
+ "notes": [
+  "F5 was first measured by comparing the two ledgers’ credit reports whole, line items and their log positions included. Those positions depend on the order each ledger received its entries, so that comparison said FAILED while both ledgers held the same 35 entries and credited the same contributors the same totals. The measurement was corrected after that first run to compare what F5 claims — the credit totals and the set of entries; the in-order comparison is still reported, as facts.ledger.lineItemsSameOrder."
+ ],
+ "foundation": {
+  "antibody.mjs": "cb507411787cc6bb07891acd24c5d9ee8de85b762706205154fe9ac1d6dd1514",
+  "identity.mjs": "429caa25bf0e104f6a664224d81fd8215d2f6c79aad3323a8acb476f85a3856e",
+  "node.mjs": "2c2bb62848b23c1cd49f70cc4f297277ce8b744fb39e03f3664c4246c4b7d8ae",
+  "vendor/SOURCES.json": "fc89d1fa217a94ed2d54361450710b1bb5acee668f938b191c533f8fafb2f8b1",
+  "vendor/light/codec.mjs": "4f018272a05989fe8fbd0f675e0460b35365710a174a88dbf628165ef21f431d",
+  "vendor/light/packet.mjs": "d565bdabdbfc063bf952d1e20cdb14c5564041667c60a560a56f930aff6e5245",
+  "vendor/light/vault.mjs": "827cc46f9782911a7a67a44733bdebb4bd3f3f35de8287afd9b4b064b3f7d0ad",
+  "vendor/light/sha256.mjs": "cf60afffd36df071b277da214ed61a7b3f4923e443bfadb06656bb7da4756bc1",
+  "vendor/immune/exchange.mjs": "e5b026b4f4c3115b1b796f05ee7c20afb3b4b5769a469f0f8adfa2f08a1955bd",
+  "vendor/immune/subscribe.mjs": "4e7f347bb58e909430ec87f3ec10fb1c9fcaa46e75fec1115ef03ae128c55c6a",
+  "vendor/wallet/wallet.mjs": "9a01dcb6134cdf724e1717b757fca7843544137e0c6051510a1d15682c6166f6",
+  "vendor/ledger/contrib.mjs": "b275501705812dd6caf61833da69bd45070095d22a5b9fc700d4371927a6ffc3",
+  "vendor/memory/fall-remember.mjs": "6f7d81915d66b91bb488bf98f5be98f63122fad618c12b9062821211bdd31f80",
+  "vendor/memory/cam.mjs": "f28483c3993ccb1b2e5a1bfc2a23e245b3ad3f90d4a8f75aca918226e3d2c1d7"
+ },
+ "nodes": {
+  "break-it": {
+   "commit": "c36fff3520e5c4a7b4ffb84a9ef1c396c3167dca",
+   "sameFoundation": true,
+   "differs": []
+  },
+  "konomi-slm": {
+   "commit": "3005a613bbb46a557c7bd8d4d726df588181b4c7",
+   "sameFoundation": true,
+   "differs": []
+  }
+ },
+ "facts": {
+  "wire": {
+   "messages": 74,
+   "nonLight": 0,
+   "bytes": 50057
+  },
+  "hostile": {
+   "cases": [
+    {
+     "at": "konomi-slm",
+     "kind": "one byte changed",
+     "ok": false,
+     "stage": "signature",
+     "decoded": false
+    },
+    {
+     "at": "konomi-slm",
+     "kind": "a key never pinned",
+     "ok": false,
+     "stage": "signature",
+     "decoded": false
+    },
+    {
+     "at": "konomi-slm",
+     "kind": "a replay",
+     "ok": false,
+     "stage": "counter",
+     "decoded": false
+    },
+    {
+     "at": "break-it",
+     "kind": "one byte changed",
+     "ok": false,
+     "stage": "signature",
+     "decoded": false
+    },
+    {
+     "at": "break-it",
+     "kind": "a key never pinned",
+     "ok": false,
+     "stage": "signature",
+     "decoded": false
+    },
+    {
+     "at": "break-it",
+     "kind": "a replay",
+     "ok": false,
+     "stage": "counter",
+     "decoded": false
+    }
+   ]
+  },
+  "couplings": {
+   "honest": 999696,
+   "dishonest": 250000,
+   "start": 500000,
+   "next": 20,
+   "toHonest": 20,
+   "dishonestShrank": true
+  },
+  "screens": [
+   {
+    "case": "not a packet at all",
+    "expect": "size",
+    "stage": "size",
+    "outcome": "verified"
+   },
+   {
+    "case": "a record with a blank signature",
+    "expect": "signature",
+    "stage": "signature",
+    "outcome": "verified"
+   },
+   {
+    "case": "a record from a sender break-it never pinned",
+    "expect": "sender",
+    "stage": "sender",
+    "outcome": "verified"
+   },
+   {
+    "case": "a record signed by a key that is not the sender’s",
+    "expect": "signature",
+    "stage": "signature",
+    "outcome": "verified"
+   }
+  ],
+  "immunity": {
+   "attackAtSender": "signature",
+   "shared": 2,
+   "adopted": 2,
+   "recognisedAfter": true,
+   "autoimmuneBlocked": 1,
+   "adoptedAdmitted": 0
+  },
+  "ledger": {
+   "used": 31,
+   "usedByBreakit": 27,
+   "usedByKonomi": 4,
+   "records": 31,
+   "entries": [
+    35,
+    35
+   ],
+   "creditsEqual": true,
+   "sameEntries": true,
+   "lineItemsSameOrder": false,
+   "replayed": true,
+   "credits": {
+    "511c34a1a2cb521df16bb246b8de8e7997ce235c7e76b22a3d7503a24819dd8a": "27",
+    "d54207da194977dcf46adbfec2bc2e75b52d5a8a42184fedfdc00024f0e3e8da": "4"
+   }
+  },
+  "memory": {
+   "identical": true,
+   "vaultBytes": 8329,
+   "plainBytes": 75430,
+   "topIsTriageAnswer": true,
+   "top": "triage answer from konomi-slm: abstain"
+  },
+  "budget": {
+   "allowed": 5,
+   "sixthRefused": true,
+   "sixthPackets": 0,
+   "why": "over budget: 5+1 > 5"
+  },
+  "seed": {
+   "same": true,
+   "count": 3,
+   "ids": {
+    "crop": [
+     "05e660a8226e07ec",
+     "05e660a8226e07ec"
+    ],
+    "triage": [
+     "14cf948bdeb2f140",
+     "14cf948bdeb2f140"
+    ],
+    "water": [
+     "a85ad84cebd972fe",
+     "a85ad84cebd972fe"
+    ]
+   }
+  },
+  "processes": {
+   "ran": true,
+   "steps": 56,
+   "identical": true,
+   "cells": 4
+  }
+ },
+ "verdicts": [
+  {
+   "id": "F1",
+   "claim": "Every message between the two nodes is a signed LIGHT packet.",
+   "held": true,
+   "measured": "74 messages between the nodes; 0 not a LIGHT packet",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "F2",
+   "claim": "Each node verifies the other before it parses: a packet with one byte changed, a packet signed by a key it never pinned, and a replayed packet are each refused before the body is decoded.",
+   "held": true,
+   "measured": "6 hostile packets: 6 refused, 0 decoded, 0 admitted (signature, signature, counter, signature, signature, counter)",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "F3",
+   "claim": "The couplings follow evidence: when two peers offer the same skill and one returns answers whose receipts do not check, the asker's link to the honest peer grows and its link to the other shrinks, and later asks go to the honest one.",
+   "held": true,
+   "measured": "links: honest 999696, dishonest 250000 (parts of a million); of the next 20 asks, 20 went to the honest peer",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "F4",
+   "claim": "An attack refused by one node immunises the other, without ever teaching it to refuse a packet its own door would admit.",
+   "held": true,
+   "measured": "2 antigens shared, 2 adopted after re-running each on the receiver’s own door; the attack at the receiver afterwards: recognised on sight; a valid packet slipped into a bundle: 1 blocked; adopted antigens the receiver’s door admits: 0",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "F5",
+   "claim": "Every verified answer the asker uses is recorded as one signed contribution, and the two nodes' ledgers agree.",
+   "held": true,
+   "measured": "31 verified answers used, 31 value records written; credits identical on both ledgers after reconcile; replay re-derives both chains",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "F6",
+   "claim": "A node's memory is kept in LIGHT and recalls by meaning.",
+   "held": true,
+   "measured": "vault 8329 B for 75430 B of memory, byte-identical on unpack; recall’s top record is the triage answer",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "F7",
+   "claim": "A node cannot ask past its budget: the ask over the limit is refused before any packet exists.",
+   "held": true,
+   "measured": "5 asks inside a budget of 5; the sixth refused by the wallet, 0 packets built for it",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "F8",
+   "claim": "The konomi-slm node grows from its seed: re-grown from the genome in its card, it has the same verified patterns.",
+   "held": true,
+   "measured": "3 patterns re-grown from the genome in the card; every id the same",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "F9",
+   "claim": "Separate cells, same body: run as two operating-system processes that exchange only bytes through a relay, the nodes reach exactly the verdicts they reach in one process.",
+   "held": true,
+   "measured": "56 verdicts from separate processes: identical to the one-process run",
+   "predicted": "HOLD"
+  }
+ ],
+ "held": 9,
+ "failed": 0,
+ "unmeasured": 0,
+ "steps": [
+  [
+   "pin",
+   {
+    "ok": true,
+    "released": true
+   }
+  ],
+  [
+   "pin",
+   {
+    "ok": true,
+    "released": true
+   }
+  ],
+  [
+   "pin",
+   {
+    "ok": true,
+    "released": true
+   }
+  ],
+  [
+   "pin",
+   {
+    "ok": true,
+    "released": true
+   }
+  ],
+  [
+   "pin",
+   {
+    "ok": true,
+    "released": true
+   }
+  ],
+  [
+   "pin",
+   {
+    "ok": true,
+    "released": true
+   }
+  ],
+  [
+   "pin",
+   {
+    "ok": true,
+    "released": true
+   }
+  ],
+  [
+   "train",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "failed",
+    "recorded": false
+   }
+  ],
+  [
+   "train",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "train",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "abstain",
+    "recorded": false
+   }
+  ],
+  [
+   "train",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "train",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "train",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "train",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "abstain",
+    "recorded": false
+   }
+  ],
+  [
+   "train",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "train",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "train",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "ask",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "screen",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "screen",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "screen",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "screen",
+   {
+    "ok": true,
+    "t": "answer",
+    "outcome": "verified",
+    "recorded": true
+   }
+  ],
+  [
+   "genuine",
+   {
+    "ok": true,
+    "t": "ledger",
+    "added": 27,
+    "skipped": 4,
+    "refused": 0
+   }
+  ],
+  [
+   "hostile",
+   {
+    "ok": false,
+    "stage": "signature",
+    "family": "forged",
+    "decoded": false,
+    "recognised": false
+   }
+  ],
+  [
+   "hostile",
+   {
+    "ok": false,
+    "stage": "signature",
+    "family": "forged",
+    "decoded": false,
+    "recognised": false
+   }
+  ],
+  [
+   "hostile",
+   {
+    "ok": false,
+    "stage": "counter",
+    "family": "replay",
+    "decoded": false,
+    "recognised": false
+   }
+  ],
+  [
+   "genuine",
+   {
+    "ok": true,
+    "t": "ledger",
+    "added": 4,
+    "skipped": 31,
+    "refused": 0
+   }
+  ],
+  [
+   "hostile",
+   {
+    "ok": false,
+    "stage": "signature",
+    "family": "forged",
+    "decoded": false,
+    "recognised": false
+   }
+  ],
+  [
+   "hostile",
+   {
+    "ok": false,
+    "stage": "signature",
+    "family": "forged",
+    "decoded": false,
+    "recognised": false
+   }
+  ],
+  [
+   "hostile",
+   {
+    "ok": false,
+    "stage": "counter",
+    "family": "replay",
+    "decoded": false,
+    "recognised": false
+   }
+  ],
+  [
+   "attack",
+   {
+    "ok": false,
+    "stage": "signature",
+    "family": "forged",
+    "decoded": false,
+    "recognised": false
+   }
+  ],
+  [
+   "antibodies",
+   {
+    "ok": true,
+    "t": "antibody",
+    "offered": 2,
+    "adopted": 2,
+    "autoimmuneBlocked": 0,
+    "recognitionOnly": 0
+   }
+  ],
+  [
+   "attack-again",
+   {
+    "ok": false,
+    "stage": "sender",
+    "family": "forged",
+    "decoded": false,
+    "recognised": true
+   }
+  ],
+  [
+   "autoimmunity",
+   {
+    "ok": true,
+    "t": "antibody",
+    "offered": 1,
+    "adopted": 0,
+    "autoimmuneBlocked": 1,
+    "recognitionOnly": 0
+   }
+  ],
+  [
+   "ledger",
+   {
+    "ok": true,
+    "t": "ledger",
+    "added": 0,
+    "skipped": 35,
+    "refused": 0
+   }
+  ],
+  [
+   "ledger",
+   {
+    "ok": true,
+    "t": "ledger",
+    "added": 0,
+    "skipped": 35,
+    "refused": 0
+   }
+  ],
+  [
+   "budget",
+   {
+    "ok": false,
+    "why": "over budget: 5+1 > 5"
+   }
+  ]
+ ]
+}

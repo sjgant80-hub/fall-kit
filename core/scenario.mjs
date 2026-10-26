@@ -123,7 +123,15 @@ export async function scenario(cells, inputs, onStep) {
   const records = lB.log.filter((x) => x.entry.type === 'value' && x.entry.by === B.id).length + lK.log.filter((x) => x.entry.type === 'value' && x.entry.by === K.id).length;
   let replayed = true;
   for (const l of [lB, lK]) { const r = await replay(l.log, { gate: async () => ({ ok: true }) }); if (!r.ok || r.ledger.head !== l.head) replayed = false; }
-  const ledger = { used: used.breakit + used.konomi, usedByBreakit: used.breakit, usedByKonomi: used.konomi, records, entries: [lB.log.length, lK.log.length], creditsEqual: JSON.stringify(cB) === JSON.stringify(cK), replayed, credits: cB.ok ? cB : null };
+  // "the ledgers agree": who is credited what (the totals), and which entries each holds. The line items' log positions
+  // depend on the order each ledger received its entries, so they are reported, not compared.
+  const totals = (c) => (c && c.ok ? JSON.stringify(Object.fromEntries(Object.entries(c.credits).sort())) : null);
+  const sigs = (l) => l.log.map((x) => x.entry.sig).sort().join(',');
+  const ledger = {
+    used: used.breakit + used.konomi, usedByBreakit: used.breakit, usedByKonomi: used.konomi, records, entries: [lB.log.length, lK.log.length],
+    creditsEqual: totals(cB) !== null && totals(cB) === totals(cK), sameEntries: sigs(lB) === sigs(lK),
+    lineItemsSameOrder: JSON.stringify(cB.lines) === JSON.stringify(cK.lines), replayed, credits: cB.ok ? cB.credits : null,
+  };
 
   // F6 — break-it's memory in LIGHT, and recall
   const v = await B.call('vault');
