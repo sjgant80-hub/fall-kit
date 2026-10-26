@@ -1,0 +1,35 @@
+{
+ "kind": "fall-kit.core.phase3.local",
+ "v": 1,
+ "claim": "X1",
+ "what": "Two tabs of one browser on the live page (core/phase3/webrtc-test.html, role a and role b), connected over a real WebRTC data channel by falllink with no STUN server; each tab ran a foundation node. These are the two tabs’ own window.result, copied as they were.",
+ "at": "2026-10-26T16:12:17.891Z",
+ "where": "sjgant80-hub.github.io/fall-kit/core/phase3/webrtc-test.html",
+ "commit": "fall-kit 349af54, falllink 9c7bca5",
+ "browser": "Chrome/152.0.7977.167 (the Claude desktop app's browser pane), two tabs",
+ "tabs": {
+  "a": {
+   "role": "a",
+   "pinned": true,
+   "channel": true,
+   "falllink": "12051 bytes",
+   "sent": 12,
+   "admitted": 0,
+   "refused": {},
+   "shared": null
+  },
+  "b": {
+   "role": "b",
+   "pinned": true,
+   "channel": true,
+   "falllink": "12051 bytes",
+   "sent": 0,
+   "admitted": 10,
+   "refused": {
+    "signature": 1,
+    "counter": 1
+   },
+   "shared": 10
+  }
+ }
+}

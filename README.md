@@ -21,8 +21,8 @@ sealed first over five passes (`core/phase2/claims.json`): 13 held, 2 failed and
 **Live: https://sjgant80-hub.github.io/fall-kit/core/phase3/** — Phase 3, the mesh is live: foundation nodes as separate
 processes on thin relays that read no body (`core/relay.mjs`), joined by the founder's roster (`core/roster.mjs`), routing
 by answers that check, routing around a dead node or relay, a shared map by CRDT, and shared immunity. Thirteen claims
-sealed first (`core/phase3/claims.json`); run a mesh in your browser on the page, or re-run the whole thing with
-`node core/phase3/measure.mjs --check`.
+sealed first (`core/phase3/claims.json`): 11 held, 2 failed and kept (J3, J4: each asker routes on its own evidence).
+Run a mesh in your browser on the page, or re-run the whole thing with `node core/phase3/measure.mjs --check`.
 
 ## v3.2.0
 

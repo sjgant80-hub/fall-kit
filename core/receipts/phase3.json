@@ -7,7 +7,8 @@
    1,
    2,
    3,
-   4
+   4,
+   5
   ],
   "r1": {
    "relay": {
@@ -289,7 +290,32 @@
   },
   "x1": {
    "from": "core/phase3/local/x1.json",
-   "missing": true
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase3/webrtc-test.html",
+   "tabs": {
+    "a": {
+     "role": "a",
+     "pinned": true,
+     "channel": true,
+     "falllink": "12051 bytes",
+     "sent": 12,
+     "admitted": 0,
+     "refused": {},
+     "shared": null
+    },
+    "b": {
+     "role": "b",
+     "pinned": true,
+     "channel": true,
+     "falllink": "12051 bytes",
+     "sent": 0,
+     "admitted": 10,
+     "refused": {
+      "signature": 1,
+      "counter": 1
+     },
+     "shared": 10
+    }
+   }
   }
  },
  "verdicts": [
@@ -380,12 +406,12 @@
   {
    "id": "X1",
    "pass": 5,
-   "held": null,
-   "measured": "not measured yet: pass 5",
+   "held": true,
+   "measured": "two tabs on sjgant80-hub.github.io/fall-kit/core/phase3/webrtc-test.html: the WebRTC data channel opened in both; tab A sent 12 signed packets, tab B's door admitted 10 and refused 2 (signature 1, counter 1), and holds 10 shared notes",
    "predicted": "HOLD"
   }
  ],
- "held": 10,
+ "held": 11,
  "failed": 2,
- "open": 1
+ "open": 0
 }
