@@ -18,13 +18,16 @@ export function triageRowsFrom(domains, n) {
   return d.heldRows.slice(0, n).map((i) => Object.fromEntries(d.features.map((f) => [f, Math.round(d.cols[f][i] * 1e6) / 1e6])));
 }
 
-/** BRK1 packets break-it's gate refuses at named stages. wire = break-it's src/wire.mjs; stranger = an identity no one pins. */
-export async function brk1CasesFrom(wire, stranger) {
+/** BRK1 packets for break-it's gate: one it admits, and ones it refuses at named stages. wire = break-it's src/wire.mjs;
+ * stranger = an identity no one pins; signer = the public test key break-it's node/pins.json pins as sender 1. */
+export async function brk1CasesFrom(wire, stranger, signer) {
   const rec = (sender) => wire.encodeUnsigned({ sender, counter: 1n, op: wire.OPS.REC, account: 1000, period: 63, amount: 100 });
   const zero = wire.withSignature(rec(1), new Uint8Array(64));
   const n = wire.rawCheck(zero).n;
   const forged = wire.withSignature(rec(1), await stranger.sign(wire.signedBytes(zero, n)));
+  const good = wire.withSignature(rec(1), await signer.sign(wire.signedBytes(zero, n)));
   return [
+    { name: 'a record signed by the sender break-it pins', hex: hex(good), expect: 'admitted' },
     { name: 'not a packet at all', hex: 'deadbeef', expect: 'size' },
     { name: 'a record with a blank signature', hex: hex(zero), expect: 'signature' },
     { name: 'a record from a sender break-it never pinned', hex: hex(wire.withSignature(rec(9), new Uint8Array(64))), expect: 'sender' },

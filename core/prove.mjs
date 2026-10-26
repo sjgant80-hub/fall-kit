@@ -58,7 +58,7 @@ async function inputsFrom(nodesDir) {
   const domains = await import(pathToFileURL(join(nodesDir, 'konomi-slm', 'vendor', 'seed-library', 'domains.mjs')).href);
   const wire = await import(pathToFileURL(join(nodesDir, 'break-it', 'src', 'wire.mjs')).href);
   const { ids } = await meshSetup();
-  return { rows: triageRowsFrom(domains, 40), brk1: await brk1CasesFrom(wire, ids.stranger) };
+  return { rows: triageRowsFrom(domains, 40), brk1: await brk1CasesFrom(wire, ids.stranger, ids.screenSender) };
 }
 
 async function runAll(nodesDir, make) {

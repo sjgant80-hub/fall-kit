@@ -80,16 +80,16 @@ async function run() {
   try {
     if (!(globalThis.crypto && crypto.subtle)) throw new Error('this browser has no WebCrypto');
     const [breakit, konomi, pins, domains, wire] = await Promise.all([
-      import('/break-it/node/breakit-node.mjs'), import('/konomi-slm/node/konomi-node.mjs'), getJson('/break-it/config/pubkeys.json'),
+      import('/break-it/node/breakit-node.mjs'), import('/konomi-slm/node/konomi-node.mjs'), getJson('/break-it/node/pins.json'),
       import('/konomi-slm/vendor/seed-library/domains.mjs'), import('/break-it/src/wire.mjs'),
     ]);
     say('loaded break-it and konomi-slm from their own sites');
     $('run-stat').textContent = 'starting the cells (konomi-slm grows its library)…';
-    const mods = { breakit, konomi, pins };
+    const mods = { breakit, konomi, pins: pins.pins };
     const cells = {};
     for (const role of ROLES) { cells[role] = await localCell(role, mods); say('cell ready: ' + cells[role].name); }
     const { ids } = await meshSetup();
-    const inputs = { rows: triageRowsFrom(domains, 40), brk1: await brk1CasesFrom(wire, ids.stranger) };
+    const inputs = { rows: triageRowsFrom(domains, 40), brk1: await brk1CasesFrom(wire, ids.stranger, ids.screenSender) };
     $('run-stat').textContent = 'running…';
     const t0 = performance.now();
     const out = await scenario(cells, inputs, (name, r) => say(words(name, r)));

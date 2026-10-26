@@ -9,7 +9,7 @@ export async function modsFrom(nodesDir) {
   return {
     breakit: await import(pathToFileURL(join(nodesDir, 'break-it', 'node', 'breakit-node.mjs')).href),
     konomi: await import(pathToFileURL(join(nodesDir, 'konomi-slm', 'node', 'konomi-node.mjs')).href),
-    pins: JSON.parse(readFileSync(join(nodesDir, 'break-it', 'config', 'pubkeys.json'), 'utf8')),
+    pins: JSON.parse(readFileSync(join(nodesDir, 'break-it', 'node', 'pins.json'), 'utf8')).pins,   // committed: a public test key
   };
 }
 

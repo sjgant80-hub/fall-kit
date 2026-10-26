@@ -13,7 +13,7 @@ import { createNode, meshGenesis } from './node.mjs';
 import { prepare, finish, KINDS } from './vendor/light/packet.mjs';
 import { makeBundle } from './vendor/immune/exchange.mjs';
 
-export const SEEDS = Object.freeze({ founder: 1, breakit: 21, konomi: 22, liar: 23, budgeted: 24, stranger: 30 });
+export const SEEDS = Object.freeze({ founder: 1, breakit: 21, konomi: 22, liar: 23, budgeted: 24, stranger: 30, screenSender: 40 });   // 40 = 0x28: break-it's node/pins.json test key
 export const ROLES = Object.freeze(['breakit', 'konomi', 'liar', 'budgeted']);
 export const CLOCK = () => new Date('2026-10-26T12:00:00Z');
 const seedOf = (n) => new Uint8Array(32).fill(n);
