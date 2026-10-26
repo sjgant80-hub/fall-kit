@@ -85,6 +85,8 @@ test('credits, supplier, honest scope, and no price of our own', () => {
   assert.match(html, /does not stop/, 'what it does not stop is said');
   assert.match(html, /A second device is a door you open/, 'what is not measured, said');
   assert.match(html, /outside red team/, 'who wrote the hostile nodes, said');
+  assert.ok((html.match(/signed, not encrypted/g) || []).length >= 4, 'that a body is signed and not encrypted, so a compromised relay could read it, is said wherever the page talks about what a relay sees');
+  assert.doesNotMatch(html, /never what is in it|holds no app data/, 'never the old sentences that read as confidentiality');
   assert.doesNotMatch(html.replace(/<script[\s\S]*?<\/script>/g, ''), /[£$€]\s?\d/, 'no prices on the page itself — the cost case prints only AWS list prices, at run time');
   assert.doesNotMatch(html + js, /si-didy|KCC|kcc-/i, 'no private names');
 });
