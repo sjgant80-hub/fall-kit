@@ -118,11 +118,12 @@ if (out.ok) reply(200, out.json);</pre>
 <h2 id="try">Try the door</h2>
 <div class="box">
   <label class="blk" for="d-in">Anything at all</label>
-  <textarea id="d-in" spellcheck="false">{"customer": "ACME", "amount": 12}</textarea>
+  <textarea id="d-in" spellcheck="false">{"customer": "ACME Ltd", "amount": 12, "lines": [{"sku": "X1", "qty": 1}, {"sku": "Y2", "qty": 3}]}</textarea>
   <div aria-label="Examples">
-    <button class="chip" type="button" data-try='{"customer": "ACME", "amount": 12}'>JSON</button>
-    <button class="chip" type="button" data-try="GET /fall-kit/ HTTP/1.1&#13;&#10;Host: sjgant80-hub.github.io&#13;&#10;&#13;&#10;">a web request</button>
-    <button class="chip" type="button" data-try="&lt;html&gt;&lt;body&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;">HTML</button>
+    <button class="chip" type="button" data-try="{&quot;customer&quot;: &quot;ACME Ltd&quot;, &quot;amount&quot;: 12, &quot;lines&quot;: [{&quot;sku&quot;: &quot;X1&quot;, &quot;qty&quot;: 1}, {&quot;sku&quot;: &quot;Y2&quot;, &quot;qty&quot;: 3}]}">JSON</button>
+    <button class="chip" type="button" data-try="GET /fall-kit/ HTTP/1.1&#13;&#10;Host: sjgant80-hub.github.io&#13;&#10;User-Agent: Mozilla/5.0&#13;&#10;Accept: text/html&#13;&#10;&#13;&#10;">a web request</button>
+    <button class="chip" type="button" data-try="&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;">HTML</button>
+    <button class="chip" type="button" data-try="hi">two letters</button>
     <button class="chip" type="button" data-try="LGT1 this starts like LIGHT but is not a packet, just text that happens to begin with the right four letters and is long enough to be read past the size check">text that starts with LGT1</button>
   </div>
   <div class="row"><button class="btn" id="d-hear" type="button">Hear it</button><button class="btn ghost" id="d-make" type="button">Sign it as a packet</button><button class="btn ghost" id="d-flip" type="button">Change one byte</button><button class="btn ghost" id="d-again" type="button">Send it again</button></div>

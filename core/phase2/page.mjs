@@ -13,12 +13,15 @@ const n0 = (x) => Number(x).toLocaleString('en-GB');
 const tag = (held) => (held === true ? '<span class="tag held">HELD</span>' : held === false ? '<span class="tag failed">FAILED</span>' : '<span class="tag na">OPEN</span>');
 const enc = (s) => new TextEncoder().encode(s);
 const getJson = async (url) => { const r = await fetch(url, { cache: 'no-cache' }); if (!r.ok) throw new Error(url + ' ' + r.status); return r.json(); };
-const STAGE_WORDS = {
-  size: 'at the size check, before anything else is read', magic: 'at the first four bytes: it is not LIGHT', version: 'at the version byte', length: 'at the length: the packet is not the size it says',
-  dictionary: 'at the dictionary: it names one this node does not hold', sender: 'at the sender: no key for it is pinned here', signature: 'at the signature: it does not verify for the key pinned to that sender',
-  counter: 'at the counter: a replay, or out of order', body: 'at the body', kind: 'after the door: only a JSON packet leaves as JSON', error: 'the door failed closed',
-  utf8: 'at UTF-8: the bytes are not valid text', json: 'at JSON: the text does not parse', shape: 'at the shape: it is not what the edge declared it would take', packet: 'building the packet',
+const EXPLAIN = {
+  size: 'Nothing else is read until the size is right.', magic: 'It does not begin with LGT1, so it is not LIGHT at all.',
+  version: 'It begins like LIGHT, but its version byte is not one this door speaks.', length: 'The packet is not the size its own header says.',
+  dictionary: 'It names a dictionary this node does not hold.', sender: 'No key is pinned here for the sender it names.',
+  signature: 'The bytes are not what the pinned key signed.', counter: 'This node has already heard that counter from that sender.',
+  body: 'The body does not decode.', kind: 'Only a JSON packet leaves as JSON.', error: 'The door failed closed.',
+  utf8: 'The bytes are not valid text.', json: 'The text does not parse as JSON.', shape: 'It is not what this edge declared it would take.', packet: 'The edge could not build the packet.',
 };
+const refused = (stage, why) => '<span class="no">Refused</span> at the <b>' + esc(stage) + '</b> stage: ' + esc(why) + '. <span class="dim">' + esc(EXPLAIN[stage] || '') + '</span>';
 
 // ── the receipt ──
 async function loadReceipt() {
@@ -37,7 +40,7 @@ async function loadReceipt() {
     + ' Sealed in <code>' + esc(receipt.sealedIn.slice(0, 7)) + '</code>; the corpus is ' + n0(f.corpus.payloads) + ' payloads from ' + n0(f.corpus.files) + ' files (digest <code>' + esc(f.corpus.digest.slice(0, 12)) + '</code>).';
   $('r-rows').innerHTML = j.verdicts.map((v) => '<tr><td><b>' + esc(v.id) + '</b> <span class="dim">pass ' + v.pass + '</span><br>' + esc(claims.claims.find((c) => c.id === v.id).claim) + '</td><td>' + tag(v.held) + '</td><td>' + esc(v.measured) + '</td></tr>').join('');
   $('k-rows').innerHTML = Object.entries(f.corpus.byKind).sort((a, b) => b[1] - a[1]).map(([k, c]) => '<tr><td>' + esc(k) + '</td><td>' + n0(c) + '</td></tr>').join('');
-  $('s-rows').innerHTML = Object.entries(f.g1.stages).sort((a, b) => b[1] - a[1]).map(([s, c]) => '<tr><td>' + esc(s) + '</td><td>' + n0(c) + '</td><td>' + esc(STAGE_WORDS[s] || '') + '</td></tr>').join('');
+  $('s-rows').innerHTML = Object.entries(f.g1.stages).sort((a, b) => b[1] - a[1]).map(([s, c]) => '<tr><td>' + esc(s) + '</td><td>' + n0(c) + '</td><td>' + esc(EXPLAIN[s] || '') + '</td></tr>').join('');
   $('g2-rows').innerHTML = Object.entries(f.g2.kinds).map(([k, x]) => '<tr><td>' + esc(k) + '</td><td>' + n0(x.n) + '</td><td>' + esc(Object.entries(x.stages).map(([s, c]) => s + ' ' + n0(c)).join(', ')) + '</td><td>' + n0(x.admitted) + '</td><td>' + n0(x.decoded) + '</td></tr>').join('');
   $('pass-rows').innerHTML = claims.passes.map((p) => {
     const vs = j.verdicts.filter((v) => v.pass === p.pass);
@@ -59,7 +62,7 @@ function say(el, r, bytes) {
   if (r.ok) {
     node.innerHTML = '<span class="ok">Admitted.</span> Signed by the pinned test key, counter ' + esc(String(r.counter)) + '. It leaves the edge as: <code>' + esc(r.json.slice(0, 300)) + (r.json.length > 300 ? '…' : '') + '</code>';
   } else {
-    node.innerHTML = '<span class="no">Refused</span> ' + esc(STAGE_WORDS[r.stage] || r.stage) + '. <span class="dim">' + esc(r.why) + '.</span> The body was ' + (r.decoded ? '<b>decoded</b>' : '<b>never decoded</b>') + '.'
+    node.innerHTML = refused(r.stage, r.why) + ' The body was ' + (r.decoded ? '<b>decoded</b>' : '<b>never decoded</b>') + '.'
       + (bytes ? ' <span class="dim">(' + n0(bytes.length) + ' bytes; the first four: ' + esc(hex(bytes.subarray(0, 4)) || 'none') + ')</span>' : '');
   }
 }
@@ -101,7 +104,7 @@ async function throughEdge() {
   if (shape === null) { $('e-out').textContent = 'The example is deeper than the edge reads.'; return; }
   counter += 1n;
   const s = await sealInside(enc($('e-in').value), { shape, sender: edgeKey.slot, counter }, edgeKey.sign);
-  if (!s.ok) { $('e-out').innerHTML = '<span class="no">Refused at the edge</span> ' + esc(STAGE_WORDS[s.stage] || s.stage) + '. <span class="dim">' + esc(s.why) + '.</span> No packet was built.'; return; }
+  if (!s.ok) { $('e-out').innerHTML = refused(s.stage, s.why) + ' No packet was built.'; return; }
   const o = await outbound(s.bytes, opts);
   if (o.ok) seen.set(o.from, o.counter);
   $('e-out').innerHTML = '<span class="ok">In:</span> checked, then said inside as a LIGHT packet of ' + n0(s.bytes.length) + ' bytes, signed by the edge\'s key. <span class="ok">Out:</span> through the door, then back to JSON: <code>' + esc(o.ok ? o.json.slice(0, 300) : o.why) + '</code>';
