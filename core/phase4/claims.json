@@ -1,0 +1,49 @@
+{
+ "kind": "fall-kit.core.phase4.claims",
+ "v": 1,
+ "sealed": "2026-10-26",
+ "what": "Phase 4 of the estate go-live: the self-model and gated growth. A mesh of foundation nodes is planted with two holders (one decent, one weak) and real work across five domains. An observer of the whole organism (the self-model) sees every skill, node and coupling, finds the gaps, and predicts its own next round; it directs a growth engine to grow a node for the worst gap; the node joins only if it provably helps on rows it never saw; and the organism goes on, cycle after cycle, without a human step, until its own stop rule. Sealed before core/selfmodel.mjs, core/growth.mjs, the organism loop, its measurement or its page exist. One organ per pass; a claim not yet measured says so.",
+ "scope": [
+  "BOUNDED autonomous improvement with receipts: the self-model directs gated growth within limits that are sealed here, measured, and able to fail. It is not open-ended self-improvement, and nothing here claims awareness.",
+  "The data is real and public: five UCI datasets, each CC BY 4.0, read through dex-frontier's gated loaders at a pinned commit, every file checked against its recorded SHA-256. Each is split three ways with fixed seeds before anything here exists: FIT (a node is grown only here), GATE (its entry is judged only here) and TEST (the organism's work; no node is grown or gated on it).",
+  "A skill's score is balanced accuracy over the round's asks: the mean of the share of positive cases answered positive and the share of negative cases answered negative, where an ask nobody answers counts as answered wrong. A trivial answerer scores 0.5; a skill nobody holds scores 0.",
+  "The mesh is real foundation nodes (core/node.mjs: signed LIGHT asks and answers, the door, receipts re-checked, links, the founder's roster) in one process: Phase 3 measured them as separate processes over relays. The founder's key is held by the organism's growth policy, inside the bound sealed here; dropping or adding a member is a roster the founder signs.",
+  "The growth engine is the estate's seed-library ribosome (vendored from dex-frontier's copy, byte for byte): it grows an interpretable scorecard on one silo of a domain's FIT rows. It is not a neural network and is not claimed to be."
+ ],
+ "domains": {
+  "shop": "UCI Online Shoppers Purchasing Intention, DOI 10.24432/C5F88Q, CC BY 4.0 (purchase); planted with a holder",
+  "bank": "UCI Bank Marketing, DOI 10.24432/C5K306, CC BY 4.0 (subscribed); planted with a weak holder",
+  "adult": "UCI Adult, DOI 10.24432/C5XW20, CC BY 4.0 (income over $50K); planted empty",
+  "credit": "UCI Default of Credit Card Clients, DOI 10.24432/C55S3H, CC BY 4.0 (default next month); planted empty",
+  "coupon": "UCI In-Vehicle Coupon Recommendation, DOI 10.24432/C5GS4P, CC BY 4.0 (coupon accepted); planted empty"
+ },
+ "policy": {
+  "asksPerSkillPerRound": 300,
+  "target": 0.70,
+  "gap": "a skill whose balanced accuracy in the last round is below the target; gaps are ranked by lost value, asks x (1 - balanced accuracy)",
+  "gate": "the candidate beats the mesh without it on the GATE rows by at least 0.02 balanced accuracy, and a one-sided 95% paired-bootstrap lower bound on that difference (2,000 resamples, fixed seed) is above 0",
+  "replace": "when a grown node for a skill joins, a holder of that skill it beat is dropped from the founder's roster",
+  "maxGrown": 4,
+  "maxJoinsPerCycle": 1,
+  "triesPerGap": 1,
+  "maxCycles": 8
+ },
+ "passes": [
+  { "pass": 1, "organ": "the self-model (core/selfmodel.mjs)", "claims": ["O1", "O2", "O3"] },
+  { "pass": 2, "organ": "gated growth (core/growth.mjs)", "claims": ["G1", "G2", "G3", "G4"] },
+  { "pass": 3, "organ": "autonomy: the organism loop (core/phase4/organism.mjs)", "claims": ["A1", "A2"] },
+  { "pass": 4, "organ": "the organism in a browser tab", "claims": ["W1"] }
+ ],
+ "claims": [
+  { "id": "O1", "pass": 1, "claim": "The self-model sees the organism as it is: what it counts for every skill, node and coupling is what actually happened.", "measure": "every cycle of the run: the self-model's tallies (asks, answers, correct, by skill, by answering node, and by asker-to-holder coupling with its link weight) against a direct count of the same asks and answers", "holds_if": "every tally equal, in every cycle", "predicted": "HOLD" },
+  { "id": "O2", "pass": 1, "claim": "It finds the gaps: every skill below the target is named a gap and ranked by what it costs, and a coupling the mesh trusts whose answers are often wrong is flagged.", "measure": "the self-model's gap list each cycle, and its coupling flags in the first cycle", "holds_if": "each cycle's gap list is exactly the skills below 0.70 balanced accuracy, ordered by asks x (1 - balanced accuracy); and in the first cycle every asker's coupling to the planted weak bank holder is flagged trusted-but-weak (link above the starting weight, balanced accuracy below the target)", "predicted": "HOLD" },
+  { "id": "O3", "pass": 1, "claim": "It predicts itself: before each round it says what every skill's balanced accuracy will be, and it is close, and no worse than assuming nothing changes.", "measure": "each round after the first: the self-model's prediction for each skill (the last measured score, or a newly joined node's gate score) against the measured score", "holds_if": "mean absolute error at most 0.05, and no greater than the error of predicting each skill's last measured score", "predicted": "unsure — test rows differ from gate rows, so a new node's score may move" },
+  { "id": "G1", "pass": 2, "claim": "Growth is gated: a node grown for a gap joins only if, on rows it never saw, it beats the mesh without it, by the sealed margin and bound; every refusal is kept with its numbers.", "measure": "every candidate the run grows: its balanced accuracy on GATE rows against the mesh's without it, the difference and its 95% lower bound, and the decision", "holds_if": "every join meets the gate, every candidate that does not meet it is refused, and each decision's numbers are in the receipt", "predicted": "HOLD" },
+  { "id": "G2", "pass": 2, "claim": "The gate can say no: a node grown on the same rows with their answers shuffled is offered for every gap before the real one, and is refused every time.", "measure": "the control candidate for every gap the run tries", "holds_if": "every control is refused; none joins", "predicted": "HOLD" },
+  { "id": "G3", "pass": 2, "claim": "A grown node provably helps where it works: on TEST rows no node was grown or gated on, the grown organism beats the planted one on every skill it grew, and is never worse on any skill.", "measure": "the run, and the same run with growth switched off (the planted organism), on the same TEST rows in every round, paired ask by ask", "holds_if": "for every skill a node was grown for, the grown organism's balanced accuracy over the rounds after the join is above the planted organism's, with a one-sided 95% paired-bootstrap lower bound above 0; and in no round is any skill's balanced accuracy lower in the grown organism", "predicted": "HOLD" },
+  { "id": "G4", "pass": 2, "claim": "Growth is bounded: it never grows more than its sealed limits, and it stops by its own rule.", "measure": "the run's log", "holds_if": "at most 4 nodes grown, at most 1 joined per cycle, no gap tried twice, at most 8 cycles, and the run ends by one of its rules (no gap left, every gap tried, or a limit reached)", "predicted": "HOLD" },
+  { "id": "A1", "pass": 3, "claim": "Plant it and it grows: one command starts it, nothing is asked of a human after that, and every step is the organism's own and can be replayed.", "measure": "the run: one command from the planted state; its log of every gap chosen, node grown, gate decision and roster change; and CI running it again", "holds_if": "the run takes no input after it starts, every logged decision names the self-model's ranking or the gate's numbers it follows, and CI's run reproduces the receipt byte for byte", "predicted": "HOLD" },
+  { "id": "A2", "pass": 3, "claim": "It fills most of its gaps: of the four gaps it was planted with, it fills at least three with nodes its gate admits.", "measure": "the run's joins against the planted gaps (adult, credit and coupon with no holder; bank with a weak one)", "holds_if": "at least 3 of the 4 planted gaps have a node the gate admitted", "predicted": "unsure — the gate may refuse a domain's best candidate" },
+  { "id": "W1", "pass": 4, "claim": "A browser tab is the organism's ground: the live page plants it in the tab on the real data and it grows the same nodes as the measured run.", "measure": "the live page, in a real browser tab, on the domains it loads; the tab's own results committed in core/phase4/local/w1.json", "holds_if": "for every domain the tab loads, the tab grows a node with the same pattern id and the same gate decision as the measured run", "predicted": "HOLD" }
+ ]
+}
