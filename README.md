@@ -29,7 +29,11 @@ what it learns (`core/node.mjs`). Askers share signed notes of a silence or a li
 check agrees (the liar's own signed answer, or its own unanswered probe), and every asker tries every holder once. Four
 claims sealed first (`core/phase3b/claims.json`), measured on Phase 3's scenario with Phase 3's routing as the control:
 1 ask to the dead node instead of 4, the dishonest link at 3.1% instead of 50%; W1–W3 held, W4 failed and kept (four false
-notes answered "already judged" instead of refused; none moved a link). Re-run it with `node core/phase3b/measure.mjs --check`.
+notes answered "already judged" instead of refused; none moved a link). Phase 3c fixed W4 as its own sealed claim
+(`core/phase3c/claims.json`): a note's bytes are judged against the holder it names before they are checked as a repeat;
+V1 (W4's bar) and V2 (W1–W3 unchanged, digest for digest) held. Re-run Phase 3c with `node core/phase3c/measure.mjs --check`;
+Phase 3b's receipt is about the node it measured, so re-derive it there:
+`git worktree add .phase3b 2960fae && node .phase3b/core/phase3b/measure.mjs --check`.
 
 **Live: https://sjgant80-hub.github.io/fall-kit/core/phase4/** — Phase 4, it grows what it lacks: a self-model (`core/selfmodel.mjs`) that sees every skill, node and link against what turned out true, finds the gaps and predicts its own next round; and gated growth (`core/growth.mjs`) that grows a specialist for the worst gap and lets it in only if it beats chance and the mesh without it on rows it never saw. Bounded, with a receipt for every step, on five real UCI datasets. Ten claims sealed first (`core/phase4/claims.json`); plant it in your browser on the page, or re-run it with `node core/phase4/measure.mjs --check`.
 

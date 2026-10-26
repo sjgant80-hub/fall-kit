@@ -1,8 +1,8 @@
 [
   {
     "mutation": "< → <=",
-    "snippet": "const better = best === null || (live && !best.live) || (live === best.live && (w > best.w",
-    "reason": "the routing tie-break compares the ids of two different peers: ids are the unique keys of the node’s peer map, so p.id === best.id never happens and < and <= cannot decide differently — a reviewed equivalent"
+    "snippet": "const better = best === null || (live && !best.live) || (live === best.live && ((untried &",
+    "reason": "the routing tie-break compares the ids of two different peers: ids are the unique keys of the node’s peer map, so p.id === best.id never happens and < and <= cannot decide differently — a reviewed equivalent. Re-reviewed for Phase 3b (the line now also ranks untried and quiet holders first): a tie still needs equal liveness, equal untried and equal weight, so even two peers given with one id would return the same object either way"
   },
   {
     "mutation": "< → <=",

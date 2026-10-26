@@ -898,6 +898,10 @@ test('a lied note is refused unless it is the accused\'s own signed answer to th
   const second = await m.deliver(m.A2.id, await sayAs(m.a1i, m.A2.id, { t: 'notes', notes: [n(await signedByC(answer(), 2))] }, 1002));
   assert.equal(second.adopted, 1, 'another signed lie is other evidence');
   assert.equal(m.A2.weight(C, 'triage'), 125000);
+  const askByC = await signedByC({ t: 'ask', id: job, skill: 'triage', input: 1, token: {} }, 14);   // the accused's own packet, the right ask and skill, but an ask
+  const misnamed = await m.deliver(m.A2.id, await sayAs(m.a1i, m.A2.id, { t: 'notes', notes: [n(lie, { holder: m.B.id }), n(lie, { job: 'ask:other:2' }), n(lie), n(askByC)] }, 1003));
+  assert.deepEqual([misnamed.adopted, misnamed.already, misnamed.refused], [0, 1, [NOT_SIGNED, NOT_ANSWER, NOT_ANSWER]], 'bytes already judged, under another holder\'s name or another ask, are refused by that name, never waved through as a repeat (Phase 3c); an ask is not an answer');
+  assert.equal(m.A2.weight(C, 'triage'), 125000);
   const mem = m.A2.recall('took notes from a1', 1).center;
   assert.deepEqual([mem.meta.kind, mem.meta.from, mem.meta.adopted], ['notes', m.A1.id, 1]);
 });
@@ -1010,4 +1014,22 @@ test('pinned again, a peer keeps what was tried and its silence; unpinned, its p
   assert.equal(m.A2.unpin(m.C.id).ok, true);
   assert.deepEqual(m.A2.probing(), [pre + 1], 'only the probe to the dropped peer goes');
   assert.equal(m.A2.stats().probing, 1);
+});
+
+test('a check that throws is a check that failed: the answer counts as failed, at the asker and at a receiver of the note', async () => {
+  const [ai, bi, ci] = await Promise.all([32, 33, 34].map((k) => makeIdentity(seed(k))));
+  const boom = () => { throw new Error('the checker broke'); }, reject = async () => { throw new Error('so did this one'); };
+  const A = await createNode({ name: 'a', identity: ai, clock, checks: { triage: boom } });
+  const B = await createNode({ name: 'b', identity: bi, skills: { triage: honest }, clock });
+  const C = await createNode({ name: 'c', identity: ci, clock, checks: { triage: reject } });
+  for (const [x, y] of [[A, B], [B, A], [A, C], [C, A], [B, C], [C, B]]) await x.pin(y.card());
+  const q = await A.ask('triage', { spO2: 88 });
+  const answer = (await B.hear(q.bytes)).replies[0].bytes;
+  const r = await A.hear(answer);
+  assert.deepEqual([r.outcome, A.weight(B.id, 'triage')], ['failed', 250000], 'a checker that throws never verifies');
+  assert.equal(A.notes()[0].kind, 'lied', 'so the asker keeps it as evidence, for others to judge by their own checks');
+  const took = await C.hear(await A.shareNotes(C.id));
+  assert.deepEqual([took.adopted, took.refused], [1, []], 'a receiver whose own check rejects counts it too');
+  assert.equal(C.weight(B.id, 'triage'), 250000);
+  assert.deepEqual((await B.hear(await A.shareNotes(B.id))).refused, ['a note about this node'], 'and the accused counts nothing against itself');
 });

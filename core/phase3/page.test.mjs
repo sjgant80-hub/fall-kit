@@ -101,3 +101,15 @@ test('Phase 3b on this page: the fix explains itself, its receipt is re-judged i
   assert.deepEqual(judge3b(claims, receipt.facts).verdicts, receipt.verdicts);
   for (const v of receipt.verdicts.filter((x) => x.held === false)) assert.match(html, new RegExp('<h3>' + v.id + ', the one that failed, read plainly</h3>'), v.id + ' failed and the page must say why');
 });
+
+test('Phase 3c on this page: W4\'s fix, sealed as its own claims, re-judged in the tab as CI judged it; Phase 3b re-derived where it was measured', async () => {
+  for (const id of ['v-sum', 'v-rows']) assert.ok(ids.has(id), 'no #' + id);
+  assert.ok(html.includes('<h3>W4\'s fix, measured: Phase 3c</h3>'));
+  const { judge: judge3c } = await import('../phase3c/judge.mjs');
+  const receipt = JSON.parse(readFileSync(join(HERE, '..', 'receipts', 'phase3c.json'), 'utf8')), claims = JSON.parse(readFileSync(join(HERE, '..', 'phase3c', 'claims.json'), 'utf8'));
+  assert.match(js, /judge3c\(claims, receipt\.facts\)/);
+  assert.match(js, /getJson\('\.\.\/phase3c\/claims\.json'\), getJson\('\.\.\/receipts\/phase3c\.json'\)/);
+  assert.deepEqual(judge3c(claims, receipt.facts).verdicts, receipt.verdicts);
+  assert.match(html, /git worktree add \.phase3b 2960fae && node \.phase3b\/core\/phase3b\/measure\.mjs --check/, 'the page tells a stranger where Phase 3b\'s receipt is re-derived');
+  assert.doesNotMatch(html, /<code>node core\/phase3b\/measure\.mjs --check<\/code>/, 'and never to re-derive it at HEAD, where W4 now holds');
+});
