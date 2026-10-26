@@ -12,6 +12,7 @@ import { prepare, finish, KINDS } from '../vendor/light/packet.mjs';
 import { sha256 } from '../vendor/light/sha256.mjs';
 import { judge } from './judge.mjs';
 import { judge as judge3b } from '../phase3b/judge.mjs';
+import { judge as judge3c } from '../phase3c/judge.mjs';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -79,6 +80,20 @@ async function loadFix() {
       n0(f.w4.linksChanged) + ' of ' + n0(f.w4.linksCompared) + ' links moved anywhere, all ' + n0(f.w4.silence.answered) + ' false silences were cleared by the holder\'s own answer to its probe, and all ' + n0(f.w4.stranger.refusedAtDoor) + ' of the stranger\'s notes stopped at the door.';
   } catch (e) {
     $('w-sum').innerHTML = '<span class="no">The Phase 3b receipt could not be loaded.</span>';
+  }
+}
+
+// ── Phase 3c, W4's fix, re-judged here from its own receipt ──
+async function loadFix3c() {
+  try {
+    const [claims, receipt] = await Promise.all([getJson('../phase3c/claims.json'), getJson('../receipts/phase3c.json')]);
+    const j = judge3c(claims, receipt.facts);
+    const same = j.verdicts.every((v, i) => receipt.verdicts[i] && receipt.verdicts[i].id === v.id && receipt.verdicts[i].held === v.held && receipt.verdicts[i].measured === v.measured);
+    $('v-sum').innerHTML = '<b>' + j.held + ' held, ' + j.failed + ' failed</b>, of ' + j.verdicts.length + ' claims sealed at <code>' + esc(String(receipt.sealedIn || '').slice(0, 7)) + '</code>, before the change. ' +
+      (same ? '<span class="ok">Re-judged in this tab from the receipt\'s own facts: the same verdicts, word for word.</span>' : '<span class="no">Re-judged in this tab, the verdicts differ from the committed ones.</span>');
+    $('v-rows').innerHTML = j.verdicts.map((v) => { const c = claims.claims.find((x) => x.id === v.id) || {}; return '<tr><td><b>' + esc(v.id) + '</b></td><td>' + tag(v.held) + '</td><td>' + esc(c.claim || '') + '<br><span class="small dim">' + esc(v.measured) + '</span><br><span class="small dim">Predicted before the run: ' + esc(c.predicted || '') + '</span></td></tr>'; }).join('');
+  } catch (e) {
+    $('v-sum').innerHTML = '<span class="no">The Phase 3c receipt could not be loaded.</span>';
   }
 }
 
@@ -394,4 +409,5 @@ const ACT = {
 for (const b of document.querySelectorAll('[data-m]')) b.addEventListener('click', () => run(ACT[b.dataset.m]));
 loadReceipt();
 loadFix();
+loadFix3c();
 loadCost();

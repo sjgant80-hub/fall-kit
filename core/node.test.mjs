@@ -898,6 +898,9 @@ test('a lied note is refused unless it is the accused\'s own signed answer to th
   const second = await m.deliver(m.A2.id, await sayAs(m.a1i, m.A2.id, { t: 'notes', notes: [n(await signedByC(answer(), 2))] }, 1002));
   assert.equal(second.adopted, 1, 'another signed lie is other evidence');
   assert.equal(m.A2.weight(C, 'triage'), 125000);
+  const misnamed = await m.deliver(m.A2.id, await sayAs(m.a1i, m.A2.id, { t: 'notes', notes: [n(lie, { holder: m.B.id }), n(lie, { job: 'ask:other:2' }), n(lie)] }, 1003));
+  assert.deepEqual([misnamed.adopted, misnamed.already, misnamed.refused], [0, 1, [NOT_SIGNED, NOT_ANSWER]], 'bytes already judged, under another holder\'s name or another ask, are refused by that name, never waved through as a repeat (Phase 3c)');
+  assert.equal(m.A2.weight(C, 'triage'), 125000);
   const mem = m.A2.recall('took notes from a1', 1).center;
   assert.deepEqual([mem.meta.kind, mem.meta.from, mem.meta.adopted], ['notes', m.A1.id, 1]);
 });

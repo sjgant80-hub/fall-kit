@@ -30,7 +30,7 @@ jobs:
         run: |
           git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git .witness6
           # each test file runs in one process under the OS timeout, so a mutant that hangs is killed cleanly
-          for k in antibody identity node judge edge mesh phase2/judge phase2/census relay roster phase3/judge phase3b/judge; do
+          for k in antibody identity node judge edge mesh phase2/judge phase2/census relay roster phase3/judge phase3b/judge phase3c/judge; do
             node .witness6/witness.mjs mutate core/$k.mjs --timeout 120000 --cap 1000 --test timeout -k 5 90 node core/$k.test.mjs | tee /tmp/w.txt
             grep -q '"clean": true' /tmp/w.txt || { echo "::error::mutants survived in core/$k.mjs"; exit 1; }
             grep -q '"capped": false' /tmp/w.txt || { echo "::error::the gate on core/$k.mjs was capped: not every mutant was tried"; exit 1; }
@@ -56,7 +56,14 @@ jobs:
         run: |
           node --test core/relay.test.mjs core/roster.test.mjs core/phase3/judge.test.mjs core/phase3/page.test.mjs
           node core/phase3/measure.mjs --check
-      - name: Phase 3b — the fix for J3 and J4, Phase 3's scenario run with both routings side by side; the receipt must reproduce byte for byte
+      - name: Phase 3b — the fix for J3 and J4, Phase 3's scenario run with both routings side by side; the receipt must reproduce byte for byte, from the commit it was measured at
         run: |
           node --test core/phase3b/judge.test.mjs
-          node core/phase3b/measure.mjs --check
+          # Phase 3c changed how a note is judged (core/node.mjs), and Phase 3b's receipt is about the node it measured, W4's
+          # failure included: it is re-derived from that commit, as Phase 1's is from b19478f. Never rewritten.
+          git worktree add -q .phase3b 2960fae3c114ea728d43c734a93bf4fe9a6a1ff3
+          node .phase3b/core/phase3b/measure.mjs --check
+      - name: Phase 3c — a false note is refused by name; Phase 3b's measurement re-run on the changed node; the receipt must reproduce byte for byte
+        run: |
+          node --test core/phase3c/judge.test.mjs
+          node core/phase3c/measure.mjs --check

@@ -4,6 +4,9 @@
 //   node core/phase3b/measure.mjs           run Phase 3's mesh scenario with both routings, judge, write core/receipts/phase3b.json
 //   node core/phase3b/measure.mjs --check   run it again and exit 1 unless the receipt is the same, byte for byte
 //
+// The receipt is about the node as it was measured (2960fae). Phase 3c then changed how a note is judged, so from Phase
+// 3c on it is re-derived at that commit: git worktree add .phase3b 2960fae && node .phase3b/core/phase3b/measure.mjs --check
+//
 // The harness is Phase 3's (core/phase3/measure.mjs and cell.mjs): every node and relay its own operating-system
 // process on local TCP, the driver telling each node what to do next and waiting for it, one step at a time, on fixed
 // public test seeds and a fixed clock. The mesh scenario runs twice, the same in every step but for the routing the
@@ -195,7 +198,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   if (process.argv.includes('--check')) {
     let committed = '';
     try { committed = readFileSync(OUT, 'utf8').replace(/\r\n/g, '\n'); } catch { /* none yet */ }
-    console.log(committed === text ? 'PHASE 3b RECEIPT REPRODUCED byte for byte' : 'PHASE 3b RECEIPT DIFFERS from the committed one');
+    console.log(committed === text ? 'PHASE 3b RECEIPT REPRODUCED byte for byte' : 'PHASE 3b RECEIPT DIFFERS from the committed one (it is about the node at 2960fae; since Phase 3c, re-derive it there: git worktree add .phase3b 2960fae && node .phase3b/core/phase3b/measure.mjs --check)');
     process.exit(committed === text ? 0 : 1);
   }
   writeFileSync(OUT, text);

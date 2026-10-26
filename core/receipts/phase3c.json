@@ -1,0 +1,75 @@
+{
+ "kind": "fall-kit.core.phase3c.receipt",
+ "v": 1,
+ "sealedIn": "e8329dd5a65c2d3cd5054521702271e854edd429",
+ "facts": {
+  "passes": [
+   1
+  ],
+  "v1": {
+   "askers": 4,
+   "holder": "h2",
+   "silence": {
+    "sent": 4,
+    "quiet": 4,
+    "answered": 4,
+    "quietAfter": 0
+   },
+   "lied": {
+    "sent": 16,
+    "refused": 16,
+    "already": 0,
+    "adopted": 0,
+    "why": {
+     "the answer checks here": 4,
+     "the packet is not signed by the holder it accuses": 12
+    }
+   },
+   "stranger": {
+    "sent": 4,
+    "refusedAtDoor": 4,
+    "stages": {
+     "sender": 4
+    }
+   },
+   "linksCompared": 112,
+   "linksChanged": 0,
+   "next": {
+    "asks": 4,
+    "toHonest": 4,
+    "answered": 4
+   }
+  },
+  "v2": {
+   "now": {
+    "w1": "0024651477064d72c34497a00d26444b881ba1b351c9c03b19dba5a3a3fb47b0",
+    "w2": "a36e9ddaf5e64776f078f25b3de027fe27581301ceb03e9e74b41cae4f2b4322",
+    "w3": "8a30d614ee1237bfa2a97c2c1161e56b58aebcf30df9dc200c0cf014e581eeac"
+   },
+   "was": {
+    "w1": "0024651477064d72c34497a00d26444b881ba1b351c9c03b19dba5a3a3fb47b0",
+    "w2": "a36e9ddaf5e64776f078f25b3de027fe27581301ceb03e9e74b41cae4f2b4322",
+    "w3": "8a30d614ee1237bfa2a97c2c1161e56b58aebcf30df9dc200c0cf014e581eeac"
+   }
+  }
+ },
+ "verdicts": [
+  {
+   "id": "V1",
+   "pass": 1,
+   "held": true,
+   "measured": "the dishonest member sent each of 4 askers a silence note about a live honest holder: 4 made it quiet and probed it, 4 probes answered, 0 askers still holding it quiet after; 16 false lied notes: 16 refused (4 because the answer checks here, 12 because the packet is not signed by the holder it accuses), 0 answered as already judged, 0 counted; the stranger's 4 notes: 4 refused at the door; 0 of 112 links changed at any member; each asker's next triage ask: 4 of 4 to an honest holder, 4 answered",
+   "predicted": "HOLD — 16 refused: 4 because the honest holder's answer checks, 12 because the packet is not signed by the holder the note names (the four that repeated bytes among them)."
+  },
+  {
+   "id": "V2",
+   "pass": 1,
+   "held": true,
+   "measured": "W1, W2 and W3 re-measured with the change: 3 of 3 identical to Phase 3b's receipt; SHA-256 of each: W1 002465147706…, W2 a36e9ddaf5e6…, W3 8a30d614ee12…",
+   "predicted": "HOLD — every note in those runs is true evidence, judged the same way before and after."
+  }
+ ],
+ "held": 2,
+ "failed": 0,
+ "open": 0
+}

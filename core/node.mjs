@@ -361,14 +361,15 @@ export async function createNode(opts) {
       return 'quiet';
     }
     const bytes = fromHex(n.packet), key = 'lied:' + hashOf(bytes);
-    if (st.noted.has(key)) return 'already';
     const f = frame(bytes, {});   // a packet that does not frame names no sender, so it fails the first test
     if (f.sender !== holder.slot || !(await verifyBytes(holder.id, f.signed, f.sig))) return 'the packet is not signed by the holder it accuses';
     // the door's own reading of it, its signature checked just above; a body that does not decode reads as no message
     const a = readMessage(open(bytes, { keyFor: () => holder.raw, verify: () => true, lastCounter: () => 0n }).value);
     if (!a.ok || a.t !== 'answer' || a.to !== author.id || a.id !== n.job || a.skill !== n.skill) return 'the packet is not that holder’s answer to that ask of the sender’s';
     // only now are these bytes this evidence and no other (the packet itself names its asker, ask and skill), so only
-    // now are they remembered: a note that misreads them must not stop the true one being counted
+    // now is it asked whether they were judged before, and only now are they remembered: a note that misnames them is
+    // refused by name, never waved through as a repeat, and cannot stop the true one being counted (Phase 3c)
+    if (st.noted.has(key)) return 'already';
     keep(key);
     if (a.answer.verdict !== 'VERIFIED') return 'an abstain is not a lie';
     if (await check(a.skill, a.answer)) return 'the answer checks here';
