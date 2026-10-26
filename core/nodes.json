@@ -2,7 +2,7 @@
  "kind": "fall-kit.core.nodes",
  "note": "The commits of the two organs the Phase 1 proof runs as nodes. CI clones each at its commit.",
  "nodes": {
-  "break-it": "7d8279e5eaa6757e48b201cd321599a4abe3690a",
-  "konomi-slm": "3005a613bbb46a557c7bd8d4d726df588181b4c7"
+  "break-it": "5c9b91eae746120adcf43a0c77c18e1bdb6763ff",
+  "konomi-slm": "faf44f7896e9d9def45e5a407cb3d9ca5dc31c1d"
  }
 }
