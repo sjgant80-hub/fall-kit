@@ -5,7 +5,7 @@
 import { inbound, sealInside, outbound, shapeOf } from '../edge.mjs';
 import { makeIdentity, verifyBytes, hex } from '../identity.mjs';
 import { prepare, finish, KINDS } from '../vendor/light/packet.mjs';
-import { judge } from './judge.mjs';
+import { judge, flatten } from './judge.mjs';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -29,13 +29,13 @@ async function loadReceipt() {
   try { [receipt, claims] = await Promise.all([getJson('../receipts/phase2.json'), getJson('./claims.json')]); }
   catch { $('r-sum').textContent = 'The receipt (core/receipts/phase2.json) could not be read.'; return; }
   const f = receipt.facts.pass1;
-  const j = judge(claims, { passes: receipt.facts.passes, ...f });   // re-judged here from the receipt's facts
+  const j = judge(claims, flatten(receipt.facts));   // re-judged here from the receipt's facts, as CI judged them
   const same = JSON.stringify(j.verdicts) === JSON.stringify(receipt.verdicts);
   $('t-g1').textContent = n0(f.g1.heard);
   $('t-g2').textContent = n0(Object.values(f.g2.kinds).reduce((a, k) => a + k.n, 0));
   $('t-g3').textContent = n0(f.g3.admitted) + ' / ' + n0(f.g3.n);
   $('t-held').textContent = j.held + ' / ' + (j.held + j.failed);
-  $('r-sum').innerHTML = '<b>' + j.held + ' held, ' + j.failed + ' failed</b> of the ' + (j.held + j.failed) + ' claims measured so far; ' + j.open + ' are sealed for later passes. '
+  $('r-sum').innerHTML = '<b>' + j.held + ' held, ' + j.failed + ' failed</b> of the ' + (j.held + j.failed) + ' claims measured' + (j.open ? '; ' + j.open + ' are sealed for later passes. ' : ', every one sealed before the code. ')
     + (same ? 'Re-judged in your tab from the receipt\'s own facts: the same verdicts.' : '<span class="no">Re-judged in your tab, the verdicts DIFFER from the receipt.</span>')
     + ' Sealed in <code>' + esc(receipt.sealedIn.slice(0, 7)) + '</code>; the corpus is ' + n0(f.corpus.payloads) + ' payloads from ' + n0(f.corpus.files) + ' files (digest <code>' + esc(f.corpus.digest.slice(0, 12)) + '</code>).';
   $('r-rows').innerHTML = j.verdicts.map((v) => '<tr><td><b>' + esc(v.id) + '</b> <span class="dim">pass ' + v.pass + '</span><br>' + esc(claims.claims.find((c) => c.id === v.id).claim) + '</td><td>' + tag(v.held) + '</td><td>' + esc(v.measured) + '</td></tr>').join('');
@@ -70,7 +70,8 @@ async function loadReceipt() {
   } else { $('b1-line').textContent = 'Pass 4 is not measured yet.'; $('b2-line').textContent = ''; $('c-rows').innerHTML = '<tr><td colspan="2" class="dim">Pass 5 is not measured yet.</td></tr>'; $('c-line').textContent = ''; }
   $('pass-rows').innerHTML = claims.passes.map((p) => {
     const vs = j.verdicts.filter((v) => v.pass === p.pass);
-    const st = vs.every((v) => v.held === null) ? '<span class="tag na">SEALED</span>' : vs.every((v) => v.held === true) ? '<span class="tag held">HELD</span>' : '<span class="tag failed">SEE RECEIPT</span>';
+    const h = vs.filter((v) => v.held === true).length, fl = vs.filter((v) => v.held === false).length;
+    const st = vs.every((v) => v.held === null) ? '<span class="tag na">SEALED</span>' : fl === 0 ? '<span class="tag held">HELD</span> ' + h + ' of ' + vs.length : h + ' held, <span class="no">' + fl + ' failed</span>';
     return '<tr><td>' + p.pass + '</td><td>' + esc(p.organ) + '</td><td>' + esc(p.claims.join(', ')) + '</td><td>' + st + '</td></tr>';
   }).join('');
 }

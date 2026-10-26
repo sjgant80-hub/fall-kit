@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { judge, EXPECT, EDGE_STAGES } from './judge.mjs';
+import { judge, flatten, EXPECT, EDGE_STAGES } from './judge.mjs';
 
 const claims = JSON.parse(readFileSync(new URL('./claims.json', import.meta.url), 'utf8'));
 const kind = (stage, n = 1000) => ({ n, admitted: 0, decoded: 0, stages: { [stage]: n } });
@@ -296,4 +296,17 @@ test('C1–C3: the census, by its own rule', () => {
   assert.equal(v2({ ...good5(), census: null }, 'C1').held, false);
   assert.equal(v2({ ...good5(), census: { speaks: 'x', rule: 'r' } }, 'C1').held, false);
   assert.deepEqual([judge(claims, good5()).held, judge(claims, good5()).failed, judge(claims, good5()).open], [14, 1, 0], 'all fifteen measured: C3 fails at five');
+});
+
+test('flatten: the receipt, re-judged through it, gives the receipt\'s own verdicts; junk gives a shape, never a throw', () => {
+  const receipt = JSON.parse(readFileSync(new URL('../receipts/phase2.json', import.meta.url), 'utf8'));
+  assert.deepEqual(judge(claims, flatten(receipt.facts)).verdicts, receipt.verdicts, 'what the page re-judges is what CI judged');
+  const fake = { passes: [1, 2, 3, 4, 5], pass1: { g1: 1, corpus: 2 }, pass2: { journals: ['j'], m3: 'm' }, pass3: 'i', local45: { b1: 'b1', b2: 'b2', census: 'c' } };
+  assert.deepEqual(flatten(fake), { passes: [1, 2, 3, 4, 5], g1: 1, corpus: 2, m1: { journals: ['j'] }, m2: { journals: ['j'] }, m3: 'm', i1: 'i', b1: 'b1', b2: 'b2', census: 'c' });
+  for (const junk of [null, 'x', [], { pass1: 'x', pass2: 5, local45: [] }]) {
+    const f = flatten(junk);
+    assert.deepEqual(Object.keys(f).sort(), ['b1', 'b2', 'census', 'i1', 'm1', 'm2', 'm3', 'passes'].sort());
+    assert.deepEqual([f.m1, f.m3, f.b1, f.census], [{ journals: undefined }, undefined, undefined, undefined]);
+  }
+  assert.equal(judge(claims, flatten(null)).open, claims.claims.length, 'no passes, nothing judged');
 });

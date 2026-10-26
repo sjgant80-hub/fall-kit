@@ -15,7 +15,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
 import { buildCorpus, jsonValues, rng, ROOT } from './corpus.mjs';
-import { judge } from './judge.mjs';
+import { judge, flatten } from './judge.mjs';
 import { createNode } from '../node.mjs';
 import { makeIdentity, verifyBytes } from '../identity.mjs';
 import { prepare, finish, signedBytes, KINDS, HEADER } from '../vendor/light/packet.mjs';
@@ -316,8 +316,7 @@ const sealedIn = () => execFileSync('git', ['-C', ROOT, 'log', '--diff-filter=A'
 
 async function receipt() {
   const facts = { passes: [1, 2, 3, 4, 5], pass1: await pass1(), pass2: await pass2(), pass3: await pass3(), local45: local45() };
-  const flat = { passes: facts.passes, ...facts.pass1, m1: { journals: facts.pass2.journals }, m2: { journals: facts.pass2.journals }, m3: facts.pass2.m3, i1: facts.pass3, b1: facts.local45.b1, b2: facts.local45.b2, census: facts.local45.census };
-  const j = judge(claims, flat);
+  const j = judge(claims, flatten(facts));
   return { kind: 'fall-kit.core.phase2.receipt', v: 1, sealedIn: sealedIn(), corpus: claims.corpus.repos, facts, verdicts: j.verdicts, held: j.held, failed: j.failed, open: j.open };
 }
 

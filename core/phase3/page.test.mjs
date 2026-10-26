@@ -63,6 +63,13 @@ test('relative links resolve, and the engine fetches nothing off this origin', (
   for (const i of imports) assert.ok(existsSync(join(HERE, i)), 'page.mjs imports ' + i + ', which is not here');
 });
 
+test('the tab re-judges the receipt exactly as CI judged it', async () => {
+  const { judge } = await import('./judge.mjs');
+  const receipt = JSON.parse(readFileSync(join(HERE, '..', 'receipts', 'phase3.json'), 'utf8')), claims = JSON.parse(readFileSync(join(HERE, 'claims.json'), 'utf8'));
+  assert.match(js, /judge\(claims, receipt\.facts\)/, 'the page judges the receipt\'s facts as they are, as measure.mjs does');
+  assert.deepEqual(judge(claims, receipt.facts).verdicts, receipt.verdicts);
+});
+
 test('the page explains itself, reads its failures plainly, and carries the business case', () => {
   for (const id of ['what', 'start', 'try', 'how', 'receipt', 'blueprint', 'business', 'paper', 'j3-line', 'j4-line', 'x1-line']) assert.ok(ids.has(id), 'no #' + id);
   for (const h of ['If you want to see it work', 'If you run the estate', 'The passes', 'The two that failed, J3 and J4, read plainly', 'The cost case', 'Security and data protection, answered straight', 'Rolling it out', 'Support and ownership', 'Risks, answered', 'The case for the board']) assert.ok(html.includes('<h3>' + h + '</h3>'), 'no "' + h + '"');

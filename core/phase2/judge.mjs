@@ -109,6 +109,14 @@ function c3(f) {
 const RULES = Object.freeze({ G1: g1, G2: g2, G3: g3, E1: e1, E2: e2, E3: e3, M1: m1, M2: m2, M3: m3, I1: i1, B1: b1, B2: b2, C1: c1, C2: c2, C3: c3 });
 
 /** claims = the sealed claims; facts = what measure.mjs measured, keyed by pass. → verdicts in the sealed order. */
+/** The receipt's facts as the rules read them: pass 1's facts as they are, and each later pass's under its claims' names.
+ *  measure.mjs judges through this, and so does the live page, so the page re-judges exactly what CI judged. */
+export function flatten(facts) {
+  const f = isObj(facts) ? facts : {};
+  const p2 = isObj(f.pass2) ? f.pass2 : {}, l45 = isObj(f.local45) ? f.local45 : {};
+  return { passes: f.passes, ...(isObj(f.pass1) ? f.pass1 : {}), m1: { journals: p2.journals }, m2: { journals: p2.journals }, m3: p2.m3, i1: f.pass3, b1: l45.b1, b2: l45.b2, census: l45.census };
+}
+
 export function judge(claims, facts) {
   const cs = isObj(claims) && Array.isArray(claims.claims) ? claims.claims : [];
   const f = isObj(facts) ? facts : {};
