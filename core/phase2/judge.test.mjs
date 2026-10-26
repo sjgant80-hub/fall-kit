@@ -25,6 +25,7 @@ test('the expected stages and the edge stages', () => {
 test('pass 1 all held; the later passes are not measured, never guessed', () => {
   const j = judge(claims, good());
   assert.deepEqual([j.held, j.failed, j.open], [6, 0, 9]);
+  assert.deepEqual(judge(claims, { ...good2(), passes: [1, 2] }).held, 9, 'with pass 2: nine held');
   assert.deepEqual(j.verdicts.map((x) => x.id), claims.claims.map((c) => c.id));
   for (const x of j.verdicts.filter((y) => y.pass !== 1)) assert.deepEqual([x.held, x.measured], [null, 'not measured yet: pass ' + x.pass]);
   assert.equal(v(good(), 'G1').measured, '5000 standard-format payloads heard: 0 admitted, 0 decoded; refused at size 3000, magic 2000');
@@ -122,4 +123,70 @@ test('junk in, a verdict out: never a throw', () => {
   assert.equal(judge({ claims: [null, 5, { id: 'Z9', pass: 1 }] }, good()).verdicts.length, 1, 'only records are claims');
   assert.equal(judge({ claims: [{ id: 'Z9', pass: 1, predicted: 'p' }] }, good()).verdicts[0].held, null, 'a claim with no rule is not measured');
   assert.equal(judge({ claims: [{ id: 'toString', pass: 1 }] }, good()).verdicts[0].held, null, 'no inherited rule');
+});
+
+const J = (name, events, bytes, over = {}) => ({ name, events, legacy: 'gzip', light: 'light', migrated: true, asideKept: true, sameEvents: true, sameSnapshot: true, bytes, ...over });
+const journals = () => [J('a', 2, { light: 100, gzip: 120, envelope: 200 }), J('b', 30, { light: 300, gzip: 330, envelope: 700 }), J('c', 10000, { light: 34000, gzip: 68000, envelope: 91000 })];
+const good2 = () => ({ ...good(), passes: [1, 2], m1: { journals: journals() }, m2: { journals: journals() }, m3: { nights: [{ files: 358, bytes: 3000000, vaultBytes: 700000, identical: true, mismatched: 0, extra: 0 }] } });
+const v2 = (facts, id) => judge(claims, facts).verdicts.find((x) => x.id === id);
+
+test('M1: at least three journals, one of 10,000 events, each whole', () => {
+  assert.equal(v2(good2(), 'M1').held, true);
+  assert.equal(v2(good2(), 'M1').measured, '3 journals (2, 30, 10000 events): each loaded from gzip, migrated to LIGHT with the old file kept aside, and reloaded to the same events, the same organ counts and the same event hash');
+  for (const k of ['legacy', 'light', 'migrated', 'asideKept', 'sameEvents', 'sameSnapshot']) {
+    const f = good2(); f.m1.journals[1] = { ...f.m1.journals[1], [k]: k === 'legacy' ? 'light' : k === 'light' ? 'gzip' : false };
+    assert.equal(v2(f, 'M1').held, false, k);
+    assert.match(v2(f, 'M1').measured, /NOT whole: b$/);
+  }
+  const two = good2(); two.m1.journals = two.m1.journals.slice(1);
+  assert.equal(v2(two, 'M1').held, false, 'fewer than three');
+  const no10k = good2(); no10k.m1.journals[2].events = 9999;
+  assert.equal(v2(no10k, 'M1').held, false, 'no 10,000-event journal');
+  const extra = good2(); extra.m1.journals.push(J('d', 5, {}));
+  assert.equal(v2(extra, 'M1').held, true, 'more than three is fine');
+  assert.equal(v2({ ...good2(), m1: { journals: [null, 5, ...journals()] } }, 'M1').held, true, 'junk entries are not journals');
+  assert.equal(v2({ ...good2(), m1: 'x' }, 'M1').held, false);
+  assert.equal(v2({ ...good2(), m1: { journals: 'x' } }, 'M1').held, false);
+});
+
+test('M2: LIGHT at most the raw gzip stream on every journal, the envelope reported beside it', () => {
+  assert.equal(v2(good2(), 'M2').held, true);
+  assert.equal(v2(good2(), 'M2').measured, 'LIGHT against the raw gzip stream: a 100 vs 120; b 300 vs 330; c 34000 vs 68000. Against the gzip envelope as it sat on disk: 100 vs 200, 300 vs 700, 34000 vs 91000');
+  const over = good2(); over.m2.journals[1].bytes = { light: 342, gzip: 331, envelope: 701 };
+  assert.equal(v2(over, 'M2').held, false);
+  assert.ok(v2(over, 'M2').measured.includes('b 342 vs 331 (LARGER)'));
+  const tie = good2(); tie.m2.journals[0].bytes = { light: 120, gzip: 120, envelope: 1 };
+  assert.equal(v2(tie, 'M2').held, true, 'equal is no larger');
+  const junk = good2(); junk.m2.journals[0].bytes = { light: -1, gzip: 5 };
+  assert.equal(v2(junk, 'M2').held, false, 'a junk count fails');
+  const junk2 = good2(); junk2.m2.journals[0].bytes = { light: 1, gzip: 'x' };
+  assert.equal(v2(junk2, 'M2').held, false);
+  const nob = good2(); nob.m2.journals[0].bytes = null;
+  assert.equal(v2(nob, 'M2').held, false);
+  assert.equal(v2({ ...good2(), m2: { journals: [] } }, 'M2').held, false, 'no journal shows nothing');
+  const zero = good2(); zero.m2.journals[0].bytes = { light: 0, gzip: 0, envelope: 0 };
+  assert.equal(v2(zero, 'M2').held, true, 'zero is a count');
+  const one = good2(); one.m2.journals = [one.m2.journals[2]];
+  assert.equal(v2(one, 'M2').held, true, 'one journal is enough to show it');
+});
+
+test('M3: every night byte-identical and smaller than the files', () => {
+  assert.equal(v2(good2(), 'M3').held, true);
+  assert.equal(v2(good2(), 'M3').measured, '1 night(s): 358 files, 3000000 bytes into 700000, byte-identical');
+  const t = (mut) => { const f = good2(); mut(f.m3.nights[0]); return v2(f, 'M3'); };
+  assert.equal(t((x) => { x.identical = false; }).held, false);
+  assert.match(t((x) => { x.identical = false; }).measured, /NOT identical or not smaller$/);
+  assert.equal(t((x) => { x.mismatched = 1; }).held, false);
+  assert.equal(t((x) => { x.extra = 2; }).held, false);
+  assert.equal(t((x) => { x.vaultBytes = 3000000; }).held, false, 'not smaller');
+  assert.equal(t((x) => { x.vaultBytes = 2999999; }).held, true);
+  assert.equal(t((x) => { x.bytes = 0; x.vaultBytes = 0; }).held, false, 'an empty memory shows nothing');
+  assert.equal(t((x) => { x.vaultBytes = -1; }).held, false);
+  assert.equal(t((x) => { x.vaultBytes = 0; }).held, true, 'an empty vault of a non-empty memory is smaller');
+  assert.equal(t((x) => { x.bytes = '5000000'; }).held, false, 'a count is a whole number, not text');
+  const two = good2(); two.m3.nights.push({ files: 1, bytes: 10, vaultBytes: 20, identical: true, mismatched: 0, extra: 0 });
+  assert.equal(v2(two, 'M3').held, false, 'every night, not some');
+  assert.equal(v2({ ...good2(), m3: { nights: [] } }, 'M3').held, false);
+  assert.equal(v2({ ...good2(), m3: null }, 'M3').held, false);
+  assert.equal(v2({ ...good2(), m3: { nights: [null] } }, 'M3').held, false, 'junk is no night');
 });

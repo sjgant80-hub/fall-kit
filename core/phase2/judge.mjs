@@ -46,7 +46,28 @@ function e3(f) {
   return [n(a.n) >= 1000 && n(a.roundTrip) === a.n && n(b.n) >= 6000 && n(b.output) === 0,
     n(a.n) + ' trusted packets out through the edge: ' + n(a.roundTrip) + ' parsed back exactly; ' + n(b.n) + ' untrusted packets: ' + n(b.output) + ' produced output'];
 }
-const RULES = Object.freeze({ G1: g1, G2: g2, G3: g3, E1: e1, E2: e2, E3: e3 });
+const journalsOf = (x) => (isObj(x) && Array.isArray(x.journals) ? x.journals.filter(isObj) : []);
+const whole = (j) => j.legacy === 'gzip' && j.light === 'light' && j.migrated === true && j.asideKept === true && j.sameEvents === true && j.sameSnapshot === true;
+function m1(f) {
+  const js = journalsOf(f.m1);
+  const ok = js.length >= 3 && js.some((j) => j.events === 10000) && js.every(whole);
+  const bad = js.filter((j) => !whole(j)).map((j) => String(j.name));
+  return [ok, js.length + ' journals (' + js.map((j) => n(j.events)).join(', ') + ' events): '
+    + (bad.length === 0 ? 'each loaded from gzip, migrated to LIGHT with the old file kept aside, and reloaded to the same events, the same organ counts and the same event hash' : 'NOT whole: ' + bad.join('; '))];
+}
+function m2(f) {
+  const js = journalsOf(f.m2);
+  const b = (j) => (isObj(j.bytes) ? j.bytes : {});
+  const fits = (j) => n(b(j).light) >= 0 && n(b(j).gzip) >= 0 && b(j).light <= b(j).gzip;
+  return [js.length >= 1 && js.every(fits), 'LIGHT against the raw gzip stream: ' + js.map((j) => String(j.name) + ' ' + n(b(j).light) + ' vs ' + n(b(j).gzip) + (fits(j) ? '' : ' (LARGER)')).join('; ')
+    + '. Against the gzip envelope as it sat on disk: ' + js.map((j) => n(b(j).light) + ' vs ' + n(b(j).envelope)).join(', ')];
+}
+function m3(f) {
+  const ns = isObj(f.m3) && Array.isArray(f.m3.nights) ? f.m3.nights.filter(isObj) : [];
+  const good = (x) => x.identical === true && n(x.mismatched) === 0 && n(x.extra) === 0 && n(x.vaultBytes) >= 0 && x.vaultBytes < n(x.bytes);
+  return [ns.length >= 1 && ns.every(good), ns.length + ' night(s): ' + ns.map((x) => n(x.files) + ' files, ' + n(x.bytes) + ' bytes into ' + n(x.vaultBytes) + (good(x) ? ', byte-identical' : ', NOT identical or not smaller')).join('; ')];
+}
+const RULES = Object.freeze({ G1: g1, G2: g2, G3: g3, E1: e1, E2: e2, E3: e3, M1: m1, M2: m2, M3: m3 });
 
 /** claims = the sealed claims; facts = what measure.mjs measured, keyed by pass. → verdicts in the sealed order. */
 export function judge(claims, facts) {

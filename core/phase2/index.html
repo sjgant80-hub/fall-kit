@@ -172,6 +172,11 @@ if (out.ok) reply(200, out.json);</pre>
   <div class="scroll" style="flex:2 1 360px"><table><thead><tr><th>Stopped at</th><th>Payloads</th><th>Which means</th></tr></thead><tbody id="s-rows"></tbody></table></div>
 </div>
 <p class="small">The corpus is every file in five public estate repositories at sealed commits, whole and cut four ways (each half, a 512-byte window from the middle, and every tenth byte flipped), plus a GET and a POST to every live estate page, 500 form bodies and 1,000 runs of random bytes from fixed seeds.</p>
+<h3>Kar's memory, kept in LIGHT (pass 2)</h3>
+<p>Kar's mind keeps an event journal it rebuilds itself from after every restart. It is now one LIGHT vault instead of a gzip file, and an old gzip journal still loads: the first save after it writes the vault, reads it back, and only when every event matches moves the old file aside, kept, never deleted. Each journal below was loaded from gzip, migrated, and booted again from LIGHT.</p>
+<div class="scroll"><table><thead><tr><th>Journal</th><th>Events</th><th>As JSON</th><th>LIGHT</th><th>gzip stream</th><th>gzip file on disk</th><th>Same after</th></tr></thead><tbody id="j-rows"><tr><td colspan="7" class="dim">Loading…</td></tr></tbody></table></div>
+<p class="small" id="m3-line"></p>
+<p class="small">"Same after" means the same events, the same counts in every organ when the mind boots from the journal, and the same SHA-256 of the events. The gzip stream is the raw compressed bytes; the gzip file is what actually sat on disk (the stream as base64 inside a JSON envelope with its receipt). M2 is judged against the stream, the stricter of the two.</p>
 <h3>LIGHT's own format, from no trusted signer (G2)</h3>
 <div class="scroll"><table><thead><tr><th>Kind</th><th>Packets</th><th>Stopped at</th><th>Admitted</th><th>Decoded</th></tr></thead><tbody id="g2-rows"></tbody></table></div>
 <p class="small">Re-run it yourself: clone <a href="https://github.com/sjgant80-hub/fall-kit">fall-kit</a> and run <code>node core/phase2/measure.mjs --check</code>. It clones the five repositories at the sealed commits, measures everything again, and exits with an error unless the receipt is the same byte for byte. The claims are in <a href="claims.json">claims.json</a>; the receipt is <a href="../receipts/phase2.json">receipts/phase2.json</a>.</p>
@@ -231,6 +236,7 @@ if (out.ok) reply(200, out.json);</pre>
 <h3>Risks, answered</h3>
 <ul>
   <li><b>"Most of this is refused at four bytes, so of course it holds."</b> Yes: that is the design, and it is still worth measuring on real bytes. The harder claims are G2 and G3: LIGHT-shaped packets without a trusted signature never pass, and a node that has learned from thousands of refusals still admits everything its trusted peer signs.</li>
+  <li><b>"Is LIGHT always smaller?"</b> No. On Kar's real journals it is far smaller than gzip, about half on a 10,000-event journal. On a journal of a few events it is a few bytes larger, because every vault carries a 32-byte SHA-256 of its contents and a header. That is why M2, "no larger on every journal", is on the receipt as measured, whichever way it went.</li>
   <li><b>"An exact shape is strict."</b> It is meant to be. <code>shapeOf</code> declares an example's exact shape; a real edge usually writes a looser one by hand (a list of up to N, text up to N characters, any JSON within a depth).</li>
   <li><b>"Phase 2 is not finished."</b> True, and the page says so: the passes table shows which organs have moved. Each pass is measured before the next begins.</li>
 </ul>

@@ -42,6 +42,14 @@ async function loadReceipt() {
   $('k-rows').innerHTML = Object.entries(f.corpus.byKind).sort((a, b) => b[1] - a[1]).map(([k, c]) => '<tr><td>' + esc(k) + '</td><td>' + n0(c) + '</td></tr>').join('');
   $('s-rows').innerHTML = Object.entries(f.g1.stages).sort((a, b) => b[1] - a[1]).map(([s, c]) => '<tr><td>' + esc(s) + '</td><td>' + n0(c) + '</td><td>' + esc(EXPLAIN[s] || '') + '</td></tr>').join('');
   $('g2-rows').innerHTML = Object.entries(f.g2.kinds).map(([k, x]) => '<tr><td>' + esc(k) + '</td><td>' + n0(x.n) + '</td><td>' + esc(Object.entries(x.stages).map(([s, c]) => s + ' ' + n0(c)).join(', ')) + '</td><td>' + n0(x.admitted) + '</td><td>' + n0(x.decoded) + '</td></tr>').join('');
+  const p2 = receipt.facts.pass2;
+  if (p2) {
+    $('j-rows').innerHTML = p2.journals.map((x) => '<tr><td>' + esc(x.name) + '</td><td>' + n0(x.events) + '</td><td>' + n0(x.bytes.json) + '</td><td><b>' + n0(x.bytes.light) + '</b></td><td>' + n0(x.bytes.gzip) + '</td><td>' + n0(x.bytes.envelope) + '</td><td>'
+      + (x.sameEvents && x.sameSnapshot && x.migrated && x.asideKept ? '<span class="ok">yes</span>' : '<span class="no">no</span>') + '</td></tr>').join('');
+    const night = p2.m3.nights[p2.m3.nights.length - 1];
+    $('m3-line').innerHTML = '<b>Kar\'s whole memory</b>, vaulted by the nightly loop: ' + n0(night.files) + ' files, ' + n0(night.bytes) + ' bytes, into one LIGHT vault of ' + n0(night.vaultBytes) + ' bytes (' + esc(String(night.ratio)) + '×), '
+      + (night.identical ? 'byte-identical when unpacked into a fresh folder' : '<span class="no">NOT identical</span>') + ' (' + esc(night.at.slice(0, 10)) + '). The memory itself never leaves the machine; only these totals are published, so CI re-judges them and cannot re-measure them.';
+  } else { $('j-rows').innerHTML = '<tr><td colspan="7" class="dim">Pass 2 is not measured yet.</td></tr>'; $('m3-line').textContent = ''; }
   $('pass-rows').innerHTML = claims.passes.map((p) => {
     const vs = j.verdicts.filter((v) => v.pass === p.pass);
     const st = vs.every((v) => v.held === null) ? '<span class="tag na">SEALED</span>' : vs.every((v) => v.held === true) ? '<span class="tag held">HELD</span>' : '<span class="tag failed">SEE RECEIPT</span>';

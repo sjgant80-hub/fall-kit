@@ -4,19 +4,22 @@
 //   node core/phase2/measure.mjs           measure the passes that are built, judge them, write core/receipts/phase2.json
 //   node core/phase2/measure.mjs --check   measure again from fresh clones and exit 1 unless the receipt is the same, byte for byte
 //
-// Pass 1 is the door measured as a barrier and the edge (edge.mjs). Every identity is a fixed public test seed and the
+// Pass 1 is the door measured as a barrier and the edge (edge.mjs). Pass 2 is Kar's mind journal kept in LIGHT
+// (kar-mind's persist.mjs, run from clones at the pinned commits) and Kar's memory vault, whose totals the nightly loop
+// records on Simon's machine (core/phase2/local/m3.json: the memory is private, so CI re-judges those, never re-measures). Every identity is a fixed public test seed and the
 // clock is fixed, so a run gives the same bytes on any machine: the receipt is re-derived, not trusted. Glue: the
 // measuring is here; the verdicts are judge.mjs's (pure, gated).
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
 import { buildCorpus, jsonValues, rng, ROOT } from './corpus.mjs';
 import { judge } from './judge.mjs';
 import { createNode } from '../node.mjs';
 import { makeIdentity, verifyBytes } from '../identity.mjs';
 import { prepare, finish, signedBytes, KINDS, HEADER } from '../vendor/light/packet.mjs';
+import { sha256 } from '../vendor/light/sha256.mjs';
 import { inbound, sealInside, outbound, shapeOf, IN_STAGES } from '../edge.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -30,7 +33,7 @@ const bump = (m, k) => { m[k] = (m[k] || 0) + 1; };
 const stable = (x) => JSON.stringify(x, (k, v) => (typeof v === 'bigint' ? v.toString() : v), 1) + '\n';
 const SMALL = 16384;
 
-async function pass1() {
+export async function pass1() {
   const { files, payloads, digest } = buildCorpus();
   const ids = {};
   for (const [k, s] of Object.entries(SEEDS)) ids[k] = await makeIdentity(seedOf(s));
@@ -196,11 +199,97 @@ async function pass1() {
   };
 }
 
+// ── pass 2: Kar's mind journal in LIGHT, and his memory vault ──
+export const PASS2 = Object.freeze({
+  'kar-mind': '33b5dc767ffd5bc225b9d06a17456c46574e77de',
+  'fall-remember': 'd6be032c03855aac6aa0fd1a8b4c6a06cd6e93e3',
+  'the-dreamer': '58c1fbd5cf8e14f274ed732a26001215b11f0d5e',
+  'fallforgecell': '3873719b25ae86662bc768755985469a33c8ef03',
+});
+const hexOf = (u8) => Array.from(u8, (b) => b.toString(16).padStart(2, '0')).join('');
+function checkout(repo, commit) {
+  const dir = join(ROOT, '.pass2', repo);
+  const g = (...a) => execFileSync('git', ['-C', dir, ...a], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  if (!existsSync(join(dir, '.git'))) { mkdirSync(dir, { recursive: true }); g('init', '-q'); }
+  let head = '';
+  try { head = g('rev-parse', 'HEAD'); } catch { head = ''; }
+  if (head !== commit) { g('fetch', '-q', '--depth', '1', 'https://github.com/sjgant80-hub/' + repo + '.git', commit); g('checkout', '-q', '--force', 'FETCH_HEAD'); }
+  return dir;
+}
+const birds = (d) => [{ s: 'robin', p: 'isa', o: 'bird' }, { s: 'sparrow', p: 'isa', o: 'bird' }, { s: 'robin', p: 'can', o: 'fly' }, { s: 'sparrow', p: 'can', o: 'fly' }].map((e) => ({ ...e, s: e.s + (d > 1 ? '-' + (d % 9) : '') }));
+
+export async function pass2() {
+  for (const [repo, commit] of Object.entries(PASS2)) checkout(repo, commit);
+  const K = join(ROOT, '.pass2', 'kar-mind'), url = (p) => pathToFileURL(p).href;
+  const { createJournal } = await import(url(join(K, 'persist.mjs')));
+  const { bootMind } = await import(url(join(K, 'mind-persistent.mjs')));
+  const { createMind } = await import(url(join(K, 'mind.mjs')));
+  const { createRunLoop, queueSource } = await import(url(join(K, 'run-loop.mjs')));
+  const { makeSnapshot } = await import(url(join(ROOT, '.pass2', 'fall-remember', 'disk.mjs')));
+  const opts = { tetraConfig: { noveltyThreshold: 2 } };
+  // the loop on a counting clock, and every fact with its own time, so a journal is the same bytes on every machine
+  const loopEvents = (items) => {
+    let t = 1761480000000;
+    const mind = createMind({ journal: true, ...opts });
+    createRunLoop({ mind, source: queueSource(items), now: () => (t += 1000) }).run({ maxTicks: items.length + 1 });
+    return mind.events();
+  };
+  const demo = [
+    { kind: 'fact', fact: { key: 'lesson', value: 'seven nights converged', source: 'kar', ts: 1761480000000 }, recall: { ageMs: 0, halfLifeMs: 100000, accessCount: 3 } },
+    { kind: 'fact', fact: { key: 'release', value: 'v2.4', source: 'git-tag', ts: 1761480001000 } },
+    { kind: 'episodes', episodes: birds(1), day: 1, source: 'dream' },
+    { kind: 'signal', signal: 'quantum-metrology' },
+    { kind: 'signal', signal: 'quantum-metrology' },
+  ];
+  const many = [];
+  for (let i = 0; many.length < 16000; i++) {
+    if (i % 40 === 39) many.push({ kind: 'episodes', episodes: birds(i), day: 1 + Math.floor(i / 40), source: 'dream' });
+    else if (i % 25 === 24) many.push({ kind: 'signal', signal: 'domain-' + (i % 11) });
+    else many.push({ kind: 'fact', fact: { key: 'k' + (i % 700), value: 'v' + (i % 37), source: ['kar', 'git-tag', 'peer-audit'][i % 3], ts: 1761480000000 + i * 1000 }, recall: { ageMs: (i % 9) * 1000, halfLifeMs: 100000, accessCount: i % 5 } });
+  }
+  const tenK = loopEvents(many);
+  if (tenK.length < 10000) throw new Error('the long run made only ' + tenK.length + ' events');
+  const journals = [
+    ['the journal test’s sample', [{ t: 'perceive', fact: { key: 'k', value: 'v', source: 's', ts: 1 } }, { t: 'route', sig: 'x', opts: { existingDomains: [], now: 5 } }]],
+    ['the autonomous demo’s run', loopEvents(demo)],
+    ['10,000 events from the autonomous loop', tenK.slice(0, 10000)],
+  ];
+  const tmp = join(ROOT, '.pass2', 'tmp');
+  mkdirSync(tmp, { recursive: true });
+  const out = [];
+  for (const [name, events] of journals) {
+    const dir = mkdtempSync(join(tmp, 'j-'));
+    try {
+      const snap = await makeSnapshot(events);
+      const envText = JSON.stringify(snap.envelope);
+      writeFileSync(join(dir, 'mind-journal.json'), envText);
+      const b0 = await bootMind({ dir, ...opts });
+      const j = createJournal({ dir });
+      const l0 = await j.load();
+      const fl = await j.flush(l0.events);
+      const l1 = await createJournal({ dir }).load();
+      const b1 = await bootMind({ dir, ...opts });
+      const want = JSON.stringify(events);
+      out.push({
+        name, events: events.length,
+        legacy: l0.format, light: l1.format, migrated: fl.migrated === true, asideKept: existsSync(j.asidePath),
+        sameEvents: JSON.stringify(l0.events) === want && JSON.stringify(l1.events) === want,
+        sameSnapshot: b0.ok === true && b1.ok === true && JSON.stringify(b0.snapshot) === JSON.stringify(b1.snapshot),
+        snapshot: b1.ok ? b1.snapshot : null,
+        receipt: hexOf(sha256(new TextEncoder().encode(JSON.stringify(l1.events)))),
+        bytes: { json: new TextEncoder().encode(want).length, light: fl.bytes, gzip: Buffer.from(snap.envelope.compressed, 'base64').length, envelope: envText.length },
+      });
+    } finally { rmSync(dir, { recursive: true, force: true }); }
+  }
+  const m3 = JSON.parse(readFileSync(join(HERE, 'local', 'm3.json'), 'utf8'));
+  return { pins: PASS2, journals: out, m3: { from: 'core/phase2/local/m3.json', nights: m3.nights } };
+}
+
 const sealedIn = () => execFileSync('git', ['-C', ROOT, 'log', '--diff-filter=A', '--format=%H', '--', CLAIMS_PATH], { encoding: 'utf8' }).trim().split('\n').pop();
 
 async function receipt() {
-  const facts = { passes: [1], pass1: await pass1() };
-  const flat = { passes: facts.passes, ...facts.pass1 };
+  const facts = { passes: [1, 2], pass1: await pass1(), pass2: await pass2() };
+  const flat = { passes: facts.passes, ...facts.pass1, m1: { journals: facts.pass2.journals }, m2: { journals: facts.pass2.journals }, m3: facts.pass2.m3 };
   const j = judge(claims, flat);
   return { kind: 'fall-kit.core.phase2.receipt', v: 1, sealedIn: sealedIn(), corpus: claims.corpus.repos, facts, verdicts: j.verdicts, held: j.held, failed: j.failed, open: j.open };
 }
