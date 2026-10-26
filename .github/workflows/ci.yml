@@ -23,3 +23,12 @@ jobs:
           node .witness/witness.mjs mutate socket.mjs  --cap 400 --test node --test socket.test.mjs
           node .witness/witness.mjs mutate recycle.mjs --cap 400 --test node --test recycle.test.mjs
           node .witness/witness.mjs mutate markup.mjs  --cap 400 --test node --test markup.test.mjs
+      - name: the foundation's vendored kernels are byte-identical to their source repos at the pinned commits
+        run: node core/tools/vendor.mjs --check
+      - name: mutation gate on the foundation's own organs (witness v0.6, every survivor killed — no baselines)
+        run: |
+          git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git .witness6
+          for k in antibody; do
+            node .witness6/witness.mjs mutate core/$k.mjs --timeout 60000 --cap 600 --test node --test core/$k.test.mjs | tee /tmp/w.txt
+            grep -q '"clean": true' /tmp/w.txt || { echo "::error::mutants survived in core/$k.mjs"; exit 1; }
+          done
