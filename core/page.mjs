@@ -33,6 +33,7 @@ async function loadReceipt() {
   $('im-blocked').textContent = f.immunity.autoimmuneBlocked >= 1 ? 'blocked' : 'not blocked';
   $('r-sum').textContent = receipt.held + ' of ' + receipt.verdicts.length + ' claims held, ' + receipt.failed + ' failed, ' + receipt.unmeasured + ' not measured. Claims sealed at commit ' + String(receipt.sealed.commit).slice(0, 7) + (receipt.sealed.matchesCommit ? '' : ' (the file no longer matches it)') +
     '; the foundation inside break-it and konomi-slm is ' + (receipt.nodes['break-it'].sameFoundation && receipt.nodes['konomi-slm'].sameFoundation ? 'byte-identical to this one.' : 'NOT the same as this one.');
+  $('r-notes').innerHTML = (receipt.notes || []).map((n) => '<p><b>Changed after a run, and said so:</b> ' + esc(n) + '</p>').join('');
   $('r-rows').innerHTML = receipt.verdicts.map((v) => '<tr><td><b>' + esc(v.id) + '</b> ' + esc(v.claim) + '</td><td>' + tag(v.held) + '</td><td class="mono small">' + esc(v.measured) + '</td></tr>').join('');
   await loadBlueprint();
 }

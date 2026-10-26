@@ -76,13 +76,13 @@ summary{cursor:pointer;font-weight:600;color:var(--cream)}
 <section class="hero" aria-labelledby="what">
   <div class="seal">Phase 1 of the estate going live · nine claims sealed before the code</div>
   <h1 id="what">One foundation, so separate apps work as one system</h1>
-  <p class="lede">Fall Kit core is a small set of modules every app in the estate runs. With it, apps that were built apart can work together safely. Each one signs everything it says in one format (LIGHT) and checks everything it hears before reading a byte. When one app refuses an attack, every other app learns from it. Each keeps its memory in one checked file, cannot spend past the budget it was given, and records the useful work other apps do for it.</p>
-  <p>Two of the estate's real apps run on it today: <a href="https://sjgant80-hub.github.io/break-it/">break-it</a>, an ingest gateway that checks every packet before parsing it, and <a href="https://sjgant80-hub.github.io/konomi-slm/">konomi-slm</a>, a library of verified patterns that answers with a receipt or says it does not know.</p>
+  <p class="lede">Fall Kit core is a small set of modules every app in the estate runs. With it, apps that were built apart can work together safely. Each one signs everything it says in one format (LIGHT, the estate's own compact message format) and checks everything it hears before reading a byte of it. When one app refuses an attack, every other app learns from it. Each keeps its memory in one checked file, cannot spend past the budget it was given, and records the useful work other apps do for it.</p>
+  <p>Two of the estate's real apps run on it today: <a href="https://sjgant80-hub.github.io/break-it/">break-it</a>, a gateway that checks every incoming packet of data before any software reads it, and <a href="https://sjgant80-hub.github.io/konomi-slm/">konomi-slm</a>, a library of tested patterns that answers with a receipt you can check, or says it does not know.</p>
   <div class="tiles" aria-live="polite">
-    <div class="tile"><b id="t-held">…</b><span>of nine sealed claims hold</span></div>
-    <div class="tile"><b id="t-gate">…</b><span>mutants killed by the gate</span></div>
+    <div class="tile"><b id="t-held">…</b><span>claims written down before the code, holding</span></div>
+    <div class="tile"><b id="t-gate">…</b><span>bugs planted on purpose that the tests caught (the one left is reviewed as harmless)</span></div>
     <div class="tile"><b id="t-msgs">…</b><span>signed LIGHT packets in the run</span></div>
-    <div class="tile"><b id="t-organs">…</b><span>gated kernels the foundation is made of</span></div>
+    <div class="tile"><b id="t-organs">…</b><span>tested parts it is built from</span></div>
   </div>
   <div class="row"><button class="btn" id="run-top">Run the proof in this tab</button><a class="btn ghost" href="#paper">Read the paper</a><span class="small dim" id="kstat">not run yet</span></div>
 </section>
@@ -96,7 +96,7 @@ summary{cursor:pointer;font-weight:600;color:var(--cream)}
 </ol>
 <h3>If you build an app</h3>
 <ol>
-  <li>Copy <code>core/</code> into your repo as <code>vendor/fall-kit-core/</code>. Keep it byte for byte: <code>core/vendor/SOURCES.json</code> pins every kernel to its source commit.</li>
+  <li>From a clone of fall-kit, run <code>node core/tools/vendor-into.mjs &lt;your repo&gt;</code>. It copies the foundation's files (not its tests, tools or page) into <code>vendor/fall-kit-core/</code>, byte for byte from the committed blobs, and pins them in <code>FALL-KIT-CORE.json</code>. <code>vendor/SOURCES.json</code> inside it pins every kernel to the commit it came from.</li>
   <li>Give your app an identity and a node, with the skills it offers:</li>
 </ol>
 <pre>import { makeIdentity } from './vendor/fall-kit-core/identity.mjs';
@@ -104,13 +104,14 @@ import { createNode } from './vendor/fall-kit-core/node.mjs';
 
 const node = await createNode({
   name: 'my-app',
-  identity: await makeIdentity(),           // an Ed25519 key, kept in WebCrypto
+  identity: await makeIdentity(),           // an Ed25519 key, made by WebCrypto
   budget: 1000,                             // asks it may make, never more
   skills: { triage: async (input) =&gt; ({ verdict: 'VERIFIED', receipt: { /* … */ } }) },
 });</pre>
+<p class="small">An answer is <code>VERIFIED</code> with a <code>receipt</code>, or <code>ABSTAIN</code>. By default the asker checks a receipt by re-hashing it: give it a <code>receiptHash</code>, the SHA-256 of <code>JSON.stringify</code> of its other fields, or pass your own check for the skill in <code>checks</code>. A receipt that does not re-hash counts as a failed answer and halves the coupling.</p>
 <ol start="3">
   <li>Pin the peers you trust, out of band: <code>await node.pin(theirCard)</code>. A card proves its key and nothing more. Whether to trust the key is your decision.</li>
-  <li>Carry bytes between nodes over any channel you like. <code>node.ask(skill, input)</code> returns the packet to send, and <code>node.hear(bytes)</code> returns any replies to carry back. The node never opens a connection itself.</li>
+  <li>Carry bytes between nodes over any channel you like. <code>node.ask(skill, input)</code> returns the packet to send and which peer it is for (<code>{ bytes, to }</code>); <code>node.hear(bytes)</code> returns the verdict and any replies to carry back (<code>{ replies: [{ to, bytes }] }</code>). The node never opens a connection itself.</li>
 </ol>
 
 <h2 id="how">How it works</h2>
@@ -166,6 +167,8 @@ const node = await createNode({
 <h2 id="receipt">The receipt</h2>
 <p class="small" id="r-sum">Loading the committed receipt…</p>
 <div class="scroll"><table><thead><tr><th>Claim</th><th></th><th>Measured</th></tr></thead><tbody id="r-rows"></tbody></table></div>
+<p class="small"><b>Read F6 plainly.</b> Its sealed wording says memory "recalls by meaning". What was measured is that recall by resemblance of words (character n-grams) puts the right record first. The claim's wording stays as sealed; this is what it means here.</p>
+<div id="r-notes" class="small"></div>
 <p class="small">Re-run it yourself: clone <a href="https://github.com/sjgant80-hub/fall-kit">fall-kit</a>, clone break-it and konomi-slm next to it at the commits <code>core/nodes.json</code> names, then <code>node core/prove.mjs --nodes .. --check</code>. The claims are in <a href="claims.json">claims.json</a>, committed before any of this code. The receipt is <a href="receipts/foundation.json">receipts/foundation.json</a>.</p>
 
 <h2 id="business">For a business</h2>
@@ -180,7 +183,7 @@ const node = await createNode({
 </tbody></table></div>
 
 <h3>The cost case</h3>
-<p>What the traffic between your systems would cost through AWS API Gateway and AWS WAF, set against running foundation nodes on your own machines. The sums are break-it's gated cost kernel (<a href="https://github.com/sjgant80-hub/break-it/blob/main/src/cost.mjs">src/cost.mjs</a>), run here on break-it's dated list prices (<a href="https://github.com/sjgant80-hub/break-it/blob/main/costs/sources.json">costs/sources.json</a>). The node rate defaults to a cautious 50 messages a second; after you press Run it becomes the rate your own tab measured.</p>
+<p>What the traffic between your systems would cost through AWS API Gateway and AWS WAF, set against running foundation nodes on your own machines. The sums are break-it's gated cost kernel (<a href="https://github.com/sjgant80-hub/break-it/blob/main/src/cost.mjs">src/cost.mjs</a>), run here on break-it's dated list prices (<a href="https://github.com/sjgant80-hub/break-it/blob/main/costs/sources.json">costs/sources.json</a>). The node rate defaults to a cautious 50 messages a second; after you press Run it becomes the rate your own tab measured. The power defaults to 55 W, the most the laptop chip break-it's pilot ran on can draw (Intel's specification, in the sources below), so the electricity is never understated.</p>
 <div class="box">
   <div class="calc">
     <label>Messages between your systems, a month<input id="c-req" type="number" min="0" value="100000000"></label>
@@ -188,7 +191,7 @@ const node = await createNode({
     <label>Firewall web ACLs<input id="c-acl" type="number" min="0" value="1"></label>
     <label>Firewall rules<input id="c-rules" type="number" min="0" value="10"></label>
     <label>Node rate, messages a second<input id="c-rate" type="number" min="1" value="50"></label>
-    <label>Power per node, watts<input id="c-watts" type="number" min="1" value="35"></label>
+    <label>Power per node, watts<input id="c-watts" type="number" min="1" value="55"></label>
     <label>Hours a month the nodes run<input id="c-hours" type="number" min="1" max="744" value="730"></label>
     <label>Dollars to the pound (Bank of England rate)<input id="c-fx" type="number" step="0.0001" value="1.3363"></label>
     <label>Cost of each new machine, £ (0 if you own them)<input id="c-machine" type="number" min="0" value="0"></label>
@@ -201,7 +204,7 @@ const node = await createNode({
 <h3>Security and data protection, answered straight</h3>
 <ul>
   <li><b>Where does data go?</b> Nowhere the modules send it. They open no connections. You carry the bytes between your own systems, over your own channel.</li>
-  <li><b>Keys.</b> Each node has one Ed25519 key, made and kept in WebCrypto. A peer is trusted only when you pin its card. Losing a private key means losing that node's identity: pin a new one.</li>
+  <li><b>Keys.</b> Each node has one Ed25519 key, made by WebCrypto. The wallet signs its budget tokens with the private key in text form, so that form sits in the node's memory: a node's key is as safe as the process it runs in. A peer is trusted only when you pin its card. If a key leaks, pin a new one and drop the old.</li>
   <li><b>Forgery, tampering, replay, misdirection.</b> Each is refused before any parser runs. The run's six hostile packets were all refused, none decoded, none admitted. A packet replayed to a node it was not addressed to is refused by name.</li>
   <li><b>Poisoned learning.</b> A shared antibody is adopted only after the node's own door refuses the same bytes. A valid packet slipped into a bundle is blocked, never learned.</li>
   <li><b>Not covered.</b> A stolen key, a host that is already compromised, and content that is harmful once read: LIGHT carries data faithfully, so the screen that shows it must still escape it. A dishonest peer can cost you one answer before its coupling halves. Receipts are tamper-evident: the asker re-hashes them; it does not recompute the answer.</li>

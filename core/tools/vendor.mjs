@@ -28,7 +28,7 @@ export const PARTS = [
   ['immune/subscribe.mjs', 'immune-exchange', 'src/subscribe.mjs', 'negative selection: adopt only what your own gate refuses'],
   ['wallet/wallet.mjs', 'the-wallet', 'wallet.mjs', 'identity as a capability and a budget it cannot cross'],
   ['ledger/contrib.mjs', 'kcc-mesh', 'contrib.mjs', 'the contribution ledger: signed, hash-chained, no money verb'],
-  ['memory/fall-remember.mjs', 'fall-remember', 'fall-remember.mjs', 'geometric memory: twelve chambers, recall by meaning'],
+  ['memory/fall-remember.mjs', 'fall-remember', 'fall-remember.mjs', 'geometric memory: twelve chambers, recall by resemblance of words'],
   ['memory/cam.mjs', 'fall-remember', 'cam.mjs', 'the balance metric fall-remember reports'],
 ];
 
