@@ -48,7 +48,7 @@ async function loadReceipt() {
     if (f.g1) $('cand-rows').innerHTML = f.g1.candidates.map(dec).join('');
     if (f.g2) $('ctrl-rows').innerHTML = f.g2.controls.map(dec).join('');
     if (f.g3) $('g3-rows').innerHTML = f.g3.skills.map((s) => '<tr><td>' + esc(s.skill) + '</td><td>' + s.joinedAfter + '</td><td>' + n0(s.asks) + '</td><td><b>' + pc(s.grown) + '</b></td><td>' + pc(s.planted) + '</td><td>' + (Number.isFinite(s.diffLow) ? (s.diffLow * 100).toFixed(1) + ' pts' : '–') + '</td></tr>').join('');
-    if (f.o3) $('o3-line').textContent = 'Its predictions were off by ' + pc(f.o3.mae) + ' on average (' + f.o3.n + ' predictions); assuming nothing changes would have been off by ' + pc(f.o3.naive) + '.';
+    if (f.o3) $('o3-line').textContent = 'Before each round the self-model said what every question would score. It was off by ' + (f.o3.mae * 100).toFixed(1) + ' points of balanced accuracy on average (' + f.o3.n + ' predictions); assuming nothing changes would have been off by ' + (f.o3.naive * 100).toFixed(1) + ' points.';
     if (f.w1) $('w1-line').innerHTML = 'Measured in a real tab on ' + esc(f.w1.where) + ': ' + esc(Object.entries(f.w1.tab.grown).map(([s, st]) => s + ': ' + st.map((x) => x.kind + ' ' + x.patternId + (x.pass === true ? ' joined' : x.pass === false ? ' refused' : '')).join(', ')).join('; ')) + '. What the tab gathered: <a href="local/w1.json">local/w1.json</a>.';
   } catch (e) {
     $('r-sum').innerHTML = '<span class="no">The receipt could not be loaded.</span>';

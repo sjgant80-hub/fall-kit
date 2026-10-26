@@ -125,6 +125,7 @@ node core/phase4/measure.mjs --check    # fetches the pinned data, lives the org
   <text class="s" x="200" y="250" text-anchor="middle">at most one join a cycle; it stops at its limits</text>
 </svg></div>
 <ol>
+  <li><b>Demand first.</b> It grows only for questions the mesh is actually asked and answers badly: the self-model ranks gaps by the asks they lose. A specialist abstains, rather than guess, on an input that lacks a column it reads.</li>
   <li><b>Planted.</b> Two askers, a decent shop holder, and a weak bank holder (the growth engine's starting point, never evolved, on three columns). Three of the five kinds of question have nobody to answer them.</li>
   <li><b>A round of work.</b> 300 real rows of each kind of question, asked through the mesh as signed packets. Each holder's door checks every ask; each asker's door checks every answer and its receipt.</li>
   <li><b>The self-model looks.</b> It joins what was asked, what came back and what turned out true, and counts by question, by answering node and by link. It ranks the gaps by what they cost: asks × (1 − balanced accuracy). It flags any link the mesh trusts whose answers are often wrong. It predicts every score for the next round.</li>
@@ -174,8 +175,8 @@ node core/phase4/measure.mjs --check    # fetches the pinned data, lives the org
 <p class="lede">What it gives you: a system that notices which questions it answers badly, builds and checks its own specialists for them, and shows you the evidence for every one it lets in, or keeps out.</p>
 <div class="scroll"><table><thead><tr><th>Who</th><th>What changes</th></tr></thead><tbody>
   <tr><td>CEO</td><td>Capability grows where the work shows it is missing, without a project for each new question, and without anyone signing off a model on faith: the evidence comes with it.</td></tr>
-  <tr><td>CFO</td><td>The staff time spent building, checking and watching models comes off the bill. The cost case below prices it at the legal minimum wage, so the saving is a floor, not a pitch.</td></tr>
-  <tr><td>CISO</td><td>Nothing joins without passing a gate on data it never saw, and the founder's signed roster is still the only door. Every decision, including every refusal, is on a receipt anyone can re-run. Its limits are sealed before it runs.</td></tr>
+  <tr><td>CFO</td><td>The staff time spent building, checking and watching models comes off the bill, from the first model it grows: each one it grows and checks is one a person does not build. The running cost stays one machine's electricity however many specialists it holds, since each is a few rules. The cost case below prices staff time at the legal minimum wage, so the saving is a floor, not a pitch.</td></tr>
+  <tr><td>CISO</td><td>Nothing joins without passing a gate on data it never saw, and the founder's signed roster is still the only door. Every decision, including every refusal, is on a receipt anyone can re-run. Its limits are sealed before it runs. Who can talk to the mesh at all is the founder's signed roster and each node's own door, as Phase 3 measured.</td></tr>
   <tr><td>CTO</td><td>The specialists are interpretable scorecards, a handful of readable rules each, not opaque weights. The whole life replays to the same bytes from the same data.</td></tr>
   <tr><td>COO</td><td>The self-model shows, every round, which questions are being answered badly and which links the system trusts but should not. That is an operations dashboard you do not have to build.</td></tr>
   <tr><td>The teams</td><td>A refused specialist comes with the numbers it was refused on, so you can see exactly what it would take to get one in.</td></tr>

@@ -1,0 +1,21 @@
+{
+ "kind": "fall-kit.core.phase4.local",
+ "v": 1,
+ "claim": "W1",
+ "what": "The live page (core/phase4/index.html) in a real browser tab, all five datasets loaded from dex-frontier on the same site and each checked against its pinned SHA-256, the organism planted and grown with the page's own code. This is the tab's own window.w1, copied as it was.",
+ "at": "2026-10-26",
+ "commit": "fall-kit 8814167",
+ "browser": "Chrome/152.0.7977.167 (the Claude desktop app's browser pane)",
+ "seconds": 129,
+ "where": "sjgant80-hub.github.io/fall-kit/core/phase4/",
+ "tab": {
+  "domains": ["adult", "bank", "coupon", "credit", "shop"],
+  "grown": {
+   "adult": [{ "kind": "control", "patternId": "c22378fdb1520372", "pass": true }],
+   "bank": [{ "kind": "planted", "patternId": "1a2e7b7edb592f0a", "pass": null }, { "kind": "control", "patternId": "fa98128b2229f22d", "pass": false }, { "kind": "candidate", "patternId": "0a829ad2c32c18db", "pass": true }],
+   "coupon": [{ "kind": "control", "patternId": "257cc6b321d1931b", "pass": false }, { "kind": "candidate", "patternId": "812bcfda862f642a", "pass": true }],
+   "credit": [{ "kind": "control", "patternId": "1a92dc92d8b8f198", "pass": false }, { "kind": "candidate", "patternId": "bb84f031ba6c9855", "pass": true }],
+   "shop": [{ "kind": "planted", "patternId": "10371d615a4787a4", "pass": null }]
+  }
+ }
+}

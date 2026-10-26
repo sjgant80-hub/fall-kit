@@ -6,7 +6,8 @@
   "passes": [
    1,
    2,
-   3
+   3,
+   4
   ],
   "data": {
    "adult": {
@@ -507,6 +508,133 @@
     "credit": "candidate",
     "bank": "candidate"
    }
+  },
+  "w1": {
+   "from": "core/phase4/local/w1.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase4/",
+   "tab": {
+    "domains": [
+     "adult",
+     "bank",
+     "coupon",
+     "credit",
+     "shop"
+    ],
+    "grown": {
+     "adult": [
+      {
+       "kind": "control",
+       "patternId": "c22378fdb1520372",
+       "pass": true
+      }
+     ],
+     "bank": [
+      {
+       "kind": "planted",
+       "patternId": "1a2e7b7edb592f0a",
+       "pass": null
+      },
+      {
+       "kind": "control",
+       "patternId": "fa98128b2229f22d",
+       "pass": false
+      },
+      {
+       "kind": "candidate",
+       "patternId": "0a829ad2c32c18db",
+       "pass": true
+      }
+     ],
+     "coupon": [
+      {
+       "kind": "control",
+       "patternId": "257cc6b321d1931b",
+       "pass": false
+      },
+      {
+       "kind": "candidate",
+       "patternId": "812bcfda862f642a",
+       "pass": true
+      }
+     ],
+     "credit": [
+      {
+       "kind": "control",
+       "patternId": "1a92dc92d8b8f198",
+       "pass": false
+      },
+      {
+       "kind": "candidate",
+       "patternId": "bb84f031ba6c9855",
+       "pass": true
+      }
+     ],
+     "shop": [
+      {
+       "kind": "planted",
+       "patternId": "10371d615a4787a4",
+       "pass": null
+      }
+     ]
+    }
+   },
+   "run": {
+    "adult": [
+     {
+      "kind": "control",
+      "patternId": "c22378fdb1520372",
+      "pass": true
+     }
+    ],
+    "bank": [
+     {
+      "kind": "planted",
+      "patternId": "1a2e7b7edb592f0a",
+      "pass": null
+     },
+     {
+      "kind": "control",
+      "patternId": "fa98128b2229f22d",
+      "pass": false
+     },
+     {
+      "kind": "candidate",
+      "patternId": "0a829ad2c32c18db",
+      "pass": true
+     }
+    ],
+    "coupon": [
+     {
+      "kind": "control",
+      "patternId": "257cc6b321d1931b",
+      "pass": false
+     },
+     {
+      "kind": "candidate",
+      "patternId": "812bcfda862f642a",
+      "pass": true
+     }
+    ],
+    "credit": [
+     {
+      "kind": "control",
+      "patternId": "1a92dc92d8b8f198",
+      "pass": false
+     },
+     {
+      "kind": "candidate",
+      "patternId": "bb84f031ba6c9855",
+      "pass": true
+     }
+    ],
+    "shop": [
+     {
+      "kind": "planted",
+      "patternId": "10371d615a4787a4",
+      "pass": null
+     }
+    ]
+   }
   }
  },
  "verdicts": [
@@ -576,12 +704,12 @@
   {
    "id": "W1",
    "pass": 4,
-   "held": null,
-   "measured": "not measured yet: pass 4",
+   "held": true,
+   "measured": "a browser tab on sjgant80-hub.github.io/fall-kit/core/phase4/ grew adult: control c22378fdb1520372 joined (the same as the run); bank: planted 1a2e7b7edb592f0a, control fa98128b2229f22d refused, candidate 0a829ad2c32c18db joined (the same as the run); coupon: control 257cc6b321d1931b refused, candidate 812bcfda862f642a joined (the same as the run); credit: control 1a92dc92d8b8f198 refused, candidate bb84f031ba6c9855 joined (the same as the run); shop: planted 10371d615a4787a4 (the same as the run)",
    "predicted": "HOLD"
   }
  ],
- "held": 7,
+ "held": 8,
  "failed": 2,
- "open": 1
+ "open": 0
 }

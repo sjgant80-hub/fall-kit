@@ -138,6 +138,8 @@ test('A1, A2, W1: each condition on its own', () => {
   assert.equal(t('W1', (f) => { f.w1.tab.grown.shop[0].patternId = 5; f.w1.run.shop[0].patternId = 5; }).held, false, 'a pattern id is text');
   assert.equal(t('W1', (f) => { f.w1.tab.grown.shop.push(null); f.w1.run.shop.push(null); }).held, false, 'a junk step is not passed over');
   assert.equal(t('W1', (f) => { f.w1.tab.grown.coupon[1].pass = 'yes'; f.w1.run.coupon[1].pass = 'yes'; }).held, true, 'a pass that is neither true nor false reads as no decision, alike on both sides');
+  const bank = [{ kind: 'planted', patternId: 'p0', pass: null }, { kind: 'control', patternId: 'c1', pass: false }];
+  assert.match(t('W1', (f) => { f.w1.tab.domains = ['bank']; f.w1.tab.grown.bank = bank; f.w1.run.bank = bank; }).measured, /bank: planted p0, control c1 refused \(the same as the run\)$/, 'a planted step reads cleanly before the decisions');
   assert.equal(t('W1', (f) => { f.w1.tab.domains = []; }).held, false);
   assert.equal(t('W1', (f) => { f.w1.tab = null; }).held, false);
   assert.doesNotMatch(t('W1', (f) => { delete f.w1.where; }).measured, / on /);

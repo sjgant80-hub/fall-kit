@@ -57,7 +57,7 @@ function a2(f) {
   const x = of(f, 'a2'), planted = list(x.planted), filled = list(x.filled).filter((s) => planted.includes(s));
   return [planted.length === 4 && filled.length >= 3, filled.length + ' of the ' + planted.length + ' planted gaps filled by a node the gate admitted (' + (filled.join(', ') || 'none') + '; bar 3)'];
 }
-const steps = (xs) => list(xs).filter(isObj).map((d) => String(d.kind) + ' ' + (typeof d.patternId === 'string' ? d.patternId : '?') + ' ' + (d.pass === true ? 'joined' : d.pass === false ? 'refused' : ''));
+const steps = (xs) => list(xs).filter(isObj).map((d) => (String(d.kind) + ' ' + (typeof d.patternId === 'string' ? d.patternId : '?') + ' ' + (d.pass === true ? 'joined' : d.pass === false ? 'refused' : '')).trim());
 function w1(f) {
   const x = of(f, 'w1'), tab = isObj(x.tab) ? x.tab : {}, ds = list(tab.domains), grown = isObj(tab.grown) ? tab.grown : {}, run = isObj(x.run) ? x.run : {};
   const same = (s) => list(grown[s]).length >= 1 && list(grown[s]).every((d) => isObj(d) && typeof d.patternId === 'string') && JSON.stringify(steps(grown[s])) === JSON.stringify(steps(run[s]));

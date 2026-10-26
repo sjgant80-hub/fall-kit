@@ -35,7 +35,7 @@ V1 (W4's bar) and V2 (W1–W3 unchanged, digest for digest) held. Re-run Phase 3
 Phase 3b's receipt is about the node it measured, so re-derive it there:
 `git worktree add .phase3b 2960fae && node .phase3b/core/phase3b/measure.mjs --check`.
 
-**Live: https://sjgant80-hub.github.io/fall-kit/core/phase4/** — Phase 4, it grows what it lacks: a self-model (`core/selfmodel.mjs`) that sees every skill, node and link against what turned out true, finds the gaps and predicts its own next round; and gated growth (`core/growth.mjs`) that grows a specialist for the worst gap and lets it in only if it beats chance and the mesh without it on rows it never saw. Bounded, with a receipt for every step, on five real UCI datasets. Ten claims sealed first (`core/phase4/claims.json`); plant it in your browser on the page, or re-run it with `node core/phase4/measure.mjs --check`.
+**Live: https://sjgant80-hub.github.io/fall-kit/core/phase4/** — Phase 4, it grows what it lacks: a self-model (`core/selfmodel.mjs`) that sees every skill, node and link against what turned out true, finds the gaps and predicts its own next round; and gated growth (`core/growth.mjs`) that grows a specialist for the worst gap and lets it in only if it beats chance and the mesh without it on rows it never saw. Bounded, with a receipt for every step, on five real UCI datasets. Ten claims sealed first (`core/phase4/claims.json`): 8 held, 2 failed and kept (G2: a control grown on shuffled answers still carried signal and got in; G3: a node good on average did no better on the date-ordered work it actually got). Plant it in your browser on the page, or re-run it with `node core/phase4/measure.mjs --check`.
 
 ## v3.2.0
 
