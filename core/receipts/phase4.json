@@ -1,0 +1,587 @@
+{
+ "kind": "fall-kit.core.phase4.receipt",
+ "v": 1,
+ "sealedIn": "1a73eb23de1ca2d09ff112bc0b81db8cae745208",
+ "facts": {
+  "passes": [
+   1,
+   2,
+   3
+  ],
+  "data": {
+   "adult": {
+    "fit": 24421,
+    "gate": 8140,
+    "test": 16281,
+    "silos": 4
+   },
+   "bank": {
+    "fit": 21624,
+    "gate": 7208,
+    "test": 12356,
+    "silos": 4
+   },
+   "coupon": {
+    "fit": 6660,
+    "gate": 2219,
+    "test": 3805,
+    "silos": 4
+   },
+   "credit": {
+    "fit": 15752,
+    "gate": 5249,
+    "test": 8999,
+    "silos": 4
+   },
+   "shop": {
+    "fit": 5704,
+    "gate": 1901,
+    "test": 4725,
+    "silos": 3
+   }
+  },
+  "planted": {
+   "shop": {
+    "patternId": "10371d615a4787a4",
+    "silo": "analytics"
+   },
+   "bank": {
+    "patternId": "1a2e7b7edb592f0a",
+    "silo": "credit",
+    "stem": true
+   }
+  },
+  "o1": {
+   "cycles": 8,
+   "asks": 12000,
+   "mismatches": []
+  },
+  "o2": {
+   "cycles": 8,
+   "gapListsWrong": [],
+   "gaps": [
+    [
+     "adult 0",
+     "coupon 0",
+     "credit 0",
+     "bank 0.5"
+    ],
+    [
+     "coupon 0",
+     "credit 0",
+     "bank 0.5",
+     "adult 0.677266"
+    ],
+    [
+     "credit 0",
+     "bank 0.5",
+     "coupon 0.613397",
+     "adult 0.661184"
+    ],
+    [
+     "bank 0.5",
+     "coupon 0.658169",
+     "credit 0.663218",
+     "adult 0.699124"
+    ],
+    [
+     "bank 0.5",
+     "coupon 0.677381"
+    ],
+    [
+     "bank 0.5",
+     "coupon 0.587068",
+     "adult 0.691745",
+     "credit 0.694093"
+    ],
+    [
+     "bank 0.5",
+     "coupon 0.62249"
+    ],
+    [
+     "bank 0.5",
+     "coupon 0.63266"
+    ]
+   ],
+   "weak": {
+    "askers": 2,
+    "couplings": [
+     {
+      "weight": 999997,
+      "ba": 0.5,
+      "flagged": true
+     },
+     {
+      "weight": 999997,
+      "ba": 0.5,
+      "flagged": true
+     }
+    ]
+   }
+  },
+  "o3": {
+   "n": 35,
+   "mae": 0.030136,
+   "naive": 0.077976,
+   "worst": [
+    {
+     "cycle": 5,
+     "skill": "bank",
+     "predicted": 0.715902,
+     "measured": 0.5,
+     "last": 0.5,
+     "off": 0.215902
+    },
+    {
+     "cycle": 6,
+     "skill": "coupon",
+     "predicted": 0.677381,
+     "measured": 0.587068,
+     "last": 0.677381,
+     "off": 0.090313
+    },
+    {
+     "cycle": 8,
+     "skill": "shop",
+     "predicted": 0.766948,
+     "measured": 0.84031,
+     "last": 0.766948,
+     "off": 0.073362
+    }
+   ]
+  },
+  "g1": {
+   "floor": 0.55,
+   "margin": 0.02,
+   "candidates": [
+    {
+     "cycle": 2,
+     "skill": "coupon",
+     "silo": "coupon",
+     "patternId": "812bcfda862f642a",
+     "pass": true,
+     "why": "better than chance and better than the organism without it",
+     "n": 2219,
+     "ba": 0.625455,
+     "baLow": 0.609023,
+     "incBa": 0,
+     "diff": 0.625455,
+     "diffLow": 0.609023,
+     "incumbent": null,
+     "joined": "coupon-2",
+     "dropped": null
+    },
+    {
+     "cycle": 3,
+     "skill": "credit",
+     "silo": "collections",
+     "patternId": "bb84f031ba6c9855",
+     "pass": true,
+     "why": "better than chance and better than the organism without it",
+     "n": 5249,
+     "ba": 0.701183,
+     "baLow": 0.688637,
+     "incBa": 0,
+     "diff": 0.701183,
+     "diffLow": 0.688637,
+     "incumbent": null,
+     "joined": "credit-3",
+     "dropped": null
+    },
+    {
+     "cycle": 4,
+     "skill": "bank",
+     "silo": "economy",
+     "patternId": "0a829ad2c32c18db",
+     "pass": true,
+     "why": "better than chance and better than the organism without it",
+     "n": 7208,
+     "ba": 0.715902,
+     "baLow": 0.701719,
+     "incBa": 0.5,
+     "diff": 0.215902,
+     "diffLow": 0.201719,
+     "incumbent": "bank-0",
+     "joined": "bank-4",
+     "dropped": "bank-0"
+    }
+   ]
+  },
+  "g2": {
+   "controls": [
+    {
+     "cycle": 1,
+     "skill": "adult",
+     "silo": "person",
+     "patternId": "c22378fdb1520372",
+     "pass": true,
+     "why": "better than chance and better than the organism without it",
+     "n": 8140,
+     "ba": 0.690816,
+     "baLow": 0.682671,
+     "incBa": 0,
+     "diff": 0.690816,
+     "diffLow": 0.682671,
+     "incumbent": null,
+     "joined": "adult-1",
+     "dropped": null
+    },
+    {
+     "cycle": 2,
+     "skill": "coupon",
+     "silo": "habits",
+     "patternId": "257cc6b321d1931b",
+     "pass": false,
+     "why": "not better than chance: the lower bound on its balanced accuracy is not above 0.55",
+     "n": 2219,
+     "ba": 0.557965,
+     "baLow": 0.54141,
+     "incBa": 0,
+     "diff": 0.557965,
+     "diffLow": 0.54141,
+     "incumbent": null,
+     "joined": null,
+     "dropped": null
+    },
+    {
+     "cycle": 3,
+     "skill": "credit",
+     "silo": "customer",
+     "patternId": "1a92dc92d8b8f198",
+     "pass": false,
+     "why": "not better than chance: the lower bound on its balanced accuracy is not above 0.55",
+     "n": 5249,
+     "ba": 0.554494,
+     "baLow": 0.543035,
+     "incBa": 0,
+     "diff": 0.554494,
+     "diffLow": 0.543035,
+     "incumbent": null,
+     "joined": null,
+     "dropped": null
+    },
+    {
+     "cycle": 4,
+     "skill": "bank",
+     "silo": "profile",
+     "patternId": "fa98128b2229f22d",
+     "pass": false,
+     "why": "not better than chance: the lower bound on its balanced accuracy is not above 0.55",
+     "n": 7208,
+     "ba": 0.463371,
+     "baLow": 0.448248,
+     "incBa": 0.5,
+     "diff": -0.036629,
+     "diffLow": -0.051752,
+     "incumbent": "bank-0",
+     "joined": null,
+     "dropped": null
+    }
+   ]
+  },
+  "g3": {
+   "skills": [
+    {
+     "skill": "adult",
+     "joinedAfter": 1,
+     "asks": 2100,
+     "grown": 0.695255,
+     "planted": 0,
+     "diff": 0.695255,
+     "diffLow": 0.680177
+    },
+    {
+     "skill": "coupon",
+     "joinedAfter": 2,
+     "asks": 1800,
+     "grown": 0.630905,
+     "planted": 0,
+     "diff": 0.630905,
+     "diffLow": 0.614034
+    },
+    {
+     "skill": "credit",
+     "joinedAfter": 3,
+     "asks": 1500,
+     "grown": 0.706723,
+     "planted": 0,
+     "diff": 0.706723,
+     "diffLow": 0.68367
+    },
+    {
+     "skill": "bank",
+     "joinedAfter": 4,
+     "asks": 1200,
+     "grown": 0.5,
+     "planted": 0.5,
+     "diff": 0,
+     "diffLow": 0
+    }
+   ],
+   "worseRounds": [],
+   "rounds": [
+    {
+     "cycle": 1,
+     "grown": {
+      "adult": 0,
+      "bank": 0.5,
+      "coupon": 0,
+      "credit": 0,
+      "shop": 0.828283
+     },
+     "planted": {
+      "adult": 0,
+      "bank": 0.5,
+      "coupon": 0,
+      "credit": 0,
+      "shop": 0.828283
+     }
+    },
+    {
+     "cycle": 2,
+     "grown": {
+      "adult": 0.677266,
+      "bank": 0.5,
+      "coupon": 0,
+      "credit": 0,
+      "shop": 0.788527
+     },
+     "planted": {
+      "adult": 0,
+      "bank": 0.5,
+      "coupon": 0,
+      "credit": 0,
+      "shop": 0.788527
+     }
+    },
+    {
+     "cycle": 3,
+     "grown": {
+      "adult": 0.661184,
+      "bank": 0.5,
+      "coupon": 0.613397,
+      "credit": 0,
+      "shop": 0.801809
+     },
+     "planted": {
+      "adult": 0,
+      "bank": 0.5,
+      "coupon": 0,
+      "credit": 0,
+      "shop": 0.801809
+     }
+    },
+    {
+     "cycle": 4,
+     "grown": {
+      "adult": 0.699124,
+      "bank": 0.5,
+      "coupon": 0.658169,
+      "credit": 0.663218,
+      "shop": 0.834084
+     },
+     "planted": {
+      "adult": 0,
+      "bank": 0.5,
+      "coupon": 0,
+      "credit": 0,
+      "shop": 0.834084
+     }
+    },
+    {
+     "cycle": 5,
+     "grown": {
+      "adult": 0.705624,
+      "bank": 0.5,
+      "coupon": 0.677381,
+      "credit": 0.711538,
+      "shop": 0.761835
+     },
+     "planted": {
+      "adult": 0,
+      "bank": 0.5,
+      "coupon": 0,
+      "credit": 0,
+      "shop": 0.761835
+     }
+    },
+    {
+     "cycle": 6,
+     "grown": {
+      "adult": 0.691745,
+      "bank": 0.5,
+      "coupon": 0.587068,
+      "credit": 0.694093,
+      "shop": 0.825
+     },
+     "planted": {
+      "adult": 0,
+      "bank": 0.5,
+      "coupon": 0,
+      "credit": 0,
+      "shop": 0.825
+     }
+    },
+    {
+     "cycle": 7,
+     "grown": {
+      "adult": 0.706871,
+      "bank": 0.5,
+      "coupon": 0.62249,
+      "credit": 0.72003,
+      "shop": 0.766948
+     },
+     "planted": {
+      "adult": 0,
+      "bank": 0.5,
+      "coupon": 0,
+      "credit": 0,
+      "shop": 0.766948
+     }
+    },
+    {
+     "cycle": 8,
+     "grown": {
+      "adult": 0.729631,
+      "bank": 0.5,
+      "coupon": 0.63266,
+      "credit": 0.739283,
+      "shop": 0.84031
+     },
+     "planted": {
+      "adult": 0,
+      "bank": 0.5,
+      "coupon": 0,
+      "credit": 0,
+      "shop": 0.84031
+     }
+    }
+   ]
+  },
+  "g4": {
+   "grown": 4,
+   "maxJoinsInACycle": 1,
+   "triedTwice": [],
+   "cycles": 8,
+   "stop": {
+    "after": 5,
+    "why": "a limit was reached: 4 nodes grown"
+   },
+   "limits": {
+    "maxGrown": 4,
+    "maxJoinsPerCycle": 1,
+    "maxCycles": 8
+   }
+  },
+  "a1": {
+   "input": "none: the organism reads no stdin, no file and no network once it starts; it is handed the data and the sealed policy",
+   "decisions": 8,
+   "followed": true,
+   "log": [
+    "after cycle 1: control for adult, joined as adult-1",
+    "after cycle 2: control for coupon, refused",
+    "after cycle 2: candidate for coupon, joined as coupon-2",
+    "after cycle 3: control for credit, refused",
+    "after cycle 3: candidate for credit, joined as credit-3",
+    "after cycle 4: control for bank, refused",
+    "after cycle 4: candidate for bank, joined as bank-4, bank-0 dropped",
+    "after cycle 5: stop, a limit was reached: 4 nodes grown"
+   ]
+  },
+  "a2": {
+   "planted": [
+    "adult",
+    "bank",
+    "coupon",
+    "credit"
+   ],
+   "filled": [
+    "adult",
+    "bank",
+    "coupon",
+    "credit"
+   ],
+   "by": {
+    "adult": "control",
+    "coupon": "candidate",
+    "credit": "candidate",
+    "bank": "candidate"
+   }
+  }
+ },
+ "verdicts": [
+  {
+   "id": "O1",
+   "pass": 1,
+   "held": true,
+   "measured": "8 cycles, 12000 asks: the self-model's tallies by skill, by answering node and by coupling (with its link weight) against a count made separately from the same asks and answers: every one equal",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "O2",
+   "pass": 1,
+   "held": true,
+   "measured": "the gap list was right in all 8 cycles; in the first cycle 2 of the 2 askers' couplings to the planted weak bank holder were flagged trusted-but-weak (link 999997, balanced accuracy 0.5; link 999997, balanced accuracy 0.5)",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "O3",
+   "pass": 1,
+   "held": true,
+   "measured": "over 35 predictions (every skill, every round after the first): mean absolute error 0.030136 (bar 0.05); assuming nothing changes would have been off by 0.077976",
+   "predicted": "unsure — test rows differ from gate rows, so a new node's score may move"
+  },
+  {
+   "id": "G1",
+   "pass": 2,
+   "held": true,
+   "measured": "3 candidates grown: coupon (joined as coupon-2: 0.625455, bound 0.609023 vs floor 0.55; 0.625455 over the organism without it, bound 0.609023); credit (joined as credit-3: 0.701183, bound 0.688637 vs floor 0.55; 0.701183 over the organism without it, bound 0.688637); bank (joined as bank-4: 0.715902, bound 0.701719 vs floor 0.55; 0.215902 over the organism without it, bound 0.201719)",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "G2",
+   "pass": 2,
+   "held": false,
+   "measured": "4 shuffled-label controls offered, 3 refused: adult 0.690816 (bound 0.682671), coupon 0.557965 (bound 0.54141), credit 0.554494 (bound 0.543035), bank 0.463371 (bound 0.448248)",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "G3",
+   "pass": 2,
+   "held": false,
+   "measured": "adult on 2100 TEST asks after the join: 0.695255 grown against 0 planted, bound on the gain 0.680177; coupon on 1800 TEST asks after the join: 0.630905 grown against 0 planted, bound on the gain 0.614034; credit on 1500 TEST asks after the join: 0.706723 grown against 0 planted, bound on the gain 0.68367; bank on 1200 TEST asks after the join: 0.5 grown against 0.5 planted, bound on the gain 0 (NOT); no skill worse in any round",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "G4",
+   "pass": 2,
+   "held": true,
+   "measured": "4 nodes grown (limit 4), at most 1 joined in a cycle (limit 1), 0 gaps tried twice, 8 cycles (limit 8); growth stopped: a limit was reached: 4 nodes grown",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "A1",
+   "pass": 3,
+   "held": true,
+   "measured": "8 decisions, every one the self-model's ranking and the gate's numbers; input after the start: none; CI re-runs it and compares the receipt byte for byte",
+   "predicted": "HOLD"
+  },
+  {
+   "id": "A2",
+   "pass": 3,
+   "held": true,
+   "measured": "4 of the 4 planted gaps filled by a node the gate admitted (adult, bank, coupon, credit; bar 3)",
+   "predicted": "unsure — the gate may refuse a domain's best candidate"
+  },
+  {
+   "id": "W1",
+   "pass": 4,
+   "held": null,
+   "measured": "not measured yet: pass 4",
+   "predicted": "HOLD"
+  }
+ ],
+ "held": 7,
+ "failed": 2,
+ "open": 1
+}
