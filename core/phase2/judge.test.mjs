@@ -190,3 +190,25 @@ test('M3: every night byte-identical and smaller than the files', () => {
   assert.equal(v2({ ...good2(), m3: null }, 'M3').held, false);
   assert.equal(v2({ ...good2(), m3: { nights: [null] } }, 'M3').held, false, 'junk is no night');
 });
+
+const good3 = () => ({ ...good2(), passes: [1, 2, 3], i1: { run: { calls: 13, records: 13, readBack: true, matches: true, bytes: 10905, jsonBytes: 21157 }, nightly: { records: 1, readBack: true, bytes: 1300 } } });
+test('I1: every call of the run in the book and read back, and the nightly loop’s calls read back', () => {
+  assert.equal(v2(good3(), 'I1').held, true);
+  assert.equal(v2(good3(), 'I1').measured, 'the measured run: 13 of 13 calls in the book, every one read back as its call (10905 bytes; 21157 as JSON); the nightly loop: 1 call(s), read back');
+  const t3 = (mut) => { const f = good3(); mut(f.i1); return v2(f, 'I1'); };
+  assert.equal(t3((x) => { x.run.records = 12; }).held, false, 'one missing');
+  assert.equal(t3((x) => { x.run.readBack = false; }).held, false);
+  assert.match(t3((x) => { x.run.readBack = false; }).measured, /NOT read back whole/);
+  assert.equal(t3((x) => { x.run.matches = false; }).held, false);
+  assert.match(t3((x) => { x.run.matches = false; }).measured, /NOT read back whole/);
+  assert.equal(t3((x) => { x.run.calls = 0; x.run.records = 0; }).held, false, 'an empty run shows nothing');
+  assert.equal(t3((x) => { x.run.calls = 1; x.run.records = 1; }).held, true, 'one call is enough to show it');
+  assert.equal(t3((x) => { x.nightly.records = 0; }).held, false, 'no nightly call');
+  assert.equal(t3((x) => { x.nightly.records = 2; }).held, true);
+  assert.equal(t3((x) => { x.nightly.readBack = false; }).held, false);
+  assert.match(t3((x) => { x.nightly.readBack = false; }).measured, /NOT read back$/);
+  assert.equal(t3((x) => { x.run = null; }).held, false);
+  assert.equal(t3((x) => { x.nightly = 'x'; }).held, false);
+  assert.equal(v2({ ...good3(), i1: null }, 'I1').held, false);
+  assert.deepEqual([judge(claims, good3()).held, judge(claims, good3()).open], [10, 5], 'with pass 3: ten held, five still open');
+});

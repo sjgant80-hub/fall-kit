@@ -207,8 +207,8 @@ export const PASS2 = Object.freeze({
   'fallforgecell': '3873719b25ae86662bc768755985469a33c8ef03',
 });
 const hexOf = (u8) => Array.from(u8, (b) => b.toString(16).padStart(2, '0')).join('');
-function checkout(repo, commit) {
-  const dir = join(ROOT, '.pass2', repo);
+function checkout(repo, commit, base = '.pass2') {
+  const dir = join(ROOT, base, repo);
   const g = (...a) => execFileSync('git', ['-C', dir, ...a], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
   if (!existsSync(join(dir, '.git'))) { mkdirSync(dir, { recursive: true }); g('init', '-q'); }
   let head = '';
@@ -285,11 +285,30 @@ export async function pass2() {
   return { pins: PASS2, journals: out, m3: { from: 'core/phase2/local/m3.json', nights: m3.nights } };
 }
 
+// ── pass 3: every model call the controller makes, kept as a LIGHT call book ──
+export const PASS3 = Object.freeze({ 'kar-mind': 'a8ca2922b7bba2a6951c0fe0b9b7102f3c911b35' });
+export async function pass3() {
+  const K = checkout('kar-mind', PASS3['kar-mind'], '.pass3');
+  const url = (p) => pathToFileURL(p).href;
+  const { readBook } = await import(url(join(K, 'callbook.mjs')));
+  const { callsOf, bookMatches } = await import(url(join(K, 'tools', 'callbook-build.mjs')));
+  const run = JSON.parse(readFileSync(join(K, 'data', 'controller-run.json'), 'utf8'));
+  const bytes = new Uint8Array(readFileSync(join(K, 'data', 'controller-calls.lcb')));
+  const r = readBook(bytes), calls = callsOf(run);
+  const m = r.ok ? bookMatches(r.records, calls) : { ok: false, why: r.why };
+  const local = JSON.parse(readFileSync(join(HERE, 'local', 'i1.json'), 'utf8'));
+  return {
+    pins: PASS3,
+    run: { calls: calls.length, records: r.ok ? r.records.length : 0, readBack: r.ok, matches: m.ok, why: m.ok ? null : m.why, bytes: bytes.length, jsonBytes: r.ok ? new TextEncoder().encode(JSON.stringify(r.records)).length : 0 },
+    nightly: { from: 'core/phase2/local/i1.json', records: local.nightly.records, readBack: local.nightly.readBack, bytes: local.nightly.bytes },
+  };
+}
+
 const sealedIn = () => execFileSync('git', ['-C', ROOT, 'log', '--diff-filter=A', '--format=%H', '--', CLAIMS_PATH], { encoding: 'utf8' }).trim().split('\n').pop();
 
 async function receipt() {
-  const facts = { passes: [1, 2], pass1: await pass1(), pass2: await pass2() };
-  const flat = { passes: facts.passes, ...facts.pass1, m1: { journals: facts.pass2.journals }, m2: { journals: facts.pass2.journals }, m3: facts.pass2.m3 };
+  const facts = { passes: [1, 2, 3], pass1: await pass1(), pass2: await pass2(), pass3: await pass3() };
+  const flat = { passes: facts.passes, ...facts.pass1, m1: { journals: facts.pass2.journals }, m2: { journals: facts.pass2.journals }, m3: facts.pass2.m3, i1: facts.pass3 };
   const j = judge(claims, flat);
   return { kind: 'fall-kit.core.phase2.receipt', v: 1, sealedIn: sealedIn(), corpus: claims.corpus.repos, facts, verdicts: j.verdicts, held: j.held, failed: j.failed, open: j.open };
 }

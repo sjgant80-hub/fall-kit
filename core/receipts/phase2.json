@@ -12,7 +12,8 @@
  "facts": {
   "passes": [
    1,
-   2
+   2,
+   3
   ],
   "pass1": {
    "corpus": {
@@ -263,6 +264,26 @@
      }
     ]
    }
+  },
+  "pass3": {
+   "pins": {
+    "kar-mind": "a8ca2922b7bba2a6951c0fe0b9b7102f3c911b35"
+   },
+   "run": {
+    "calls": 13,
+    "records": 13,
+    "readBack": true,
+    "matches": true,
+    "why": null,
+    "bytes": 10905,
+    "jsonBytes": 21157
+   },
+   "nightly": {
+    "from": "core/phase2/local/i1.json",
+    "records": 1,
+    "readBack": true,
+    "bytes": 1300
+   }
   }
  },
  "verdicts": [
@@ -332,8 +353,8 @@
   {
    "id": "I1",
    "pass": 3,
-   "held": null,
-   "measured": "not measured yet: pass 3",
+   "held": true,
+   "measured": "the measured run: 13 of 13 calls in the book, every one read back as its call (10905 bytes; 21157 as JSON); the nightly loop: 1 call(s), read back",
    "predicted": "HOLD"
   },
   {
@@ -372,7 +393,7 @@
    "predicted": "unsure — it rests on B2"
   }
  ],
- "held": 8,
+ "held": 9,
  "failed": 1,
- "open": 6
+ "open": 5
 }

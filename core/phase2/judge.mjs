@@ -67,7 +67,13 @@ function m3(f) {
   const good = (x) => x.identical === true && n(x.mismatched) === 0 && n(x.extra) === 0 && n(x.vaultBytes) >= 0 && x.vaultBytes < n(x.bytes);
   return [ns.length >= 1 && ns.every(good), ns.length + ' night(s): ' + ns.map((x) => n(x.files) + ' files, ' + n(x.bytes) + ' bytes into ' + n(x.vaultBytes) + (good(x) ? ', byte-identical' : ', NOT identical or not smaller')).join('; ')];
 }
-const RULES = Object.freeze({ G1: g1, G2: g2, G3: g3, E1: e1, E2: e2, E3: e3, M1: m1, M2: m2, M3: m3 });
+function i1(f) {
+  const x = isObj(f.i1) ? f.i1 : {}, r = isObj(x.run) ? x.run : {}, nt = isObj(x.nightly) ? x.nightly : {};
+  const ok = n(r.calls) >= 1 && n(r.records) === r.calls && r.readBack === true && r.matches === true && n(nt.records) >= 1 && nt.readBack === true;
+  return [ok, 'the measured run: ' + n(r.records) + ' of ' + n(r.calls) + ' calls in the book, ' + (r.readBack === true && r.matches === true ? 'every one read back as its call' : 'NOT read back whole') + ' (' + n(r.bytes) + ' bytes; ' + n(r.jsonBytes) + ' as JSON); the nightly loop: '
+    + n(nt.records) + ' call(s), ' + (nt.readBack === true ? 'read back' : 'NOT read back')];
+}
+const RULES = Object.freeze({ G1: g1, G2: g2, G3: g3, E1: e1, E2: e2, E3: e3, M1: m1, M2: m2, M3: m3, I1: i1 });
 
 /** claims = the sealed claims; facts = what measure.mjs measured, keyed by pass. → verdicts in the sealed order. */
 export function judge(claims, facts) {

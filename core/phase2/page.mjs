@@ -50,6 +50,11 @@ async function loadReceipt() {
     $('m3-line').innerHTML = '<b>Kar\'s whole memory</b>, vaulted by the nightly loop: ' + n0(night.files) + ' files, ' + n0(night.bytes) + ' bytes, into one LIGHT vault of ' + n0(night.vaultBytes) + ' bytes (' + esc(String(night.ratio)) + '×), '
       + (night.identical ? 'byte-identical when unpacked into a fresh folder' : '<span class="no">NOT identical</span>') + ' (' + esc(night.at.slice(0, 10)) + '). The memory itself never leaves the machine; only these totals are published, so CI re-judges them and cannot re-measure them.';
   } else { $('j-rows').innerHTML = '<tr><td colspan="7" class="dim">Pass 2 is not measured yet.</td></tr>'; $('m3-line').textContent = ''; }
+  const p3 = receipt.facts.pass3;
+  $('i1-line').innerHTML = p3
+    ? '<b>The controller\'s measured run:</b> ' + n0(p3.run.records) + ' of ' + n0(p3.run.calls) + ' calls in the book (' + n0(p3.run.bytes) + ' bytes; ' + n0(p3.run.jsonBytes) + ' as plain JSON), ' + (p3.run.readBack && p3.run.matches ? 'every one read back as its call' : '<span class="no">not read back whole</span>')
+      + '. <b>The nightly loop:</b> ' + n0(p3.nightly.records) + ' call(s) so far, ' + (p3.nightly.readBack ? 'read back' : '<span class="no">not read back</span>') + '; its prompts carry Kar\'s private memory, so that book stays on the machine and only its totals are published.'
+    : 'Pass 3 is not measured yet.';
   $('pass-rows').innerHTML = claims.passes.map((p) => {
     const vs = j.verdicts.filter((v) => v.pass === p.pass);
     const st = vs.every((v) => v.held === null) ? '<span class="tag na">SEALED</span>' : vs.every((v) => v.held === true) ? '<span class="tag held">HELD</span>' : '<span class="tag failed">SEE RECEIPT</span>';
