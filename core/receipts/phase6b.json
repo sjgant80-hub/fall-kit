@@ -414,6 +414,27 @@
    "exit": 0,
    "last": "the receipt and the books reproduced byte for byte"
   },
+  "n8": {
+   "from": "core/phase6b/local/n8.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase6/",
+   "booksEntries": 52,
+   "added": 51,
+   "skipped": 1,
+   "refused": 0,
+   "parts": {
+    "00e3c56b91ab0a017174b96645eaf928366cdbae1e87fd21bf86661d86f3e7ef": 7112,
+    "62a611b472d89b0e5fc93c069b9f700b4c552d55bc0e87b56008ef17b6b2bebe": 3233,
+    "772c8a442b7db06e166cfbc1ccbcbcde6f3eba76a4e98ef3ffc519502237d6ef": 11638,
+    "7ea0e3bd52e207c9d3b0eba65c0704e66fca2d8e165a175218b174fc4160e413": 962500,
+    "8e486e8fb79499dba2a789c6b1639d409495233c79e0eaf52e2ea1fc9dbbb73f": 4526,
+    "d4eec1869fb1b8a4e817516ad5a931557cb56805c3eb16e8f3a803d647df7869": 5603,
+    "e28a8970753332bd72fef413e6b0b2ef1b4aadda7aa2c141f233712a6876b351": 5388
+   },
+   "atDoorRefused": 9,
+   "unboundRefused": true,
+   "siteNamed": true,
+   "seconds": 1.594
+  },
   "n9": {
    "files": {
     "core/names.mjs": [],
@@ -474,8 +495,8 @@
   {
    "id": "N8",
    "pass": 4,
-   "held": null,
-   "measured": "not measured yet"
+   "held": true,
+   "measured": "in a tab at sjgant80-hub.github.io/fall-kit/core/phase6/: 52 entries, 51 added, 1 already held, 0 refused; the allocation part for part this receipt's; Phase 6's mock refused, naming the site's name, in 1.594 s"
   },
   {
    "id": "N9",
@@ -484,7 +505,7 @@
    "measured": "8 modules read, 0 with a barred word; the page text: none"
   }
  ],
- "held": 8,
+ "held": 9,
  "failed": 0,
- "open": 1
+ "open": 0
 }
