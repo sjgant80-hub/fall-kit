@@ -74,3 +74,45 @@ test('the receipt re-judges to its own verdicts', () => {
   assert.deepEqual(j.verdicts, receipt.verdicts);
   assert.deepEqual([j.held, j.failed, j.open], [receipt.held, receipt.failed, receipt.open]);
 });
+
+test('the steps for a larger network do what the page says, on Phase 6\'s own mock', async () => {
+  const L = await import('../vendor/ledger/contrib.mjs');
+  const { boundGate, unboundIn, mergeBound } = await import('../names.mjs');
+  const { worldOf, AT } = await import('../phase6/world.mjs');
+  const { mockNetwork, counselDigest } = await import('../phase6/paths.mjs');
+  const { auditGate } = await import('../phase6/books.mjs');
+  const { keysOf, ctxOf } = await import('./net.mjs');
+  const world = await worldOf(claims6.seeds, claims6.policy), k = keysOf(world), open = async () => ({ ok: true });
+  const proof = [{ kind: 'mock-network', ref: 'network', digest: counselDigest('a mock of a larger network') }];
+  const says = (s) => assert.ok(text.includes(s), 'the page does not say: ' + s);
+  // Phase 6's mock, plus one entry that keeps the rule
+  let old = (await mockNetwork(world, k)).ledger;
+  old = (await L.record(old, (await L.sign(k.network[1], { type: 'release', asset: 'card:partner-tool', at: AT, form: 'card', lineage: [], proofs: proof })).entry, { gate: open })).ledger;
+  says('lists every release you hold that breaks the rule, with the entry it was recorded at and the key that signed it');
+  assert.deepEqual(unboundIn(old).unbound.map((u) => [u.asset, u.at, u.maker]), old.log.filter((x) => x.entry.type === 'release' && x.entry.asset !== 'card:partner-tool').map((x) => [x.entry.asset, x.n, x.entry.by]));
+  says('reconcile(fresh, old, { gate: boundGate(yourGate) })');
+  const fresh = (await L.record(L.empty(), old.genesis, {})).ledger;
+  const rc = await L.reconcile(fresh, old, { gate: boundGate(open) });
+  says('Every release that breaks the rule is refused and named, so is every value resting on one, and every other entry is kept');
+  const refused = rc.refused.map((x) => old.log[x.n].entry);
+  assert.equal(refused.filter((e) => e.type === 'release').length, 4);
+  assert.equal(refused.filter((e) => e.type === 'value').length, 3);
+  assert.ok(rc.refused.every((x) => x.why.includes(old.log[x.n].entry.asset)));
+  assert.deepEqual([rc.added, rc.skipped], [1, 1]);
+  assert.ok(rc.ledger.assets['card:partner-tool']);
+  assert.deepEqual(unboundIn(rc.ledger).unbound, []);
+  says('The books then merge into yours with nothing refused');
+  let l = rc.ledger;
+  for (let i = 0; i < 3; i++) {
+    const r = await L.record(l, (await L.sign(k.network[i], { type: 'release', asset: assetOf(k.network[i].pub), at: AT, form: 'node', lineage: [], proofs: proof })).entry, { gate: boundGate(open) });
+    assert.ok(r.ok, r.why);
+    l = r.ledger;
+  }
+  const ids = new Set();
+  for (const x of l.log) ids.add(await L.idOf(x.entry));
+  const ev = JSON.parse(readFileSync(join(CORE, 'phase6', 'evidence.json'), 'utf8')), log = JSON.parse(readFileSync(join(CORE, 'phase6', 'books.json'), 'utf8'));
+  const books = (await L.replay(log, { gate: auditGate(ctxOf(ev)) })).ledger;
+  const m = await mergeBound(l, books, { gate: async (e, led) => (ids.has(await L.idOf(e)) ? { ok: true } : auditGate(ctxOf(ev))(e, led)) });
+  assert.equal(m.ok, true);
+  assert.deepEqual([m.added, m.skipped, m.refused.length], [51, 1, 0]);
+});
