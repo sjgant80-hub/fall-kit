@@ -94,6 +94,9 @@ test('every number the page states is the receipt\'s', () => {
   says('the red team holds fifteen copies of the empty request');
   assert.equal(f.d2.corpus.admittedEmpty, 15);
   says('3,496 real hostile and malformed payloads');
+  says('46 of the 70 sealed messages routed right');
+  says('did better (65 of 70 on a laptop)');
+  assert.equal(f.mind.t0Right, 46);
   assert.equal(f.corpus.tab, 3496);
 });
 

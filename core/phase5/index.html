@@ -177,7 +177,7 @@ node core/phase5/measure.mjs --check    # the red team, the mind's door, the mes
 <div class="box">
   <div class="row"><button class="btn" id="mind-wake" type="button">Wake the mind (about 700 MB, once)</button><button class="btn ghost" id="mind-run" type="button" disabled>Route the 70 sealed messages</button></div>
   <div class="bar" aria-hidden="true"><i id="mind-bar"></i></div>
-  <div id="mind-out" aria-live="polite"><p class="small dim">Asleep. The weights come from Hugging Face's mlc-ai repository and the library from esm.run, both only after you press the button; after that the model runs on your machine, offline.</p></div>
+  <div id="mind-out" aria-live="polite"><p class="small dim">Asleep. The weights come from Hugging Face's mlc-ai repository and the library from esm.run, both only after you press the button; after that the model runs on your machine, offline. It needs a browser with WebGPU (current Chrome and Edge have it); without it, the page says so and the keyword rule keeps working.</p></div>
 </div>
 <p class="small dim">The 70 messages were written by a different local model (qwen2.5:7b) from the route descriptions, ten a route, before the mind ran, and sealed with the claims. They are not real visitors' words. The keyword rule's words are chosen by a rule, not by hand: every word of four or more letters in one route's description and no other's.</p>
 
@@ -205,7 +205,7 @@ node core/phase5/measure.mjs --check    # the red team, the mind's door, the mes
 </div>
 
 <h2 id="local-first">Local-first</h2>
-<p>The site is files on a static host. The door, the memory, the keyword rule, the mesh and the mind all run in your tab, so there is no server of ours to call and none to take down: any static host can serve the same files. The page's own security policy lets it call this site and, for waking the mind only, the model hosts named in the claims: esm.run, cdn.jsdelivr.net, huggingface.co and its content hosts, and raw.githubusercontent.com. The browser enforces that policy, not the page.</p>
+<p>The site is files on a static host. The door, the memory, the keyword rule, the mesh and the mind all run in your tab, so there is no server of ours to call and none to take down: any static host can serve the same files (with break-it's, konomi-slm's and falllink's beside them, for the mesh). The page's own security policy lets it call this site and, for waking the mind only, the model hosts named in the claims: esm.run, cdn.jsdelivr.net, huggingface.co and its content hosts, and raw.githubusercontent.com. The browser enforces that policy, not the page.</p>
 <div class="box">
   <div class="row"><button class="btn" id="req-go" type="button">List every request this tab has made</button><button class="btn ghost" id="req-policy" type="button">Show the policy the browser enforces</button></div>
   <div id="req-out" aria-live="polite"></div>
@@ -244,10 +244,10 @@ node core/phase5/measure.mjs --check    # the red team, the mind's door, the mes
 <p class="lede">What it gives you: a website that defends itself at its own door, understands what visitors want without sending their words to anyone, learns from every attack and shares what it learns with your other systems, and needs no server to do it.</p>
 <div class="scroll"><table><thead><tr><th>Who</th><th>What changes</th></tr></thead><tbody>
   <tr><td>CEO</td><td>Your website stops being a brochure behind someone else's firewall and becomes a node of your own estate: it answers visitors, defends itself, and hands customers something of their own. There is no platform under it to rent.</td></tr>
-  <tr><td>CFO</td><td>The managed path in front of a site (a web firewall and, if you run one, an API gateway for a chat backend) is a monthly bill that grows with traffic. This site does that work in each visitor's tab, so traffic costs you nothing more. The case below uses break-it's gated cost kernel on its dated public prices; staff time is priced at the legal minimum wage, so the saving is a floor.</td></tr>
-  <tr><td>COO</td><td>Visitors are routed to the right answer by a model on their own machine, with the keyword rule as the floor: 65 of 70 sealed messages routed right on a laptop. Every refusal at the door is counted by stage, so you see what is hitting the site.</td></tr>
+  <tr><td>CFO</td><td>The managed path in front of a site (a web firewall and, if you run one, an API gateway for a chat backend) is a monthly bill that grows with traffic. This site does that work in each visitor's tab, so more traffic adds no server cost: the host only hands out files. The saving starts with the first month, because there is nothing to stand up first. The case below uses break-it's gated cost kernel on its dated public prices; staff time is priced at the legal minimum wage, so the saving is a floor.</td></tr>
+  <tr><td>COO</td><td>Visitors are routed to the right answer by a model on their own machine, with the keyword rule as the floor: 65 of 70 sealed messages routed right on a laptop. Every refusal at the door is counted by stage and kept as an antibody, which the site shares with the nodes it is pinned to.</td></tr>
   <tr><td>CTO</td><td>Static files, one page, kernels that are mutation-tested, and a receipt CI re-derives byte for byte. Nothing to host but files, no build step, no backend. The model is optional: the site works fully without it.</td></tr>
-  <tr><td>CISO</td><td>Every request crosses a door on raw bytes before any code uses it, and the model is behind a door of its own, so prompt injection can at worst pick a wrong route. Attacks are remembered and shared with your other nodes, which re-check before they adopt. The page's policy lets the browser call nothing but this site and, after the visitor opts in, the named model hosts.</td></tr>
+  <tr><td>CISO</td><td>Every request crosses a door on raw bytes before any code uses it, and the model is behind a door of its own, so prompt injection can at worst pick a wrong route. Attacks are remembered and shared with the nodes the site is pinned to and connected with, which re-check before they adopt. The page's policy lets the browser call nothing but this site and, after the visitor opts in, the named model hosts.</td></tr>
   <tr><td>The teams</td><td>Fewer visitor questions to route by hand, and a log of what the door refused that anyone can read. The site's words are fixed text you write and review, never generated.</td></tr>
 </tbody></table></div>
 <h3>The cost case</h3>
@@ -272,14 +272,15 @@ node core/phase5/measure.mjs --check    # the red team, the mind's door, the mes
   <li><b>What the mind cannot do.</b> Anything but pick one of seven routes. Its reply is checked like any other request, and the words a route shows are fixed text.</li>
   <li><b>Where data goes.</b> Nowhere. What a visitor types stays in their tab. If they wake the mind, the model runs in their browser. The mesh in this page runs in the tab too; across two tabs it is a direct WebRTC channel on the same machine.</li>
   <li><b>Personal data.</b> The site holds none: it keeps the hashes of refused requests in the visitor's own tab, for as long as the tab is open. UK GDPR and GDPR: there is nothing to process on a server because there is no server, and the visitor's words never leave their device.</li>
+  <li><b>Who can change it.</b> Whoever can publish the site's files. The door's rules, the routes and every word a route shows are in its code, so a change is a commit: CI re-runs the gates and the receipt before it goes live, and the page re-judges its own receipt in every visitor's tab.</li>
   <li><b>Signed, not encrypted.</b> Packets between nodes are signed, so a forged or changed one is refused, but they are not encrypted: confidentiality between nodes is the transport's job (WebRTC encrypts its channels).</li>
-  <li><b>What it does not stop.</b> A visitor's own browser or machine being compromised; a key being stolen; a denial of service against the static host itself. The edges, the model hosts a visitor opts into, are named, pinned to versions and fetched only on that opt-in.</li>
+  <li><b>What it does not stop.</b> A visitor's own browser or machine being compromised; a key being stolen; a denial of service against the static host itself. The edges, the model hosts a visitor opts into, are named in the policy and fetched only on that opt-in: the library is pinned to version 0.2.79; the weights are mlc-ai's published files for that model, which the page cannot check byte for byte.</li>
 </ul>
 <h3 id="roll-out">Rolling it out</h3>
 <ol>
-  <li><b>Start with one page.</b> Copy the door and the router into your site, list your routes and write the fixed words for each. The keyword rule works on day one; the mind is an option for visitors who want it.</li>
+  <li><b>Start with one page.</b> Copy the door and the router into your site, list your routes and write the fixed words for each. The keyword rule works on day one (46 of the 70 sealed messages routed right); the mind, for visitors who wake it, did better (65 of 70 on a laptop).</li>
   <li><b>Join it to your mesh (Model A),</b> or plant a mesh of your own (Model B): give the site a key, pin your nodes, and let refusals flow as antibodies to the rest of your estate.</li>
-  <li><b>Read the door's log weekly.</b> What it refused, by stage, is what is hitting you.</li>
+  <li><b>Collect what the door refuses.</b> Each visitor's tab counts its refusals by stage and keeps them as antibodies. To see them across visitors, pin a node of yours and the site shares them with it over the mesh, as this page does with break-it's node in a tab and between two tabs. Across devices that needs a signalling path you choose (Phase 3 sets out the relays); this page does not run one for you.</li>
   <li><b>Hand customers their own cell.</b> A DIGI is a card and a key that are theirs; the funnel is one link.</li>
 </ol>
 <h3>Support and ownership</h3>

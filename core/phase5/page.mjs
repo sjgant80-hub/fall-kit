@@ -50,7 +50,7 @@ addEventListener('hashchange', () => address(enc(location.hash)));
 address(enc(location.hash));
 
 // ── a message: through the door, shown as text, routed ──
-const seenText = (s) => 'The door saw ' + s.bytes + ' bytes' + (s.utf8 ? ', ' + s.chars + ' characters, ' + s.lines + ' lines, ' + s.markup + ' markup brackets, ' + s.links + ' links, ' + s.controls + ' control and ' + s.bidi + ' bidirectional characters.' : ', not valid UTF-8.');
+const seenText = (s) => 'The door saw ' + s.bytes + ' bytes' + (s.utf8 ? ', ' + s.chars + ' characters, ' + s.lines + (s.lines === 1 ? ' line, ' : ' lines, ') + s.markup + ' markup brackets, ' + s.links + ' links, ' + s.controls + ' control and ' + s.bidi + ' bidirectional characters.' : ', not valid UTF-8.');
 function routeLine(p, route, by, why) {
   const [title, words] = ROUTE_WORDS[route];
   p.replaceChildren(el('b', null, title), document.createTextNode(' — ' + words + ' (' + (by === 'mind' ? 'the mind chose this' : 'the keyword rule chose this' + (why ? '; the mind said nothing usable: ' + why : '')) + ')'));
@@ -80,9 +80,13 @@ export function message(bytes, log, opts = {}) {
   }
   return r;
 }
-function sendTalk(text) {
+// the keyword rule's words come from the sealed claims: nothing is routed until they are here (a message sent in the
+// first moment was once routed to 'none' because they were not yet loaded; found by the V1 walk)
+const ROUTES_READY = getJson('./claims.json').then((c) => { if (!KW) KW = keywordsOf(c.mind.routes); if (!CLAIMS) CLAIMS = c; }).catch(() => {});
+async function sendTalk(text) {
   const t = typeof text === 'string' ? text : $('talk-in').value;
   if (typeof text !== 'string') $('talk-in').value = '';
+  await ROUTES_READY;
   message(enc(t), $('talk-log'));
 }
 $('talk-go').addEventListener('click', () => sendTalk());
@@ -143,6 +147,7 @@ $('replay-go').addEventListener('click', async () => {
   const btn = $('replay-go'); btn.disabled = true;
   try {
     say('replay-out', 'Loading the red team from this site…');
+    await ROUTES_READY;
     const rt = await getJson('./redteam.json'), list = rt.payloads.map(([id, b]) => ({ id, bytes: unb64(b) }));
     const digest = hex(sha256(enc(list.map((p) => p.id + ':' + hex(sha256(p.bytes))).join('\n'))));
     const log = $('replay-log'), obs = new MutationObserver(() => {});
