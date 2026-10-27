@@ -46,6 +46,8 @@ async function load() {
     say('planted-line', 'A value planted one unit over what Phase 4 measured (' + n0(f.c4.planted.units) + ' units) was ' + (f.c4.planted.ok ? 'RECORDED' : 'refused: ' + f.c4.planted.why) + '.', f.c4.planted.ok ? 'no' : 'ok');
     const credits = f.c5.credits || {}, parts = f.c5.parts || {};
     put('part-rows', ...Object.keys(parts).map((k) => row(NAMES[k] || k.slice(0, 12) + '…', n0(credits[k] || 0), n0(parts[k]) + ' (' + ((100 * parts[k]) / f.c5.pool).toFixed(2) + '%)')));
+    const growth = Object.keys(parts).find((k) => k === ev.growth);
+    $('spec-share').textContent = growth ? ((100 * parts[growth]) / f.c5.pool).toFixed(1) + '% of it' : 'none of it';
     $('live-line').textContent = f.c6.live.ok ? 'it gave one: something is wrong.' : '“' + f.c6.live.why + '”.';
     const k7 = f.c7, k8 = f.c8;
     $('fork-line').textContent = (k7.recorded ? 'The activator\'s switch was recorded; ' : 'The activator\'s switch was NOT recorded; ') + (k7.liveEqualsSandbox ? 'the live allocation was exactly the sandbox one. ' : 'the live allocation differed. ') + 'A node\'s own switch was ' + (k7.nodeSwitch.ok ? 'RECORDED' : 'refused') + ', a second switch ' + (k7.second.ok ? 'RECORDED' : 'refused') + '. The books stayed ' + (k7.booksStillOff ? 'off.' : 'SWITCHED.');

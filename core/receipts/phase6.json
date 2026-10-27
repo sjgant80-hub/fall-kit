@@ -354,6 +354,21 @@
     "the switch is off",
     "contribution unit"
    ]
+  },
+  "c11": {
+   "from": "core/phase6/local/c11.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase6/",
+   "head": "0d40e53646f76804a7bbbcc31ee823a155bd2b838c7e108f5621973640207659",
+   "entries": 52,
+   "checked": 38,
+   "sameCredits": true,
+   "parts": {
+    "772c8a442b7db06e166cfbc1ccbcbcde6f3eba76a4e98ef3ffc519502237d6ef": 11798,
+    "7ea0e3bd52e207c9d3b0eba65c0704e66fca2d8e165a175218b174fc4160e413": 975748,
+    "d4eec1869fb1b8a4e817516ad5a931557cb56805c3eb16e8f3a803d647df7869": 6555,
+    "e28a8970753332bd72fef413e6b0b2ef1b4aadda7aa2c141f233712a6876b351": 5899
+   },
+   "secondHandAgrees": true
   }
  },
  "verdicts": [
@@ -420,11 +435,11 @@
   {
    "id": "C11",
    "pass": 4,
-   "held": null,
-   "measured": "not measured yet"
+   "held": true,
+   "measured": "in a real tab of sjgant80-hub.github.io/fall-kit/core/phase6/: the books replayed to the receipt's head, the same credits, the same sandbox parts"
   }
  ],
- "held": 8,
+ "held": 9,
  "failed": 2,
- "open": 1
+ "open": 0
 }
