@@ -1,0 +1,152 @@
+{
+ "kind": "fall-kit.core.phase6.claims",
+ "v": 1,
+ "phase": 6,
+ "title": "The books: every node records its contributions, the books re-derive, a sandbox allocation is computed exactly, and the switch stays off",
+ "spec": "ESTATE GO-LIVE master spec, Phase 6. 6a every node records its contributions in LIGHT to the contribution ledger, signed, gated and measured (leave-one-out, usage, routing share), accumulating now. 6b the switch stays dormant: activation is a human decision, by the larger network or by the estate's own fork; both paths built. PROVE: every node writes recorded contributions; the ledger re-derives; the allocation computes correct parts in a sandbox; both activation paths exist. GATE: an earned contribution credit, not a token sold; no pre-sale; advice before real value crosses to real people.",
+ "sealed": "Before any Phase 6 code: core/economy.mjs and every file of core/phase6/ but this one do not exist at the commit that adds it (its parent is fall-kit d76488b). The rules below do not change once the first number is measured.",
+ "honest": [
+  "The keys are public test seeds, as in Phases 1 to 5: the founder, who is also the one activator the books name, the nodes and the mock network. Anyone can sign with them, so the demo books show the mechanism, not anyone's real credit. A real ledger names keys its owners hold.",
+  "The larger network the network path reconciles with is a mock of the same schema and genesis as these books: the real network's record schema is not in hand.",
+  "How the bases weigh against each other is the ledger owner's policy. These demo books count one unit for each verified answer a node used (routing), one unit for each thousandth of balanced accuracy a specialist added on rows it never saw (leave-one-out, from Phase 4's gate), and give the maker of an asset a tenth of every value; the first forty entries weigh one and a half.",
+  "The units are internal contribution units, not money. No allocation is live, and none can be without the switch, which only an activator named at genesis can sign. Whether an allocation is ever worth anything is the ledger owner's decision, with legal advice, outside this code."
+ ],
+ "policy": {
+  "makerPpm": 100000,
+  "lineagePpm": 0,
+  "earlyUntil": 40,
+  "earlyNum": 3,
+  "earlyDen": 2
+ },
+ "seeds": {
+  "founder": 70,
+  "site": 71,
+  "breakit": 72,
+  "konomi": 73,
+  "liar": 74,
+  "growth": 75,
+  "network": [
+   77,
+   78,
+   79
+  ],
+  "networkMeasurer": 80
+ },
+ "nodes": {
+  "break-it": "4e41aec63ccfd9bf426e4b012ec96f9df22ea916",
+  "konomi-slm": "e74cb6f517a7d960bc418dcf28c831cf3cfd2ea6"
+ },
+ "run": "Four nodes, each in its own operating-system process: the living site (form app, its door offered to the mesh as the skill door), break-it (screen), konomi-slm (triage) and a dishonest peer offering triage with receipts that do not check. The site asks break-it for the five BRK1 cases and triage for ten of konomi-slm's held-out rows (rows 8 to 17); break-it asks triage for the next ten (rows 18 to 27); konomi-slm asks break-it for the five BRK1 cases; break-it and konomi-slm each ask the site's door about the first five of Phase 5's sealed visitor messages. Every node writes a value for each answer it used and whose receipt it checked (the foundation's routing basis, one unit).",
+ "phase4": "The specialists Phase 4's gate let in (core/receipts/phase4.json, candidates and controls with joined set): each released by the growth engine's key as form card, asset phase4:<skill>:<patternId>, and valued by the founder on basis mesh-share, job phase4:gate:<skill>, units = round(1,000 × its gain over the organism without it on GATE rows).",
+ "pool": 1000000,
+ "counsel": "sandbox: no counsel was given; this switch exists only in a test copy",
+ "counselDigest": "the SHA-256 of the counsel text above",
+ "barred": [
+  "airdrop",
+  "token",
+  "invest",
+  "return on",
+  "price",
+  "pricing",
+  "buy",
+  "sell",
+  "sale",
+  "presale",
+  "purchase",
+  "crypto",
+  "coin",
+  "BSV",
+  "MCP",
+  "KCC",
+  "earn",
+  "profit",
+  "dividend",
+  "yield",
+  "payout",
+  "cash",
+  "withdraw",
+  "exchange rate",
+  "£",
+  "$"
+ ],
+ "barredRule": "A barred word or phrase: case-insensitive, as a whole word, or followed by s, es, ed, ing or er (so buy bars buy, buys, buying and buyer, and earn does not bar learn), in the page's text and in every module's source. The two currency signs: in the page's text only, because a module's $ is code.",
+ "claims": [
+  {
+   "id": "C1",
+   "pass": 2,
+   "claim": "Every node records its own contributions.",
+   "measure": "The run above; each node's own ledger read at the end; every message between the nodes counted.",
+   "rule": "4 processes; each of the three honest nodes holds its own release and at least one value it measured and signed; the dishonest peer's answers are valued by no one (0 values on its asset in any ledger); every message a LIGHT packet"
+  },
+  {
+   "id": "C2",
+   "pass": 2,
+   "claim": "An auditor's books take every node's ledger and re-check every value against the signed answer it was for.",
+   "measure": "Each node's ledger, sent to the auditor as a LIGHT packet; the auditor reconciles them into one set of books under a gate that finds, for each value, the holder's own signed answer packet the run carried, checks its signature, its digest and its receipt.",
+   "rule": "every honest node's entries recorded once (added plus already held equals all entries sent), 0 refused; every value in the books re-checked against its answer packet; the count of values equals the count of answers checked"
+  },
+  {
+   "id": "C3",
+   "pass": 2,
+   "claim": "The books re-derive.",
+   "measure": "The books' log replayed from nothing; the books kept as a LIGHT vault and read back; both rebuilt in CI.",
+   "rule": "the replay gives the same head and the same credits; the vault reads back the log byte for byte; core/phase6/books.json and books.light reproduce byte for byte"
+  },
+  {
+   "id": "C4",
+   "pass": 2,
+   "claim": "Leave-one-out: the specialists Phase 4 grew are credited with what they added, as Phase 4's gate measured it.",
+   "measure": "Each specialist Phase 4's gate let in, released and valued as above, under a gate that re-reads Phase 4's committed receipt; and one planted value one unit off.",
+   "rule": "one mesh-share value for each specialist Phase 4 let in (4), each equal to round(1,000 × its gain); the planted value refused"
+  },
+  {
+   "id": "C5",
+   "pass": 1,
+   "claim": "The sandbox allocation is exact.",
+   "measure": "allocate on the books, sandbox, pool 1,000,000; the same parts computed a second time by core/economy.mjs, written separately; every contributor's line items.",
+   "rule": "the parts sum to 1,000,000 exactly; every part equal to the second computation; every contributor's lines sum to their credit; the early weight on exactly the entries up to position 40"
+  },
+  {
+   "id": "C6",
+   "pass": 3,
+   "claim": "The switch is off.",
+   "measure": "The books; a live allocation asked of them; every name the ledger module and core/economy.mjs export.",
+   "rule": "no switch entry in the books; the live allocation refused because the switch is off; no exported name is a money verb (buy, sell, pay, payout, withdraw, cash, trade, exchange, convert, transfer, fiat, send) or makes a switch (switch, activate, enable, flip)"
+  },
+  {
+   "id": "C7",
+   "pass": 3,
+   "claim": "The fork path exists: the estate can switch its own books, and nothing else can.",
+   "measure": "A copy of the books: a switch on the fork path, signed by the activator the genesis names, with the sealed counsel digest and pool; a switch signed by a node's key; a second switch.",
+   "rule": "the activator's switch recorded; the live allocation then equals the sandbox allocation for the same pool; the node's switch and the second switch refused; the books themselves still off"
+  },
+  {
+   "id": "C8",
+   "pass": 3,
+   "claim": "The network path exists: the books merge into a larger network without counting anything twice.",
+   "measure": "A mock larger network of the same schema and genesis holding three other contributors' releases and values and one release of the living site's asset by another key; the books reconciled into it; a switch on the network path; the merged log replayed.",
+   "rule": "every entry of the books recorded once or refused (added plus already held plus refused equals the books' entries); exactly the conflicting release refused, and named; the network allocation sums to its pool and covers the books' contributors and the network's; the replay of the merged log gives the same allocation"
+  },
+  {
+   "id": "C9",
+   "pass": 1,
+   "claim": "The economy kernel never throws.",
+   "measure": "20,000 garbage inputs from a fixed seed through every function core/economy.mjs exports.",
+   "rule": "20,000 cases, 0 throws"
+  },
+  {
+   "id": "C10",
+   "pass": 4,
+   "claim": "The page and the code say what this is and nothing it is not.",
+   "measure": "The page's text and every module of core/phase6/ and core/economy.mjs, against the sealed barred list.",
+   "rule": "0 barred words; the page says not money, the switch is off, and contribution unit"
+  },
+  {
+   "id": "C11",
+   "pass": 4,
+   "claim": "Anyone can re-derive the books in their own browser.",
+   "measure": "The live page in a real tab: the books fetched, replayed from nothing with the ledger's own code, the sandbox allocation computed.",
+   "rule": "the same head, the same credits and the same sandbox parts as the receipt"
+  }
+ ]
+}
