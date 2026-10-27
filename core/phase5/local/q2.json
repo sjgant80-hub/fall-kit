@@ -1,0 +1,15 @@
+{
+ "kind": "fall-kit.core.phase5.local",
+ "v": 1,
+ "claim": "Q2",
+ "what": "The live page in a real browser tab, every request it made read from the browser's own record (performance entries: the navigation and every resource, fetch and module import). First used end to end with the mind asleep: the red-team replay, two messages, a topic chip, the mesh with break-it's and konomi-slm's nodes from their own sites, the record form, the request list and the policy. Then 'Wake the mind' pressed and the 70 sealed messages routed by it. Hosts are counted by the URL the page asked for; a redirect a host answers with (Hugging Face's weights come from its content hosts) is held by the same policy and is not a separate entry.",
+ "at": "2026-10-27",
+ "commit": "fall-kit fdb613f",
+ "browser": "Chrome/152.0.7977.167 (the Claude desktop app's browser pane)",
+ "where": "sjgant80-hub.github.io/fall-kit/core/phase5/",
+ "byHost": { "esm.run": 1, "huggingface.co": 25, "raw.githubusercontent.com": 1 },
+ "facts": {
+  "asleep": { "requests": 68, "other": [], "sameOrigin": 68 },
+  "awake": { "requests": 96, "other": ["esm.run", "huggingface.co", "raw.githubusercontent.com"], "sameOrigin": 69 }
+ }
+}

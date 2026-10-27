@@ -1,0 +1,38 @@
+{
+ "kind": "fall-kit.core.phase5.local",
+ "v": 1,
+ "claim": "D4",
+ "what": "The live page in a real browser tab: the button 'Replay the red team in this tab' pressed, which hands every one of the 3,496 tab payloads (core/phase5/redteam.json, the sealed corpus's payloads of at most 2,048 bytes) to the page's own address handler and its own message handler, while a MutationObserver counts every element added to the page. This is the tab's own window.p5.d4, copied as it was.",
+ "at": "2026-10-27",
+ "commit": "fall-kit fdb613f",
+ "browser": "Chrome/152.0.7977.167 (the Claude desktop app's browser pane)",
+ "where": "sjgant80-hub.github.io/fall-kit/core/phase5/",
+ "facts": {
+  "payloads": 3496,
+  "digest": "1cd5fc4345797c13216a4cba38afe6c0c59bc244466135329043ff64b1083eac",
+  "addresses": {
+   "count": 3496,
+   "elementsAdded": 0,
+   "refused": 3481
+  },
+  "messages": {
+   "count": 3496,
+   "admitted": 2754,
+   "refused": 742,
+   "perAdmitted": [
+    6
+   ],
+   "perRefused": [
+    4
+   ],
+   "textOnly": 2754
+  },
+  "second": {
+   "refused": 4223,
+   "recognised": 4223,
+   "admitted": 2769
+  },
+  "cspViolations": 0
+ },
+ "earlier": "Measured first on fall-kit a6ab3a4 with the same result; measured again on fdb613f, the commit whose page every Phase 5 tab claim was measured on."
+}

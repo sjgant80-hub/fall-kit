@@ -1,0 +1,22 @@
+{
+ "kind": "fall-kit.core.phase5.local",
+ "v": 1,
+ "claim": "V1",
+ "what": "A fresh tab on the live page: the visitor typed 'I want my own DIGI card' into the talk box at once and pressed Send; the site routed it and showed its link; the visitor followed that link (a click on it), landed on Kardlings at #first-game, waited for Card me to enable and pressed it. Then, in that tab, Kardlings' own state (its app.js module, the one the page runs) was read for the card's owner and the visitor's key, and Kardlings' own 'Verify everything' was run on the card. These are the tabs' own results, copied as they were.",
+ "at": "2026-10-27",
+ "commit": "fall-kit fdb613f; kardlings 28c0892 (its live page)",
+ "browser": "Chrome/152.0.7977.167 (the Claude desktop app's browser pane)",
+ "where": "sjgant80-hub.github.io/fall-kit/core/phase5/ → sjgant80-hub.github.io/kardlings/#first-game",
+ "attempts": [
+  "First attempt, on fall-kit a6ab3a4: typed one and a half seconds after load, before the page had loaded the sealed claims the keyword rule's words come from, so the message was routed to 'none' and its link was #start-here. A race in core/phase5/page.mjs; fixed in fdb613f (nothing is routed until the words are loaded). Not counted: the claim was measured on the fixed page, below, typing at once to test the fix."
+ ],
+ "site": { "said": "I want my own DIGI card", "route": "Your own DIGI — Kardlings, on this same site, hands you a card made for a key that lives only in your browser. One click, and nothing about you is sent anywhere. (the keyword rule chose this)", "href": "https://sjgant80-hub.github.io/kardlings/#first-game", "requests": { "requests": 29, "other": [], "sameOrigin": 29 } },
+ "kardlings": { "events": ["select", "card serial 4", "select", "grown"], "card": "9f23430f85153414", "serial": 4, "owner": "59e8cf34f14908d9…", "me": "59e8cf34f14908d9…", "verify": ["✓ The PNG reads back, its CRCs whole, its face redrawn from what it carries and matched to the pixel", "✓ Every seal and signature of its life checks (2 events)", "✓ The registry here holds this very life (current)"], "requests": 136, "other": [] },
+ "facts": {
+  "routed": "digi",
+  "decidedBy": "keywords",
+  "followed": "https://sjgant80-hub.github.io/kardlings/#first-game",
+  "card": { "serial": 4, "mine": true, "verified": true },
+  "other": []
+ }
+}

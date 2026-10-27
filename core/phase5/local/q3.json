@@ -1,0 +1,24 @@
+{
+ "kind": "fall-kit.core.phase5.local",
+ "v": 1,
+ "claim": "Q3",
+ "what": "In a real tab of the live page (the same tab as D4, after the red-team replay, a message, a topic chip, the mesh and the record form), one fetch to https://example.com/, run in the page's own context, with a securitypolicyviolation listener. The page's own code holds no such call: the probe was run in the tab by the measurer. This is what the tab returned, copied as it was.",
+ "at": "2026-10-27",
+ "commit": "fall-kit fdb613f",
+ "browser": "Chrome/152.0.7977.167 (the Claude desktop app's browser pane)",
+ "where": "sjgant80-hub.github.io/fall-kit/core/phase5/",
+ "facts": {
+  "tried": "https://example.com/",
+  "violation": true,
+  "directive": "connect-src",
+  "completed": false,
+  "blockedURI": "https://example.com/",
+  "error": "Failed to fetch",
+  "requestsAfter": {
+   "requests": 68,
+   "other": [],
+   "sameOrigin": 68
+  }
+ },
+ "earlier": "Measured first on fall-kit a6ab3a4 with the same result; measured again on fdb613f, the commit whose page every Phase 5 tab claim was measured on."
+}

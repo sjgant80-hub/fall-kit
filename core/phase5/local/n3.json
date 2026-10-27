@@ -1,0 +1,25 @@
+{
+ "kind": "fall-kit.core.phase5.local",
+ "v": 1,
+ "claim": "N3",
+ "what": "Two tabs of one browser on the live page (#the-mesh), each with its own key made in the tab, connected by falllink over a real WebRTC data channel with an empty STUN list. Join pressed in both; each tab showed the other's key and Pin was pressed in both; Attack and share pressed in tab A. Tab A refused a packet from a key nobody pinned, sent tab B its antibodies, then the same packet, then an honest shared-state packet; tab B's own door decided each. These are the two tabs' own window.p5.n3, copied as they were; the facts below join A's refusal to B's adoption, recognition and admission.",
+ "at": "2026-10-27",
+ "commit": "fall-kit fdb613f, falllink 9c7bca5",
+ "earlier": "Measured first on fall-kit a6ab3a4 (keys 44646481… and 463540b3…) with the same result; measured again on fdb613f.",
+ "browser": "Chrome/152.0.7977.167 (the Claude desktop app's browser pane), two tabs",
+ "where": "sjgant80-hub.github.io/fall-kit/core/phase5/#the-mesh",
+ "tabs": {
+  "a": { "tabs": 2, "channel": true, "me": "0427fd8dae10f96b", "them": "8f2a0a72934c0daa", "pinned": true, "role": "attacker", "refused": { "ok": false, "stage": "sender", "recognised": false, "t": null }, "offered": 0, "adopted": 0, "autoimmuneBlocked": 0, "again": null, "honest": null },
+  "b": { "tabs": 2, "channel": true, "me": "8f2a0a72934c0daa", "them": "0427fd8dae10f96b", "pinned": true, "role": "receiver", "refused": null, "offered": 1, "adopted": 1, "autoimmuneBlocked": 0, "again": { "ok": false, "stage": "sender", "recognised": true, "t": null }, "honest": { "ok": true, "stage": null, "recognised": false, "t": "sync" } }
+ },
+ "facts": {
+  "tabs": 2,
+  "channel": true,
+  "refused": { "ok": false, "stage": "sender", "recognised": false },
+  "offered": 1,
+  "adopted": 1,
+  "autoimmuneBlocked": 0,
+  "again": { "ok": false, "stage": "sender", "recognised": true },
+  "honest": { "ok": true, "stage": null, "recognised": false }
+ }
+}

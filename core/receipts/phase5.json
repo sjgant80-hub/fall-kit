@@ -5,6 +5,7 @@
  "notes": [
   "D2 failed as sealed, and is kept. The fifteen corpus payloads let in as the page's address are all the empty request (zero bytes: two empty .nojekyll files and an empty LICENSE, and their cuts), which the sealed address rule takes as the top of the page. Two sealed rules disagree on that one input; the claim is not re-sealed. Every non-empty payload was refused.",
   "Q1 failed as sealed, and is kept. The sealed rule reads every module in core/phase5/, and that folder holds the two Node tools that measure the site: measure.mjs fetches break-it and konomi-slm from github.com to run them, and mind-local.mjs calls Ollama on this machine. Neither is ever loaded by the page. Read the same way, the 25 files of this repository the page loads name no other host except esm.run, in the mind's wake module, and every FallLink they make has an empty STUN list (q1.pageLoadsOutside). The modules the page loads from break-it, konomi-slm and falllink on this origin are not read here; the page's policy holds them, and Q2 measures what the tab actually called.",
+  "M3 failed, and is kept. In a real tab, WebLLM's 4-bit build of the same model routed 25 of the 70 sealed messages right (bar 49), and only 40 of its 70 replies were a proposal at all: in WebLLM's JSON mode it begins the sealed reply, {\"route\":\"…\", then keeps writing fields nobody asked for (descriptions, steps, made-up prices and partner names) until the sealed 24-token limit cuts it off, so the reply is not JSON and the mind's door refuses it. With it awake the site routed 44 right, two fewer than the keyword rule alone (46): in a browser, as built, the mind made routing worse. Nothing it wrote in those extra fields reached the page. The 8-bit build under Ollama, same prompt, stopped at the route and routed 65 (M2). The fix, constraining the reply to the route itself, is its own sealed claim, not a change to this one.",
   "N1: the first judge counted every value in the site's ledger (25) against the twenty triage answers, but the sealed rule is that each triage answer the site used is recorded. The ledger was read before the count was corrected: 20 values for konomi-slm's triage answers and 5 for break-it's screen answers. The judge now counts the triage values, and says so here."
  ],
  "facts": {
@@ -542,6 +543,35 @@
    "pageLoadsOutside": [],
    "pageLoadsStunMissing": []
   },
+  "d4": {
+   "from": "core/phase5/local/d4.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase5/",
+   "payloads": 3496,
+   "digest": "1cd5fc4345797c13216a4cba38afe6c0c59bc244466135329043ff64b1083eac",
+   "addresses": {
+    "count": 3496,
+    "elementsAdded": 0,
+    "refused": 3481
+   },
+   "messages": {
+    "count": 3496,
+    "admitted": 2754,
+    "refused": 742,
+    "perAdmitted": [
+     6
+    ],
+    "perRefused": [
+     4
+    ],
+    "textOnly": 2754
+   },
+   "second": {
+    "refused": 4223,
+    "recognised": 4223,
+    "admitted": 2769
+   },
+   "cspViolations": 0
+  },
   "m2": {
    "from": "core/phase5/local/m2.json",
    "where": null,
@@ -554,6 +584,89 @@
    "outside": 0,
    "t0Right": 46,
    "siteRight": 66
+  },
+  "m3": {
+   "from": "core/phase5/local/m3.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase5/",
+   "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+   "runtime": "WebLLM 0.2.79 in a browser tab",
+   "messages": 70,
+   "digest": "3a793530bcdff19184d1d68c4fe41e281d7a31f1011770c566b86c288384c7e0",
+   "mindRight": 25,
+   "valid": 40,
+   "outside": 0,
+   "t0Right": 46,
+   "siteRight": 44
+  },
+  "n3": {
+   "from": "core/phase5/local/n3.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase5/#the-mesh",
+   "tabs": 2,
+   "channel": true,
+   "refused": {
+    "ok": false,
+    "stage": "sender",
+    "recognised": false
+   },
+   "offered": 1,
+   "adopted": 1,
+   "autoimmuneBlocked": 0,
+   "again": {
+    "ok": false,
+    "stage": "sender",
+    "recognised": true
+   },
+   "honest": {
+    "ok": true,
+    "stage": null,
+    "recognised": false
+   }
+  },
+  "q2": {
+   "from": "core/phase5/local/q2.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase5/",
+   "asleep": {
+    "requests": 68,
+    "other": [],
+    "sameOrigin": 68
+   },
+   "awake": {
+    "requests": 96,
+    "other": [
+     "esm.run",
+     "huggingface.co",
+     "raw.githubusercontent.com"
+    ],
+    "sameOrigin": 69
+   }
+  },
+  "q3": {
+   "from": "core/phase5/local/q3.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase5/",
+   "tried": "https://example.com/",
+   "violation": true,
+   "directive": "connect-src",
+   "completed": false,
+   "blockedURI": "https://example.com/",
+   "error": "Failed to fetch",
+   "requestsAfter": {
+    "requests": 68,
+    "other": [],
+    "sameOrigin": 68
+   }
+  },
+  "v1": {
+   "from": "core/phase5/local/v1.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase5/ → sjgant80-hub.github.io/kardlings/#first-game",
+   "routed": "digi",
+   "decidedBy": "keywords",
+   "followed": "https://sjgant80-hub.github.io/kardlings/#first-game",
+   "card": {
+    "serial": 4,
+    "mine": true,
+    "verified": true
+   },
+   "other": []
   }
  },
  "verdicts": [
@@ -578,8 +691,8 @@
   {
    "id": "D4",
    "pass": 1,
-   "held": null,
-   "measured": "not measured yet"
+   "held": true,
+   "measured": "in a real tab of sjgant80-hub.github.io/fall-kit/core/phase5/, 3496 payloads: 0 elements added by 3496 addresses; 2754 messages let in, each adding 6 template elements and 2754 shown as exactly one text node; 742 refused, each adding 4"
   },
   {
    "id": "L1",
@@ -608,8 +721,8 @@
   {
    "id": "M3",
    "pass": 2,
-   "held": null,
-   "measured": "not measured yet"
+   "held": false,
+   "measured": "Llama-3.2-1B-Instruct-q4f16_1-MLC (WebLLM 0.2.79 in a browser tab): 25 of 70 routed right by the mind's own proposal (bar 49), 40 replies a valid proposal, 0 outside the seven"
   },
   {
    "id": "M4",
@@ -632,8 +745,8 @@
   {
    "id": "N3",
    "pass": 3,
-   "held": null,
-   "measured": "not measured yet"
+   "held": true,
+   "measured": "a WebRTC channel opened between 2 tabs; the site refused it at sender; the other node adopted 1 antibodies after its own re-run (0 blocked as autoimmune); heard again there: refused on sight; the honest packet admitted"
   },
   {
    "id": "Q1",
@@ -644,23 +757,23 @@
   {
    "id": "Q2",
    "pass": 4,
-   "held": null,
-   "measured": "not measured yet"
+   "held": true,
+   "measured": "mind asleep: 68 requests, to another origin: none; mind awake: 96 requests, other hosts esm.run, huggingface.co, raw.githubusercontent.com, every one a sealed edge"
   },
   {
    "id": "Q3",
    "pass": 4,
-   "held": null,
-   "measured": "not measured yet"
+   "held": true,
+   "measured": "a fetch to https://example.com/: refused by the policy (connect-src), never completed"
   },
   {
    "id": "V1",
    "pass": 5,
-   "held": null,
-   "measured": "not measured yet"
+   "held": true,
+   "measured": "routed to digi (by keywords); followed https://sjgant80-hub.github.io/kardlings/#first-game; card #4, owned by the visitor's own key, checked by kardlings' own reader; requests to another origin: none"
   }
  ],
- "held": 9,
- "failed": 2,
- "open": 6
+ "held": 14,
+ "failed": 3,
+ "open": 0
 }

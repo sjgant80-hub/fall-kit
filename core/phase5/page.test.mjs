@@ -97,6 +97,9 @@ test('every number the page states is the receipt\'s', () => {
   says('46 of the 70 sealed messages routed right');
   says('did better (65 of 70 on a laptop)');
   assert.equal(f.mind.t0Right, 46);
+  says('routed 25 of 70 sealed messages right against a bar of 49');
+  says('With it awake the site routed 44, two fewer than the keyword rule alone');
+  assert.deepEqual([f.m3.mindRight, f.m3.valid, f.m3.siteRight, f.m3.t0Right], [25, 40, 44, 46]);
   assert.equal(f.corpus.tab, 3496);
 });
 
