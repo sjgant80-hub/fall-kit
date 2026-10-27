@@ -197,12 +197,13 @@ node core/phase6/measure.mjs --check    # four nodes in four processes, the audi
   <li><b>What it stops.</b> Values from keys the ledger does not name; a second value on the same job; a value on an answer whose receipt does not check; a value one unit off what was measured; credit to a key that took another node's name; a live allocation without the switch; a switch from anyone but a named activator; a second switch.</li>
   <li><b>What it does not stop.</b> A named measurer that lies about work it really did check (its own key is its word); a stolen activator key; a policy that weighs the bases unfairly (the policy is the owner's to set, before the first entry).</li>
   <li><b>Where data goes.</b> The books hold keys, job names, digests and units, not people's data. Each node keeps its own ledger; the auditor's books are files anyone can read and replay.</li>
+  <li><b>A sandbox allocation is arithmetic, not an entitlement.</b> It shows how a pool would divide under the sealed policy if someone ever decided to divide one. Nobody is owed anything by it, and the books record work, not claims on anything.</li>
   <li><b>The demo keys are public.</b> Every key here, the activator's included, comes from a published test seed, so anyone can make entries these books would accept. A real ledger names keys its owners hold.</li>
 </ul>
 <h3 id="roll-out">Rolling it out</h3>
 <ol>
   <li><b>Write the policy first</b>: who may measure, who may activate, how the bases weigh, the early weight. It is sealed in the first entry, before anything it weighs.</li>
-  <li><b>Let the nodes record as they work.</b> Nothing to add: the foundation's nodes already write their own entries.</li>
+  <li><b>Let the nodes record as they work.</b> Nothing to add: the foundation's nodes already write their own entries. A system that is not yet a node joins by running the foundation's node beside it, as break-it and konomi-slm do (Phase 1).</li>
   <li><b>Run the auditor's books</b> on a schedule, and publish them with their evidence, so anyone can re-derive them.</li>
   <li><b>Bind every node's name to its key</b> before joining a larger network, so nobody can take a name first.</li>
   <li><b>Keep the switch off</b> until the board decides, with advice, what an allocation would mean.</li>
