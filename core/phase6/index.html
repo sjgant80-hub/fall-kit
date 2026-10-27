@@ -229,6 +229,20 @@ node core/phase6/measure.mjs --check    # four nodes in four processes, the audi
 <p><b>What is measured.</b> Eleven claims were committed before any of Phase 6's code: that every node records its own work, that the auditor's books take every entry once and re-check every value, that they re-derive, that leave-one-out credit matches Phase 4's receipt, that the sandbox allocation is exact, that the switch is off, that both paths work on copies, that the kernel never throws, that the page and code carry none of a sealed list of words, and that a browser re-derives the books.</p>
 <p><b>Honest limits.</b> The keys are public test seeds. The larger network is a mock of the same schema; the real network's schema is not in hand. How the bases weigh is a demo policy. Contribution units are not money.</p>
 
+<h3>Words used here</h3>
+<ul class="small">
+  <li><b>Contribution unit:</b> the ledger's count of measured work. One unit for each verified answer a node used, here; one for each thousandth of balanced accuracy a specialist added. Not money, and not a claim on anything.</li>
+  <li><b>Credit:</b> the units an entry gives a contributor under the policy (the maker's tenth, the owner's rest, the early weight).</li>
+  <li><b>Key:</b> an Ed25519 public key. Every node, measurer and activator is one; every entry is signed by one.</li>
+  <li><b>Job:</b> the name of one ask and its answer, so a piece of work is valued once.</li>
+  <li><b>Signed answer:</b> the LIGHT packet a node sent back, signed with its own key; the auditor checks the signature, that the value names exactly that answer, and the answer's receipt.</li>
+  <li><b>Genesis:</b> the ledger's first entry: who may measure, who may activate, and the policy, fixed before anything it weighs.</li>
+  <li><b>Measurer:</b> a key the genesis names as allowed to sign values. Activator: a key the genesis names as allowed to sign the switch.</li>
+  <li><b>The switch:</b> the one entry that would make an allocation live. Off until an activator signs it; these books hold none.</li>
+  <li><b>Sandbox allocation:</b> the arithmetic of how a pool would divide by credit, computed by anyone, binding on nobody.</li>
+  <li><b>Re-derive:</b> rebuild the books from their first entry, checking every signature, link and gate again, and arrive at the same final hash.</li>
+</ul>
+
 <h2 id="faq">Questions</h2>
 <details><summary>Are contribution units money?</summary><p>No. A contribution unit is an internal record of measured work: who did which work that others used and checked. Nothing here moves anything of value, and the code has no way to. Whether an allocation is ever worth anything is the ledger owner's decision, with legal advice, outside this code.</p></details>
 <details><summary>What is the switch?</summary><p>A signed record that only an activator named when the ledger began can make. Until it exists, the ledger refuses any live allocation; anyone can compute a sandbox allocation, marked as such. These books hold no switch: the switch is off.</p></details>
