@@ -30,7 +30,7 @@ jobs:
         run: |
           git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git .witness6
           # each test file runs in one process under the OS timeout, so a mutant that hangs is killed cleanly
-          for k in antibody identity node judge edge mesh phase2/judge phase2/census relay roster phase3/judge phase3b/judge phase3c/judge selfmodel growth phase4/judge site mind egress phase5/judge phase5b/judge economy phase6/judge; do
+          for k in antibody identity node judge edge mesh phase2/judge phase2/census relay roster phase3/judge phase3b/judge phase3c/judge selfmodel growth phase4/judge site mind egress phase5/judge phase5b/judge economy phase6/judge names phase6b/judge; do
             node .witness6/witness.mjs mutate core/$k.mjs --timeout 120000 --cap 1000 --test timeout -k 5 90 node core/$k.test.mjs | tee /tmp/w.txt
             grep -q '"clean": true' /tmp/w.txt || { echo "::error::mutants survived in core/$k.mjs"; exit 1; }
             grep -q '"capped": false' /tmp/w.txt || { echo "::error::the gate on core/$k.mjs was capped: not every mutant was tried"; exit 1; }
@@ -116,3 +116,17 @@ jobs:
         run: node --test core/economy.test.mjs core/phase6/judge.test.mjs core/phase6/page.test.mjs
       - name: Phase 6 — the books kept and measured; the receipt, the books and the evidence must reproduce byte for byte
         run: node core/phase6/measure.mjs --check
+
+  phase6b:
+    # the fix for C8: a node's name bound to its key; the nine attacks, the merge, the control, Phase 6 re-derived inside it
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Phase 6b — the rule, the judge and the page
+        run: node --test core/names.test.mjs core/phase6b/judge.test.mjs core/phase6b/page.test.mjs core/phase6/page.test.mjs
+      - name: Phase 6b — the fix measured; the receipt must reproduce byte for byte
+        run: node core/phase6b/measure.mjs --check

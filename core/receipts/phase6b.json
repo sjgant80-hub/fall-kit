@@ -1,0 +1,490 @@
+{
+ "kind": "fall-kit.core.phase6b.receipt",
+ "v": 1,
+ "sealedIn": "07bb007d424afb59ff528f9ee152c81a276c144d",
+ "notes": [],
+ "facts": {
+  "n1": {
+   "attacks": [
+    {
+     "id": "a1",
+     "by": "network[0]",
+     "form": "node",
+     "asset": "node:e28a8970753332bd",
+     "ok": false,
+     "why": "a node is released under its own key's name: node:e28a8970753332bd is not the name of the key that signed it (node:62a611b472d89b0e is)"
+    },
+    {
+     "id": "a2",
+     "by": "network[0]",
+     "form": "card",
+     "asset": "node:e28a8970753332bd",
+     "ok": false,
+     "why": "node:e28a8970753332bd is in the node: space, a node's name: only the node's own release carries it, and this is a card release"
+    },
+    {
+     "id": "a3",
+     "by": "network[0]",
+     "form": "mint",
+     "asset": "node:e28a8970753332bd",
+     "ok": false,
+     "why": "node:e28a8970753332bd is in the node: space, a node's name: only the node's own release carries it, and this is a mint release"
+    },
+    {
+     "id": "a4",
+     "by": "network[0]",
+     "form": "node",
+     "asset": "node:e28a8970753332bd-2",
+     "ok": false,
+     "why": "a node is released under its own key's name: node:e28a8970753332bd-2 is not the name of the key that signed it (node:62a611b472d89b0e is)"
+    },
+    {
+     "id": "a5",
+     "by": "network[0]",
+     "form": "node",
+     "asset": "network:node-1",
+     "ok": false,
+     "why": "a node is released under its own key's name: network:node-1 is not the name of the key that signed it (node:62a611b472d89b0e is)"
+    },
+    {
+     "id": "a6",
+     "by": "founder",
+     "form": "node",
+     "asset": "node:e28a8970753332bd",
+     "ok": false,
+     "why": "a node is released under its own key's name: node:e28a8970753332bd is not the name of the key that signed it (node:ee93a4f66f8d16b8 is)"
+    },
+    {
+     "id": "a7",
+     "by": "networkMeasurer",
+     "form": "node",
+     "asset": "node:e28a8970753332bd",
+     "ok": false,
+     "why": "a node is released under its own key's name: node:e28a8970753332bd is not the name of the key that signed it (node:3ef08959033028c8 is)"
+    },
+    {
+     "id": "a8",
+     "by": "liar",
+     "form": "node",
+     "asset": "node:e28a8970753332bd",
+     "ok": false,
+     "why": "a node is released under its own key's name: node:e28a8970753332bd is not the name of the key that signed it (node:353c8a7feeca38b2 is)"
+    },
+    {
+     "id": "a9",
+     "by": "network[0]",
+     "form": "card",
+     "asset": "node:62a611b472d89b0e",
+     "ok": false,
+     "why": "node:62a611b472d89b0e is in the node: space, a node's name: only the node's own release carries it, and this is a card release"
+    }
+   ],
+   "books": {
+    "entries": 52,
+    "bound": 52
+   },
+   "network": {
+    "entries": 7,
+    "bound": 7
+   },
+   "pairs": {
+    "keys": 10,
+    "total": 100,
+    "right": 100
+   },
+   "fuzz": {
+    "cases": 10000,
+    "throws": 0,
+    "shaped": 10000
+   }
+  },
+  "n2": {
+   "atDoor": [
+    {
+     "id": "a1",
+     "ok": false,
+     "why": "its gate did not pass: a node is released under its own key's name: node:e28a8970753332bd is not the name of the key that signed it (node:62a611b472d89b0e is)"
+    },
+    {
+     "id": "a2",
+     "ok": false,
+     "why": "its gate did not pass: node:e28a8970753332bd is in the node: space, a node's name: only the node's own release carries it, and this is a card release"
+    },
+    {
+     "id": "a3",
+     "ok": false,
+     "why": "its gate did not pass: node:e28a8970753332bd is in the node: space, a node's name: only the node's own release carries it, and this is a mint release"
+    },
+    {
+     "id": "a4",
+     "ok": false,
+     "why": "its gate did not pass: a node is released under its own key's name: node:e28a8970753332bd-2 is not the name of the key that signed it (node:62a611b472d89b0e is)"
+    },
+    {
+     "id": "a5",
+     "ok": false,
+     "why": "its gate did not pass: a node is released under its own key's name: network:node-1 is not the name of the key that signed it (node:62a611b472d89b0e is)"
+    },
+    {
+     "id": "a6",
+     "ok": false,
+     "why": "its gate did not pass: a node is released under its own key's name: node:e28a8970753332bd is not the name of the key that signed it (node:ee93a4f66f8d16b8 is)"
+    },
+    {
+     "id": "a7",
+     "ok": false,
+     "why": "its gate did not pass: a node is released under its own key's name: node:e28a8970753332bd is not the name of the key that signed it (node:3ef08959033028c8 is)"
+    },
+    {
+     "id": "a8",
+     "ok": false,
+     "why": "its gate did not pass: a node is released under its own key's name: node:e28a8970753332bd is not the name of the key that signed it (node:353c8a7feeca38b2 is)"
+    },
+    {
+     "id": "a9",
+     "ok": false,
+     "why": "its gate did not pass: node:62a611b472d89b0e is in the node: space, a node's name: only the node's own release carries it, and this is a card release"
+    }
+   ],
+   "own": [
+    {
+     "asset": "node:62a611b472d89b0e",
+     "released": true,
+     "valued": true,
+     "why": null
+    },
+    {
+     "asset": "node:8e486e8fb79499db",
+     "released": true,
+     "valued": true,
+     "why": null
+    },
+    {
+     "asset": "node:00e3c56b91ab0a01",
+     "released": true,
+     "valued": true,
+     "why": null
+    }
+   ],
+   "unbound": 0
+  },
+  "n3": {
+   "merged": true,
+   "booksEntries": 52,
+   "added": 51,
+   "skipped": 1,
+   "heldAlready": [
+    0
+   ],
+   "genesisOnly": true,
+   "refused": [],
+   "siteRelease": true,
+   "siteValues": {
+    "books": 10,
+    "merged": 10
+   }
+  },
+  "n4": {
+   "switched": true,
+   "pool": 1000000,
+   "total": 1000000,
+   "parts": {
+    "00e3c56b91ab0a017174b96645eaf928366cdbae1e87fd21bf86661d86f3e7ef": 7112,
+    "62a611b472d89b0e5fc93c069b9f700b4c552d55bc0e87b56008ef17b6b2bebe": 3233,
+    "772c8a442b7db06e166cfbc1ccbcbcde6f3eba76a4e98ef3ffc519502237d6ef": 11638,
+    "7ea0e3bd52e207c9d3b0eba65c0704e66fca2d8e165a175218b174fc4160e413": 962500,
+    "8e486e8fb79499dba2a789c6b1639d409495233c79e0eaf52e2ea1fc9dbbb73f": 4526,
+    "d4eec1869fb1b8a4e817516ad5a931557cb56805c3eb16e8f3a803d647df7869": 5603,
+    "e28a8970753332bd72fef413e6b0b2ef1b4aadda7aa2c141f233712a6876b351": 5388
+   },
+   "booksContributors": 4,
+   "booksContributorsCovered": 4,
+   "siteCovered": true,
+   "networkContributors": 3,
+   "networkContributorsCovered": 3,
+   "replayed": true,
+   "replayWhy": null,
+   "replaySame": true
+  },
+  "n5": {
+   "squatted": true,
+   "refused": true,
+   "why": "the target does not bind names to keys, so nothing is merged into it: it holds node:e28a8970753332bd (entry 1, by 62a611b472d89b0e…), network:node-1 (entry 2, by 62a611b472d89b0e…), network:node-2 (entry 4, by 8e486e8fb79499db…), network:node-3 (entry 6, by 00e3c56b91ab0a01…)",
+   "recorded": 0,
+   "unbound": [
+    {
+     "asset": "node:e28a8970753332bd",
+     "maker": "62a611b472d89b0e5fc93c069b9f700b4c552d55bc0e87b56008ef17b6b2bebe",
+     "at": 1
+    },
+    {
+     "asset": "network:node-1",
+     "maker": "62a611b472d89b0e5fc93c069b9f700b4c552d55bc0e87b56008ef17b6b2bebe",
+     "at": 2
+    },
+    {
+     "asset": "network:node-2",
+     "maker": "8e486e8fb79499dba2a789c6b1639d409495233c79e0eaf52e2ea1fc9dbbb73f",
+     "at": 4
+    },
+    {
+     "asset": "network:node-3",
+     "maker": "00e3c56b91ab0a017174b96645eaf928366cdbae1e87fd21bf86661d86f3e7ef",
+     "at": 6
+    }
+   ],
+   "siteNamed": true,
+   "unchanged": true,
+   "length": 8,
+   "head": "fbc3c110abbca9a0e8c64d61a38a6e167a21b3b2ebd81528f6c7cd6fe4499aee",
+   "expected": [
+    "node:e28a8970753332bd",
+    "network:node-1",
+    "network:node-2",
+    "network:node-3"
+   ]
+  },
+  "n6": {
+   "control": {
+    "squatted": true,
+    "booksEntries": 52,
+    "added": 40,
+    "skipped": 1,
+    "refused": [
+     {
+      "n": 1,
+      "type": "release",
+      "asset": "node:e28a8970753332bd",
+      "why": "asset node:e28a8970753332bd was released already: the first release recorded wins"
+     },
+     {
+      "n": 29,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 30,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 31,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 32,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 33,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 39,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 40,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 41,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 42,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 43,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     }
+    ],
+    "switched": true,
+    "pool": 1000000,
+    "total": 1000000,
+    "booksContributorsCovered": 3,
+    "booksContributors": 4,
+    "networkContributorsCovered": 3,
+    "networkContributors": 3,
+    "replaySame": true
+   },
+   "sealed": {
+    "squatted": true,
+    "booksEntries": 52,
+    "added": 40,
+    "skipped": 1,
+    "refused": [
+     {
+      "n": 1,
+      "type": "release",
+      "asset": "node:e28a8970753332bd",
+      "why": "asset node:e28a8970753332bd was released already: the first release recorded wins"
+     },
+     {
+      "n": 29,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 30,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 31,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 32,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 33,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 39,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 40,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 41,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 42,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     },
+     {
+      "n": 43,
+      "type": "value",
+      "asset": "node:e28a8970753332bd",
+      "why": "its gate did not pass: the asset was released by another key than the one that answered"
+     }
+    ],
+    "switched": true,
+    "pool": 1000000,
+    "total": 1000000,
+    "booksContributorsCovered": 3,
+    "booksContributors": 4,
+    "networkContributorsCovered": 3,
+    "networkContributors": 3,
+    "replaySame": true
+   }
+  },
+  "n7": {
+   "exit": 0,
+   "last": "the receipt and the books reproduced byte for byte"
+  },
+  "n9": {
+   "files": {
+    "core/names.mjs": [],
+    "core/phase6b/judge.mjs": [],
+    "core/phase6b/judge.test.mjs": [],
+    "core/phase6b/measure.mjs": [],
+    "core/phase6b/net.mjs": [],
+    "core/phase6b/page.mjs": [],
+    "core/phase6b/page.test.mjs": [],
+    "core/phase6b/tab.mjs": []
+   },
+   "page": []
+  }
+ },
+ "verdicts": [
+  {
+   "id": "N1",
+   "pass": 1,
+   "held": true,
+   "measured": "9 of 9 sealed attacks refused, each naming its asset; 52 of the books' 52 entries and 7 of the bound network's 7 pass the rule; 100 of 100 key and name pairs judged right (a name passes for its own key only); 10000 fuzzed values, 0 throws, 10000 answered ok true, or false with a reason"
+  },
+  {
+   "id": "N2",
+   "pass": 2,
+   "held": true,
+   "measured": "9 of 9 attacks refused at the network's own door; 3 of its 3 contributors released under their own names, 3 valued; releases in it that break the rule: 0"
+  },
+  {
+   "id": "N3",
+   "pass": 2,
+   "held": true,
+   "measured": "52 entries of the books: 51 added, 1 already held (the genesis), 0 refused; the living site's release recorded under its own key, 10 of the 10 values on its asset recorded"
+  },
+  {
+   "id": "N4",
+   "pass": 2,
+   "held": true,
+   "measured": "the network switch recorded, 1000000 of 1000000 given, covering 4 of the books' 4 contributors (the living site among them) and 3 of the network's 3; the merged log replayed through the rule: the same allocation"
+  },
+  {
+   "id": "N5",
+   "pass": 3,
+   "held": true,
+   "measured": "Phase 6's mock network holding the squat: the merge refused, 0 entries recorded; it named 4 releases that break the rule (node:e28a8970753332bd, network:node-1, network:node-2, network:node-3), every one a second count finds; the site's name under another key named; the target unchanged"
+  },
+  {
+   "id": "N6",
+   "pass": 3,
+   "held": true,
+   "measured": "Phase 6's network path without the rule: 11 refused, the books' contributors covered 3 of 4; field for field the c8 facts of Phase 6's receipt"
+  },
+  {
+   "id": "N7",
+   "pass": 3,
+   "held": true,
+   "measured": "node core/phase6/measure.mjs --check exited 0: the receipt and the books reproduced byte for byte"
+  },
+  {
+   "id": "N8",
+   "pass": 4,
+   "held": null,
+   "measured": "not measured yet"
+  },
+  {
+   "id": "N9",
+   "pass": 4,
+   "held": true,
+   "measured": "8 modules read, 0 with a barred word; the page text: none"
+  }
+ ],
+ "held": 8,
+ "failed": 0,
+ "open": 1
+}
