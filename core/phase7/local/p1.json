@@ -1,0 +1,45 @@
+{
+ "kind": "fall-kit.core.phase7.local",
+ "v": 1,
+ "claim": "P1",
+ "at": "2026-10-27T23:52:06Z",
+ "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/4.29.0 Chrome/152.0.7977.167 Safari/537.36 MSIX",
+ "where": "sjgant80-hub.github.io/fall-kit/core/phase7/",
+ "facts": {
+  "roster": "cd5f7a6354812d48f20d0545df8652925fd98af7addec9b93e23a0e565c96090",
+  "genesis": "39b5c0527360b590d25695d02a399ff2b158bbf2c6ae3638479da331165cc3e2",
+  "keys": {
+   "founder": "30cbbce4a99cb9802d05970e4383b1c637e116f1d6b0d294ccbc40f5581c632d",
+   "desk": "54a51a94b68bdbbc2cae83bd9d4665721fe6a356606039c63dba7e3238532a61",
+   "stay-a": "3e319c9b5f60bb284c8cba98dc3e393d08ba7928c279e8334d735213121ffcaf",
+   "stay-b": "c604cf80e569b80310eeb66dae6dd3f130d7281289d7144712ad9634fb340db8",
+   "gate": "e3f2612989cf8ba7f379c867044f9efb3e7b6ae9f2dab6800dfc1b6772e87852"
+  },
+  "verdicts": [
+   false,
+   true,
+   true,
+   true,
+   true,
+   false,
+   false,
+   true,
+   false,
+   true,
+   true,
+   true
+  ],
+  "forged": {
+   "adopters": 3,
+   "recognised": 3
+  },
+  "seconds": 4.851
+ },
+ "log": [
+  "Fetched the claims, the client's demo calendar (10 bookings) and the node modules from this site.",
+  "Planted the seed: a founder and 4 organs, every key worked out from the phrase in this tab (founder 30cbbce4a99c…).",
+  "The founder signed the roster of the four; each node pinned the other three from it.",
+  "A packet in the desk's name signed by a stranger's key: refused at stay-a, its antibodies adopted by 3 of 3 after their own re-run, then refused on sight by 3.",
+  "The desk asked its own booking engine 12 times: 12 answered and checked, 4 of the stays not free."
+ ]
+}

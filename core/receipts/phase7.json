@@ -944,6 +944,63 @@
     ]
    }
   },
+  "p1": {
+   "from": "core/phase7/local/p1.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase7/",
+   "roster": "cd5f7a6354812d48f20d0545df8652925fd98af7addec9b93e23a0e565c96090",
+   "genesis": "39b5c0527360b590d25695d02a399ff2b158bbf2c6ae3638479da331165cc3e2",
+   "keys": {
+    "founder": "30cbbce4a99cb9802d05970e4383b1c637e116f1d6b0d294ccbc40f5581c632d",
+    "desk": "54a51a94b68bdbbc2cae83bd9d4665721fe6a356606039c63dba7e3238532a61",
+    "stay-a": "3e319c9b5f60bb284c8cba98dc3e393d08ba7928c279e8334d735213121ffcaf",
+    "stay-b": "c604cf80e569b80310eeb66dae6dd3f130d7281289d7144712ad9634fb340db8",
+    "gate": "e3f2612989cf8ba7f379c867044f9efb3e7b6ae9f2dab6800dfc1b6772e87852"
+   },
+   "verdicts": [
+    false,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true
+   ],
+   "forged": {
+    "adopters": 3,
+    "recognised": 3
+   },
+   "seconds": 4.851,
+   "want": {
+    "roster": "cd5f7a6354812d48f20d0545df8652925fd98af7addec9b93e23a0e565c96090",
+    "genesis": "39b5c0527360b590d25695d02a399ff2b158bbf2c6ae3638479da331165cc3e2",
+    "keys": {
+     "founder": "30cbbce4a99cb9802d05970e4383b1c637e116f1d6b0d294ccbc40f5581c632d",
+     "desk": "54a51a94b68bdbbc2cae83bd9d4665721fe6a356606039c63dba7e3238532a61",
+     "stay-a": "3e319c9b5f60bb284c8cba98dc3e393d08ba7928c279e8334d735213121ffcaf",
+     "stay-b": "c604cf80e569b80310eeb66dae6dd3f130d7281289d7144712ad9634fb340db8",
+     "gate": "e3f2612989cf8ba7f379c867044f9efb3e7b6ae9f2dab6800dfc1b6772e87852"
+    },
+    "verdicts": [
+     false,
+     true,
+     true,
+     true,
+     true,
+     false,
+     false,
+     true,
+     false,
+     true,
+     true,
+     true
+    ]
+   }
+  },
   "p2": {
    "page": [],
    "modules": {
@@ -963,6 +1020,7 @@
    "privacy": {
     "core/phase7/index.html": [],
     "core/phase7/nodes.json": [],
+    "core/phase7/local/p1.json": [],
     "core/receipts/phase7.json": []
    }
   }
@@ -1037,17 +1095,17 @@
   {
    "id": "P1",
    "pass": 4,
-   "held": null,
-   "measured": "not measured yet"
+   "held": true,
+   "measured": "in a tab at sjgant80-hub.github.io/fall-kit/core/phase7/: the roster the measure's, the genesis the measure's, the keys the measure's; 12 asks, the verdicts the measure's; the forged packet refused on sight by 3 of 3 adopters, in 4.851 s"
   },
   {
    "id": "P2",
    "pass": 4,
    "held": true,
-   "measured": "12 modules and the page read: no barred word; 3 published files read for the client's guests: none"
+   "measured": "12 modules and the page read: no barred word; 4 published files read for the client's guests: none"
   }
  ],
- "held": 11,
+ "held": 12,
  "failed": 1,
- "open": 1
+ "open": 0
 }
