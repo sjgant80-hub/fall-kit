@@ -8,6 +8,37 @@
    "fresh": "436cc94048fee23b4019274a2b393e0c1b57e4fb3f6ba83be589832a593d4fe6",
    "freshKeywordRight": 41
   },
+  "sealed": {
+   "messages": 70,
+   "digest": "3a793530bcdff19184d1d68c4fe41e281d7a31f1011770c566b86c288384c7e0",
+   "valid": 70,
+   "outside": 0,
+   "mindRight": 42,
+   "keywordRight": 46,
+   "keywordsFirstRight": 48,
+   "mindFirstRight": 42,
+   "askedOfMind": 29,
+   "recountDiffers": []
+  },
+  "fresh": {
+   "messages": 70,
+   "digest": "436cc94048fee23b4019274a2b393e0c1b57e4fb3f6ba83be589832a593d4fe6",
+   "valid": 70,
+   "outside": 0,
+   "mindRight": 38,
+   "keywordRight": 41,
+   "keywordsFirstRight": 43,
+   "mindFirstRight": 38,
+   "askedOfMind": 27,
+   "recountDiffers": []
+  },
+  "tab": {
+   "from": "core/phase5b/local/tab.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase5/#the-mind",
+   "commit": "fall-kit f49576a",
+   "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+   "runtime": "WebLLM 0.2.79 in a browser tab"
+  },
   "b5": {
    "reproduced": true,
    "why": null
@@ -21,26 +52,26 @@
  "verdicts": [
   {
    "id": "B1",
-   "held": null,
-   "measured": "not measured yet",
+   "held": true,
+   "measured": "70 of 70 replies a proposal, 0 routes outside the seven; every count re-derived from the raw replies",
    "predicted": "holds"
   },
   {
    "id": "B2",
-   "held": null,
-   "measured": "not measured yet",
+   "held": false,
+   "measured": "the mind's own proposal right for 42 of 70 (bar 49); every count re-derived from the raw replies",
    "predicted": "fails: the routes the cut-off replies began with put it near 43"
   },
   {
    "id": "B3",
-   "held": null,
-   "measured": "not measured yet",
+   "held": false,
+   "measured": "on the 70 fresh messages: keyword-first right 43, the keyword rule alone 41 (CI 41); bar: at least 7 more; the mind asked about 27; every count re-derived from the raw replies",
    "predicted": "unsure"
   },
   {
    "id": "B4",
-   "held": null,
-   "measured": "not measured yet",
+   "held": true,
+   "measured": "keyword-first right 43, mind-first (Phase 5's policy) 38, on the same fresh messages and replies",
    "predicted": "unsure"
   },
   {
@@ -56,7 +87,7 @@
    "predicted": "holds"
   }
  ],
- "held": 2,
- "failed": 0,
- "open": 4
+ "held": 4,
+ "failed": 2,
+ "open": 0
 }

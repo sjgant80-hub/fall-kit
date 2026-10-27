@@ -1,0 +1,1449 @@
+{
+ "kind": "fall-kit.core.phase5b.local",
+ "v": 1,
+ "claims": [
+  "B1",
+  "B2",
+  "B3",
+  "B4"
+ ],
+ "what": "The live page in a real browser tab at fall-kit f49576a: 'Wake the mind' pressed (WebLLM 0.2.79, Llama-3.2-1B-Instruct-q4f16_1-MLC, the weights from this browser's cache of the Phase 5 run), the reply held to the sealed schema; then 'Route the sealed and the fresh messages (Phase 5b)' pressed: Phase 5's 70 sealed messages, then Phase 5b's 70 fresh ones, each asked once with the sealed prompt and options. facts are the tab's own window.p5.m5b tallies, copied as they were. Every one of the 140 replies had the one form {\n  \"route\": \"…\"\n}, so each is kept here by its route and rebuilt in that form; CI re-derives every tally from these replies through core/mind.mjs, and a tally that does not come out the same fails its claim.",
+ "at": "2026-10-27",
+ "commit": "fall-kit f49576a",
+ "browser": "Chrome/152.0.7977.167 (the Claude desktop app's browser pane), WebGPU",
+ "where": "sjgant80-hub.github.io/fall-kit/core/phase5/#the-mind",
+ "seconds": 376.1,
+ "schema": "{\"type\":\"object\",\"properties\":{\"route\":{\"type\":\"string\",\"enum\":[\"about\",\"start\",\"digi\",\"defend\",\"mesh\",\"business\",\"none\"]}},\"required\":[\"route\"],\"additionalProperties\":false}",
+ "facts": {
+  "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+  "runtime": "WebLLM 0.2.79 in a browser tab",
+  "sealed": {
+   "messages": 70,
+   "digest": "3a793530bcdff19184d1d68c4fe41e281d7a31f1011770c566b86c288384c7e0",
+   "valid": 70,
+   "outside": 0,
+   "mindRight": 42,
+   "keywordRight": 46,
+   "keywordsFirstRight": 48,
+   "mindFirstRight": 42,
+   "askedOfMind": 29
+  },
+  "fresh": {
+   "messages": 70,
+   "digest": "436cc94048fee23b4019274a2b393e0c1b57e4fb3f6ba83be589832a593d4fe6",
+   "valid": 70,
+   "outside": 0,
+   "mindRight": 38,
+   "keywordRight": 41,
+   "keywordsFirstRight": 43,
+   "mindFirstRight": 38,
+   "askedOfMind": 27
+  }
+ },
+ "rows": {
+  "sealed": [
+   {
+    "text": "can someone tell me what this site is about?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what kind of stuff can i find here?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what does this website offer?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "do you have any idea what this is for?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "this place seems interesting, what's it about?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what kind of content can I expect?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "any idea what services this site provides?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "i'm a bit lost, can someone explain what this is?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what kind of products or services are available here?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what is the main purpose of this website?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "can someone help me navigate this site?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "start",
+    "mindFirst": "start"
+   },
+   {
+    "text": "how do i start using this website?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "start"
+   },
+   {
+    "text": "I'm lost, can you guide me?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Can you walk me through using this site?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Could you explain the steps to use this website?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "start",
+    "keywordsFirst": "start",
+    "mindFirst": "start"
+   },
+   {
+    "text": "What's the first thing I should do?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "How do I get started on this site?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "start",
+    "mindFirst": "start"
+   },
+   {
+    "text": "Could you show me the steps to use this platform?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "start",
+    "keywordsFirst": "start",
+    "mindFirst": "start"
+   },
+   {
+    "text": "Step-by-step guide to using this website, please.",
+    "want": "start",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "start",
+    "keywordsFirst": "start",
+    "mindFirst": "start"
+   },
+   {
+    "text": "Any idea how to navigate this site?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "I want to apply for a DIGI card",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "How do I get my own DIGI card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "Can I have a key and card for myself?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "What's the process for getting my own DIGI card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "Do I get my own key and card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "I need instructions on getting my own DIGI card",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "Is it possible to have my own DIGI card and key?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "Can someone explain how to get my own DIGI card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "What are the steps to get my own DIGI card and key?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "Could you tell me how to get my own DIGI card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "how do you protect your site from hackers?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "defend",
+    "keywordsFirst": "defend",
+    "mindFirst": "about"
+   },
+   {
+    "text": "we heard you had a security breach, is that true?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "about"
+   },
+   {
+    "text": "can you tell me more about your security measures?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "defend",
+    "keywordsFirst": "defend",
+    "mindFirst": "about"
+   },
+   {
+    "text": "any updates on the recent attacks on the site?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "defend",
+    "keywordsFirst": "defend",
+    "mindFirst": "start"
+   },
+   {
+    "text": "how often do you update your security protocols?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "defend",
+    "keywordsFirst": "defend",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what happens when someone tries to attack the site?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "start",
+    "mindFirst": "start"
+   },
+   {
+    "text": "do you have any stories about defending against cyber threats?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "have you ever had to shut down the site due to an attack?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what kind of defenses do you have in place?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "how do you handle security threats?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "defend",
+    "keywordsFirst": "defend",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "I see your site is part of a network, right?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Can you tell me about the network this site is connected to?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Is this site part of a bigger network?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Which network does this site belong to?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Could you share more about the network this site is in?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "What other nodes are connected to this network?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "about"
+   },
+   {
+    "text": "How can I join this network?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Are there any nodes in this network that I can connect to?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Can I become part of this network?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "How do I get connected to the network?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Can I find out the cost for your service for a company?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "How much does it cost for a business?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "business"
+   },
+   {
+    "text": "What's the price for using this with my company?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "Could you give me a cost estimate for our company?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "Do you have pricing information for companies?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "How do we roll out your service in a company?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "start"
+   },
+   {
+    "text": "Is there a guide for rolling out your service in a business?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "Who provides the support for company use?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "Who handles support for business users?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "Can you tell me about support for company use?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "how are you today?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Just passing by, hi!",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "What's your favorite color?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Is it raining where you are?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Can you recommend a good book?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Hey, do you have any pets?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "How's the weather outside?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "What's the time in your location?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Do you like coffee or tea?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "What's the meaning of life?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   }
+  ],
+  "fresh": [
+   {
+    "text": "looking for info on your site's purpose",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "can you tell me what this site does?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what exactly is this website for?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what services does your site offer?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "could you explain what services you provide?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what kind of content do you have here?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what's the point of this site?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what kind of products do you sell?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "what does your website specialize in?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "are you a service or a product site?",
+    "want": "about",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "can you help me navigate this site?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "how do i get started on this website?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "start",
+    "mindFirst": "start"
+   },
+   {
+    "text": "I'm having trouble figuring this out.",
+    "want": "start",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Could you guide me through using this site?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "start"
+   },
+   {
+    "text": "What's the best way to explore this website?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Can you walk me through the basics?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Step-by-step instructions on using this site?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "start",
+    "keywordsFirst": "start",
+    "mindFirst": "start"
+   },
+   {
+    "text": "How can I make the most of this website?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Any tips on navigating this site?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Could someone explain how to use this site?",
+    "want": "start",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "start",
+    "mindFirst": "start"
+   },
+   {
+    "text": "Can I get a DIGI card for myself?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "What's the process for getting my own card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "Got my own card yet?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "How do I get my personal card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "I need my own key and card, how?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "Is there a way to get my own card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "Can I get my own key and card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "Do I need to apply for my own card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "I want my own card, where do I start?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "How do I order my own key and card?",
+    "want": "digi",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "digi",
+    "keywordsFirst": "digi",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "how does this site protect itself?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "what measures does this site take against attacks?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "can you tell me about the site's security protocols?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "defend",
+    "keywordsFirst": "defend",
+    "mindFirst": "about"
+   },
+   {
+    "text": "how does this site defend against cyber attacks?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "start"
+   },
+   {
+    "text": "what security updates does this site implement?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "have there been any security breaches on this site?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "defend",
+    "keywordsFirst": "defend",
+    "mindFirst": "about"
+   },
+   {
+    "text": "how does the site handle security threats?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "what kind of attacks does this site face?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "start"
+   },
+   {
+    "text": "could you share any details on site security?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "defend",
+    "keywordsFirst": "defend",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "how does this site stay secure from hackers?",
+    "want": "defend",
+    "reply": "{\n  \"route\": \"digi\"\n}",
+    "proposal": "digi",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "digi"
+   },
+   {
+    "text": "I'm curious about the network this site is on.",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Which network does this website belong to?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "about",
+    "keywordsFirst": "about",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Can you tell me about the network this site is part of?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Who are the other nodes on this network?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Is there a way to join the network this site is part of?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Could you share more about the nodes in this network?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "about"
+   },
+   {
+    "text": "What nodes are connected to this network?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "about"
+   },
+   {
+    "text": "How do I become a part of this network?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Can you tell me about joining the network?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "Are there any ways to connect to other nodes?",
+    "want": "mesh",
+    "reply": "{\n  \"route\": \"mesh\"\n}",
+    "proposal": "mesh",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "mesh"
+   },
+   {
+    "text": "looking for cost details for company use",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "can you help with company-wide implementation?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "business"
+   },
+   {
+    "text": "what's the price for a corporate account?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "any info on rolling out this to multiple departments?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "start"
+   },
+   {
+    "text": "how do we get started with company use?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "start"
+   },
+   {
+    "text": "could you provide some support for our team?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "start"
+   },
+   {
+    "text": "who supplies the service for companies?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "do you have a pricing plan for businesses?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"business\"\n}",
+    "proposal": "business",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "business",
+    "mindFirst": "business"
+   },
+   {
+    "text": "can you assist with the rollout process?",
+    "want": "business",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "mesh",
+    "keywordsFirst": "mesh",
+    "mindFirst": "about"
+   },
+   {
+    "text": "typo: look for cost details company",
+    "want": "business",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "business",
+    "keywordsFirst": "business",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Hey, do you like cats?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"none\"\n}",
+    "proposal": "none",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "none",
+    "mindFirst": "none"
+   },
+   {
+    "text": "Just checking in, any updates?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "So, what's your favorite book?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Did you know penguins can't fly?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Hey, wanna chat about movies?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"start\"\n}",
+    "proposal": "start",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "start",
+    "mindFirst": "start"
+   },
+   {
+    "text": "How's your day going?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "What's your go-to coffee order?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "By the way, how's traffic today?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "I'm curious, what's your pet's name?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   },
+   {
+    "text": "Do you have any hobbies?",
+    "want": "none",
+    "reply": "{\n  \"route\": \"about\"\n}",
+    "proposal": "about",
+    "why": null,
+    "keywords": "none",
+    "keywordsFirst": "about",
+    "mindFirst": "about"
+   }
+  ]
+ }
+}

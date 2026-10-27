@@ -100,6 +100,10 @@ test('every number the page states is the receipt\'s', () => {
   says('routed 25 of 70 sealed messages right against a bar of 49');
   says('With it awake the site routed 44, two fewer than the keyword rule alone');
   assert.deepEqual([f.m3.mindRight, f.m3.valid, f.m3.siteRight, f.m3.t0Right], [25, 40, 44, 46]);
+  const b = JSON.parse(readFileSync(join(HERE, '..', 'receipts', 'phase5b.json'), 'utf8')).facts;
+  says('it lifts the site from 46 to 48 of Phase 5\'s 70 and from 41 to 43 of 70 fresh messages');
+  says('but was right for only 42');
+  assert.deepEqual([b.sealed.keywordRight, b.sealed.keywordsFirstRight, b.fresh.keywordRight, b.fresh.keywordsFirstRight, b.sealed.mindRight, b.sealed.valid], [46, 48, 41, 43, 42, 70]);
   assert.equal(f.corpus.tab, 3496);
 });
 
