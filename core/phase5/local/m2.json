@@ -1,0 +1,725 @@
+{
+ "kind": "fall-kit.core.phase5.local",
+ "v": 1,
+ "claim": "M2",
+ "what": "The 70 sealed messages, each sent once to a small model on this machine (Ollama, localhost only) with the sealed prompt and options; every reply read through the mind's door, core/mind.mjs. Written by core/phase5/mind-local.mjs.",
+ "at": "2026-10-27",
+ "runtime": "Ollama 0.40.5 on this machine",
+ "model": "llama3.2:1b",
+ "modelDigest": "baf6a787fdffd633537aa2eb51cfd54cb93ff08e28040095462bb63daf552878",
+ "quantization": "Q8_0",
+ "seconds": 49.6,
+ "facts": {
+  "model": "llama3.2:1b",
+  "runtime": "Ollama 0.40.5",
+  "messages": 70,
+  "digest": "3a793530bcdff19184d1d68c4fe41e281d7a31f1011770c566b86c288384c7e0",
+  "mindRight": 65,
+  "valid": 69,
+  "outside": 0,
+  "t0Right": 46,
+  "siteRight": 66
+ },
+ "rows": [
+  {
+   "text": "can someone tell me what this site is about?",
+   "want": "about",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "what kind of stuff can i find here?",
+   "want": "about",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "what does this website offer?",
+   "want": "about",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "about"
+  },
+  {
+   "text": "do you have any idea what this is for?",
+   "want": "about",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "this place seems interesting, what's it about?",
+   "want": "about",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "what kind of content can I expect?",
+   "want": "about",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "any idea what services this site provides?",
+   "want": "about",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "i'm a bit lost, can someone explain what this is?",
+   "want": "about",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "what kind of products or services are available here?",
+   "want": "about",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "what is the main purpose of this website?",
+   "want": "about",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "can someone help me navigate this site?",
+   "want": "start",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "how do i start using this website?",
+   "want": "start",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "business"
+  },
+  {
+   "text": "I'm lost, can you guide me?",
+   "want": "start",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "Can you walk me through using this site?",
+   "want": "start",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "business"
+  },
+  {
+   "text": "Could you explain the steps to use this website?",
+   "want": "start",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "start"
+  },
+  {
+   "text": "What's the first thing I should do?",
+   "want": "start",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "How do I get started on this site?",
+   "want": "start",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "Could you show me the steps to use this platform?",
+   "want": "start",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "start"
+  },
+  {
+   "text": "Step-by-step guide to using this website, please.",
+   "want": "start",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "start"
+  },
+  {
+   "text": "Any idea how to navigate this site?",
+   "want": "start",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "I want to apply for a DIGI card",
+   "want": "digi",
+   "reply": "{\"route\":\"digi\"}",
+   "proposal": "digi",
+   "why": null,
+   "decided": "digi",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "How do I get my own DIGI card?",
+   "want": "digi",
+   "reply": "{\"route\":\"digi\"}",
+   "proposal": "digi",
+   "why": null,
+   "decided": "digi",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "Can I have a key and card for myself?",
+   "want": "digi",
+   "reply": "{\"route\":\"digi\"}",
+   "proposal": "digi",
+   "why": null,
+   "decided": "digi",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "What's the process for getting my own DIGI card?",
+   "want": "digi",
+   "reply": "{\"route\":\"digi\"}",
+   "proposal": "digi",
+   "why": null,
+   "decided": "digi",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "Do I get my own key and card?",
+   "want": "digi",
+   "reply": "{\"route\":\"digi\"}",
+   "proposal": "digi",
+   "why": null,
+   "decided": "digi",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "I need instructions on getting my own DIGI card",
+   "want": "digi",
+   "reply": "{\"route\":\"digi\"}",
+   "proposal": "digi",
+   "why": null,
+   "decided": "digi",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "Is it possible to have my own DIGI card and key?",
+   "want": "digi",
+   "reply": "{\"route\":\"digi\"}",
+   "proposal": "digi",
+   "why": null,
+   "decided": "digi",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "Can someone explain how to get my own DIGI card?",
+   "want": "digi",
+   "reply": "{\"route\":\"digi\"}",
+   "proposal": "digi",
+   "why": null,
+   "decided": "digi",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "What are the steps to get my own DIGI card and key?",
+   "want": "digi",
+   "reply": "{\"route\":\"digi\"}",
+   "proposal": "digi",
+   "why": null,
+   "decided": "digi",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "Could you tell me how to get my own DIGI card?",
+   "want": "digi",
+   "reply": "{\"route\":\"digi\"}",
+   "proposal": "digi",
+   "why": null,
+   "decided": "digi",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "how do you protect your site from hackers?",
+   "want": "defend",
+   "reply": "{\"route\":\"defend\"}",
+   "proposal": "defend",
+   "why": null,
+   "decided": "defend",
+   "by": "mind",
+   "keywords": "defend"
+  },
+  {
+   "text": "we heard you had a security breach, is that true?",
+   "want": "defend",
+   "reply": "{\"route\":\"defend\"}",
+   "proposal": "defend",
+   "why": null,
+   "decided": "defend",
+   "by": "mind",
+   "keywords": "digi"
+  },
+  {
+   "text": "can you tell me more about your security measures?",
+   "want": "defend",
+   "reply": "{\"route\":\"defend\"}",
+   "proposal": "defend",
+   "why": null,
+   "decided": "defend",
+   "by": "mind",
+   "keywords": "defend"
+  },
+  {
+   "text": "any updates on the recent attacks on the site?",
+   "want": "defend",
+   "reply": "{\"route\":\"defend\"}",
+   "proposal": "defend",
+   "why": null,
+   "decided": "defend",
+   "by": "mind",
+   "keywords": "defend"
+  },
+  {
+   "text": "how often do you update your security protocols?",
+   "want": "defend",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "defend"
+  },
+  {
+   "text": "what happens when someone tries to attack the site?",
+   "want": "defend",
+   "reply": "{\"route\":\"defend\"}",
+   "proposal": "defend",
+   "why": null,
+   "decided": "defend",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "do you have any stories about defending against cyber threats?",
+   "want": "defend",
+   "reply": "{\"route\":\"defend\"}",
+   "proposal": "defend",
+   "why": null,
+   "decided": "defend",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "have you ever had to shut down the site due to an attack?",
+   "want": "defend",
+   "reply": "{\"route\":\"defend\"}",
+   "proposal": "defend",
+   "why": null,
+   "decided": "defend",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "what kind of defenses do you have in place?",
+   "want": "defend",
+   "reply": "{\"route\":\"defend\"}",
+   "proposal": "defend",
+   "why": null,
+   "decided": "defend",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "how do you handle security threats?",
+   "want": "defend",
+   "reply": "{\"route\":\"defend\"}",
+   "proposal": "defend",
+   "why": null,
+   "decided": "defend",
+   "by": "mind",
+   "keywords": "defend"
+  },
+  {
+   "text": "I see your site is part of a network, right?",
+   "want": "mesh",
+   "reply": "{\"route\":\"mesh\"}",
+   "proposal": "mesh",
+   "why": null,
+   "decided": "mesh",
+   "by": "mind",
+   "keywords": "mesh"
+  },
+  {
+   "text": "Can you tell me about the network this site is connected to?",
+   "want": "mesh",
+   "reply": "{\"route\":\"mesh\"}",
+   "proposal": "mesh",
+   "why": null,
+   "decided": "mesh",
+   "by": "mind",
+   "keywords": "mesh"
+  },
+  {
+   "text": "Is this site part of a bigger network?",
+   "want": "mesh",
+   "reply": "{\"route\":\"mesh\"}",
+   "proposal": "mesh",
+   "why": null,
+   "decided": "mesh",
+   "by": "mind",
+   "keywords": "mesh"
+  },
+  {
+   "text": "Which network does this site belong to?",
+   "want": "mesh",
+   "reply": "{\"route\":\"mesh\"}",
+   "proposal": "mesh",
+   "why": null,
+   "decided": "mesh",
+   "by": "mind",
+   "keywords": "about"
+  },
+  {
+   "text": "Could you share more about the network this site is in?",
+   "want": "mesh",
+   "reply": "{\"route\":\"mesh\"}",
+   "proposal": "mesh",
+   "why": null,
+   "decided": "mesh",
+   "by": "mind",
+   "keywords": "mesh"
+  },
+  {
+   "text": "What other nodes are connected to this network?",
+   "want": "mesh",
+   "reply": "{\"nodes\": [\"Google\", \"Facebook\", \"Twitter\", \"Instagram\", \"YouTube\", \"Reddit\", \"Pinterest\",",
+   "proposal": null,
+   "why": "not JSON",
+   "decided": "mesh",
+   "by": "keywords",
+   "keywords": "mesh"
+  },
+  {
+   "text": "How can I join this network?",
+   "want": "mesh",
+   "reply": "{\"route\":\"mesh\"}",
+   "proposal": "mesh",
+   "why": null,
+   "decided": "mesh",
+   "by": "mind",
+   "keywords": "mesh"
+  },
+  {
+   "text": "Are there any nodes in this network that I can connect to?",
+   "want": "mesh",
+   "reply": "{\"route\":\"mesh\"}",
+   "proposal": "mesh",
+   "why": null,
+   "decided": "mesh",
+   "by": "mind",
+   "keywords": "mesh"
+  },
+  {
+   "text": "Can I become part of this network?",
+   "want": "mesh",
+   "reply": "{\"route\":\"mesh\"}",
+   "proposal": "mesh",
+   "why": null,
+   "decided": "mesh",
+   "by": "mind",
+   "keywords": "mesh"
+  },
+  {
+   "text": "How do I get connected to the network?",
+   "want": "mesh",
+   "reply": "{\"route\":\"mesh\"}",
+   "proposal": "mesh",
+   "why": null,
+   "decided": "mesh",
+   "by": "mind",
+   "keywords": "mesh"
+  },
+  {
+   "text": "Can I find out the cost for your service for a company?",
+   "want": "business",
+   "reply": "{\"route\":\"business\"}",
+   "proposal": "business",
+   "why": null,
+   "decided": "business",
+   "by": "mind",
+   "keywords": "business"
+  },
+  {
+   "text": "How much does it cost for a business?",
+   "want": "business",
+   "reply": "{\"route\":\"business\"}",
+   "proposal": "business",
+   "why": null,
+   "decided": "business",
+   "by": "mind",
+   "keywords": "about"
+  },
+  {
+   "text": "What's the price for using this with my company?",
+   "want": "business",
+   "reply": "{\"route\":\"business\"}",
+   "proposal": "business",
+   "why": null,
+   "decided": "business",
+   "by": "mind",
+   "keywords": "business"
+  },
+  {
+   "text": "Could you give me a cost estimate for our company?",
+   "want": "business",
+   "reply": "{\"route\":\"business\"}",
+   "proposal": "business",
+   "why": null,
+   "decided": "business",
+   "by": "mind",
+   "keywords": "business"
+  },
+  {
+   "text": "Do you have pricing information for companies?",
+   "want": "business",
+   "reply": "{\"route\":\"business\"}",
+   "proposal": "business",
+   "why": null,
+   "decided": "business",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "How do we roll out your service in a company?",
+   "want": "business",
+   "reply": "{\"route\":\"business\"}",
+   "proposal": "business",
+   "why": null,
+   "decided": "business",
+   "by": "mind",
+   "keywords": "business"
+  },
+  {
+   "text": "Is there a guide for rolling out your service in a business?",
+   "want": "business",
+   "reply": "{\"route\":\"business\"}",
+   "proposal": "business",
+   "why": null,
+   "decided": "business",
+   "by": "mind",
+   "keywords": "business"
+  },
+  {
+   "text": "Who provides the support for company use?",
+   "want": "business",
+   "reply": "{\"route\":\"business\"}",
+   "proposal": "business",
+   "why": null,
+   "decided": "business",
+   "by": "mind",
+   "keywords": "business"
+  },
+  {
+   "text": "Who handles support for business users?",
+   "want": "business",
+   "reply": "{\"route\":\"business\"}",
+   "proposal": "business",
+   "why": null,
+   "decided": "business",
+   "by": "mind",
+   "keywords": "business"
+  },
+  {
+   "text": "Can you tell me about support for company use?",
+   "want": "business",
+   "reply": "{\"route\":\"business\"}",
+   "proposal": "business",
+   "why": null,
+   "decided": "business",
+   "by": "mind",
+   "keywords": "business"
+  },
+  {
+   "text": "how are you today?",
+   "want": "none",
+   "reply": "{\"route\":\"none\"}",
+   "proposal": "none",
+   "why": null,
+   "decided": "none",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "Just passing by, hi!",
+   "want": "none",
+   "reply": "{\"route\":\"start\"}",
+   "proposal": "start",
+   "why": null,
+   "decided": "start",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "What's your favorite color?",
+   "want": "none",
+   "reply": "{\"route\":\"none\"}",
+   "proposal": "none",
+   "why": null,
+   "decided": "none",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "Is it raining where you are?",
+   "want": "none",
+   "reply": "{\"route\":\"none\"}",
+   "proposal": "none",
+   "why": null,
+   "decided": "none",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "Can you recommend a good book?",
+   "want": "none",
+   "reply": "{\"route\":\"none\"}",
+   "proposal": "none",
+   "why": null,
+   "decided": "none",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "Hey, do you have any pets?",
+   "want": "none",
+   "reply": "{\"route\":\"none\"}",
+   "proposal": "none",
+   "why": null,
+   "decided": "none",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "How's the weather outside?",
+   "want": "none",
+   "reply": "{\"route\":\"none\"}",
+   "proposal": "none",
+   "why": null,
+   "decided": "none",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "What's the time in your location?",
+   "want": "none",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "Do you like coffee or tea?",
+   "want": "none",
+   "reply": "{\"route\":\"none\"}",
+   "proposal": "none",
+   "why": null,
+   "decided": "none",
+   "by": "mind",
+   "keywords": "none"
+  },
+  {
+   "text": "What's the meaning of life?",
+   "want": "none",
+   "reply": "{\"route\":\"about\"}",
+   "proposal": "about",
+   "why": null,
+   "decided": "about",
+   "by": "mind",
+   "keywords": "none"
+  }
+ ]
+}

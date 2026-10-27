@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://esm.run https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://esm.run https://cdn.jsdelivr.net https://huggingface.co https://*.huggingface.co https://*.hf.co https://raw.githubusercontent.com; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>A website that thinks at its door · Fall Kit core, phase 5</title>
+<meta name="description" content="Phase 5 of the estate going live: a living website. Every request crosses a door on raw bytes before any code uses it, a small language model on the visitor's own machine reads what they want and can only pick a route, what the site refuses it remembers and shares with the mesh, it calls nothing outside itself until the visitor wakes the mind, and it hands a visitor their own DIGI. Seventeen claims sealed before the code, every failure kept.">
+<link rel="canonical" href="https://sjgant80-hub.github.io/fall-kit/core/phase5/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Fall Kit core, phase 5 — the living website","codeRepository":"https://github.com/sjgant80-hub/fall-kit","programmingLanguage":"JavaScript","license":"https://opensource.org/licenses/MIT","description":"A website whose door checks every request on raw bytes, whose mind (a small model on the visitor's machine) can only pick a route, which remembers and shares what it refuses as a node of the mesh, calls nothing outside itself until the visitor wakes the mind, and hands a visitor their own DIGI card."}</script>
+<script type="application/ld+json" id="faq-ld">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What makes this website living?","acceptedAnswer":{"@type":"Answer","text":"It does five things a static page behind a firewall does not. It checks every request at its own door, on raw bytes, before any code uses it. It reads what a visitor wants with a small language model running on the visitor's own machine. It remembers every request it refused and refuses it on sight next time. It is a node of the mesh, so what it refuses it shares, and another node then refuses it on sight too. And it reaches other nodes' work, in signed packets, and checks what comes back. Nothing here claims awareness."}},{"@type":"Question","name":"Can the AI on this page be tricked?","acceptedAnswer":{"@type":"Answer","text":"A model can always be talked into a wrong answer, so this page does not trust its model with anything. The model's reply crosses a door of its own and must name one of seven routes; what each route shows is the site's own fixed words. A fooled model picks a wrong route. It cannot let a packet in, run code, or put words of its own on the page. Twenty thousand malformed and hostile replies were put through that door: every one ended on one of the seven routes."}},{"@type":"Question","name":"Does anything I type leave my browser?","acceptedAnswer":{"@type":"Answer","text":"No. The door, the memory and the keyword rule run in your tab. If you wake the mind, the model's weights are downloaded once from Hugging Face and then it runs on your machine: your words go to it, inside your browser, and nowhere else. The page's own security policy lets it call only this site and, for waking the mind, the named model hosts; the claims measure that in a real tab."}},{"@type":"Question","name":"What is a DIGI?","acceptedAnswer":{"@type":"Answer","text":"A DIGI is a card that is yours: a picture that carries a small mind and its signed life, made for a key that lives in your browser. This site hands you to Kardlings, the estate's card game on this same site, where you can be given one in a click. Nothing about you is sent anywhere to do it."}},{"@type":"Question","name":"What did not hold?","acceptedAnswer":{"@type":"Answer","text":"Every failed claim stays on the receipt with the reason. One sealed rule said no payload of the red team would be let in as the page's address, while the sealed door rule says an empty address means the top of the page: the red team holds fifteen copies of the empty request, so that claim failed and is kept. Another said every module in the Phase 5 folder names no host but the model hosts; that folder also holds the two tools that measure the site, which call GitHub and a local model, though the page never loads them, so it failed too and is kept."}},{"@type":"Question","name":"Who supplies it?","acceptedAnswer":{"@type":"Answer","text":"AI Native Solutions supplies it; start through ai-nativesolutions.com. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed."}}]}</script>
+<style>
+:root{--void:#1a1612;--void-2:#231f1a;--ink:#2b2722;--line:#3a342c;--line-soft:#2e2922;--cream:#ebe3d2;--cream-dim:#a89e88;--cream-muted:#736b5a;--brass:#c08a3a;--amber:#e8a83a;--leaf:#6b8d4a;--rust:#c25a35;
+--serif:Georgia,'Times New Roman',ui-serif,serif;--sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--void);color:var(--cream);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--brass);text-decoration:none}a:hover{text-decoration:underline}
+code,pre,.mono{font-family:var(--mono)}
+code{background:var(--ink);padding:1px 5px;border-radius:2px;font-size:12.5px;color:var(--brass);word-break:break-word}
+pre{background:var(--ink);padding:14px 16px;border-radius:4px;border:1px solid var(--line);overflow-x:auto;color:var(--cream-dim);line-height:1.55;font-size:12px;margin:10px 0 14px}
+header{background:var(--void-2);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{width:32px;height:32px;background:linear-gradient(135deg,var(--brass),var(--amber));border-radius:5px;display:grid;place-items:center;font:700 18px var(--serif);color:var(--void)}
+.name{font:700 18px var(--serif)}.sub{font:9px var(--mono);color:var(--cream-muted);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+header nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}header nav a{color:var(--cream-dim);font-size:13px}
+main{max-width:900px;margin:0 auto;padding:30px 24px 100px}
+h1{font:700 30px/1.15 var(--serif);margin-bottom:12px}
+h2{font:700 22px var(--serif);margin:42px 0 10px;color:var(--brass)}
+h3{font:700 16px var(--serif);margin:20px 0 8px}
+p{margin-bottom:12px}ul,ol{margin:0 0 14px 24px}li{margin-bottom:5px;color:var(--cream-dim)}
+.lede{font-size:17px;color:var(--cream-dim);margin-bottom:16px}
+.small{font-size:13px}
+.hero{background:linear-gradient(135deg,rgba(192,138,58,.10),rgba(107,141,74,.04));border:1px solid var(--brass);border-radius:5px;padding:24px 28px;margin-bottom:22px}
+.seal{font:10px var(--mono);color:var(--cream-muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.tile{background:var(--void-2);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.tile b{display:block;font:700 22px var(--serif);color:var(--brass)}.tile span{font-size:12px;color:var(--cream-dim)}
+.btn{padding:9px 16px;background:var(--brass);color:var(--void);border:none;border-radius:3px;font:600 13px var(--sans);cursor:pointer}
+.btn:hover{background:var(--amber)}.btn:disabled{opacity:.6;cursor:default}
+.btn.ghost{background:transparent;color:var(--cream-dim);border:1px solid var(--line)}
+.box{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin:16px 0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:var(--void-2);padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.08em;text-transform:uppercase}
+td{padding:8px 10px;border-bottom:1px solid var(--line-soft);color:var(--cream-dim);vertical-align:top}
+.scroll{overflow-x:auto}
+.ok{color:var(--leaf);font-weight:600}.no{color:var(--rust);font-weight:600}.dim{color:var(--cream-muted)}
+.tag{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;padding:2px 6px;border-radius:2px}
+.tag.held{background:rgba(107,141,74,.2);color:var(--leaf)}.tag.failed{background:rgba(194,90,53,.2);color:var(--rust)}.tag.na{background:var(--void-2);color:var(--cream-muted)}
+.diagram{margin:14px 0;background:var(--ink);border:1px solid var(--line);border-radius:5px;padding:12px;overflow-x:auto}
+.diagram svg{width:100%;min-width:620px;height:auto;display:block}
+.diagram .b{fill:var(--void-2);stroke:var(--line);stroke-width:1.5}.diagram .hot{stroke:var(--brass)}
+.diagram .t{fill:var(--cream);font:700 14px var(--serif)}.diagram .s{fill:var(--cream-dim);font:11.5px var(--sans)}
+.diagram .arrow{fill:none;stroke:var(--brass);stroke-width:1.8}.diagram .no-ln{fill:none;stroke:var(--rust);stroke-width:1.8;stroke-dasharray:5 4}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:8px 0 12px}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--cream-dim)}
+.calc input{padding:7px 9px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:inherit;width:100%}
+.line{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-soft);padding:5px 0;font-size:13px}
+.line span:last-child{font-family:var(--mono);color:var(--cream)}
+.bottom{font-size:15px;margin:6px 0 10px}
+.note{border-left:3px solid var(--rust);padding:10px 14px;background:var(--void-2);margin:12px 0;font-size:14px}
+details{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:600;color:var(--cream)}
+.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.06em;text-align:center;line-height:1.9}
+.foot a{color:var(--cream-dim)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media (max-width:640px){header{padding:12px 16px}main{padding:22px 16px 80px}.hero{padding:18px 16px}h1{font-size:24px}.lede{font-size:15.5px}th,td{padding:6px 7px}}
+.said{background:var(--void-2);border:1px solid var(--line);border-radius:4px;padding:8px 12px;margin:4px 0;white-space:pre-wrap;word-break:break-word;color:var(--cream)}
+.route{margin:4px 0}.route b{color:var(--brass)}
+#talk-log{list-style:none;margin:10px 0 0;padding:0}#talk-log>li{border-bottom:1px solid var(--line-soft);padding:10px 0}
+#talk-log>li.refused .route b{color:var(--rust)}
+textarea{width:100%;min-height:70px;padding:9px 11px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:inherit;resize:vertical}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.chip{padding:5px 11px;background:transparent;border:1px solid var(--line);color:var(--cream-dim);border-radius:14px;font:12px var(--sans);cursor:pointer}
+.chip:hover{border-color:var(--brass);color:var(--cream)}
+.bar{height:6px;background:var(--void-2);border-radius:3px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;width:0;background:var(--brass)}
+.kv{font:12px var(--mono);color:var(--cream-dim)}
+#replay-out,#mesh-out,#tabs-out,#req-out,#digi-out,#mind-out,#form-out{margin-top:10px}
+.hidden{display:none}
+.addr{font-size:13px;color:var(--cream-dim);margin:0 0 12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="mark" aria-hidden="true">F</div><div><div class="name">Fall Kit · core</div><div class="sub">phase 5 · a website that thinks at its door</div></div></div>
+  <nav aria-label="Sections"><a href="#what-it-is">What it is</a><a href="#start-here">Start here</a><a href="#talk-to-it">Talk to it</a><a href="#the-door">The door</a><a href="#how-it-works">How it works</a><a href="#the-mind">The mind</a><a href="#the-mesh">The mesh</a><a href="#local-first">Local-first</a><a href="#your-digi">Your DIGI</a><a href="#blueprint">Blueprint</a><a href="#receipt">Receipt</a><a href="#for-a-business">For a business</a><a href="#security">Security</a><a href="#roll-out">Roll-out</a><a href="#risks">Risks</a><a href="#paper">Paper</a><a href="#faq">FAQ</a></nav>
+</header>
+<main>
+<p class="addr" id="addr-line" aria-live="polite"></p>
+
+<section class="hero" aria-labelledby="what-it-is">
+  <div class="seal">Phase 5 of the estate going live · seventeen claims sealed before the code</div>
+  <h1 id="what-it-is">A website that thinks at its door</h1>
+  <p class="lede">This page is a living website. Every request it gets, the address it was opened at, the words you type, a record you fill in, a packet from another node, crosses a door on raw bytes before any of its code uses it. A small language model, running on your own machine, reads what you want and picks where to take you; it is trusted with nothing else. What the door refuses, the site remembers and refuses on sight next time, and it shares that with the mesh it belongs to, so the next node refuses it too. It calls nothing outside itself until you wake the mind. And it can hand you your own DIGI.</p>
+  <p>It is a static page on a free host. All of that happens in your tab. Every number below is measured against claims committed before the code was written, and the ones that failed are kept.</p>
+  <div class="tiles" aria-live="polite">
+    <div class="tile"><b id="t-refused">…</b><span>real red-team payloads heard as packets, none let in</span></div>
+    <div class="tile"><b id="t-mind">…</b><span>visitor messages a 1B model on a laptop routed right</span></div>
+    <div class="tile"><b id="t-shared">…</b><span>an attack it refused, refused on sight by another node</span></div>
+    <div class="tile"><b id="t-held">…</b><span id="t-held-label">sealed claims holding</span></div>
+  </div>
+  <div class="row"><a class="btn" href="#talk-to-it">Talk to it</a><a class="btn ghost" href="#receipt">See the receipt</a></div>
+</section>
+
+<h2 id="start-here">Start here</h2>
+<h3>If you want to see it work</h3>
+<ol>
+  <li><b>Talk to it.</b> Type anything in the box below. You see what the door saw in your words before it trusted them, whether it let them in, which route was chosen and what chose it. Your words are shown as text and never become part of the page.</li>
+  <li><b>Replay the red team.</b> In <a href="#the-door">The door</a>, one button sends 3,496 real hostile and malformed payloads through the same handlers your typing uses, and counts anything they add to the page. Then it sends them again and shows the site refusing on sight what it refused once.</li>
+  <li><b>Wake the mind (optional).</b> In <a href="#the-mind">The mind</a>: a one-time download of about 700 MB from Hugging Face, then a 1-billion-parameter model runs in your browser and reads every message you type. Until you press it, keywords pick the route.</li>
+  <li><b>Put it in the mesh.</b> In <a href="#the-mesh">The mesh</a>, the site joins break-it's and konomi-slm's real nodes, loaded from their own sites, asks them for work, and shares an attack it refused. Open the page in a second tab and two copies of the site share an antibody over a real WebRTC channel.</li>
+  <li><b>Check what it called.</b> <a href="#local-first">Local-first</a> lists every request this tab has made, read from the browser's own record, and shows the policy the browser holds the page to.</li>
+  <li><b>Get your own DIGI.</b> Ask for one in the box, or go to <a href="#your-digi">Your DIGI</a>.</li>
+</ol>
+<h3>If you run the estate</h3>
+<pre>git clone https://github.com/sjgant80-hub/fall-kit && cd fall-kit
+node core/phase5/measure.mjs --check    # the red team, the mind's door, the mesh in three processes: the same receipt byte for byte</pre>
+<p class="small dim">One command. It builds Phase 2's red-team corpus from fresh clones at its sealed commits, clones break-it and konomi-slm at theirs, runs each node in its own process, and compares the receipt byte for byte. The claims a browser tab or this machine's local model measured are committed as files and re-judged.</p>
+
+<h2 id="talk-to-it">Talk to it</h2>
+<div class="box">
+  <label for="talk-in" class="small">Your message (up to 2,000 bytes)</label>
+  <textarea id="talk-in" maxlength="4000" placeholder="For example: how do I get my own DIGI card?"></textarea>
+  <div class="row"><button class="btn" id="talk-go" type="button">Send it through the door</button><span class="small dim" id="talk-who">The keyword rule is choosing routes. Wake the mind to let a model choose.</span></div>
+  <div class="chips" aria-label="Or pick a topic"><button class="chip" type="button" data-say="What is this website?">What is it?</button><button class="chip" type="button" data-say="How do I use this, step by step?">How do I use it?</button><button class="chip" type="button" data-say="I want my own DIGI card">My own DIGI</button><button class="chip" type="button" data-say="How does this site defend itself from attacks?">How does it defend itself?</button><button class="chip" type="button" data-say="Which network of nodes does this site belong to?">The network</button><button class="chip" type="button" data-say="What would it cost to roll this out in my company?">For my company</button></div>
+  <ol id="talk-log" aria-live="polite"></ol>
+</div>
+<p class="small dim">What you type is checked by <code>core/site.mjs</code> in this tab, shown with the browser's text-only setter, and handed to the router as text. Nothing is sent anywhere.</p>
+
+<h2 id="the-door">The door</h2>
+<p>Every way a website meets the world crosses one door, on raw bytes, before any code uses what came in. The door decides in a fixed order and names the stage at which it refuses.</p>
+<div class="scroll"><table><thead><tr><th>Request</th><th>Checked, in order</th><th>Let in as</th></tr></thead><tbody>
+  <tr><td>The address you opened the page at</td><td>at most 64 bytes · valid UTF-8 · <code>#name</code> · a name this page links to</td><td>a section, or the top of the page. The query string is never read.</td></tr>
+  <tr><td>A message you type</td><td>1 to 2,000 bytes · valid UTF-8 · no control character but tab and line breaks · no bidirectional override</td><td>text, never parsed, shown only as text</td></tr>
+  <tr><td>A record you fill in</td><td>the foundation's edge: size · UTF-8 · JSON · the record's declared shape, every field in range, nothing extra</td><td>a record break-it's screen can check</td></tr>
+  <tr><td>A packet from another node</td><td>the LIGHT door, on raw bytes: size · magic · version · length · sender pinned · signature · counter · then the body</td><td>a signed message from a node this site pinned</td></tr>
+</tbody></table></div>
+<p>Then the memory: every request refused once is kept by the SHA-256 of its bytes, its kind and the door's version, and refused on sight the next time, before the door does any work. Nothing that was let in is ever kept, so nothing good can be refused for being known.</p>
+<div class="box">
+  <div class="row"><button class="btn" id="replay-go" type="button">Replay the red team in this tab</button><span class="small dim">3,496 payloads, about 2.3 MB from this site</span></div>
+  <div class="bar" aria-hidden="true"><i id="replay-bar"></i></div>
+  <div id="replay-out" aria-live="polite"></div>
+  <ol id="replay-log" class="hidden" aria-hidden="true"></ol>
+</div>
+<p class="small dim">The red team is the estate's own sealed corpus from Phase 2: every file of five public repositories at fixed commits, cut four ways, HTTP requests for every live estate page, form bodies and random bytes. Here, the 3,496 payloads of at most 2,048 bytes. Each is handed to this page's own address handler and its own message handler, the ones your typing uses, while the browser counts every element added to the page.</p>
+
+<h2 id="how-it-works">How it works</h2>
+<div class="diagram" role="img" aria-label="A request reaches the senses, then the door, then the memory; a message let in goes to the mind, whose reply crosses the route gate; the route shows the site's own words, reaches a node of the mesh, or hands the visitor their DIGI; a refusal is remembered and shared with the mesh">
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg">
+  <rect class="b" x="14" y="24" width="150" height="76" rx="6"/><text class="t" x="89" y="50" text-anchor="middle">a request</text><text class="s" x="89" y="70" text-anchor="middle">address · message</text><text class="s" x="89" y="86" text-anchor="middle">record · packet</text>
+  <rect class="b hot" x="200" y="24" width="160" height="76" rx="6"/><text class="t" x="280" y="50" text-anchor="middle">the door</text><text class="s" x="280" y="70" text-anchor="middle">raw bytes, in order;</text><text class="s" x="280" y="86" text-anchor="middle">refuses at a named stage</text>
+  <rect class="b hot" x="396" y="24" width="160" height="76" rx="6"/><text class="t" x="476" y="50" text-anchor="middle">the memory</text><text class="s" x="476" y="70" text-anchor="middle">refused once:</text><text class="s" x="476" y="86" text-anchor="middle">refused on sight</text>
+  <rect class="b hot" x="592" y="24" width="154" height="76" rx="6"/><text class="t" x="669" y="50" text-anchor="middle">the mesh</text><text class="s" x="669" y="70" text-anchor="middle">antibodies shared;</text><text class="s" x="669" y="86" text-anchor="middle">peers re-check them</text>
+  <rect class="b hot" x="200" y="160" width="160" height="80" rx="6"/><text class="t" x="280" y="186" text-anchor="middle">the mind</text><text class="s" x="280" y="206" text-anchor="middle">a 1B model on your</text><text class="s" x="280" y="222" text-anchor="middle">machine proposes a route</text>
+  <rect class="b hot" x="396" y="160" width="160" height="80" rx="6"/><text class="t" x="476" y="186" text-anchor="middle">the route gate</text><text class="s" x="476" y="206" text-anchor="middle">one of seven, or the</text><text class="s" x="476" y="222" text-anchor="middle">keyword rule decides</text>
+  <rect class="b" x="592" y="150" width="154" height="44" rx="6"/><text class="s" x="669" y="177" text-anchor="middle">the site's own words</text>
+  <rect class="b" x="592" y="204" width="154" height="44" rx="6"/><text class="s" x="669" y="231" text-anchor="middle">a node's work, in LIGHT</text>
+  <rect class="b" x="592" y="258" width="154" height="44" rx="6"/><text class="s" x="669" y="285" text-anchor="middle">your own DIGI</text>
+  <path class="arrow" d="M164 62 L200 62 M360 62 L396 62 M556 62 L592 62 M280 100 L280 160 M360 200 L396 200 M556 200 L592 172 M556 200 L592 226 M556 200 L592 280"/>
+  <path class="no-ln" d="M280 100 L280 130 L476 130 L476 100"/>
+  <text class="s" x="378" y="146" text-anchor="middle">refused: kept, and shared</text>
+  <text class="s" x="280" y="270" text-anchor="middle">a fooled mind picks a wrong route;</text><text class="s" x="280" y="286" text-anchor="middle">it cannot let anything in</text>
+</svg></div>
+<h3>One message, traced from the measured run</h3>
+<ol id="trace" aria-live="polite"><li class="dim">Loading the run…</li></ol>
+<h3>The passes</h3>
+<div class="scroll"><table><thead><tr><th>Pass</th><th>Organ</th><th>Claims</th><th>Status</th></tr></thead><tbody id="pass-rows"><tr><td colspan="4" class="dim">Loading…</td></tr></tbody></table></div>
+
+<h2 id="the-mind">The mind</h2>
+<p>The mind is a small language model at the door: the first thing on this site that reasons about what you want. It reads each message the door let in and replies with a route. It is trusted with nothing. Its reply is a request too, and crosses a door of its own: at most 512 bytes, JSON, a record whose <code>route</code> is exactly one of seven names. Anything else is no proposal, and the keyword rule decides. What a route shows is this site's own fixed words, so a model that is fooled picks a wrong route: it cannot let a packet in, run code, or say anything of its own on the page.</p>
+<div class="tiles">
+  <div class="tile"><b id="m-local">…</b><span id="m-local-l">routed right by Llama 3.2 1B on a laptop's Ollama</span></div>
+  <div class="tile"><b id="m-tab">…</b><span id="m-tab-l">routed right by the same model in a browser tab (WebLLM)</span></div>
+  <div class="tile"><b id="m-kw">…</b><span>routed right by the keyword rule alone</span></div>
+  <div class="tile"><b id="m-fuzz">…</b><span>hostile and malformed replies that left the seven routes</span></div>
+</div>
+<div class="box">
+  <div class="row"><button class="btn" id="mind-wake" type="button">Wake the mind (about 700 MB, once)</button><button class="btn ghost" id="mind-run" type="button" disabled>Route the 70 sealed messages</button></div>
+  <div class="bar" aria-hidden="true"><i id="mind-bar"></i></div>
+  <div id="mind-out" aria-live="polite"><p class="small dim">Asleep. The weights come from Hugging Face's mlc-ai repository and the library from esm.run, both only after you press the button; after that the model runs on your machine, offline.</p></div>
+</div>
+<p class="small dim">The 70 messages were written by a different local model (qwen2.5:7b) from the route descriptions, ten a route, before the mind ran, and sealed with the claims. They are not real visitors' words. The keyword rule's words are chosen by a rule, not by hand: every word of four or more letters in one route's description and no other's.</p>
+
+<h2 id="the-mesh">The mesh</h2>
+<p>The site is a node of the estate's mesh: it has its own key, it pins the nodes it trusts, and every message between them is a signed LIGHT packet through each node's own door. Through the mesh it reaches other nodes' work, and checks what comes back. And what it refuses, it shares: a peer adopts an antibody only after re-running it on its own door, so no node can make another refuse what it would let in.</p>
+<div class="box">
+  <div class="row"><button class="btn" id="mesh-go" type="button">Put the site in the mesh, in this tab</button><span class="small dim">loads break-it's and konomi-slm's real nodes from their own sites</span></div>
+  <div id="mesh-out" aria-live="polite"></div>
+</div>
+<h3>Check a record with break-it</h3>
+<div class="box">
+  <div class="calc">
+    <label>Account (1 to 99,999,999)<input id="f-account" type="number" min="1" max="99999999" value="1000"></label>
+    <label>Period, months from January 2000 (0 to 1,199)<input id="f-period" type="number" min="0" max="1199" value="63"></label>
+    <label>Amount (0 to 100,000,000)<input id="f-amount" type="number" min="0" max="100000000" value="100"></label>
+  </div>
+  <div class="row"><button class="btn" id="form-go" type="button">Send it through the door, then to break-it</button></div>
+  <div id="form-out" aria-live="polite"><p class="small dim">Put the site in the mesh first: the record crosses this site's door, is signed as a BRK1 record with break-it's public test key, and is asked of break-it's screen over the mesh.</p></div>
+</div>
+<h3>Two tabs, one antibody</h3>
+<div class="box">
+  <p class="small">Open this page in a second tab of the same browser and press <b>Join</b> in both. Each tab makes its own key. When they meet over WebRTC (no STUN server, so nothing leaves this machine), each shows the other's key: pinning it is your decision, so press <b>Pin</b> in both. Then press <b>Attack and share</b> in one: it refuses a packet from a key nobody pinned, sends the other tab its antibodies, then the same packet, which the other tab refuses on sight.</p>
+  <div class="row"><button class="btn" id="tabs-join" type="button">Join</button><button class="btn ghost" id="tabs-pin" type="button" disabled>Pin the other tab</button><button class="btn ghost" id="tabs-attack" type="button" disabled>Attack and share</button></div>
+  <div id="tabs-out" aria-live="polite"></div>
+</div>
+
+<h2 id="local-first">Local-first</h2>
+<p>The site is files on a static host. The door, the memory, the keyword rule, the mesh and the mind all run in your tab, so there is no server of ours to call and none to take down: any static host can serve the same files. The page's own security policy lets it call this site and, for waking the mind only, the model hosts named in the claims: esm.run, cdn.jsdelivr.net, huggingface.co and its content hosts, and raw.githubusercontent.com. The browser enforces that policy, not the page.</p>
+<div class="box">
+  <div class="row"><button class="btn" id="req-go" type="button">List every request this tab has made</button><button class="btn ghost" id="req-policy" type="button">Show the policy the browser enforces</button></div>
+  <div id="req-out" aria-live="polite"></div>
+</div>
+<p class="small dim">A security policy cannot stop WebRTC from asking a STUN server where this machine is on the internet, so every connection this page makes is given an empty STUN list, and the claims check the code for it.</p>
+
+<h2 id="your-digi">Your DIGI</h2>
+<p>A DIGI is a card that is yours: a picture carrying a small mind and its signed life, made for a key that lives in your browser and nowhere else. The estate's card game, <a href="https://sjgant80-hub.github.io/kardlings/#first-game">Kardlings</a>, on this same site, hands you one in a click. Nothing about you is sent anywhere to do it: the key is made and kept in your browser, and the card is signed to it there.</p>
+<div class="box">
+  <div class="row"><a class="btn" id="digi-go" href="https://sjgant80-hub.github.io/kardlings/#first-game">Get my own DIGI</a><button class="btn ghost" type="button" data-say="I want my own DIGI card">Ask the site for one</button></div>
+  <div id="digi-out" aria-live="polite"></div>
+</div>
+<p class="small dim">Your DIGI is your own cell of the estate: your key, your card, its mind. Joining a mesh with it is the mesh founder's decision, made by signing your card into the roster, as Phase 3 measured.</p>
+
+<h2 id="blueprint">Blueprint</h2>
+<div class="scroll"><table><thead><tr><th>Part</th><th>What it decides</th><th>Gate</th></tr></thead><tbody id="bp-rows">
+  <tr><td><code>core/site.mjs</code></td><td>The door for addresses, messages and records, what the site perceives in a request, its memory of refusals, and which of a peer's refusals it will adopt. Pure.</td><td id="bp-site">Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/mind.mjs</code></td><td>The mind's prompt, the door on its reply, the keyword rule, and the decision: never a route outside the list. Pure.</td><td id="bp-mind">Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/egress.mjs</code></td><td>What the page may call: the policy's sources, and every other host named in the site's own code, sorted by where it sits. Pure.</td><td id="bp-egress">Mutation-tested</td></tr>
+  <tr><td><code>core/phase5/sitenode.mjs</code></td><td>The site as a node beside break-it's and konomi-slm's real nodes: the same scenario in three processes or one tab.</td><td>Glue; CI runs it in three processes</td></tr>
+  <tr><td><code>core/node.mjs</code>, <code>core/edge.mjs</code>, <code>core/antibody.mjs</code>, LIGHT</td><td>The foundation the site stands on: the packet door, the immune exchange, the edge for records, the signed wire.</td><td>Mutation-tested in Phases 1 to 3</td></tr>
+  <tr><td><code>core/phase5/judge.mjs</code></td><td>The verdicts: the sealed rules over the measured facts. Pure.</td><td>Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/phase5/measure.mjs</code></td><td>Builds the red team, runs the door, the mind's door and the mesh, reads the committed tab and local-model facts.</td><td>CI re-runs it and compares the receipt byte for byte</td></tr>
+  <tr><td><code>core/phase5/page.mjs</code>, <code>mind-tab.mjs</code>, <code>mesh-tab.mjs</code></td><td>This page: the handlers your typing uses, the replay, waking the mind (the one module that names another host), the mesh in a tab and across two.</td><td>A page gate; the tab facts are measured here</td></tr>
+  <tr><td><code>core/phase5/claims.json</code></td><td>The seventeen claims, sealed before any of the above existed.</td><td>Its commit is named in the receipt</td></tr>
+</tbody></table></div>
+
+<h2 id="receipt">The receipt</h2>
+<p class="small" id="r-sum">Loading the committed receipt…</p>
+<div class="scroll"><table><thead><tr><th>Claim</th><th></th><th>The claim, and what was measured</th></tr></thead><tbody id="r-rows"></tbody></table></div>
+<h3>The failures, and the corrections, read plainly</h3>
+<div class="note" id="r-notes"><p class="dim">Loading…</p></div>
+<p class="small">Re-run it yourself: clone <a href="https://github.com/sjgant80-hub/fall-kit">fall-kit</a> and run <code>node core/phase5/measure.mjs --check</code>. The claims are in <a href="claims.json">claims.json</a>; the receipt is <a href="../receipts/phase5.json">receipts/phase5.json</a>; the facts measured in a browser tab or with this machine's local model are in <a href="https://github.com/sjgant80-hub/fall-kit/tree/main/core/phase5/local">core/phase5/local/</a>.</p>
+
+<h2 id="for-a-business">For a business</h2>
+<p class="lede">What it gives you: a website that defends itself at its own door, understands what visitors want without sending their words to anyone, learns from every attack and shares what it learns with your other systems, and needs no server to do it.</p>
+<div class="scroll"><table><thead><tr><th>Who</th><th>What changes</th></tr></thead><tbody>
+  <tr><td>CEO</td><td>Your website stops being a brochure behind someone else's firewall and becomes a node of your own estate: it answers visitors, defends itself, and hands customers something of their own. There is no platform under it to rent.</td></tr>
+  <tr><td>CFO</td><td>The managed path in front of a site (a web firewall and, if you run one, an API gateway for a chat backend) is a monthly bill that grows with traffic. This site does that work in each visitor's tab, so traffic costs you nothing more. The case below uses break-it's gated cost kernel on its dated public prices; staff time is priced at the legal minimum wage, so the saving is a floor.</td></tr>
+  <tr><td>COO</td><td>Visitors are routed to the right answer by a model on their own machine, with the keyword rule as the floor: 65 of 70 sealed messages routed right on a laptop. Every refusal at the door is counted by stage, so you see what is hitting the site.</td></tr>
+  <tr><td>CTO</td><td>Static files, one page, kernels that are mutation-tested, and a receipt CI re-derives byte for byte. Nothing to host but files, no build step, no backend. The model is optional: the site works fully without it.</td></tr>
+  <tr><td>CISO</td><td>Every request crosses a door on raw bytes before any code uses it, and the model is behind a door of its own, so prompt injection can at worst pick a wrong route. Attacks are remembered and shared with your other nodes, which re-check before they adopt. The page's policy lets the browser call nothing but this site and, after the visitor opts in, the named model hosts.</td></tr>
+  <tr><td>The teams</td><td>Fewer visitor questions to route by hand, and a log of what the door refused that anyone can read. The site's words are fixed text you write and review, never generated.</td></tr>
+</tbody></table></div>
+<h3>The cost case</h3>
+<p>What the managed path in front of a website costs a month, against this site, which needs no server, and a node of your mesh on a machine you already own. The sums are break-it's gated cost kernel on its dated sources; you set the volumes. The staff hours and the share the site takes off are yours to set: the starting figures are assumptions, not measurements.</p>
+<div class="box">
+  <div class="calc">
+    <label>Requests a month to the site<input id="c-req" type="number" min="0" value="1000000"></label>
+    <label>Web firewall rules you would run<input id="c-rules" type="number" min="0" value="10"></label>
+    <label>Chat backend API (none, http, rest)<select id="c-api"><option value="http">HTTP API</option><option value="rest">REST API</option><option value="none">none</option></select></label>
+    <label>Staff hours a month answering and routing visitors (assumed)<input id="c-staffh" type="number" min="0" value="20"></label>
+    <label>Share of those the site takes off, % (assumed)<input id="c-share" type="number" min="0" max="100" value="50"></label>
+    <label>Hourly cost of the person, £<input id="c-staffr" type="number" min="0" step="0.01" value="12.71"></label>
+    <label>Your mesh node's power, watts<input id="c-watts" type="number" min="1" value="55"></label>
+    <label>Hours a month it runs<input id="c-hours" type="number" min="1" max="744" value="730"></label>
+  </div>
+  <div id="c-out"><p class="dim">Loading the sources…</p></div>
+  <ul class="small" id="c-sources"></ul>
+</div>
+<h3 id="security">Security and data protection, answered straight</h3>
+<ul>
+  <li><b>What the door stops.</b> Any request that is not what its kind must be, refused on raw bytes at a named stage, before code uses it: 5,532 red-team payloads heard as packets, none let in and none decoded; <span id="s-d4">in a real tab, the replay of the red team through the page's own handlers is on the receipt</span>. Packets from keys nobody pinned, changed bytes and replays, refused by the foundation's door.</li>
+  <li><b>What the mind cannot do.</b> Anything but pick one of seven routes. Its reply is checked like any other request, and the words a route shows are fixed text.</li>
+  <li><b>Where data goes.</b> Nowhere. What a visitor types stays in their tab. If they wake the mind, the model runs in their browser. The mesh in this page runs in the tab too; across two tabs it is a direct WebRTC channel on the same machine.</li>
+  <li><b>Personal data.</b> The site holds none: it keeps the hashes of refused requests in the visitor's own tab, for as long as the tab is open. UK GDPR and GDPR: there is nothing to process on a server because there is no server, and the visitor's words never leave their device.</li>
+  <li><b>Signed, not encrypted.</b> Packets between nodes are signed, so a forged or changed one is refused, but they are not encrypted: confidentiality between nodes is the transport's job (WebRTC encrypts its channels).</li>
+  <li><b>What it does not stop.</b> A visitor's own browser or machine being compromised; a key being stolen; a denial of service against the static host itself. The edges, the model hosts a visitor opts into, are named, pinned to versions and fetched only on that opt-in.</li>
+</ul>
+<h3 id="roll-out">Rolling it out</h3>
+<ol>
+  <li><b>Start with one page.</b> Copy the door and the router into your site, list your routes and write the fixed words for each. The keyword rule works on day one; the mind is an option for visitors who want it.</li>
+  <li><b>Join it to your mesh (Model A),</b> or plant a mesh of your own (Model B): give the site a key, pin your nodes, and let refusals flow as antibodies to the rest of your estate.</li>
+  <li><b>Read the door's log weekly.</b> What it refused, by stage, is what is hitting you.</li>
+  <li><b>Hand customers their own cell.</b> A DIGI is a card and a key that are theirs; the funnel is one link.</li>
+</ol>
+<h3>Support and ownership</h3>
+<p>Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>; start through that site. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed and runs without us: there is nothing of ours in the path.</p>
+<h3 id="risks">Risks, answered</h3>
+<ul>
+  <li><b>"A 1B model is not clever."</b> It does not need to be: it picks one of seven routes, and on the sealed messages it was right 65 times in 70 on a laptop. Where it is unsure or wrong, the worst outcome is a wrong section, and the keyword rule is there when it says nothing usable.</li>
+  <li><b>"Prompt injection."</b> The model's reply is a request through a door that accepts only a route name. A hijacked model can choose a route, nothing more: 20,000 hostile and malformed replies tried, none left the list.</li>
+  <li><b>"700 MB is a lot."</b> It is optional, once per browser, and only on the visitor's say-so. The site is complete without it.</li>
+  <li><b>"Some claims failed."</b> Yes, and they stay on the receipt with the reasons. A system that only ever reports passes is the one to worry about.</li>
+  <li><b>"The red team is our own corpus."</b> Yes: real files, requests and random bytes, sealed in Phase 2, and the foundation's own hostile shapes. An outside red team is welcome: the door, the claims and the receipt are all public.</li>
+</ul>
+<h3>The case for the board</h3>
+<p>The website becomes an asset you own: it defends itself, understands visitors without sending their words anywhere, learns from attacks and shares what it learns across your estate, and gives customers something of their own. It costs nothing more as traffic grows, and every claim about it comes with a receipt anyone can re-run.</p>
+
+<h2 id="paper">The paper: a door that thinks, and a mind behind a door</h2>
+<p><b>The problem.</b> A website meets the world on four paths: its address, the words visitors type, the records they submit, and, if it is part of a system, the messages other systems send it. Most sites parse all four with code that trusts them, put a rented firewall in front, and, if they add AI, send visitors' words to someone else's model and act on what it says.</p>
+<p><b>The design.</b> One door for every path, on raw bytes, in a fixed order, refusing at a named stage before any code uses the request. A memory of refusals, keyed by the bytes, the kind and the door's version, so a known attack costs nothing and nothing good can be refused for being known. A mind, a small model on the visitor's machine, that reasons about what the visitor wants and whose reply is itself a request through its own door: it can choose among fixed routes and nothing else. And the site as a node of a mesh: a key, pinned peers, signed packets, antibodies shared and re-checked by every node before it adopts them.</p>
+<p><b>What is measured.</b> Seventeen claims were committed before any of Phase 5's code. The door is checked against the sealed rule written a second time, on 5,532 real payloads, and in a real tab for anything a request adds to the page. The mind's door is fuzzed with 20,000 replies; the mind itself routes 70 sealed messages on a laptop and in a tab. The mesh runs with each node in its own process. The page's policy and code are read for every host they could call, and the tab's own record of requests is read back.</p>
+<p><b>Honest limits.</b> "Living" here means it thinks at its door, defends, learns, connects and shares immunity. The mind is a router, not a conversationalist. The red team is the estate's own. Nothing here claims awareness.</p>
+
+<h2 id="faq">Questions</h2>
+<details><summary>What makes this website living?</summary><p>It does five things a static page behind a firewall does not. It checks every request at its own door, on raw bytes, before any code uses it. It reads what a visitor wants with a small language model running on the visitor's own machine. It remembers every request it refused and refuses it on sight next time. It is a node of the mesh, so what it refuses it shares, and another node then refuses it on sight too. And it reaches other nodes' work, in signed packets, and checks what comes back. Nothing here claims awareness.</p></details>
+<details><summary>Can the AI on this page be tricked?</summary><p>A model can always be talked into a wrong answer, so this page does not trust its model with anything. The model's reply crosses a door of its own and must name one of seven routes; what each route shows is the site's own fixed words. A fooled model picks a wrong route. It cannot let a packet in, run code, or put words of its own on the page. Twenty thousand malformed and hostile replies were put through that door: every one ended on one of the seven routes.</p></details>
+<details><summary>Does anything I type leave my browser?</summary><p>No. The door, the memory and the keyword rule run in your tab. If you wake the mind, the model's weights are downloaded once from Hugging Face and then it runs on your machine: your words go to it, inside your browser, and nowhere else. The page's own security policy lets it call only this site and, for waking the mind, the named model hosts; the claims measure that in a real tab.</p></details>
+<details><summary>What is a DIGI?</summary><p>A DIGI is a card that is yours: a picture that carries a small mind and its signed life, made for a key that lives in your browser. This site hands you to Kardlings, the estate's card game on this same site, where you can be given one in a click. Nothing about you is sent anywhere to do it.</p></details>
+<details><summary>What did not hold?</summary><p>Every failed claim stays on the receipt with the reason. One sealed rule said no payload of the red team would be let in as the page's address, while the sealed door rule says an empty address means the top of the page: the red team holds fifteen copies of the empty request, so that claim failed and is kept. Another said every module in the Phase 5 folder names no host but the model hosts; that folder also holds the two tools that measure the site, which call GitHub and a local model, though the page never loads them, so it failed too and is kept.</p></details>
+<details><summary>Who supplies it?</summary><p>AI Native Solutions supplies it; start through ai-nativesolutions.com. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed.</p></details>
+
+<h3>Built on</h3>
+<ul class="small">
+  <li><a href="https://sjgant80-hub.github.io/break-it/">break-it</a>, the estate's ingest gateway, whose node screens records here; its immune design credits Gary W. Floyd, Lumiea Systems Research Division, ThunderStruck Service, LLC, "GEP-Based Security: Behavioral Entropy Signatures for Cybersecurity and DevOps" (2025).</li>
+  <li><a href="https://sjgant80-hub.github.io/konomi-slm/">konomi-slm</a>, whose verified triage patterns answer here with receipts.</li>
+  <li><a href="https://sjgant80-hub.github.io/falllink/">falllink</a>, the estate's WebRTC connection layer, for the two-tab mesh.</li>
+  <li>WebLLM (MLC, Apache-2.0) and Llama 3.2 1B Instruct (Meta, under the Llama 3.2 Community License), for the mind, loaded only when a visitor wakes it.</li>
+</ul>
+
+<div class="foot">Fall Kit core · phase 5 · MIT · supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · <a href="https://github.com/sjgant80-hub/fall-kit">source</a> · <a href="../phase4/">phase 4: it grows what it lacks</a> · <a href="../phase3/">phase 3</a> · <a href="../phase2/">phase 2</a> · <a href="../">phase 1</a><br>Powered by the Konomi architecture, created by Thomas Frumkin.</div>
+</main>
+<script type="module" src="./page.mjs"></script>
+</body>
+</html>

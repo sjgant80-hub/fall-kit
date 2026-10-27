@@ -1,5 +1,8 @@
 # Fall Kit · the shared brain, and the Lego socket
 
+**Newest: https://sjgant80-hub.github.io/fall-kit/core/phase5/** — the living website (go-live Phase 5): a door on raw
+bytes, a mind on the visitor's own machine that can only pick a route, shared immunity, local-first, your own DIGI.
+
 **Live: https://sjgant80-hub.github.io/fall-kit/** — the page explains itself, shows the real request the kit
 builds, works out what recycling saves your team, and reads all 100 builds' sockets live.
 
@@ -34,6 +37,8 @@ notes answered "already judged" instead of refused; none moved a link). Phase 3c
 V1 (W4's bar) and V2 (W1–W3 unchanged, digest for digest) held. Re-run Phase 3c with `node core/phase3c/measure.mjs --check`;
 Phase 3b's receipt is about the node it measured, so re-derive it there:
 `git worktree add .phase3b 2960fae && node .phase3b/core/phase3b/measure.mjs --check`.
+
+**Live: https://sjgant80-hub.github.io/fall-kit/core/phase5/** — Phase 5, a website that thinks at its door: the living website. Every request (its address, a message, a record, a packet) crosses one door on raw bytes before any code uses it (`core/site.mjs`); a small language model on the visitor's own machine (WebLLM, or Ollama) reads what they want and can only pick one of seven routes (`core/mind.mjs`); what the door refuses it remembers and shares with the mesh, where break-it's node refuses it on sight; it calls nothing outside itself until the visitor wakes the mind (`core/egress.mjs`); and it hands a visitor their own DIGI. Seventeen claims sealed first (`core/phase5/claims.json`), every failure kept. Re-run: `node core/phase5/measure.mjs --check`.
 
 **Live: https://sjgant80-hub.github.io/fall-kit/core/phase4/** — Phase 4, it grows what it lacks: a self-model (`core/selfmodel.mjs`) that sees every skill, node and link against what turned out true, finds the gaps and predicts its own next round; and gated growth (`core/growth.mjs`) that grows a specialist for the worst gap and lets it in only if it beats chance and the mesh without it on rows it never saw. Bounded, with a receipt for every step, on five real UCI datasets. Ten claims sealed first (`core/phase4/claims.json`): 8 held, 2 failed and kept (G2: a control grown on shuffled answers still carried signal and got in; G3: a node good on average did no better on the date-ordered work it actually got). Plant it in your browser on the page, or re-run it with `node core/phase4/measure.mjs --check`.
 

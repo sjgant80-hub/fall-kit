@@ -1,0 +1,666 @@
+{
+ "kind": "fall-kit.core.phase5.receipt",
+ "v": 1,
+ "sealedIn": "ab93784adc02ba939caef2c13987a9f5f8781077",
+ "notes": [
+  "D2 failed as sealed, and is kept. The fifteen corpus payloads let in as the page's address are all the empty request (zero bytes: two empty .nojekyll files and an empty LICENSE, and their cuts), which the sealed address rule takes as the top of the page. Two sealed rules disagree on that one input; the claim is not re-sealed. Every non-empty payload was refused.",
+  "Q1 failed as sealed, and is kept. The sealed rule reads every module in core/phase5/, and that folder holds the two Node tools that measure the site: measure.mjs fetches break-it and konomi-slm from github.com to run them, and mind-local.mjs calls Ollama on this machine. Neither is ever loaded by the page. Read the same way, the 25 files of this repository the page loads name no other host except esm.run, in the mind's wake module, and every FallLink they make has an empty STUN list (q1.pageLoadsOutside). The modules the page loads from break-it, konomi-slm and falllink on this origin are not read here; the page's policy holds them, and Q2 measures what the tab actually called.",
+  "N1: the first judge counted every value in the site's ledger (25) against the twenty triage answers, but the sealed rule is that each triage answer the site used is recorded. The ledger was read before the count was corrected: 20 values for konomi-slm's triage answers and 5 for break-it's screen answers. The judge now counts the triage values, and says so here."
+ ],
+ "facts": {
+  "corpus": {
+   "count": 5532,
+   "digest": "0166e1b5e0cecf3981f66989502c6945a0275b261c06105f077e2916fb22e4bf",
+   "tab": 3496,
+   "tabDigest": "1cd5fc4345797c13216a4cba38afe6c0c59bc244466135329043ff64b1083eac"
+  },
+  "d1": {
+   "corpus": {
+    "count": 5532,
+    "digest": "0166e1b5e0cecf3981f66989502c6945a0275b261c06105f077e2916fb22e4bf",
+    "admitted": 0,
+    "decoded": 0,
+    "byStage": {
+     "magic": 5167,
+     "size": 365
+    }
+   },
+   "shapes": {
+    "control": {
+     "ok": true,
+     "stage": null,
+     "decoded": false
+    },
+    "replayed": {
+     "ok": false,
+     "stage": "counter",
+     "decoded": false
+    },
+    "unpinned": {
+     "ok": false,
+     "stage": "sender",
+     "decoded": false
+    },
+    "changed": {
+     "ok": false,
+     "stage": "signature",
+     "decoded": false
+    },
+    "misaddressed": {
+     "ok": false,
+     "stage": "message",
+     "decoded": true
+    }
+   },
+   "seeds": {
+    "site": 51,
+    "peer": 52,
+    "stranger": 53,
+    "other": 54
+   }
+  },
+  "d2": {
+   "names": 17,
+   "namesAdmitted": 17,
+   "version": "a56f52f80d2ec94bf3b296d5227f448409e85ca2998940118bfff39cd1f110cb",
+   "corpus": {
+    "count": 5532,
+    "admitted": 15,
+    "admittedEmpty": 15,
+    "admittedAs": {
+     "null": 15
+    },
+    "byStage": {
+     "grammar": 232,
+     "size": 5265,
+     "utf8": 20
+    }
+   }
+  },
+  "d3": {
+   "messages": {
+    "count": 5532,
+    "disagree": 0,
+    "disagreeing": [],
+    "admitted": 2754,
+    "exact": 2754,
+    "refused": 2778,
+    "unnamed": 0,
+    "byStage": {
+     "chars": 1,
+     "size": 2082,
+     "utf8": 695
+    }
+   },
+   "forms": {
+    "count": 5532,
+    "admitted": 0,
+    "byStage": {
+     "json": 3066,
+     "shape": 87,
+     "size": 1047,
+     "utf8": 1332
+    },
+    "good": 10,
+    "goodAdmitted": 10,
+    "records": [
+     {
+      "account": 1,
+      "period": 0,
+      "amount": 0
+     },
+     {
+      "account": 99999999,
+      "period": 1199,
+      "amount": 100000000
+     },
+     {
+      "account": 68977491,
+      "period": 927,
+      "amount": 21976301
+     },
+     {
+      "account": 62317882,
+      "period": 102,
+      "amount": 59216494
+     },
+     {
+      "account": 72010224,
+      "period": 549,
+      "amount": 90562150
+     },
+     {
+      "account": 22942898,
+      "period": 935,
+      "amount": 74061281
+     },
+     {
+      "account": 66056005,
+      "period": 16,
+      "amount": 46540141
+     },
+     {
+      "account": 30045507,
+      "period": 1075,
+      "amount": 28811588
+     },
+     {
+      "account": 75529717,
+      "period": 868,
+      "amount": 25357810
+     },
+     {
+      "account": 1901837,
+      "period": 952,
+      "amount": 20828746
+     }
+    ]
+   }
+  },
+  "l1": {
+   "requests": 6992,
+   "refused": 4223,
+   "onSightFirst": 168,
+   "recognisedAgain": 4223,
+   "admitted": 2769,
+   "admittedAgain": 2769,
+   "recognisedWrongly": 0,
+   "library": 4055,
+   "bound": 8192,
+   "full": false
+  },
+  "f1": {
+   "cases": 20000,
+   "throws": 0,
+   "unnamed": 0,
+   "admitted": 26
+  },
+  "m1": {
+   "fuzzed": 20000,
+   "outside": 0,
+   "throws": 0,
+   "takenAsRoutes": 137,
+   "valid": 700,
+   "validTaken": 700
+  },
+  "mind": {
+   "digest": "3a793530bcdff19184d1d68c4fe41e281d7a31f1011770c566b86c288384c7e0",
+   "keywords": {
+    "about": [
+     "does"
+    ],
+    "start": [
+     "step"
+    ],
+    "digi": [
+     "getting",
+     "their",
+     "digi",
+     "card",
+     "that",
+     "they",
+     "keep"
+    ],
+    "defend": [
+     "defends",
+     "itself",
+     "refuses",
+     "attacks",
+     "security",
+     "from"
+    ],
+    "mesh": [
+     "network",
+     "belongs",
+     "other",
+     "nodes",
+     "joining",
+     "sharing",
+     "with",
+     "them"
+    ],
+    "business": [
+     "using",
+     "company",
+     "costs",
+     "rolling",
+     "support",
+     "supplies"
+    ],
+    "none": [
+     "something",
+     "unrelated",
+     "small",
+     "talk",
+     "topic",
+     "question"
+    ]
+   },
+   "t0Right": 46
+  },
+  "n1": {
+   "processes": 3,
+   "nodes": {
+    "break-it": "4e41aec63ccfd9bf426e4b012ec96f9df22ea916",
+    "konomi-slm": "e74cb6f517a7d960bc418dcf28c831cf3cfd2ea6"
+   },
+   "screens": [
+    {
+     "case": "a record signed by the sender break-it pins",
+     "expect": "admitted",
+     "stage": "admitted",
+     "outcome": "verified",
+     "to": "break-it"
+    },
+    {
+     "case": "not a packet at all",
+     "expect": "size",
+     "stage": "size",
+     "outcome": "verified",
+     "to": "break-it"
+    },
+    {
+     "case": "a record with a blank signature",
+     "expect": "signature",
+     "stage": "signature",
+     "outcome": "verified",
+     "to": "break-it"
+    },
+    {
+     "case": "a record from a sender break-it never pinned",
+     "expect": "sender",
+     "stage": "sender",
+     "outcome": "verified",
+     "to": "break-it"
+    },
+    {
+     "case": "a record signed by a key that is not the sender’s",
+     "expect": "signature",
+     "stage": "signature",
+     "outcome": "verified",
+     "to": "break-it"
+    }
+   ],
+   "triage": {
+    "asks": 20,
+    "toKonomi": 20,
+    "verified": 20,
+    "receiptsHold": 20
+   },
+   "messages": 50,
+   "nonLight": 0,
+   "bytes": 20143,
+   "ledgerValues": 25,
+   "ledgerTriage": 20,
+   "ledgerScreen": 5
+  },
+  "n2": {
+   "refused": {
+    "ok": false,
+    "stage": "sender",
+    "recognised": false
+   },
+   "offered": 1,
+   "adopted": 1,
+   "autoimmuneBlocked": 0,
+   "again": {
+    "ok": false,
+    "stage": "sender",
+    "recognised": true
+   },
+   "honest": {
+    "ok": true,
+    "stage": null,
+    "recognised": false
+   }
+  },
+  "q1": {
+   "files": 14,
+   "policy": {
+    "default-src": [
+     "'self'"
+    ],
+    "script-src": [
+     "'self'",
+     "'wasm-unsafe-eval'",
+     "https://esm.run",
+     "https://cdn.jsdelivr.net"
+    ],
+    "style-src": [
+     "'self'",
+     "'unsafe-inline'"
+    ],
+    "connect-src": [
+     "'self'",
+     "https://esm.run",
+     "https://cdn.jsdelivr.net",
+     "https://huggingface.co",
+     "https://*.huggingface.co",
+     "https://*.hf.co",
+     "https://raw.githubusercontent.com"
+    ],
+    "img-src": [
+     "'self'",
+     "data:"
+    ],
+    "base-uri": [
+     "'none'"
+    ],
+    "form-action": [
+     "'none'"
+    ],
+    "object-src": [
+     "'none'"
+    ]
+   },
+   "unknownSources": [],
+   "unsafeEval": false,
+   "inlineScripts": 0,
+   "urls": [
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://esm.run",
+     "host": "esm.run",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://cdn.jsdelivr.net;",
+     "host": "cdn.jsdelivr.net",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://esm.run",
+     "host": "esm.run",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://cdn.jsdelivr.net",
+     "host": "cdn.jsdelivr.net",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://huggingface.co",
+     "host": "huggingface.co",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://raw.githubusercontent.com;",
+     "host": "raw.githubusercontent.com",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://schema.org",
+     "host": "schema.org",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://github.com/sjgant80-hub/fall-kit",
+     "host": "github.com",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://opensource.org/licenses/MIT",
+     "host": "opensource.org",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://schema.org",
+     "host": "schema.org",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://github.com/sjgant80-hub/fall-kit",
+     "host": "github.com",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "http://www.w3.org/2000/svg",
+     "host": "www.w3.org",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://github.com/sjgant80-hub/fall-kit",
+     "host": "github.com",
+     "where": "link"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://github.com/sjgant80-hub/fall-kit/tree/main/core/phase5/local",
+     "host": "github.com",
+     "where": "link"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://www.ai-nativesolutions.com",
+     "host": "www.ai-nativesolutions.com",
+     "where": "link"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://www.ai-nativesolutions.com",
+     "host": "www.ai-nativesolutions.com",
+     "where": "link"
+    },
+    {
+     "file": "core/phase5/index.html",
+     "url": "https://github.com/sjgant80-hub/fall-kit",
+     "host": "github.com",
+     "where": "link"
+    },
+    {
+     "file": "core/egress.mjs",
+     "url": "https://host,",
+     "host": "host",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/measure.mjs",
+     "url": "https://github.com/sjgant80-hub/",
+     "host": "github.com",
+     "where": "loaded"
+    },
+    {
+     "file": "core/phase5/mind-local.mjs",
+     "url": "http://localhost:11434]",
+     "host": "localhost",
+     "where": "words"
+    },
+    {
+     "file": "core/phase5/mind-local.mjs",
+     "url": "http://localhost:11434",
+     "host": "localhost",
+     "where": "loaded"
+    },
+    {
+     "file": "core/phase5/mind-tab.mjs",
+     "url": "https://esm.run/@mlc-ai/web-llm@0.2.79",
+     "host": "esm.run",
+     "where": "loaded"
+    }
+   ],
+   "loaded": 3,
+   "loadedOutside": [
+    "core/phase5/measure.mjs https://github.com/sjgant80-hub/",
+    "core/phase5/mind-local.mjs http://localhost:11434"
+   ],
+   "stunMissing": [],
+   "read": [
+    "core/phase5/index.html",
+    "core/site.mjs",
+    "core/mind.mjs",
+    "core/egress.mjs",
+    "core/phase5/cell.mjs",
+    "core/phase5/judge.mjs",
+    "core/phase5/judge.test.mjs",
+    "core/phase5/measure.mjs",
+    "core/phase5/mesh-tab.mjs",
+    "core/phase5/mind-local.mjs",
+    "core/phase5/mind-tab.mjs",
+    "core/phase5/page.mjs",
+    "core/phase5/page.test.mjs",
+    "core/phase5/sitenode.mjs"
+   ],
+   "pageLoads": [
+    "core/antibody.mjs",
+    "core/cells.mjs",
+    "core/edge.mjs",
+    "core/identity.mjs",
+    "core/mind.mjs",
+    "core/node.mjs",
+    "core/phase5/index.html",
+    "core/phase5/judge.mjs",
+    "core/phase5/mesh-tab.mjs",
+    "core/phase5/mind-tab.mjs",
+    "core/phase5/page.mjs",
+    "core/phase5/sitenode.mjs",
+    "core/scenario.mjs",
+    "core/site.mjs",
+    "core/vendor/immune/exchange.mjs",
+    "core/vendor/immune/subscribe.mjs",
+    "core/vendor/ledger/contrib.mjs",
+    "core/vendor/light/codec.mjs",
+    "core/vendor/light/packet.mjs",
+    "core/vendor/light/sha256.mjs",
+    "core/vendor/light/vault.mjs",
+    "core/vendor/memory/cam.mjs",
+    "core/vendor/memory/fall-remember.mjs",
+    "core/vendor/sync/crdt.mjs",
+    "core/vendor/wallet/wallet.mjs"
+   ],
+   "pageLoadsOutside": [],
+   "pageLoadsStunMissing": []
+  },
+  "m2": {
+   "from": "core/phase5/local/m2.json",
+   "where": null,
+   "model": "llama3.2:1b",
+   "runtime": "Ollama 0.40.5",
+   "messages": 70,
+   "digest": "3a793530bcdff19184d1d68c4fe41e281d7a31f1011770c566b86c288384c7e0",
+   "mindRight": 65,
+   "valid": 69,
+   "outside": 0,
+   "t0Right": 46,
+   "siteRight": 66
+  }
+ },
+ "verdicts": [
+  {
+   "id": "D1",
+   "pass": 1,
+   "held": true,
+   "measured": "5532 corpus payloads heard by the site's node: 0 admitted, 0 decoded; a packet from a key nobody pinned refused at sender, one byte changed at signature, heard twice at counter, addressed to another node at message; the untouched control admitted"
+  },
+  {
+   "id": "D2",
+   "pass": 1,
+   "held": false,
+   "measured": "17 of the 17 names the page declares let in; 15 of 5532 corpus payloads let in as the page's address (15 of them the empty request, which the door takes as the top of the page)"
+  },
+  {
+   "id": "D3",
+   "pass": 1,
+   "held": true,
+   "measured": "5532 payloads as messages: 0 disagree with the rule written a second time; 2754 let in (2754 read back byte for byte), 2778 refused at a named stage; as a record form 0 let in; 10 of 10 good records let in"
+  },
+  {
+   "id": "D4",
+   "pass": 1,
+   "held": null,
+   "measured": "not measured yet"
+  },
+  {
+   "id": "L1",
+   "pass": 1,
+   "held": true,
+   "measured": "4223 refused the first time (168 of them on sight, repeats in the corpus), 4223 recognised on sight the second time; 2769 let in, 2769 let in again, 0 wrongly recognised; library 4055 of 8192, never full"
+  },
+  {
+   "id": "F1",
+   "pass": 1,
+   "held": true,
+   "measured": "20000 garbage requests: 0 throws, 0 results that were neither let in nor a refusal naming its stage"
+  },
+  {
+   "id": "M1",
+   "pass": 2,
+   "held": true,
+   "measured": "20000 fuzzed replies: 0 routes outside the seven, 0 throws; 700 of 700 well-formed replies taken as their route"
+  },
+  {
+   "id": "M2",
+   "pass": 2,
+   "held": true,
+   "measured": "llama3.2:1b (Ollama 0.40.5): 65 of 70 routed right by the mind's own proposal (bar 49), 69 replies a valid proposal, 0 outside the seven"
+  },
+  {
+   "id": "M3",
+   "pass": 2,
+   "held": null,
+   "measured": "not measured yet"
+  },
+  {
+   "id": "M4",
+   "pass": 2,
+   "held": true,
+   "measured": "the mind 65 of 70, the keyword rule 46 (CI) / 46 (the run); bar: the mind at least 7 more"
+  },
+  {
+   "id": "N1",
+   "pass": 3,
+   "held": true,
+   "measured": "3 processes; screen: admitted, size, signature, sender, signature; triage: 20 of 20 verified, 20 receipts checked at the site; 50 messages, 0 not LIGHT; 20 triage answers in the site's ledger (and 5 screen answers)"
+  },
+  {
+   "id": "N2",
+   "pass": 3,
+   "held": true,
+   "measured": "the site refused it at sender; the other node adopted 1 antibodies after its own re-run (0 blocked as autoimmune); heard again there: refused on sight; the honest packet admitted"
+  },
+  {
+   "id": "N3",
+   "pass": 3,
+   "held": null,
+   "measured": "not measured yet"
+  },
+  {
+   "id": "Q1",
+   "pass": 4,
+   "held": false,
+   "measured": "14 files read; policy sources outside the sealed list: none; unsafe-eval: no; inline scripts: 0; URLs to another host that are loaded or called: 3, outside the edges or the mind's wake: core/phase5/measure.mjs https://github.com/sjgant80-hub/, core/phase5/mind-local.mjs http://localhost:11434; FallLinks without an empty STUN list: none"
+  },
+  {
+   "id": "Q2",
+   "pass": 4,
+   "held": null,
+   "measured": "not measured yet"
+  },
+  {
+   "id": "Q3",
+   "pass": 4,
+   "held": null,
+   "measured": "not measured yet"
+  },
+  {
+   "id": "V1",
+   "pass": 5,
+   "held": null,
+   "measured": "not measured yet"
+  }
+ ],
+ "held": 9,
+ "failed": 2,
+ "open": 6
+}

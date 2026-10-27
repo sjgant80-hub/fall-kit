@@ -30,7 +30,7 @@ jobs:
         run: |
           git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git .witness6
           # each test file runs in one process under the OS timeout, so a mutant that hangs is killed cleanly
-          for k in antibody identity node judge edge mesh phase2/judge phase2/census relay roster phase3/judge phase3b/judge phase3c/judge selfmodel growth phase4/judge; do
+          for k in antibody identity node judge edge mesh phase2/judge phase2/census relay roster phase3/judge phase3b/judge phase3c/judge selfmodel growth phase4/judge site mind egress phase5/judge; do
             node .witness6/witness.mjs mutate core/$k.mjs --timeout 120000 --cap 1000 --test timeout -k 5 90 node core/$k.test.mjs | tee /tmp/w.txt
             grep -q '"clean": true' /tmp/w.txt || { echo "::error::mutants survived in core/$k.mjs"; exit 1; }
             grep -q '"capped": false' /tmp/w.txt || { echo "::error::the gate on core/$k.mjs was capped: not every mutant was tried"; exit 1; }
@@ -83,3 +83,18 @@ jobs:
         run: node core/phase4/vendor-dex.mjs --check
       - name: Phase 4 — the organism lived twice from the pinned data; the receipt must reproduce byte for byte
         run: node core/phase4/measure.mjs --check
+
+  phase5:
+    # the red team is Phase 2's sealed corpus, built from fresh clones; break-it and konomi-slm are cloned at their sealed
+    # commits and each node runs in its own process. The tab and local-model facts are committed files, re-judged here.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Phase 5 — the door, the mind, the walker, the judge and the page
+        run: node --test core/site.test.mjs core/mind.test.mjs core/egress.test.mjs core/phase5/judge.test.mjs core/phase5/page.test.mjs
+      - name: Phase 5 — the living website measured; the receipt and the tab's red team must reproduce byte for byte
+        run: node core/phase5/measure.mjs --check
