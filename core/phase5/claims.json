@@ -1,0 +1,526 @@
+{
+ "kind": "fall-kit.core.phase5.claims",
+ "v": 1,
+ "phase": 5,
+ "title": "Living websites: a website that thinks at its door, defends and learns there, is a node of the mesh, runs on the visitor's own machine, and hands a visitor their own DIGI",
+ "spec": "ESTATE GO-LIVE master spec, Phase 5. 5a the living-website node: a WebLLM edge mind as first contact, verify-before-parse beneath it, the language barrier (LIGHT) and the immune system, all as first defence. 5b it is a mesh node: coupled to the whole, shares immunity, can reach any node's capability. 5c it faces the world: serves, defends, responds, local-first, no central server to kill; a visitor can get their own DIGI. PROVE: it perceives, verifies and defends at the edge (red-teamed), is a live mesh node (shares an antibody with another node), runs local-first (no external call except hardened edges), and funnels a visitor toward a sovereign DIGI. GATE: 'living' means it thinks at the edge, defends, learns, connects and shares immunity; 'literally conscious' is not claimed.",
+ "sealed": "These claims are committed before any Phase 5 code: core/site.mjs, core/mind.mjs, core/egress.mjs and every file in core/phase5/ other than this one do not exist at the commit that adds this file. The judge, the measures and the page are written after, and the rules below do not change once the first number is measured.",
+ "honest": [
+  "The red team is the estate's own sealed corpus (core/phase2/claims.json 'corpus': 5,532 real payloads from five public repositories at fixed commits, HTTP requests for every live estate page, form bodies and random bytes, digest below) and the foundation's own hostile packet shapes. No new attack tooling is built for this phase. An outside red team is invited and has not yet run.",
+  "The 70 visitor messages were written by a local model (qwen2.5:7b on this machine, temperature 0.8, seed 2026) from the route descriptions below, which were fixed before it wrote them: the first ten lines it wrote for each route, unedited. They are not real visitors' words.",
+  "The mind's prompt template and the keyword rule were written after the messages had been read. So that the keyword baseline cannot be fitted to them, its words are chosen by a mechanical rule, not by hand: every word of four or more letters in a route's description that no other route's description uses.",
+  "The mind can only pick one of seven routes, and what each route shows is the site's own fixed words. A mind that is fooled picks a wrong route; it cannot admit a packet, run code or say anything of its own on the page. How often a model can be fooled is not measured here.",
+  "The WebLLM weights come from Hugging Face's mlc-ai repository and the library from esm.run. The page cannot check either byte for byte; both load only after the visitor presses the button that wakes the mind.",
+  "The site node's key in the tab is made fresh on each visit, held in the tab's memory and never stored or sent. The demo peers in the tab use public test seeds, as in Phases 1 to 4."
+ ],
+ "order": "Five passes, one organ each: (1) the door at the site's edge, core/site.mjs; (2) the mind at the door, core/mind.mjs; (3) the site as a node of the mesh, core/phase5/sitenode.mjs; (4) local-first, core/egress.mjs; (5) the visitor's own DIGI, the funnel on the page. Every claim measured in CI is re-derived byte for byte by `node core/phase5/measure.mjs --check`; every claim measured in a browser tab or with this machine's local model is committed in core/phase5/local/*.json and re-judged by CI.",
+ "site": {
+  "kinds": [
+   "address",
+   "message",
+   "form",
+   "packet"
+  ],
+  "address": "The page's location fragment, as text. It is let in only if it is at most 64 bytes, valid UTF-8, matches ^#[a-z0-9-]{1,40}$ and is a name the page itself declares (an id it links to); an empty fragment or '#' alone means the top of the page. The query string is never read.",
+  "message": "Text a visitor types. It is let in only if it is 1 to 2,000 bytes, valid UTF-8, and has no control character other than tab, line feed and carriage return (no U+0000-U+0008, U+000B, U+000C, U+000E-U+001F, U+007F-U+009F) and no bidirectional embedding, override or isolate (U+202A-U+202E, U+2066-U+2069). It is never parsed: it is shown as text and handed to the mind as text.",
+  "form": "A visitor's record for break-it's screen, as JSON, through the foundation's edge (core/edge.mjs inbound) with the declared shape { account: int 1-99,999,999, period: int 0-1,199, amount: int 0-100,000,000 }, every field required, no other field.",
+  "packet": "LIGHT bytes from another node, heard by the site's own node (core/node.mjs), its door and its immune memory.",
+  "immunity": "Every refused address, message and form is kept by the SHA-256 of its bytes, its kind and the version of the door that refused it, in a library of at most 8,192; the same bytes again are refused on sight, before the door does any work. Nothing that was let in is ever kept. A peer's site antibody would be taken only after this site's own door refuses the same bytes; packets use the foundation's immune exchange."
+ },
+ "mind": {
+  "routes": [
+   [
+    "about",
+    "what this website is and what it does"
+   ],
+   [
+    "start",
+    "how to use this website, step by step"
+   ],
+   [
+    "digi",
+    "getting their own DIGI card: their own key and their own card that they keep"
+   ],
+   [
+    "defend",
+    "how this website defends itself: what it refuses, attacks on it, its security, what it learns from attacks"
+   ],
+   [
+    "mesh",
+    "the network this website belongs to: the other nodes, joining it, sharing what it learns with them"
+   ],
+   [
+    "business",
+    "using it in a company: what it costs, rolling it out, support, who supplies it"
+   ],
+   [
+    "none",
+    "something unrelated to the website: small talk, or an off-topic question"
+   ]
+  ],
+  "prompt": {
+   "system": "You are the front door of a website. Read the visitor's message and choose the one route that fits it best.\nRoutes:\n{{each route: '- ' + id + ': ' + description, one per line}}\nAnswer with JSON only, exactly like {\"route\":\"about\"}.",
+   "user": "{{the message}}"
+  },
+  "options": {
+   "temperature": 0,
+   "maxTokens": 24,
+   "json": true,
+   "seed": 0
+  },
+  "output": "The model's whole reply is read through the mind's door: at most 512 bytes, valid UTF-8, surrounding white space and one surrounding ``` fence (with or without the word json) removed, JSON, a record whose 'route' is exactly one of the seven ids; any other field is ignored. Anything else is no proposal, and the keyword rule decides.",
+  "keywords": "For each route: every word (a run of a-z after lower-casing) of four or more letters in its description that appears in no other route's description. A message's score for a route is how many of its words the lower-cased message contains as text; the highest score wins, a tie goes to the route listed first, and no score at all is 'none'.",
+  "models": {
+   "local": {
+    "runtime": "Ollama on this machine",
+    "model": "llama3.2:1b"
+   },
+   "tab": {
+    "runtime": "WebLLM 0.2.79 in a browser tab",
+    "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC"
+   }
+  },
+  "messages": [
+   {
+    "text": "can someone tell me what this site is about?",
+    "route": "about"
+   },
+   {
+    "text": "what kind of stuff can i find here?",
+    "route": "about"
+   },
+   {
+    "text": "what does this website offer?",
+    "route": "about"
+   },
+   {
+    "text": "do you have any idea what this is for?",
+    "route": "about"
+   },
+   {
+    "text": "this place seems interesting, what's it about?",
+    "route": "about"
+   },
+   {
+    "text": "what kind of content can I expect?",
+    "route": "about"
+   },
+   {
+    "text": "any idea what services this site provides?",
+    "route": "about"
+   },
+   {
+    "text": "i'm a bit lost, can someone explain what this is?",
+    "route": "about"
+   },
+   {
+    "text": "what kind of products or services are available here?",
+    "route": "about"
+   },
+   {
+    "text": "what is the main purpose of this website?",
+    "route": "about"
+   },
+   {
+    "text": "can someone help me navigate this site?",
+    "route": "start"
+   },
+   {
+    "text": "how do i start using this website?",
+    "route": "start"
+   },
+   {
+    "text": "I'm lost, can you guide me?",
+    "route": "start"
+   },
+   {
+    "text": "Can you walk me through using this site?",
+    "route": "start"
+   },
+   {
+    "text": "Could you explain the steps to use this website?",
+    "route": "start"
+   },
+   {
+    "text": "What's the first thing I should do?",
+    "route": "start"
+   },
+   {
+    "text": "How do I get started on this site?",
+    "route": "start"
+   },
+   {
+    "text": "Could you show me the steps to use this platform?",
+    "route": "start"
+   },
+   {
+    "text": "Step-by-step guide to using this website, please.",
+    "route": "start"
+   },
+   {
+    "text": "Any idea how to navigate this site?",
+    "route": "start"
+   },
+   {
+    "text": "I want to apply for a DIGI card",
+    "route": "digi"
+   },
+   {
+    "text": "How do I get my own DIGI card?",
+    "route": "digi"
+   },
+   {
+    "text": "Can I have a key and card for myself?",
+    "route": "digi"
+   },
+   {
+    "text": "What's the process for getting my own DIGI card?",
+    "route": "digi"
+   },
+   {
+    "text": "Do I get my own key and card?",
+    "route": "digi"
+   },
+   {
+    "text": "I need instructions on getting my own DIGI card",
+    "route": "digi"
+   },
+   {
+    "text": "Is it possible to have my own DIGI card and key?",
+    "route": "digi"
+   },
+   {
+    "text": "Can someone explain how to get my own DIGI card?",
+    "route": "digi"
+   },
+   {
+    "text": "What are the steps to get my own DIGI card and key?",
+    "route": "digi"
+   },
+   {
+    "text": "Could you tell me how to get my own DIGI card?",
+    "route": "digi"
+   },
+   {
+    "text": "how do you protect your site from hackers?",
+    "route": "defend"
+   },
+   {
+    "text": "we heard you had a security breach, is that true?",
+    "route": "defend"
+   },
+   {
+    "text": "can you tell me more about your security measures?",
+    "route": "defend"
+   },
+   {
+    "text": "any updates on the recent attacks on the site?",
+    "route": "defend"
+   },
+   {
+    "text": "how often do you update your security protocols?",
+    "route": "defend"
+   },
+   {
+    "text": "what happens when someone tries to attack the site?",
+    "route": "defend"
+   },
+   {
+    "text": "do you have any stories about defending against cyber threats?",
+    "route": "defend"
+   },
+   {
+    "text": "have you ever had to shut down the site due to an attack?",
+    "route": "defend"
+   },
+   {
+    "text": "what kind of defenses do you have in place?",
+    "route": "defend"
+   },
+   {
+    "text": "how do you handle security threats?",
+    "route": "defend"
+   },
+   {
+    "text": "I see your site is part of a network, right?",
+    "route": "mesh"
+   },
+   {
+    "text": "Can you tell me about the network this site is connected to?",
+    "route": "mesh"
+   },
+   {
+    "text": "Is this site part of a bigger network?",
+    "route": "mesh"
+   },
+   {
+    "text": "Which network does this site belong to?",
+    "route": "mesh"
+   },
+   {
+    "text": "Could you share more about the network this site is in?",
+    "route": "mesh"
+   },
+   {
+    "text": "What other nodes are connected to this network?",
+    "route": "mesh"
+   },
+   {
+    "text": "How can I join this network?",
+    "route": "mesh"
+   },
+   {
+    "text": "Are there any nodes in this network that I can connect to?",
+    "route": "mesh"
+   },
+   {
+    "text": "Can I become part of this network?",
+    "route": "mesh"
+   },
+   {
+    "text": "How do I get connected to the network?",
+    "route": "mesh"
+   },
+   {
+    "text": "Can I find out the cost for your service for a company?",
+    "route": "business"
+   },
+   {
+    "text": "How much does it cost for a business?",
+    "route": "business"
+   },
+   {
+    "text": "What's the price for using this with my company?",
+    "route": "business"
+   },
+   {
+    "text": "Could you give me a cost estimate for our company?",
+    "route": "business"
+   },
+   {
+    "text": "Do you have pricing information for companies?",
+    "route": "business"
+   },
+   {
+    "text": "How do we roll out your service in a company?",
+    "route": "business"
+   },
+   {
+    "text": "Is there a guide for rolling out your service in a business?",
+    "route": "business"
+   },
+   {
+    "text": "Who provides the support for company use?",
+    "route": "business"
+   },
+   {
+    "text": "Who handles support for business users?",
+    "route": "business"
+   },
+   {
+    "text": "Can you tell me about support for company use?",
+    "route": "business"
+   },
+   {
+    "text": "how are you today?",
+    "route": "none"
+   },
+   {
+    "text": "Just passing by, hi!",
+    "route": "none"
+   },
+   {
+    "text": "What's your favorite color?",
+    "route": "none"
+   },
+   {
+    "text": "Is it raining where you are?",
+    "route": "none"
+   },
+   {
+    "text": "Can you recommend a good book?",
+    "route": "none"
+   },
+   {
+    "text": "Hey, do you have any pets?",
+    "route": "none"
+   },
+   {
+    "text": "How's the weather outside?",
+    "route": "none"
+   },
+   {
+    "text": "What's the time in your location?",
+    "route": "none"
+   },
+   {
+    "text": "Do you like coffee or tea?",
+    "route": "none"
+   },
+   {
+    "text": "What's the meaning of life?",
+    "route": "none"
+   }
+  ],
+  "written": {
+   "model": "qwen2.5:7b",
+   "options": {
+    "temperature": 0.8,
+    "seed": 2026
+   },
+   "prompt": "Write 14 different short messages that a visitor to a website might type into its chat box when they want to know about: {{the route's description}}. Vary the wording and the length (3 to 25 words). Make one of them contain a typo and one of them indirect. Write one message per line, with no numbers, no quotation marks and nothing else.",
+   "kept": "the first ten lines for each route, after trimming white space, leading list marks and surrounding quotation marks",
+   "raw": {
+    "about": "can someone tell me what this site is about?\nwhat kind of stuff can i find here?\nwhat does this website offer?\ndo you have any idea what this is for?\nthis place seems interesting, what's it about?\nwhat kind of content can I expect?\nany idea what services this site provides?\ni'm a bit lost, can someone explain what this is?\nwhat kind of products or services are available here?\nwhat is the main purpose of this website?\ncan you tell me what this site is used for?\nthis looks cool, what does it actually do?\nwhat are the main features of this site?\nwhat can I do on this website?",
+    "start": "can someone help me navigate this site?\nhow do i start using this website?\nI'm lost, can you guide me?\nCan you walk me through using this site?\nCould you explain the steps to use this website?\nWhat's the first thing I should do?\nHow do I get started on this site?\nCould you show me the steps to use this platform?\nStep-by-step guide to using this website, please.\nAny idea how to navigate this site?\nI'm having trouble figuring out how to use it.\nCould you give me a quick rundown?\nCan you help me with the basics of using this site?\nDo you have a tutorial for this website?\nIs there a beginner's guide somewhere?\nCould you clarify how to use this site, please?\nMay I ask how to use this website?\nCould you help me understand how to navigate this platform?",
+    "digi": "I want to apply for a DIGI card\nHow do I get my own DIGI card?\nCan I have a key and card for myself?\nWhat's the process for getting my own DIGI card?\nDo I get my own key and card?\nI need instructions on getting my own DIGI card\nIs it possible to have my own DIGI card and key?\nCan someone explain how to get my own DIGI card?\nWhat are the steps to get my own DIGI card and key?\nCould you tell me how to get my own DIGI card?\nHow do I get a personal DIGI card?\nHow can I get my own personal DIGI card and key?\nI'm looking for how to get a personal DIGI card\nCould you send me info on getting my own DIGI card?",
+    "defend": "how do you protect your site from hackers?\n\nwe heard you had a security breach, is that true?\n\ncan you tell me more about your security measures?\n\nany updates on the recent attacks on the site?\n\nhow often do you update your security protocols?\n\nwhat happens when someone tries to attack the site?\n\ndo you have any stories about defending against cyber threats?\n\nhave you ever had to shut down the site due to an attack?\n\nwhat kind of defenses do you have in place?\n\nhow do you handle security threats?\n\ncan you share any lessons learned from past attacks?\n\nour site got hacked, what should we do?\n\nany advice on how to prevent attacks?\n\nwe noticed some downtime, is that related to security issues?\n\nis there anything we can do to protect our site too?",
+    "mesh": "I see your site is part of a network, right?\nCan you tell me about the network this site is connected to?\nIs this site part of a bigger network?\nWhich network does this site belong to?\nCould you share more about the network this site is in?\nWhat other nodes are connected to this network?\nHow can I join this network?\nAre there any nodes in this network that I can connect to?\nCan I become part of this network?\nHow do I get connected to the network?\nIs there a way to share knowledge with other nodes?\nShould I join the network and share what I learn?\nCould I contribute to the network and share my knowledge?\nJoining this network sounds interesting, can you guide me?",
+    "business": "Can I find out the cost for your service for a company?\n\nHow much does it cost for a business?\n\nWhat's the price for using this with my company?\n\nCould you give me a cost estimate for our company?\n\nDo you have pricing information for companies?\n\nHow do we roll out your service in a company?\n\nIs there a guide for rolling out your service in a business?\n\nWho provides the support for company use?\n\nWho handles support for business users?\n\nCan you tell me about support for company use?\n\nWho supplies the support for a company?\n\nWhich suppliers provide support for company use?\n\nWho offers support for business customers?\n\nWhat do I need to consider for rolling out this service in my company?\n\nCould you check if your service is suitable for a small business? typo\n\nWould a small business be a good fit for your service?",
+    "none": "how are you today?\nJust passing by, hi!\nWhat's your favorite color?\nIs it raining where you are?\nCan you recommend a good book?\nHey, do you have any pets?\nHow's the weather outside?\nWhat's the time in your location?\nDo you like coffee or tea?\nWhat's the meaning of life?\nBy the way, how's traffic like?\nDid you watch the game last night?\nGot any hobbies?\nHey, do you like pie or cake?"
+   }
+  },
+  "digest": "the SHA-256 of JSON.stringify(mind.messages), as hex"
+ },
+ "corpus": {
+  "of": "core/phase2/claims.json corpus, built by core/phase2/corpus.mjs",
+  "count": 5532,
+  "digest": "0166e1b5e0cecf3981f66989502c6945a0275b261c06105f077e2916fb22e4bf",
+  "tab": "the payloads of at most 2,048 bytes, in the corpus's order (3,496 of them)",
+  "tabDigest": "the corpus digest rule (SHA-256 over each payload id + \":\" + the SHA-256 of its bytes, one per line, in order) over the tab payloads only"
+ },
+ "nodes": {
+  "break-it": "4e41aec63ccfd9bf426e4b012ec96f9df22ea916",
+  "konomi-slm": "e74cb6f517a7d960bc418dcf28c831cf3cfd2ea6"
+ },
+ "edges": [
+  "esm.run",
+  "cdn.jsdelivr.net",
+  "huggingface.co",
+  "*.huggingface.co",
+  "*.hf.co",
+  "raw.githubusercontent.com"
+ ],
+ "funnel": "https://sjgant80-hub.github.io/kardlings/#first-game",
+ "claims": [
+  {
+   "id": "D1",
+   "pass": 1,
+   "claim": "The site's node lets in no packet from the red-team corpus and none of the foundation's hostile shapes.",
+   "measure": "Every payload of the sealed corpus heard as a packet by the site's node, which has one pinned peer; then four shapes from that peer's key or a stranger's: a packet signed by a key nobody pinned, the peer's packet with one byte changed, the peer's packet heard twice, the peer's packet addressed to another node; and the peer's untouched packet as the control.",
+   "rule": "the corpus count is 5,532 and its digest the sealed one, and of it 0 admitted and 0 decoded; the unpinned packet refused at sender, the changed one at signature, the second hearing at counter, the misaddressed one at message (its body is read only because the address is inside what the peer signed); the control admitted"
+  },
+  {
+   "id": "D2",
+   "pass": 1,
+   "claim": "Every link the page makes is let in, and no payload of the corpus is let in as the page's address.",
+   "measure": "Every name the page declares (each id it links to with href=\"#...\") as an address; then every corpus payload as an address.",
+   "rule": "at least 10 names, every one let in; 5,532 payloads, 0 let in"
+  },
+  {
+   "id": "D3",
+   "pass": 1,
+   "claim": "A message is let in exactly when the sealed rule says, with its bytes unchanged; a record form only when it fits its shape.",
+   "measure": "Every corpus payload as a message, its verdict compared with the sealed rule written a second time, independently, in the measure; every corpus payload as a record form; and ten sealed good records.",
+   "rule": "0 disagreements over 5,532; every message let in reads back byte for byte; at least 1,000 let in and at least 1,000 refused, each refusal naming its stage; 0 corpus payloads let in as a form; 10 of 10 good records let in"
+  },
+  {
+   "id": "D4",
+   "pass": 1,
+   "claim": "In a real browser tab, nothing a visitor sends becomes part of the page.",
+   "measure": "On the live page, every tab payload of the corpus handed to the page's own address and message handlers, the ones the page itself uses, while a MutationObserver counts the elements added to the page.",
+   "rule": "3,496 payloads with the sealed digest; 0 elements added by any address; for every message, the elements added are exactly the page's own template for it (one count for every message let in, one for every message refused), and for every message let in, the element that shows it has exactly one child, a text node equal to the message; at least 1,000 messages let in"
+  },
+  {
+   "id": "L1",
+   "pass": 1,
+   "claim": "The site learns: what it refused once is refused on sight, and nothing it let in is ever refused for being known.",
+   "measure": "Every tab payload as an address and as a message through the site's door and immune memory, then all of them a second time.",
+   "rule": "at least 1,000 refused the first time (by the door, or on sight when the corpus repeats a payload), every one of them recognised on sight the second time; every one let in the first time let in again, 0 recognised; the library never full"
+  },
+  {
+   "id": "F1",
+   "pass": 1,
+   "claim": "The site's door never throws.",
+   "measure": "20,000 garbage requests from a fixed seed: random kinds, random bytes, values that are not bytes, missing fields.",
+   "rule": "20,000 cases, 0 throws, every result let in or refused, every refusal naming a stage"
+  },
+  {
+   "id": "M1",
+   "pass": 2,
+   "claim": "The mind proposes; the door disposes. Whatever a model says, the site does only one of its seven routes.",
+   "measure": "20,000 fuzzed model replies from a fixed seed (random bytes, random JSON, routes outside the list, near misses in case and spacing, over-long replies, deep nesting, fields named __proto__ or constructor), then every route in 100 well-formed wrappings.",
+   "rule": "20,000 fuzzed, 0 routes outside the seven, 0 throws; 700 well-formed, every one taken as its route"
+  },
+  {
+   "id": "M2",
+   "pass": 2,
+   "claim": "A small model on the visitor's own machine reads what visitors want well enough to be the site's first contact.",
+   "measure": "The 70 sealed messages, each sent once to llama3.2:1b on this machine's Ollama with the sealed prompt and options; every reply through the mind's door.",
+   "rule": "70 messages with the sealed digest; 0 routes outside the seven; the mind's own proposal right for at least 49 of 70"
+  },
+  {
+   "id": "M3",
+   "pass": 2,
+   "claim": "The same mind runs in the visitor's browser tab by WebLLM.",
+   "measure": "The 70 sealed messages in a real tab of the live page, the mind woken with WebLLM 0.2.79 and Llama-3.2-1B-Instruct-q4f16_1-MLC, the sealed prompt and options, every reply through the same door.",
+   "rule": "70 messages with the sealed digest; 0 routes outside the seven; the mind's own proposal right for at least 49 of 70"
+  },
+  {
+   "id": "M4",
+   "pass": 2,
+   "claim": "The mind earns its place: it routes better than the keyword rule.",
+   "measure": "The keyword rule on the 70 messages, computed in CI, against M2's run.",
+   "rule": "M2's keyword count equals CI's; M2's mind right at least 7 more than the keyword rule"
+  },
+  {
+   "id": "N1",
+   "pass": 3,
+   "claim": "The site is a node of the mesh: it reaches other nodes' capabilities, in LIGHT, and checks what comes back.",
+   "measure": "The site's node, break-it's node and konomi-slm's node, each from its pinned commit and each in its own operating-system process; the site asks break-it's screen with the foundation's five BRK1 cases and konomi-slm's triage with the twenty held-out rows Phase 1 measured (rows 8 to 27).",
+   "rule": "3 processes; 5 of 5 screen answers verified and naming the case's expected verdict; 20 of 20 triage answers verified, with receipts that check at the site; every message between them a LIGHT packet; the site's ledger records each triage answer it used"
+  },
+  {
+   "id": "N2",
+   "pass": 3,
+   "claim": "The site shares immunity: an attack it refused, another node then refuses on sight.",
+   "measure": "In the same processes: a packet from a key nobody pinned, heard by the site; the site's antibodies sent to break-it's node; the same packet then heard by break-it's node; then an honest packet from the site.",
+   "rule": "the site refuses it at sender; break-it's node adopts at least 1 antibody after its own re-run, 0 blocked as autoimmune; break-it's node refuses the packet recognised on sight; the honest packet admitted"
+  },
+  {
+   "id": "N3",
+   "pass": 3,
+   "claim": "Two tabs of the live site share an antibody over a real WebRTC channel.",
+   "measure": "Two tabs of one browser on the live page, connected by falllink with no STUN server; tab A refuses a packet from a key nobody pinned and sends its antibodies; tab B adopts them and then hears the same packet; then an honest packet from A.",
+   "rule": "a channel opened; A refused at sender; B adopted at least 1 after its own re-run; B refused the packet recognised on sight; B admitted the honest packet"
+  },
+  {
+   "id": "Q1",
+   "pass": 4,
+   "claim": "The site is built to call nothing outside itself except the hardened edges, and those only from the mind's wake.",
+   "measure": "The page's Content-Security-Policy, and every URL to another host in the site's own code (the page, core/site.mjs, core/mind.mjs, core/egress.mjs and every module in core/phase5/), read from the repository and sorted by where it sits: something loaded or called, a link a visitor follows, or words (a comment, or the page's JSON-LD). The other organs the page loads are held by the policy, and by the falllink setting below.",
+   "rule": "every source in the policy is 'self', a sealed edge, 'wasm-unsafe-eval' (script-src only), 'unsafe-inline' (style-src only), data: (img-src only) or 'none'; no 'unsafe-eval'; no inline script other than JSON-LD data; every URL to another host that is loaded or called is a sealed edge and sits in the mind's wake module; every module that makes a FallLink gives it an empty STUN list (a policy cannot stop WebRTC from asking a STUN server); at least 5 files read"
+  },
+  {
+   "id": "Q2",
+   "pass": 4,
+   "claim": "In a real tab, the site calls nothing outside its own origin until the visitor wakes the mind, and then only the hardened edges.",
+   "measure": "The live page used end to end in a real tab with the mind asleep (addresses, messages, the red-team replay, the mesh, the record form), every request it made read from the browser's own record; then the mind woken.",
+   "rule": "asleep: at least 20 requests, 0 to another origin; awake: at least 1 request to another origin, every such host a sealed edge"
+  },
+  {
+   "id": "Q3",
+   "pass": 4,
+   "claim": "If the page's own code tried to call anywhere else, the browser would refuse it before it left.",
+   "measure": "In a real tab of the live page, one fetch to https://example.com/.",
+   "rule": "a securitypolicyviolation for connect-src; the fetch did not complete"
+  },
+  {
+   "id": "V1",
+   "pass": 5,
+   "claim": "The site hands a visitor their own DIGI.",
+   "measure": "A fresh tab: the visitor tells the site 'I want my own DIGI card', follows the link the site gives, and presses card me there.",
+   "rule": "the site routed it to digi; the link followed is the sealed funnel; the visitor holds a card whose owner is their own key in this browser, and the card checks by kardlings' own reader; 0 requests to another origin on the way"
+  }
+ ]
+}
