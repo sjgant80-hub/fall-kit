@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>Client builds: a living node, or your own organism · Fall Kit core, phase 7</title>
+<meta name="description" content="Phase 7 of the estate going live: a business's own software made into a node. It joins a larger mesh that answers for it and shares immunity (Model A), or grows into the business's own organism from a seed phrase only the business holds (Model B). The client build is a real booking engine, run on its demo calendar; its guests never leave its node.">
+<link rel="canonical" href="https://sjgant80-hub.github.io/fall-kit/core/phase7/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Fall Kit core, phase 7 — client builds","codeRepository":"https://github.com/sjgant80-hub/fall-kit","programmingLanguage":"JavaScript","license":"https://opensource.org/licenses/MIT","description":"A business's own software made into a node of one shared foundation: it joins a larger mesh (Model A) or grows into the business's own organism from a seed phrase only the business holds (Model B), with a sealed pilot as the wedge."}</script>
+<script type="application/ld+json" id="faq-ld">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does the client's data leave its node?","acceptedAnswer":{"@type":"Answer","text":"No. Asked whether a cabin is free, the node answers with the cabin, the dates, yes or no, and a digest of what its calendar says about occupancy. Every byte it sent in the run was read, raw and decoded, for the guests' names, the bookings' ids, their figures, and anything shaped like an email address or a phone number, and none was found."}},{"@type":"Question","name":"What is the difference between Model A and Model B?","acceptedAnswer":{"@type":"Answer","text":"In Model A the client's node joins the estate's mesh: the estate's founder puts it on the roster, it answers the other nodes and shares their immunity, and its work is recorded in the estate's records. In Model B the same software grows into the client's own mesh from a seed phrase only the client holds: none of the estate's keys is in it, and the estate's messages are refused at its doors."}},{"@type":"Question","name":"Can a Model B organism ever join the larger mesh?","acceptedAnswer":{"@type":"Answer","text":"Yes, by the client's choice: planted on a genesis the client and the estate name together, its records merge with the estate's with nothing refused, and its desk can take the estate's antibodies. Today those antibodies stop at the desk; the client's other nodes need to pin the hub too."}},{"@type":"Question","name":"What did not hold?","acceptedAnswer":{"@type":"Answer","text":"One claim of thirteen: coupled, the client's desk adopted the estate hub's antibodies but had nothing to pass on, because a node shares on only what it refused itself. It is kept as failed, with the reason and what to do about it."}},{"@type":"Question","name":"Who supplies it?","acceptedAnswer":{"@type":"Answer","text":"AI Native Solutions supplies it; start through ai-nativesolutions.com. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed."}}]}</script>
+<style>
+:root{--void:#1a1612;--void-2:#231f1a;--ink:#2b2722;--line:#3a342c;--line-soft:#2e2922;--cream:#ebe3d2;--cream-dim:#a89e88;--cream-muted:#736b5a;--brass:#c08a3a;--amber:#e8a83a;--leaf:#6b8d4a;--rust:#c25a35;
+--serif:Georgia,'Times New Roman',ui-serif,serif;--sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--void);color:var(--cream);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--brass);text-decoration:none}a:hover{text-decoration:underline}
+code,pre,.mono{font-family:var(--mono)}
+code{background:var(--ink);padding:1px 5px;border-radius:2px;font-size:12.5px;color:var(--brass);word-break:break-word}
+pre{background:var(--ink);padding:14px 16px;border-radius:4px;border:1px solid var(--line);overflow-x:auto;color:var(--cream-dim);line-height:1.55;font-size:12px;margin:10px 0 14px}
+header{background:var(--void-2);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{width:32px;height:32px;background:linear-gradient(135deg,var(--brass),var(--amber));border-radius:5px;display:grid;place-items:center;font:700 18px var(--serif);color:var(--void)}
+.name{font:700 18px var(--serif)}.sub{font:9px var(--mono);color:var(--cream-muted);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+header nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}header nav a{color:var(--cream-dim);font-size:13px}
+main{max-width:900px;margin:0 auto;padding:30px 24px 100px}
+h1{font:700 30px/1.15 var(--serif);margin-bottom:12px}
+h2{font:700 22px var(--serif);margin:42px 0 10px;color:var(--brass)}
+h3{font:700 16px var(--serif);margin:20px 0 8px}
+p{margin-bottom:12px}ul,ol{margin:0 0 14px 24px}li{margin-bottom:5px;color:var(--cream-dim)}
+.lede{font-size:17px;color:var(--cream-dim);margin-bottom:16px}
+.small{font-size:13px}
+.hero{background:linear-gradient(135deg,rgba(192,138,58,.10),rgba(107,141,74,.04));border:1px solid var(--brass);border-radius:5px;padding:24px 28px;margin-bottom:22px}
+.seal{font:10px var(--mono);color:var(--cream-muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.tile{background:var(--void-2);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.tile b{display:block;font:700 22px var(--serif);color:var(--brass)}.tile span{font-size:12px;color:var(--cream-dim)}
+.btn{padding:9px 16px;background:var(--brass);color:var(--void);border:none;border-radius:3px;font:600 13px var(--sans);cursor:pointer}
+.btn:hover{background:var(--amber)}.btn:disabled{opacity:.6;cursor:default}
+.btn.ghost{background:transparent;color:var(--cream-dim);border:1px solid var(--line)}
+.box{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin:16px 0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:var(--void-2);padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.08em;text-transform:uppercase}
+td{padding:8px 10px;border-bottom:1px solid var(--line-soft);color:var(--cream-dim);vertical-align:top}
+.scroll{overflow-x:auto}
+.ok{color:var(--leaf);font-weight:600}.no{color:var(--rust);font-weight:600}.dim{color:var(--cream-muted)}
+.tag{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;padding:2px 6px;border-radius:2px}
+.tag.held{background:rgba(107,141,74,.2);color:var(--leaf)}.tag.failed{background:rgba(194,90,53,.2);color:var(--rust)}.tag.na{background:var(--void-2);color:var(--cream-muted)}
+.diagram{margin:14px 0;background:var(--ink);border:1px solid var(--line);border-radius:5px;padding:12px;overflow-x:auto}
+.diagram svg{width:100%;min-width:620px;height:auto;display:block}
+.diagram .b{fill:var(--void-2);stroke:var(--line);stroke-width:1.5}.diagram .hot{stroke:var(--brass)}
+.diagram .t{fill:var(--cream);font:700 14px var(--serif)}.diagram .s{fill:var(--cream-dim);font:11.5px var(--sans)}
+.diagram .arrow{fill:none;stroke:var(--brass);stroke-width:1.8}.diagram .no-ln{fill:none;stroke:var(--rust);stroke-width:1.8;stroke-dasharray:5 4}
+#tab-log,#log-rows{margin:10px 0 0 18px}#tab-log li,#log-rows li{font-size:13px;margin-bottom:4px}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:8px 0 12px}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--cream-dim)}
+.calc input{padding:7px 9px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:inherit;width:100%}
+.line{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-soft);padding:5px 0;font-size:13px}
+.line span:last-child{font-family:var(--mono);color:var(--cream)}
+.bottom{font-size:15px;margin:6px 0 10px}
+.note{border-left:3px solid var(--rust);padding:10px 14px;background:var(--void-2);margin:12px 0;font-size:14px}
+details{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:600;color:var(--cream)}
+.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.06em;text-align:center;line-height:1.9}
+.foot a{color:var(--cream-dim)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media (max-width:640px){header{padding:12px 16px}main{padding:22px 16px 80px}.hero{padding:18px 16px}h1{font-size:24px}.lede{font-size:15.5px}th,td{padding:6px 7px}}
+.kv{font:12px var(--mono);color:var(--cream-dim)}
+#tab-out,#c-out{margin-top:10px}
+.mono{font-family:var(--mono)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="mark" aria-hidden="true">F</div><div><div class="name">Fall Kit · core</div><div class="sub">phase 7 · client builds</div></div></div>
+  <nav aria-label="Sections"><a href="#what-it-is">What it is</a><a href="#start-here">Start here</a><a href="#check-it">Check it yourself</a><a href="#how-it-works">How it works</a><a href="#model-a">Model A</a><a href="#model-b">Model B</a><a href="#the-wedge">The wedge</a><a href="#by-role">By role</a><a href="#blueprint">Blueprint</a><a href="#receipt">Receipt</a><a href="#for-a-business">For a business</a><a href="#security">Security</a><a href="#roll-out">Roll-out</a><a href="#risks">Risks</a><a href="#paper">Paper</a><a href="#faq">FAQ</a><a href="../phase6/">Phase 6</a></nav>
+</header>
+<main>
+
+<section class="hero" aria-labelledby="what-it-is">
+  <div class="seal">Phase 7 of the estate going live · thirteen claims sealed before the code</div>
+  <h1 id="what-it-is">Your system, as a living node, or as your own organism</h1>
+  <p class="lede">We take a business's own software and make it a node: a program with its own key that checks every message before it reads it, keeps the evidence of what it did, and learns from every attack it sees. Then the business chooses how it lives.</p>
+  <p><b>Model A, an organ of a larger mesh.</b> The node joins the estate's mesh of nodes. It answers the others, the others check its answers, and an attack one of them sees is refused on sight by all of them.</p>
+  <p><b>Model B, an organism of its own.</b> The same software grows into the business's own mesh, from a seed phrase only the business holds: its own keys, its own nodes, its own records, on its own machines. Nothing of ours is in it. Coupling to a larger mesh is the business's choice, and shares only what it says.</p>
+  <p>Here the client build is a real booking engine: the one built for an off-grid glamping site, run on its own demo calendar. Its guests never leave its node. The site's live system was not touched, and it has not joined anything: the mesh it joins here is made from public test keys.</p>
+  <div class="tiles" aria-live="polite">
+    <div class="tile"><b id="t-asks">…</b><span>answers from the client's node, each checked by the node that asked</span></div>
+    <div class="tile"><b id="t-guests">…</b><span>guest details found in anything the client's node sent</span></div>
+    <div class="tile"><b id="t-cross">…</b><span>packets between the two organisms, refused at the door</span></div>
+    <div class="tile"><b id="t-held">…</b><span>sealed claims holding</span></div>
+  </div>
+  <div class="row"><a class="btn" href="#check-it">Grow the client's organism in this tab</a><a class="btn ghost" href="#receipt">See the receipt</a></div>
+</section>
+
+<h2 id="start-here">Start here</h2>
+<h3>If you want to see it work</h3>
+<ol>
+  <li><b>Grow the client's organism in your tab.</b> One button plants the sealed seed phrase in this tab: four nodes, their founder's roster, a forged packet refused and learned, and twelve questions the client's front desk asks its own booking engine. Your tab should reach the same keys, the same roster and the same answers as the receipt, and it tells you whether it did.</li>
+  <li><b>Plant a phrase of your own.</b> Type any phrase and grow an organism from it, in this tab only. Its keys are worked out from your phrase where you are; nothing is sent anywhere.</li>
+  <li><b>Read Model A and Model B.</b> What the client's node did in the estate's mesh, and what its own organism did alone, with every number from the receipt.</li>
+  <li><b>Read the receipts by role.</b> What a security lead, an operations lead, a finance lead and a regulator would each ask, and the claims that answer them.</li>
+</ol>
+<h3>If you run the estate</h3>
+<pre>git clone https://github.com/sjgant80-hub/fall-kit && cd fall-kit
+node core/phase7/measure.mjs --check    # the three worlds, twelve processes and the pilot: the same receipt byte for byte</pre>
+
+<h2 id="check-it">Grow the client's organism in this tab</h2>
+<div class="box">
+  <div class="row"><button class="btn" id="g-go" type="button">Grow it from the sealed phrase</button><span class="small dim">about 60 KB from this site</span></div>
+  <ol id="g-log" aria-live="polite"></ol>
+  <div id="g-out" aria-live="polite"></div>
+</div>
+<div class="box">
+  <h3>Plant a phrase of your own</h3>
+  <div class="calc"><label>Your phrase, at least 16 characters (it never leaves this tab)<input id="own-phrase" type="text" autocomplete="off" spellcheck="false" placeholder="any sentence only you would write"></label></div>
+  <div class="row"><button class="btn ghost" id="own-go" type="button">Grow my organism</button></div>
+  <div id="own-out" aria-live="polite"></div>
+</div>
+<p class="small dim">Both run the same code CI measured, in your tab. A phrase here is for trying it: a real organism grows from a phrase only its owner holds, kept as carefully as a key.</p>
+
+<h2 id="how-it-works">How it works</h2>
+<div class="diagram" role="img" aria-label="Model A: the client's booking engine is a node in the estate's mesh with the living site, break-it and konomi-slm; it answers their questions, its guests never leave it, it shares immunity both ways and its work is recorded. Model B: the same engine grows into the client's own organism from a seed: a desk, the engine twice and break-it's gateway, sovereign, surviving the loss of a node, and coupled to the estate only by the client's choice. The pilot is the wedge: re-run, and grown into the client's front door.">
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg">
+  <rect class="b" x="14" y="20" width="350" height="190" rx="6"/><text class="t" x="189" y="46" text-anchor="middle">Model A · the estate's mesh</text>
+  <text class="s" x="189" y="70" text-anchor="middle">the living site · break-it · konomi-slm</text><text class="s" x="189" y="88" text-anchor="middle">and the client's booking engine</text>
+  <rect class="b hot" x="64" y="104" width="250" height="88" rx="6"/><text class="t" x="189" y="128" text-anchor="middle">the client's node</text>
+  <text class="s" x="189" y="150" text-anchor="middle" id="d-a-asks">…</text><text class="s" x="189" y="170" text-anchor="middle" id="d-a-guests">…</text>
+  <rect class="b" x="396" y="20" width="350" height="190" rx="6"/><text class="t" x="571" y="46" text-anchor="middle">Model B · the client's own organism</text>
+  <text class="s" x="571" y="70" text-anchor="middle">grown from a seed phrase only the client holds:</text><text class="s" x="571" y="88" text-anchor="middle">a desk · the engine twice · break-it's gateway</text>
+  <rect class="b hot" x="446" y="104" width="250" height="88" rx="6"/><text class="t" x="571" y="128" text-anchor="middle">its own keys, roster, records</text>
+  <text class="s" x="571" y="150" text-anchor="middle" id="d-b-asks">…</text><text class="s" x="571" y="170" text-anchor="middle" id="d-b-cross">…</text>
+  <rect class="b" x="205" y="250" width="350" height="90" rx="6"/><text class="t" x="380" y="276" text-anchor="middle">the wedge · the pilot</text>
+  <text class="s" x="380" y="298" text-anchor="middle" id="d-w-pilot">…</text><text class="s" x="380" y="318" text-anchor="middle" id="d-w-gate">…</text>
+  <path class="arrow" d="M364 115 L396 115"/><path class="no-ln" d="M364 140 L396 140"/>
+  <path class="arrow" d="M380 250 L380 228 L571 228 L571 210"/>
+</svg></div>
+<ol>
+  <li><b>The client's software becomes a node.</b> Its own gated code stays its own; around it goes the estate's shared foundation, copied in byte for byte: a key, a door that checks every message before reading a byte of it, an immune memory, a record of what it used and what it gave.</li>
+  <li><b>It answers without giving its customers away.</b> Asked whether a cabin is free, it answers yes or no with a receipt that names the question, the answer and a digest of what its calendar says about occupancy: never a guest, a booking or a figure. The client's own audit, which holds the calendar, can re-run every answer.</li>
+  <li><b>It checks what it can be asked to check.</b> Asked to guard against double bookings, it merges the feeds it is sent with its own engine and names every clash. The node that asked keeps what it sent and runs the engine again on it.</li>
+  <li><b>Model A: it joins a mesh.</b> The mesh's founder signs a roster of its members; each node pins its peers from that roster and from nothing else. An attack refused anywhere is refused on sight by every node that takes the antibody, and only after each has re-run it on its own door. Every answer used is recorded, under the node's own name.</li>
+  <li><b>Model B: it grows its own.</b> A seed phrase only the client holds works out every key of the client's organism: its founder, its roster, its genesis, its nodes. The estate's packets are refused at its doors because it pins none of the estate's keys. If one of its booking engines dies, the desk asks the other.</li>
+  <li><b>Coupled, by choice.</b> A client who wants to can plant on a genesis the estate and the client name together, and let its desk pin the estate's immune hub. Its records then merge with the estate's, and the hub's antibodies reach its desk.</li>
+  <li><b>The wedge.</b> The liveware pilot, sealed and measured before this phase, re-runs; and its gateway, the same code on the client's own key table, becomes the client's front door.</li>
+</ol>
+<h3>The passes</h3>
+<div class="scroll"><table><thead><tr><th>Pass</th><th>Organ</th><th>Claims</th><th>Status</th></tr></thead><tbody id="pass-rows"><tr><td colspan="4" class="dim">Loading…</td></tr></tbody></table></div>
+
+<h2 id="model-a">Model A: the client's booking engine in the estate's mesh</h2>
+<p id="a-sum">Loading the receipt…</p>
+<h3>Is the cabin free? Twenty-four questions from three nodes</h3>
+<div class="scroll"><table><thead><tr><th>Asked by</th><th>Cabin</th><th>Stay</th><th>Answer</th><th>The client's audit</th></tr></thead><tbody id="a-stay-rows"></tbody></table></div>
+<h3>The double-booking guard</h3>
+<div class="scroll"><table><thead><tr><th>Feeds</th><th>Bookings</th><th>Clashes found</th><th>Re-run by the asker</th></tr></thead><tbody id="a-guard-rows"></tbody></table></div>
+<p class="small" id="a-immune"></p>
+<p class="small" id="a-books"></p>
+
+<h2 id="model-b">Model B: the client's own organism</h2>
+<p id="b-grow">…</p>
+<p id="b-sovereign">…</p>
+<p id="b-coupled">…</p>
+<div class="note"><p><b>What coupling showed.</b> Coupled, the client's desk took the estate's antibodies, but could not pass them on to the client's other nodes. The foundation's node shares on only what its own door refused first hand, not what it adopted. Inside one organism that never shows, because every node pins every other and the first to refuse tells them all. Across an organism's edge, where one node is the bridge, immunity stops at the bridge. The sealed claim said it would pass on, so it is kept as failed. A client coupling today should let every node of theirs pin the hub, or have the bridge refuse the packet itself.</p></div>
+
+<h2 id="the-wedge">The wedge: the pilot, re-run, and grown into the client's front door</h2>
+<p>The liveware pilot is break-it on 180,000 real payment records, sealed before it ran, with receipts for operations, security and the regulator. It is the small, real thing a business can check before anything else is built.</p>
+<p id="w-pilot">…</p>
+<h3>The client's front door: break-it's gateway, on the client's own key table</h3>
+<div class="scroll"><table><thead><tr><th>Case</th><th>The client's gate</th><th>break-it's own gate</th></tr></thead><tbody id="w-case-rows"></tbody></table></div>
+
+<h2 id="by-role">Receipts by role</h2>
+<div class="scroll"><table><thead><tr><th>Role</th><th>What they ask</th><th>The claims that answer</th></tr></thead><tbody id="role-rows"><tr><td colspan="3" class="dim">Loading…</td></tr></tbody></table></div>
+
+<h2 id="blueprint">Blueprint</h2>
+<div class="scroll"><table><thead><tr><th>Part</th><th>What it decides</th><th>Gate</th></tr></thead><tbody>
+  <tr><td><code>wishwood: node/wishwood-node.mjs</code></td><td>The client's node: the booking engine's own kernel offered as two skills, stay and guard, on the shared foundation. Lives in the client's own repository.</td><td>Mutation-tested in that repository: every planted bug caught</td></tr>
+  <tr><td><code>wishwood: vendor/fall-kit-core/</code></td><td>The shared foundation, copied in byte for byte and pinned by hash.</td><td>Checked file by file against fall-kit (A1)</td></tr>
+  <tr><td><code>core/seed.mjs</code></td><td>The seed: every key of a client's organism worked out from a phrase; its own founder, roster and genesis, or a genesis it and a larger mesh name together.</td><td>Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/names.mjs</code></td><td>A node's name bound to its key, at every door and before any merge.</td><td>Mutation-tested (Phase 6b)</td></tr>
+  <tr><td><code>core/phase7/world.mjs</code>, <code>run.mjs</code>, <code>books.mjs</code></td><td>The two worlds, the runs that carry every packet, and the books' gate.</td><td>Glue; measured on every run, and run by your tab</td></tr>
+  <tr><td><code>core/phase7/judge.mjs</code></td><td>The verdicts: the sealed rules over the measured facts. Pure.</td><td>Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/phase7/claims.json</code></td><td>The thirteen claims, sealed before any of the above existed.</td><td>Its commit is named in the receipt</td></tr>
+</tbody></table></div>
+
+<h2 id="receipt">The receipt</h2>
+<p class="small" id="r-sum">Loading the committed receipt…</p>
+<div class="scroll"><table><thead><tr><th>Claim</th><th></th><th>The claim, and what was measured</th></tr></thead><tbody id="r-rows"></tbody></table></div>
+<h3>The failures and readings, plainly</h3>
+<div class="note" id="r-notes"><p class="dim">Loading…</p></div>
+<p class="small">Re-run it yourself: clone <a href="https://github.com/sjgant80-hub/fall-kit">fall-kit</a> and run <code>node core/phase7/measure.mjs --check</code>. The claims are in <a href="claims.json">claims.json</a>; the commits it runs are in <a href="nodes.json">nodes.json</a>; the receipt is <a href="../receipts/phase7.json">receipts/phase7.json</a>. The client's node is in <a href="https://github.com/sjgant80-hub/wishwood">the wishwood repository</a>.</p>
+
+<h2 id="for-a-business">For a business</h2>
+<p class="lede">What it gives you: your own software, made into a node that checks everything it is sent, keeps the evidence of what it did, and either joins a wider mesh or grows into your own, without your customers' details leaving it.</p>
+<div class="scroll"><table><thead><tr><th>Who</th><th>What changes</th></tr></thead><tbody>
+  <tr><td>CEO</td><td>The business decides how it lives: as part of a wider mesh that answers for it and defends it, or as its own organism, owned outright. Either way the system is the business's, and it can prove what it did.</td></tr>
+  <tr><td>CFO</td><td>No licence fee: the code is MIT. It runs on machines the business already has, or in a browser. The work it does for others is recorded and checked, in contribution units, which are not money; nothing of value moves: the switch is off.</td></tr>
+  <tr><td>COO</td><td>Questions are answered without a person looking up a calendar; double bookings across channels are caught before a guest is confirmed; if one copy of the engine stops, the other answers.</td></tr>
+  <tr><td>CTO</td><td>The business's own code stays its own; the shared foundation is copied in byte for byte and checked by hash; plain ES modules, the same in Node and in a browser; every claim re-runs from a clone.</td></tr>
+  <tr><td>CISO</td><td>Every message is checked at the door before a byte of it is read; nothing is trusted that is not pinned from the founder's signed roster; an attack seen once is refused on sight; in Model B no outside key is in the organism at all.</td></tr>
+  <tr><td>Legal and compliance</td><td>Customers' details stay on the business's node: answers carry a verdict and a digest, never a guest. Every published file of this phase is checked for them. The records re-derive from nothing, so what was done can be shown.</td></tr>
+</tbody></table></div>
+<h3>The cost case</h3>
+<p>The staff time spent today cross-checking channel calendars and answering "is it free?" by hand, against a node that answers and checks itself. Your figures; the hourly cost starts at the UK's legal minimum.</p>
+<div class="box">
+  <div class="calc">
+    <label>Staff hours a month on calendars and availability questions (assumed)<input id="c-hours" type="number" min="0" value="12"></label>
+    <label>Share of that the node takes off, % (assumed)<input id="c-share" type="number" min="0" max="100" value="70"></label>
+  </div>
+  <div id="c-out"><p class="dim">Loading the source…</p></div>
+</div>
+<h3>Against what you have now</h3>
+<div class="scroll"><table><thead><tr><th></th><th>A hosted channel manager or booking platform, and a cloud assistant</th><th>A client build</th></tr></thead><tbody>
+  <tr><td>Where your calendar and guests live</td><td>On the provider's servers</td><td>On your node, on your machine; answers carry a verdict and a digest</td></tr>
+  <tr><td>Licence</td><td>A subscription, per property or per seat</td><td>MIT, no licence fee</td></tr>
+  <tr><td>What you can check</td><td>What the provider shows you</td><td>Every claim re-runs from a clone, byte for byte, and in your browser</td></tr>
+  <tr><td>When it is attacked</td><td>The provider's defences, unseen</td><td>Every message checked at the door; an attack seen once refused on sight, across the mesh</td></tr>
+  <tr><td>If you leave</td><td>Your data on their terms</td><td>It is yours already; the organism runs without us</td></tr>
+</tbody></table></div>
+<h3 id="security">Security and data protection, answered straight</h3>
+<ul>
+  <li><b>What it stops.</b> Messages from keys not on the founder's roster; forged and changed messages; replays; a node taking another's name; an antibody that would make a node refuse its own genuine traffic; a merge into a network that does not bind names; a live allocation without the switch.</li>
+  <li><b>What it does not stop.</b> A stolen key or seed phrase (it is the owner's word); a compromised machine; a member on the roster that answers wrongly about data only it holds (the client's own audit catches that, the mesh cannot).</li>
+  <li><b>Where data goes.</b> The client's calendar stays on its node. Answers to the mesh carry the question, the verdict and a digest of occupancy, no names, ids or figures. In Model B nothing reaches the estate at all.</li>
+  <li><b>The demo keys and phrase are public.</b> Everything here is grown from published test seeds, so anyone can make messages these nodes accept. A real deployment uses keys and a phrase its owner holds.</li>
+</ul>
+<h3 id="roll-out">Rolling it out</h3>
+<ol>
+  <li><b>Start with the wedge.</b> Run the pilot on one real feed of yours, sealed before it runs, and read its receipts by role.</li>
+  <li><b>Make your system a node.</b> Your code stays yours; the foundation is copied in beside it and pinned; your node's skills are your system's own functions.</li>
+  <li><b>Choose Model A or Model B.</b> Join the estate's mesh for its answers and its immunity, or plant your own organism from a phrase only you hold, on your own machines.</li>
+  <li><b>If you couple, couple on purpose.</b> Name a genesis together, pin the hub from every node that should learn from it, and keep your roster your own.</li>
+  <li><b>Keep the switch off</b> until your board decides, with advice, what any allocation would mean.</li>
+</ol>
+<h3>Support and ownership</h3>
+<p>Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>; start through that site. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed; your node, your organism and your records are yours.</p>
+<h3 id="risks">Risks, answered</h3>
+<ul>
+  <li><b>"Our customers' details would leave us."</b> They do not: every byte the client's node sent was read for them, raw and decoded, and none was found. Every published file of this phase was read for them too.</li>
+  <li><b>"We would depend on you."</b> In Model B nothing of ours is in your organism: no key, no roster entry, no link. It grows from your phrase and runs on your machines.</li>
+  <li><b>"A node could lie."</b> The mesh checks what it can: the shape of every answer, every signature, and anything it sent itself. What only you hold, your own audit re-runs.</li>
+  <li><b>"A claim failed."</b> Yes: coupled, immunity reached the client's desk and stopped there. It stays on the receipt, with what to do about it.</li>
+</ul>
+<h3>The case for the board</h3>
+<p>The business keeps its software and its customers, gains a node that checks every message and proves what it did, and chooses whether to stand in a wider mesh or alone. It commits to nothing: there is no licence fee, the switch is off, and the organism runs without us.</p>
+
+<h2 id="paper">The paper: client builds as organs and organisms</h2>
+<p><b>The problem.</b> A small business runs on software that holds its customers and answers its questions, usually rented, trusted on the provider's word, and alone when it is attacked.</p>
+<p><b>The design.</b> Make the business's own software a node of one shared foundation: a key, a door that checks before it reads, an immune memory, and a record of work. Let it join a wider mesh that answers for it and shares immunity (Model A), or grow into the business's own organism from a seed only the business holds (Model B), coupled to a wider mesh only by choice. Prove it small first, with a pilot whose claims are sealed before it runs.</p>
+<p><b>What is measured.</b> Thirteen claims were committed before any of Phase 7's code: that the client's repository carries the foundation byte for byte; that its node joins from the roster, answers, checks, keeps its guests, shares immunity both ways and is recorded; that the seed grows the client's own organism, sovereign, surviving a node's loss; that coupling shares only what it says; that the pilot re-runs and its gateway is the client's front door; that a browser grows the same organism; and that nothing barred and none of the guests is published.</p>
+<p><b>Honest limits.</b> The client build runs on its demo calendar and public test keys. Immunity across a coupled organism's edge stops at the bridge (B3, failed and kept). A seed phrase is as strong as the phrase.</p>
+<h3>Words used here</h3>
+<ul class="small">
+  <li><b>Node:</b> a program with its own key that checks every message at its door before reading it, keeps an immune memory and records its work.</li>
+  <li><b>Organ, organism:</b> a node in a larger mesh (Model A); a business's own mesh of nodes, grown from its own seed (Model B).</li>
+  <li><b>Seed phrase:</b> the one secret every key of an organism is worked out from. As strong as the phrase; kept like a key.</li>
+  <li><b>Roster:</b> the founder's signed list of the members. A node pins its peers from it and from nothing else.</li>
+  <li><b>Genesis:</b> the first entry of the records: who may switch them on and who may measure work, fixed before anything is recorded.</li>
+  <li><b>Antibody:</b> what a node keeps of a message it refused, so the same message is refused on sight; adopted from a peer only after re-running it on its own door.</li>
+  <li><b>Coupled:</b> a client's organism planted on a genesis it and a larger mesh name together, with its desk pinning the mesh's immune hub. The client's choice.</li>
+  <li><b>Wedge:</b> the small, real, sealed pilot a business checks first.</li>
+</ul>
+
+<h2 id="faq">Questions</h2>
+<details><summary>Does the client's data leave its node?</summary><p>No. Asked whether a cabin is free, the node answers with the cabin, the dates, yes or no, and a digest of what its calendar says about occupancy. Every byte it sent in the run was read, raw and decoded, for the guests' names, the bookings' ids, their figures, and anything shaped like an email address or a phone number, and none was found.</p></details>
+<details><summary>What is the difference between Model A and Model B?</summary><p>In Model A the client's node joins the estate's mesh: the estate's founder puts it on the roster, it answers the other nodes and shares their immunity, and its work is recorded in the estate's records. In Model B the same software grows into the client's own mesh from a seed phrase only the client holds: none of the estate's keys is in it, and the estate's messages are refused at its doors.</p></details>
+<details><summary>Can a Model B organism ever join the larger mesh?</summary><p>Yes, by the client's choice: planted on a genesis the client and the estate name together, its records merge with the estate's with nothing refused, and its desk can take the estate's antibodies. Today those antibodies stop at the desk; the client's other nodes need to pin the hub too.</p></details>
+<details><summary>What did not hold?</summary><p>One claim of thirteen: coupled, the client's desk adopted the estate hub's antibodies but had nothing to pass on, because a node shares on only what it refused itself. It is kept as failed, with the reason and what to do about it.</p></details>
+<details><summary>Who supplies it?</summary><p>AI Native Solutions supplies it; start through ai-nativesolutions.com. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed.</p></details>
+
+<div class="foot">Fall Kit core · phase 7 · MIT · supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · <a href="https://github.com/sjgant80-hub/fall-kit">source</a> · <a href="../phase6/">phase 6: every node keeps its own books</a> · <a href="../phase5/">phase 5</a> · <a href="../phase4/">phase 4</a> · <a href="../phase3/">phase 3</a> · <a href="../phase2/">phase 2</a> · <a href="../">phase 1</a> · <a href="https://sjgant80-hub.github.io/break-it/">the pilot</a><br>Powered by the Konomi architecture, created by Thomas Frumkin.</div>
+</main>
+<script type="module" src="./page.mjs"></script>
+</body>
+</html>

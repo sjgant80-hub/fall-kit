@@ -1,0 +1,6 @@
+{
+ "kind": "fall-kit.core.phase7.costs",
+ "note": "The one figure the client build's cost case uses: what an hour of staff time costs at the least the law allows. Copied with its source from break-it's dated sources (costs/sources.json, id uk-nlw).",
+ "nlwPence": 1271,
+ "source": { "what": "National Living Wage (21 and over), from 1 April 2026", "url": "https://www.gov.uk/government/news/national-living-wage-increases-to-1271-per-hour", "read": "2026-10-25", "quote": "£12.71 per hour, from 1 April 2026" }
+}

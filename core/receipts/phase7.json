@@ -1,0 +1,1053 @@
+{
+ "kind": "fall-kit.core.phase7.receipt",
+ "v": 1,
+ "sealedIn": "1a06fb7ceffdde396114936cd7bba6575fe7cc5e",
+ "nodes": {
+  "wishwood": "670b3f284800ed8bcb9f20ba144a394d80dcbc2c",
+  "break-it": "4e41aec63ccfd9bf426e4b012ec96f9df22ea916",
+  "konomi-slm": "e74cb6f517a7d960bc418dcf28c831cf3cfd2ea6"
+ },
+ "notes": [
+  "B3 failed as sealed, and is kept. Coupled, the client's desk pins the estate's immune hub (break-it's node) and nothing else of the estate. The hub's antibodies reached the desk, which adopted them only after its own door re-ran them, and then refused the forged packet on sight. But the foundation's node shares on only what its own door refused first hand: core/node.mjs keeps a packet to share when it refuses one itself, not when it adopts a peer's antibody. So the desk had nothing to pass on to stay-a, stay-b and the gate. Inside one organism every node pins every other and the first to refuse shares with all (A5, B1), so this never showed; across an organism's edge, where one node is the bridge, immunity stops at the bridge. Everything else the claim names held: the client's books merged into the estate's with nothing refused and every entry counted once, the antibody made from a genuine packet of the client's own was not adopted, and the client's roster holds no estate key.",
+  "A4 was read as follows, and the facts say so (a4.read): an answer's own fields are verdict (the protocol's answer status, VERIFIED or ABSTAIN), available and the receipt; the receipt's are the cabin, the dates, available, the calendar's occupancy digest and receiptHash (the receipt's own hash). Nothing else is in any stay answer.",
+  "The privacy list looks for a booking id only as a quoted value, as the claims seal it: in the receipt, the claim ids b1, b2 and b3 are keys of the facts, not values, and the first measure counted them as booking ids until the rule was read as written."
+ ],
+ "facts": {
+  "a1": {
+   "commit": "670b3f284800ed8bcb9f20ba144a394d80dcbc2c",
+   "foundationCommit": "1a06fb7ceffdde396114936cd7bba6575fe7cc5e",
+   "files": 18,
+   "differ": [],
+   "missing": [],
+   "ancestor": true,
+   "imports": [
+    "../vendor/fall-kit-core/node.mjs",
+    "../vendor/fall-kit-core/identity.mjs",
+    "../vendor/fall-kit-core/vendor/light/sha256.mjs",
+    "../kernel/reservations.mjs"
+   ],
+   "kernel": true,
+   "foundation": true,
+   "copies": []
+  },
+  "a2": {
+   "processes": 4,
+   "pinned": {
+    "site": [
+     "breakit",
+     "konomi",
+     "wishwood"
+    ],
+    "breakit": [
+     "konomi",
+     "site",
+     "wishwood"
+    ],
+    "konomi": [
+     "breakit",
+     "site",
+     "wishwood"
+    ],
+    "wishwood": [
+     "breakit",
+     "konomi",
+     "site"
+    ]
+   },
+   "outsider": {
+    "site": {
+     "refused": true,
+     "why": "the roster is not the founder’s",
+     "pinnedOutsider": false
+    },
+    "breakit": {
+     "refused": true,
+     "why": "the roster is not the founder’s",
+     "pinnedOutsider": false
+    },
+    "konomi": {
+     "refused": true,
+     "why": "the roster is not the founder’s",
+     "pinnedOutsider": false
+    },
+    "wishwood": {
+     "refused": true,
+     "why": "the roster is not the founder’s",
+     "pinnedOutsider": false
+    }
+   },
+   "messages": 60,
+   "nonLight": 0
+  },
+  "a3": {
+   "calendar": "06ac477eecdc2a4cf9e2457b99c8e131085e93ba684635a9a44b41015bf97813",
+   "stays": [
+    {
+     "k": 0,
+     "asker": "site",
+     "cabin": "yurt",
+     "checkin": "2026-06-21",
+     "checkout": "2026-06-23",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 1,
+     "asker": "breakit",
+     "cabin": "hobbit",
+     "checkin": "2026-06-21",
+     "checkout": "2026-06-23",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 2,
+     "asker": "konomi",
+     "cabin": "caravan",
+     "checkin": "2026-06-21",
+     "checkout": "2026-06-23",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 3,
+     "asker": "site",
+     "cabin": "fern",
+     "checkin": "2026-06-21",
+     "checkout": "2026-06-23",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 4,
+     "asker": "breakit",
+     "cabin": "yurt",
+     "checkin": "2026-06-26",
+     "checkout": "2026-06-29",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 5,
+     "asker": "konomi",
+     "cabin": "hobbit",
+     "checkin": "2026-06-26",
+     "checkout": "2026-06-29",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 6,
+     "asker": "site",
+     "cabin": "caravan",
+     "checkin": "2026-06-26",
+     "checkout": "2026-06-29",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 7,
+     "asker": "breakit",
+     "cabin": "fern",
+     "checkin": "2026-06-26",
+     "checkout": "2026-06-29",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 8,
+     "asker": "konomi",
+     "cabin": "yurt",
+     "checkin": "2026-07-06",
+     "checkout": "2026-07-08",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 9,
+     "asker": "site",
+     "cabin": "hobbit",
+     "checkin": "2026-07-06",
+     "checkout": "2026-07-08",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 10,
+     "asker": "breakit",
+     "cabin": "caravan",
+     "checkin": "2026-07-06",
+     "checkout": "2026-07-08",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 11,
+     "asker": "konomi",
+     "cabin": "fern",
+     "checkin": "2026-07-06",
+     "checkout": "2026-07-08",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 12,
+     "asker": "site",
+     "cabin": "yurt",
+     "checkin": "2026-07-16",
+     "checkout": "2026-07-19",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 13,
+     "asker": "breakit",
+     "cabin": "hobbit",
+     "checkin": "2026-07-16",
+     "checkout": "2026-07-19",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 14,
+     "asker": "konomi",
+     "cabin": "caravan",
+     "checkin": "2026-07-16",
+     "checkout": "2026-07-19",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 15,
+     "asker": "site",
+     "cabin": "fern",
+     "checkin": "2026-07-16",
+     "checkout": "2026-07-19",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 16,
+     "asker": "breakit",
+     "cabin": "yurt",
+     "checkin": "2026-08-15",
+     "checkout": "2026-08-16",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 17,
+     "asker": "konomi",
+     "cabin": "hobbit",
+     "checkin": "2026-08-15",
+     "checkout": "2026-08-16",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 18,
+     "asker": "site",
+     "cabin": "caravan",
+     "checkin": "2026-08-15",
+     "checkout": "2026-08-16",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 19,
+     "asker": "breakit",
+     "cabin": "fern",
+     "checkin": "2026-08-15",
+     "checkout": "2026-08-16",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 20,
+     "asker": "konomi",
+     "cabin": "yurt",
+     "checkin": "2026-10-26",
+     "checkout": "2026-10-28",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 21,
+     "asker": "site",
+     "cabin": "hobbit",
+     "checkin": "2026-10-26",
+     "checkout": "2026-10-28",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 22,
+     "asker": "breakit",
+     "cabin": "caravan",
+     "checkin": "2026-10-26",
+     "checkout": "2026-10-28",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    },
+    {
+     "k": 23,
+     "asker": "konomi",
+     "cabin": "fern",
+     "checkin": "2026-10-26",
+     "checkout": "2026-10-28",
+     "to": "wishwood",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "digest": true,
+     "recorded": true
+    }
+   ],
+   "guards": [
+    {
+     "id": "g1",
+     "to": "wishwood",
+     "outcome": "verified",
+     "bookings": 3,
+     "clashes": [
+      {
+       "cabin": "yurt",
+       "a": {
+        "channel": "airbnb",
+        "checkin": "2026-07-15",
+        "checkout": "2026-07-18"
+       },
+       "b": {
+        "channel": "booking",
+        "checkin": "2026-07-17",
+        "checkout": "2026-07-20"
+       }
+      }
+     ],
+     "recheck": true,
+     "second": {
+      "bookings": 3,
+      "clashes": 1
+     },
+     "recorded": true
+    },
+    {
+     "id": "g2",
+     "to": "wishwood",
+     "outcome": "verified",
+     "bookings": 2,
+     "clashes": [],
+     "recheck": true,
+     "second": {
+      "bookings": 2,
+      "clashes": 0
+     },
+     "recorded": true
+    },
+    {
+     "id": "g3",
+     "to": "wishwood",
+     "outcome": "verified",
+     "bookings": 0,
+     "clashes": [],
+     "recheck": true,
+     "second": {
+      "bookings": 0,
+      "clashes": 0
+     },
+     "recorded": true
+    },
+    {
+     "id": "g4",
+     "to": "wishwood",
+     "outcome": "verified",
+     "bookings": 1,
+     "clashes": [],
+     "recheck": true,
+     "second": {
+      "bookings": 1,
+      "clashes": 0
+     },
+     "recorded": true
+    }
+   ]
+  },
+  "a4": {
+   "packets": 31,
+   "found": [],
+   "foundCount": 0,
+   "stayAnswers": 24,
+   "stayShaped": 24,
+   "read": "the answer's own fields are verdict (the protocol's answer status, VERIFIED or ABSTAIN), available and the receipt; the receipt's are the cabin, the dates, available, the calendar's occupancy digest and receiptHash (the receipt's own hash)"
+  },
+  "a5": [
+   {
+    "first": "breakit",
+    "refused": true,
+    "stage": "signature",
+    "adopters": {
+     "wishwood": {
+      "offered": 1,
+      "adopted": 1,
+      "blocked": 0,
+      "again": {
+       "recognised": true,
+       "decoded": false,
+       "admitted": false
+      }
+     }
+    }
+   },
+   {
+    "first": "wishwood",
+    "refused": true,
+    "stage": "signature",
+    "adopters": {
+     "site": {
+      "offered": 1,
+      "adopted": 1,
+      "blocked": 0,
+      "again": {
+       "recognised": true,
+       "decoded": false,
+       "admitted": false
+      }
+     },
+     "breakit": {
+      "offered": 1,
+      "adopted": 1,
+      "blocked": 0,
+      "again": {
+       "recognised": true,
+       "decoded": false,
+       "admitted": false
+      }
+     },
+     "konomi": {
+      "offered": 1,
+      "adopted": 1,
+      "blocked": 0,
+      "again": {
+       "recognised": true,
+       "decoded": false,
+       "admitted": false
+      }
+     }
+    }
+   }
+  ],
+  "a6": {
+   "merged": {
+    "site": {
+     "replayed": true,
+     "merged": true,
+     "sent": 17,
+     "added": 16,
+     "skipped": 1,
+     "refused": []
+    },
+    "breakit": {
+     "replayed": true,
+     "merged": true,
+     "sent": 13,
+     "added": 8,
+     "skipped": 5,
+     "refused": []
+    },
+    "konomi": {
+     "replayed": true,
+     "merged": true,
+     "sent": 13,
+     "added": 8,
+     "skipped": 5,
+     "refused": []
+    },
+    "wishwood": {
+     "replayed": true,
+     "merged": true,
+     "sent": 5,
+     "added": 0,
+     "skipped": 5,
+     "refused": []
+    }
+   },
+   "refused": 0,
+   "used": 28,
+   "valuesOnClient": 28,
+   "everyUsedValued": true,
+   "clientCredited": true,
+   "live": {
+    "ok": false,
+    "why": "the switch is off: no allocation is live (a sandbox allocation can be computed by anyone)"
+   },
+   "entries": 33
+  },
+  "b1": {
+   "processes": 4,
+   "pinned": {
+    "desk": [
+     "gate",
+     "stay-a",
+     "stay-b"
+    ],
+    "stay-a": [
+     "desk",
+     "gate",
+     "stay-b"
+    ],
+    "stay-b": [
+     "desk",
+     "gate",
+     "stay-a"
+    ],
+    "gate": [
+     "desk",
+     "stay-a",
+     "stay-b"
+    ]
+   },
+   "asks": [
+    {
+     "k": 0,
+     "to": "stay-a",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "lost": []
+    },
+    {
+     "k": 1,
+     "to": "stay-b",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "lost": []
+    },
+    {
+     "k": 2,
+     "to": "stay-a",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "lost": []
+    },
+    {
+     "k": 3,
+     "to": "stay-a",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "lost": []
+    },
+    {
+     "k": 4,
+     "to": "stay-a",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "lost": []
+    },
+    {
+     "k": 5,
+     "to": "stay-a",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "lost": []
+    },
+    {
+     "k": 6,
+     "to": "stay-b",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "lost": [
+      "stay-a"
+     ]
+    },
+    {
+     "k": 7,
+     "to": "stay-b",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "lost": []
+    },
+    {
+     "k": 8,
+     "to": "stay-b",
+     "outcome": "verified",
+     "available": false,
+     "audit": true,
+     "lost": []
+    },
+    {
+     "k": 9,
+     "to": "stay-b",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "lost": []
+    },
+    {
+     "k": 10,
+     "to": "stay-b",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "lost": []
+    },
+    {
+     "k": 11,
+     "to": "stay-b",
+     "outcome": "verified",
+     "available": true,
+     "audit": true,
+     "lost": []
+    }
+   ],
+   "killed": [
+    "stay-a"
+   ],
+   "killedAfter": 6,
+   "forged": {
+    "refused": true,
+    "stage": "signature",
+    "adopters": {
+     "desk": {
+      "adopted": 1,
+      "again": {
+       "recognised": true,
+       "decoded": false,
+       "admitted": false
+      }
+     },
+     "stay-b": {
+      "adopted": 1,
+      "again": {
+       "recognised": true,
+       "decoded": false,
+       "admitted": false
+      }
+     },
+     "gate": {
+      "adopted": 1,
+      "again": {
+       "recognised": true,
+       "decoded": false,
+       "admitted": false
+      }
+     }
+    }
+   }
+  },
+  "b2": {
+   "foreign": 0,
+   "cross": {
+    "intoChild": {
+     "site": {
+      "desk": "sender",
+      "stay-a": "sender",
+      "stay-b": "sender",
+      "gate": "sender"
+     },
+     "breakit": {
+      "desk": "sender",
+      "stay-a": "sender",
+      "stay-b": "sender",
+      "gate": "sender"
+     },
+     "konomi": {
+      "desk": "sender",
+      "stay-a": "sender",
+      "stay-b": "sender",
+      "gate": "sender"
+     },
+     "wishwood": {
+      "desk": "sender",
+      "stay-a": "sender",
+      "stay-b": "sender",
+      "gate": "sender"
+     }
+    },
+    "intoEstate": {
+     "desk": {
+      "site": "sender",
+      "breakit": "sender",
+      "konomi": "sender",
+      "wishwood": "sender"
+     },
+     "stay-a": {
+      "site": "sender",
+      "breakit": "sender",
+      "konomi": "sender",
+      "wishwood": "sender"
+     },
+     "stay-b": {
+      "site": "sender",
+      "breakit": "sender",
+      "konomi": "sender",
+      "wishwood": "sender"
+     },
+     "gate": {
+      "site": "sender",
+      "breakit": "sender",
+      "konomi": "sender",
+      "wishwood": "sender"
+     }
+    }
+   },
+   "replay": {
+    "genesis": "39b5c0527360b590d25695d02a399ff2b158bbf2c6ae3638479da331165cc3e2",
+    "ownGenesis": true,
+    "desk": {
+     "replayed": true,
+     "merged": true,
+     "sent": 22,
+     "added": 21,
+     "skipped": 1,
+     "refused": []
+    }
+   },
+   "estateRefuses": {
+    "desk": "they began from different geneses: their policies and keys differ, so their entries are not the same economy",
+    "stay-b": "they began from different geneses: their policies and keys differ, so their entries are not the same economy",
+    "gate": "they began from different geneses: their policies and keys differ, so their entries are not the same economy"
+   }
+  },
+  "w2": {
+   "cases": [
+    {
+     "name": "a record signed by the sender break-it pins",
+     "expect": "admitted",
+     "to": "gate",
+     "outcome": "verified",
+     "admit": true,
+     "stage": "admitted"
+    },
+    {
+     "name": "not a packet at all",
+     "expect": "size",
+     "to": "gate",
+     "outcome": "verified",
+     "admit": false,
+     "stage": "size"
+    },
+    {
+     "name": "a record with a blank signature",
+     "expect": "signature",
+     "to": "gate",
+     "outcome": "verified",
+     "admit": false,
+     "stage": "signature"
+    },
+    {
+     "name": "a record from a sender break-it never pinned",
+     "expect": "sender",
+     "to": "gate",
+     "outcome": "verified",
+     "admit": false,
+     "stage": "sender"
+    },
+    {
+     "name": "a record signed by a key that is not the sender’s",
+     "expect": "signature",
+     "to": "gate",
+     "outcome": "verified",
+     "admit": false,
+     "stage": "signature"
+    }
+   ],
+   "direct": [
+    "admitted",
+    "size",
+    "signature",
+    "sender",
+    "signature"
+   ]
+  },
+  "b3": {
+   "genesisIsEstate": true,
+   "merged": {
+    "client desk": {
+     "replayed": true,
+     "merged": true,
+     "sent": 18,
+     "added": 16,
+     "skipped": 2,
+     "refused": []
+    },
+    "client stay-a": {
+     "replayed": true,
+     "merged": true,
+     "sent": 5,
+     "added": 0,
+     "skipped": 5,
+     "refused": []
+    },
+    "client stay-b": {
+     "replayed": true,
+     "merged": true,
+     "sent": 5,
+     "added": 0,
+     "skipped": 5,
+     "refused": []
+    },
+    "client gate": {
+     "replayed": true,
+     "merged": true,
+     "sent": 5,
+     "added": 0,
+     "skipped": 5,
+     "refused": []
+    }
+   },
+   "asks": 12,
+   "hub": {
+    "refused": true,
+    "stage": "signature"
+   },
+   "desk": {
+    "offered": 6,
+    "adopted": 5,
+    "again": {
+     "recognised": true,
+     "decoded": false,
+     "admitted": false
+    }
+   },
+   "sharedOn": {
+    "stay-a": {
+     "shared": false
+    },
+    "stay-b": {
+     "shared": false
+    },
+    "gate": {
+     "shared": false
+    }
+   },
+   "falseAntibody": {
+    "offered": 1,
+    "adopted": 0,
+    "blocked": 1
+   },
+   "rosterForeign": 0
+  },
+  "w1": {
+   "commit": "4e41aec63ccfd9bf426e4b012ec96f9df22ea916",
+   "exit": 0,
+   "last": "PILOT CHECK CLEAN — the receipt stands",
+   "judged": [
+    9,
+    1
+   ],
+   "ticks": 11,
+   "crosses": 0,
+   "sealed": {
+    "held": 9,
+    "failed": 1,
+    "failedIds": [
+     "ciso-1"
+    ]
+   }
+  },
+  "p2": {
+   "page": [],
+   "modules": {
+    "core/seed.mjs": [],
+    "core/phase7/books.mjs": [],
+    "core/phase7/cell.mjs": [],
+    "core/phase7/judge.mjs": [],
+    "core/phase7/judge.test.mjs": [],
+    "core/phase7/measure.mjs": [],
+    "core/phase7/mods.mjs": [],
+    "core/phase7/page.mjs": [],
+    "core/phase7/page.test.mjs": [],
+    "core/phase7/run.mjs": [],
+    "core/phase7/tab.mjs": [],
+    "core/phase7/world.mjs": []
+   },
+   "privacy": {
+    "core/phase7/index.html": [],
+    "core/phase7/nodes.json": [],
+    "core/receipts/phase7.json": []
+   }
+  }
+ },
+ "verdicts": [
+  {
+   "id": "A1",
+   "pass": 1,
+   "held": true,
+   "measured": "wishwood 670b3f2 carries 18 pinned files of fall-kit 1a06fb7: 0 differ, 0 missing; that commit an ancestor of this phase's: yes; the node imports the engine's kernel: yes, the vendored foundation: yes; copies of either in it: 0"
+  },
+  {
+   "id": "A2",
+   "pass": 1,
+   "held": true,
+   "measured": "4 processes; 4 of 4 pinned exactly the other three from the founder's roster; the card not on it refused by 4 of 4; 60 messages, 0 not LIGHT"
+  },
+  {
+   "id": "A3",
+   "pass": 1,
+   "held": true,
+   "measured": "24 of 24 stay asks answered, recorded and equal to the client's audit on a calendar of the same digest (7 not free); 4 of 4 guard asks answered, recorded and re-run by the asker to the same answer, every one matching the second count; g1: the yurt sold by Airbnb and Booking.com; g2, g3, g4: 0 clashes, 2 bookings; 0 clashes, 0 bookings; 0 clashes, 1 bookings"
+  },
+  {
+   "id": "A4",
+   "pass": 1,
+   "held": true,
+   "measured": "31 packets sent by the client's node, read raw and decoded: none of the privacy list; 24 of 24 stay answers carry the cabin, the dates, the verdict and the calendar's digest, and nothing else"
+  },
+  {
+   "id": "A5",
+   "pass": 1,
+   "held": true,
+   "measured": "first at break-it (refused at signature): the client's node adopted after its own re-run and refused it on sight; first at the client's node (refused at signature): all three estate nodes adopted after their own re-run and refused it on sight"
+  },
+  {
+   "id": "A6",
+   "pass": 1,
+   "held": true,
+   "measured": "28 answers used, 28 routing values on the client's node's name in the books, every used answer valued by its asker: yes; refused in the merge: 0; the client's key credited: yes; a live allocation refused (the switch is off: no allocation is live (a sandbox allocation can be computed by anyone))"
+  },
+  {
+   "id": "B1",
+   "pass": 2,
+   "held": true,
+   "measured": "4 processes; 4 of 4 pinned exactly the other three from the client's roster; 12 of 12 asks answered and equal to the client's audit; stay-a killed after ask 6, every later ask answered by the holder still standing, 1 ask lost and asked again; the forged packet refused on sight by desk, stay-b and the gate after their own re-run"
+  },
+  {
+   "id": "B2",
+   "pass": 2,
+   "held": true,
+   "measured": "0 estate keys in the client's roster, genesis or pins; 32 of 32 cross packets refused at the sender stage; the desk's ledger replayed under the client's own genesis: yes; the estate's books refused all 3 of the client's ledgers: they began from different geneses"
+  },
+  {
+   "id": "B3",
+   "pass": 2,
+   "held": false,
+   "measured": "planted on the estate's genesis: yes; the client's 4 ledgers merged into the estate's books with nothing refused, every entry once; the desk adopted the hub's antibodies after its own re-run and refused the forged packet on sight; shared on to 0 of 3 (stay-a: nothing to share, stay-b: nothing to share, gate: nothing to share); the antibody made from a genuine packet not adopted (1 blocked); estate keys in the client's roster: 0"
+  },
+  {
+   "id": "W1",
+   "pass": 3,
+   "held": true,
+   "measured": "break-it 4e41aec's pilot/check.mjs exited 0: PILOT CHECK CLEAN — the receipt stands; 11 checks held, 0 not; the judge re-run gives 9 held, 1 failed (sealed: 9 held, ciso-1 failed)"
+  },
+  {
+   "id": "W2",
+   "pass": 3,
+   "held": true,
+   "measured": "5 of 5 cases decided by the client's gate at the stage the case names and as break-it's own gate decides it (admitted, size, signature, sender, signature)"
+  },
+  {
+   "id": "P1",
+   "pass": 4,
+   "held": null,
+   "measured": "not measured yet"
+  },
+  {
+   "id": "P2",
+   "pass": 4,
+   "held": true,
+   "measured": "12 modules and the page read: no barred word; 3 published files read for the client's guests: none"
+  }
+ ],
+ "held": 11,
+ "failed": 1,
+ "open": 1
+}

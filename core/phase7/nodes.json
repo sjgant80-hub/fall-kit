@@ -1,0 +1,9 @@
+{
+ "kind": "fall-kit.core.phase7.nodes",
+ "note": "The commits Phase 7 runs as nodes. wishwood's adds vendor/fall-kit-core/ and node/wishwood-node.mjs after the Phase 7 seal (1a06fb7); break-it's and konomi-slm's are Phase 5's. The measure clones each at its commit.",
+ "nodes": {
+  "wishwood": "670b3f284800ed8bcb9f20ba144a394d80dcbc2c",
+  "break-it": "4e41aec63ccfd9bf426e4b012ec96f9df22ea916",
+  "konomi-slm": "e74cb6f517a7d960bc418dcf28c831cf3cfd2ea6"
+ }
+}
