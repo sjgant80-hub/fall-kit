@@ -38,6 +38,9 @@ const ROUTE_WORDS = Object.freeze({
   none: ['Nothing here on that', 'This site has nothing on that. It can tell you what it is, how to use it, how it defends itself, the mesh, your own DIGI, or what it does for a company.', '#start-here'],
 });
 
+// the seven routes and the fixed words each shows, from the same table the router uses
+put('route-rows', ...ROUTES.map((r) => { const [title, words, go] = ROUTE_WORDS[r], tr = el('tr'); tr.append(el('td', 'mono', r), el('td', null, title + ': ' + words), el('td', 'small', go)); return tr; }));
+
 // ── the address: through the door on load and on every change ──
 export function address(bytes, opts = {}) {
   const r = take(LIB, { kind: 'address', bytes }, DOOR);

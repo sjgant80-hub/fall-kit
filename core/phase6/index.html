@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>Every node keeps its own books · Fall Kit core, phase 6</title>
+<meta name="description" content="Phase 6 of the estate going live: every node records the work it used from others as signed, checked entries in a contribution ledger; an auditor's books re-check every entry against the signed answer it was for; the books re-derive from nothing in any browser; a sandbox allocation is computed exactly; and the switch is off. Contribution units are not money.">
+<link rel="canonical" href="https://sjgant80-hub.github.io/fall-kit/core/phase6/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"Fall Kit core, phase 6 — the books","codeRepository":"https://github.com/sjgant80-hub/fall-kit","programmingLanguage":"JavaScript","license":"https://opensource.org/licenses/MIT","description":"A contribution ledger every node of the mesh writes to: signed entries, each checked against the evidence it rests on, books that re-derive from nothing, an exact sandbox allocation, and a switch that is off."}</script>
+<script type="application/ld+json" id="faq-ld">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are contribution units money?","acceptedAnswer":{"@type":"Answer","text":"No. A contribution unit is an internal record of measured work: who did which work that others used and checked. Nothing here moves anything of value, and the code has no way to. Whether an allocation is ever worth anything is the ledger owner's decision, with legal advice, outside this code."}},{"@type":"Question","name":"What is the switch?","acceptedAnswer":{"@type":"Answer","text":"A signed record that only an activator named when the ledger began can make. Until it exists, the ledger refuses any live allocation; anyone can compute a sandbox allocation, marked as such. These books hold no switch: the switch is off."}},{"@type":"Question","name":"Can someone credit themselves?","acceptedAnswer":{"@type":"Answer","text":"Not here. A value is recorded only from a measurer the ledger names, only on a job it has not recorded before, and the auditor's books take it only after finding the signed answer it was for, from the node that gave it, and checking that answer's receipt. A value one unit off what was measured is refused."}},{"@type":"Question","name":"What did not hold?","acceptedAnswer":{"@type":"Answer","text":"The network path's claim said a merge with a larger network would refuse exactly one entry, the one release that clashed. It refused that release and every value that would have followed it to the key that had taken the living site's name first, eleven in all, and so the living site had no part in the network's allocation. That is the right outcome for the books and the claim is kept as failed: the lesson is that a node's name must be tied to its key before it joins a larger network. A second claim held the source of every module to the same list of words as the page: the page itself is clean, but the code names break-it's cost reader as break-it named it and two test files use the words as test data, so it failed too and is kept."}},{"@type":"Question","name":"Who supplies it?","acceptedAnswer":{"@type":"Answer","text":"AI Native Solutions supplies it; start through ai-nativesolutions.com. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed."}}]}</script>
+<style>
+:root{--void:#1a1612;--void-2:#231f1a;--ink:#2b2722;--line:#3a342c;--line-soft:#2e2922;--cream:#ebe3d2;--cream-dim:#a89e88;--cream-muted:#736b5a;--brass:#c08a3a;--amber:#e8a83a;--leaf:#6b8d4a;--rust:#c25a35;
+--serif:Georgia,'Times New Roman',ui-serif,serif;--sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--void);color:var(--cream);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--brass);text-decoration:none}a:hover{text-decoration:underline}
+code,pre,.mono{font-family:var(--mono)}
+code{background:var(--ink);padding:1px 5px;border-radius:2px;font-size:12.5px;color:var(--brass);word-break:break-word}
+pre{background:var(--ink);padding:14px 16px;border-radius:4px;border:1px solid var(--line);overflow-x:auto;color:var(--cream-dim);line-height:1.55;font-size:12px;margin:10px 0 14px}
+header{background:var(--void-2);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{width:32px;height:32px;background:linear-gradient(135deg,var(--brass),var(--amber));border-radius:5px;display:grid;place-items:center;font:700 18px var(--serif);color:var(--void)}
+.name{font:700 18px var(--serif)}.sub{font:9px var(--mono);color:var(--cream-muted);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+header nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}header nav a{color:var(--cream-dim);font-size:13px}
+main{max-width:900px;margin:0 auto;padding:30px 24px 100px}
+h1{font:700 30px/1.15 var(--serif);margin-bottom:12px}
+h2{font:700 22px var(--serif);margin:42px 0 10px;color:var(--brass)}
+h3{font:700 16px var(--serif);margin:20px 0 8px}
+p{margin-bottom:12px}ul,ol{margin:0 0 14px 24px}li{margin-bottom:5px;color:var(--cream-dim)}
+.lede{font-size:17px;color:var(--cream-dim);margin-bottom:16px}
+.small{font-size:13px}
+.hero{background:linear-gradient(135deg,rgba(192,138,58,.10),rgba(107,141,74,.04));border:1px solid var(--brass);border-radius:5px;padding:24px 28px;margin-bottom:22px}
+.seal{font:10px var(--mono);color:var(--cream-muted);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.tile{background:var(--void-2);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.tile b{display:block;font:700 22px var(--serif);color:var(--brass)}.tile span{font-size:12px;color:var(--cream-dim)}
+.btn{padding:9px 16px;background:var(--brass);color:var(--void);border:none;border-radius:3px;font:600 13px var(--sans);cursor:pointer}
+.btn:hover{background:var(--amber)}.btn:disabled{opacity:.6;cursor:default}
+.btn.ghost{background:transparent;color:var(--cream-dim);border:1px solid var(--line)}
+.box{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin:16px 0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:var(--void-2);padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.08em;text-transform:uppercase}
+td{padding:8px 10px;border-bottom:1px solid var(--line-soft);color:var(--cream-dim);vertical-align:top}
+.scroll{overflow-x:auto}
+.ok{color:var(--leaf);font-weight:600}.no{color:var(--rust);font-weight:600}.dim{color:var(--cream-muted)}
+.tag{display:inline-block;font:700 10px var(--mono);letter-spacing:.08em;padding:2px 6px;border-radius:2px}
+.tag.held{background:rgba(107,141,74,.2);color:var(--leaf)}.tag.failed{background:rgba(194,90,53,.2);color:var(--rust)}.tag.na{background:var(--void-2);color:var(--cream-muted)}
+.diagram{margin:14px 0;background:var(--ink);border:1px solid var(--line);border-radius:5px;padding:12px;overflow-x:auto}
+.diagram svg{width:100%;min-width:620px;height:auto;display:block}
+.diagram .b{fill:var(--void-2);stroke:var(--line);stroke-width:1.5}.diagram .hot{stroke:var(--brass)}
+.diagram .t{fill:var(--cream);font:700 14px var(--serif)}.diagram .s{fill:var(--cream-dim);font:11.5px var(--sans)}
+.diagram .arrow{fill:none;stroke:var(--brass);stroke-width:1.8}.diagram .no-ln{fill:none;stroke:var(--rust);stroke-width:1.8;stroke-dasharray:5 4}
+#tab-log,#log-rows{margin:10px 0 0 18px}#tab-log li,#log-rows li{font-size:13px;margin-bottom:4px}
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:8px 0 12px}
+.calc label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--cream-dim)}
+.calc input{padding:7px 9px;background:var(--void-2);border:1px solid var(--line);color:var(--cream);border-radius:3px;font:inherit;width:100%}
+.line{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line-soft);padding:5px 0;font-size:13px}
+.line span:last-child{font-family:var(--mono);color:var(--cream)}
+.bottom{font-size:15px;margin:6px 0 10px}
+.note{border-left:3px solid var(--rust);padding:10px 14px;background:var(--void-2);margin:12px 0;font-size:14px}
+details{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:600;color:var(--cream)}
+.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--cream-muted);letter-spacing:.06em;text-align:center;line-height:1.9}
+.foot a{color:var(--cream-dim)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media (max-width:640px){header{padding:12px 16px}main{padding:22px 16px 80px}.hero{padding:18px 16px}h1{font-size:24px}.lede{font-size:15.5px}th,td{padding:6px 7px}}
+.kv{font:12px var(--mono);color:var(--cream-dim)}
+#tab-out,#c-out{margin-top:10px}
+.mono{font-family:var(--mono)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="mark" aria-hidden="true">F</div><div><div class="name">Fall Kit · core</div><div class="sub">phase 6 · every node keeps its own books</div></div></div>
+  <nav aria-label="Sections"><a href="#what-it-is">What it is</a><a href="#start-here">Start here</a><a href="#check-it">Check it yourself</a><a href="#how-it-works">How it works</a><a href="#the-books">The books</a><a href="#the-switch">The switch</a><a href="#blueprint">Blueprint</a><a href="#receipt">Receipt</a><a href="#for-a-business">For a business</a><a href="#security">Security</a><a href="#roll-out">Roll-out</a><a href="#risks">Risks</a><a href="#paper">Paper</a><a href="#faq">FAQ</a><a href="../phase5/">Phase 5</a></nav>
+</header>
+<main>
+
+<section class="hero" aria-labelledby="what-it-is">
+  <div class="seal">Phase 6 of the estate going live · eleven claims sealed before the code</div>
+  <h1 id="what-it-is">Every node keeps its own books</h1>
+  <p class="lede">When one node of the mesh uses another's work, and the work checks, it writes that down: a signed entry in a contribution ledger, naming the work, the node that did it, and the evidence it rests on. Every node does this for itself. An auditor then takes every node's ledger into one set of books, and takes nothing on trust: it finds, for each entry, the signed answer it was for and checks it again. The books re-derive from nothing, in any browser, to the same final hash.</p>
+  <p>From the books, anyone can compute a sandbox allocation: how a pool of contribution units would be shared among the contributors, exactly, to the unit. No allocation is live. The switch is off, and only a key named when the ledger began could ever turn it on. Contribution units are not money.</p>
+  <div class="tiles" aria-live="polite">
+    <div class="tile"><b id="t-values">…</b><span>values in the books, each re-checked against signed evidence</span></div>
+    <div class="tile"><b id="t-nodes">…</b><span>nodes that recorded their own work, each in its own process</span></div>
+    <div class="tile"><b id="t-pool">…</b><span>units of a sandbox pool shared exactly, every part re-derived</span></div>
+    <div class="tile"><b id="t-held">…</b><span id="t-held-label">sealed claims holding</span></div>
+  </div>
+  <div class="row"><a class="btn" href="#check-it">Check the books in this tab</a><a class="btn ghost" href="#receipt">See the receipt</a></div>
+</section>
+
+<h2 id="start-here">Start here</h2>
+<h3>If you want to see it work</h3>
+<ol>
+  <li><b>Check the books yourself.</b> One button fetches the books, every node's card and every signed answer from this site, replays every entry from nothing under the auditor's own checks, and shares the sandbox pool again. Your tab should reach the receipt's final hash and the receipt's parts, and it tells you whether it did.</li>
+  <li><b>Read the books.</b> Who recorded what, how much each contributor is credited with, and how the sandbox pool falls, from the receipt.</li>
+  <li><b>Read the switch.</b> Why no allocation is live, and the two ways one could become live: shown on copies of the books, which are then thrown away.</li>
+  <li><b>Read the receipt:</b> the eleven sealed claims, re-judged in your tab, with the failure kept and explained.</li>
+</ol>
+<h3>If you run the estate</h3>
+<pre>git clone https://github.com/sjgant80-hub/fall-kit && cd fall-kit
+node core/phase6/measure.mjs --check    # four nodes in four processes, the auditor's books, both paths: the same receipt and books byte for byte</pre>
+
+<h2 id="check-it">Check the books in this tab</h2>
+<div class="box">
+  <div class="row"><button class="btn" id="tab-go" type="button">Replay the books from nothing</button><span class="small dim">about 40 KB from this site</span></div>
+  <ol id="tab-log" aria-live="polite"></ol>
+  <div id="tab-out" aria-live="polite"></div>
+</div>
+<p class="small dim">This runs the ledger's own code and the auditor's own gate in your tab. Nothing is sent anywhere.</p>
+
+<h2 id="how-it-works">How it works</h2>
+<div class="diagram" role="img" aria-label="Nodes do work for each other and record what they used; each sends its ledger to the auditor as a signed packet; the auditor re-checks every entry against the signed answers and Phase 4's receipt; the books re-derive; a sandbox allocation is computed; the switch is off">
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <rect class="b" x="14" y="20" width="200" height="96" rx="6"/><text class="t" x="114" y="46" text-anchor="middle">the nodes at work</text><text class="s" x="114" y="68" text-anchor="middle">ask, answer, check the receipt;</text><text class="s" x="114" y="86" text-anchor="middle">each writes what it used</text><text class="s" x="114" y="104" text-anchor="middle">into its own ledger</text>
+  <rect class="b hot" x="280" y="20" width="200" height="96" rx="6"/><text class="t" x="380" y="46" text-anchor="middle">the auditor's books</text><text class="s" x="380" y="68" text-anchor="middle">every ledger, as a signed</text><text class="s" x="380" y="86" text-anchor="middle">packet; every entry checked</text><text class="s" x="380" y="104" text-anchor="middle">against its evidence</text>
+  <rect class="b hot" x="546" y="20" width="200" height="96" rx="6"/><text class="t" x="646" y="46" text-anchor="middle">leave-one-out</text><text class="s" x="646" y="68" text-anchor="middle">Phase 4's specialists, credited</text><text class="s" x="646" y="86" text-anchor="middle">with what its gate measured</text><text class="s" x="646" y="104" text-anchor="middle">they added</text>
+  <rect class="b hot" x="280" y="190" width="200" height="90" rx="6"/><text class="t" x="380" y="216" text-anchor="middle">re-derive</text><text class="s" x="380" y="238" text-anchor="middle">replay from nothing: the same</text><text class="s" x="380" y="256" text-anchor="middle">final hash, the same credits</text>
+  <rect class="b" x="14" y="190" width="200" height="90" rx="6"/><text class="t" x="114" y="216" text-anchor="middle">sandbox allocation</text><text class="s" x="114" y="238" text-anchor="middle">a pool shared exactly,</text><text class="s" x="114" y="256" text-anchor="middle">checked a second way</text>
+  <rect class="b" x="546" y="190" width="200" height="90" rx="6"/><text class="t" x="646" y="216" text-anchor="middle">the switch</text><text class="s" x="646" y="238" text-anchor="middle">off; only a named key could</text><text class="s" x="646" y="256" text-anchor="middle">sign it, by one of two paths</text>
+  <path class="arrow" d="M214 68 L280 68 M546 68 L480 68 M380 116 L380 190 M280 235 L214 235 M480 235 L546 235"/>
+</svg></div>
+<ol>
+  <li><b>Work is recorded where it is used.</b> When a node asks another for an answer and the answer's receipt checks, the asker signs a value entry: the job, the node that answered, one contribution unit, and the digest of the answer. That is the foundation's node, unchanged since Phase 1.</li>
+  <li><b>Only named measurers, only once.</b> The ledger takes a value only from a measurer its first entry names, only on a node it has recorded, and only once for each job. A dishonest peer whose receipts do not check is valued by no one.</li>
+  <li><b>The auditor trusts nothing.</b> Each node sends its ledger as a signed LIGHT packet. The auditor admits it through the foundation's edge, replays it, and merges it into its books under a gate that finds, for every value, the holder's own signed answer packet for that job and checks its signature, its digest and its receipt (a door answer by running the door again).</li>
+  <li><b>Leave-one-out.</b> Phase 4 grew specialists and its gate measured what each added on rows it never saw. The founder records each as a contribution, one unit for each thousandth of balanced accuracy gained, under a gate that re-reads Phase 4's committed receipt. A value one unit off is refused.</li>
+  <li><b>The books re-derive.</b> Replayed from nothing, entry by entry, the books reach the same final hash and the same credits. They are kept as a LIGHT vault too, and CI rebuilds both byte for byte.</li>
+  <li><b>A sandbox allocation, exact.</b> The credits share a pool in whole units: floors first, then the leftover units one each to the largest remainders. A second implementation, written separately, must give the same parts.</li>
+  <li><b>The switch is off.</b> A live allocation needs a switch entry that only an activator named at the ledger's start can sign. These books hold none.</li>
+</ol>
+<h3>The passes</h3>
+<div class="scroll"><table><thead><tr><th>Pass</th><th>Organ</th><th>Claims</th><th>Status</th></tr></thead><tbody id="pass-rows"><tr><td colspan="4" class="dim">Loading…</td></tr></tbody></table></div>
+
+<h2 id="the-books">The books</h2>
+<h3>Every node, its own record</h3>
+<div class="scroll"><table><thead><tr><th>Node</th><th>Its own release</th><th>Values it measured</th><th>Sent to the auditor</th><th>Added</th><th>Already held</th><th>Refused</th></tr></thead><tbody id="node-rows"><tr><td colspan="7" class="dim">Loading…</td></tr></tbody></table></div>
+<h3>Phase 4's specialists, credited by leave-one-out</h3>
+<div class="scroll"><table><thead><tr><th>Question</th><th>Grown as</th><th>Gain on rows it never saw</th><th>Units</th></tr></thead><tbody id="spec-rows"></tbody></table></div>
+<p class="small" id="planted-line"></p>
+<h3>The sandbox allocation</h3>
+<div class="scroll"><table><thead><tr><th>Contributor</th><th>Credited with</th><th>Sandbox part of the pool</th></tr></thead><tbody id="part-rows"></tbody></table></div>
+<p class="small dim">Credits are in contribution units times two, because the first forty entries weigh one and a half. The makers of each asset take a tenth of every value on it; the demo policy is sealed in the claims.</p>
+
+<h2 id="the-switch">The switch, and the two paths</h2>
+<p>No allocation is live, and the ledger refuses one: <span id="live-line">…</span></p>
+<p>Turning it on is a decision for people, with legal advice, not something the code does. The code only makes sure that when someone does decide, it can be done one of two ways, and that nobody else can do it. Both are shown below on copies of the books, made with the demo founder's public key, and thrown away: the books on this page stay off.</p>
+<div class="scroll"><table><thead><tr><th>Path</th><th>What happens</th><th>Measured on a copy</th></tr></thead><tbody>
+  <tr><td>The fork</td><td>The estate switches its own books: the activator its genesis names signs a switch for a pool, and the live allocation is the one anyone could already compute in the sandbox.</td><td id="fork-line">…</td></tr>
+  <tr><td>The network</td><td>The books merge into a larger network that began from the same genesis: every entry is counted once, anything that clashes is refused and named, and the network's switch shares a pool across both.</td><td id="network-line">…</td></tr>
+</tbody></table></div>
+<div class="note"><p><b>What the network path found.</b> The mock network already held a release of the living site's name by another key. Names here are derived from a node's key but not bound to it, so the first to record a name holds it. The merge refused the living site's own release, and, because the auditor's gate credits a value only to the key that gave the answer, it refused every value that would otherwise have been credited to the key that took the name: eleven entries in all. The living site therefore has no part in the network's allocation. The books are right to refuse, and the sealed claim, which expected one refusal, is kept as failed. Before joining a larger network, a node's name must be bound to its key.</p></div>
+
+<h2 id="blueprint">Blueprint</h2>
+<div class="scroll"><table><thead><tr><th>Part</th><th>What it decides</th><th>Gate</th></tr></thead><tbody>
+  <tr><td><code>core/vendor/ledger/contrib.mjs</code></td><td>The contribution ledger: signed entries, a hash chain, first record wins, credits, the sandbox allocation, the switch rule, the merge. Vendored byte for byte.</td><td>Mutation-tested in its own repository; CI checks the copy</td></tr>
+  <tr><td><code>core/economy.mjs</code></td><td>The second hand: credits and the allocation computed again from the log alone, the leave-one-out units, the barred words, the names. Pure.</td><td>Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/phase6/world.mjs</code></td><td>The nodes and their keys, the genesis every ledger begins from, the living site's door offered as a skill.</td><td>Glue; CI runs it in four processes</td></tr>
+  <tr><td><code>core/phase6/books.mjs</code></td><td>The run, and the auditor's gate and books.</td><td>Glue; exercised by every measured run and by your tab</td></tr>
+  <tr><td><code>core/phase6/paths.mjs</code></td><td>The fork path and the network path, each on a copy.</td><td>Glue; measured on every run</td></tr>
+  <tr><td><code>core/phase6/judge.mjs</code></td><td>The verdicts: the sealed rules over the measured facts. Pure.</td><td>Mutation-tested: every planted bug caught</td></tr>
+  <tr><td><code>core/phase6/claims.json</code></td><td>The eleven claims, the demo policy and the barred words, sealed before any of the above existed.</td><td>Its commit is named in the receipt</td></tr>
+</tbody></table></div>
+
+<h2 id="receipt">The receipt</h2>
+<p class="small" id="r-sum">Loading the committed receipt…</p>
+<div class="scroll"><table><thead><tr><th>Claim</th><th></th><th>The claim, and what was measured</th></tr></thead><tbody id="r-rows"></tbody></table></div>
+<h3>The failures, read plainly</h3>
+<div class="note" id="r-notes"><p class="dim">Loading…</p></div>
+<p class="small">Re-run it yourself: clone <a href="https://github.com/sjgant80-hub/fall-kit">fall-kit</a> and run <code>node core/phase6/measure.mjs --check</code>. The claims are in <a href="claims.json">claims.json</a>; the receipt is <a href="../receipts/phase6.json">receipts/phase6.json</a>; the books are <a href="books.json">books.json</a> and <a href="books.light">books.light</a>; the evidence is <a href="evidence.json">evidence.json</a>.</p>
+
+<h2 id="for-a-business">For a business</h2>
+<p class="lede">What it gives you: a record of who did which work that others relied on, written by the systems that relied on it, checked against the evidence, and re-derivable by anyone, without a spreadsheet anybody has to keep.</p>
+<div class="scroll"><table><thead><tr><th>Who</th><th>What changes</th></tr></thead><tbody>
+  <tr><td>CEO</td><td>Contribution across teams, partners and suppliers is measured where the work is used, not claimed in a meeting. When the organisation decides to recognise it, the record is already there.</td></tr>
+  <tr><td>CFO</td><td>The books balance to the unit and re-derive from nothing; an allocation is exact, line by line. Nothing of value moves and no commitment is made: the switch is off, and turning it on is a decision the board takes with advice.</td></tr>
+  <tr><td>COO</td><td>Nobody keeps the tally by hand: every node writes its own record as it works, and the auditor merges them.</td></tr>
+  <tr><td>CTO</td><td>One vendored kernel, signed entries, a hash chain, plain ES modules; the same code runs in Node and in a browser.</td></tr>
+  <tr><td>CISO</td><td>Only measurers named at the start can value work, each job once, and only with evidence the auditor checks again. A value one unit off is refused; so is credit to a key that took another node's name.</td></tr>
+  <tr><td>Legal and compliance</td><td>Units are an internal record, not money, and no promise of value is made anywhere. The code has no verb that moves anything out; a live allocation needs a signed switch only named keys can make.</td></tr>
+</tbody></table></div>
+<h3>The cost case</h3>
+<p>The staff time spent today working out who contributed what, against books the systems write themselves. Your figures; the hourly cost starts at the UK's legal minimum, from break-it's dated sources.</p>
+<div class="box">
+  <div class="calc">
+    <label>Staff hours a month spent tallying and checking contributions (assumed)<input id="c-hours" type="number" min="0" value="16"></label>
+    <label>Share of that the books take off, % (assumed)<input id="c-share" type="number" min="0" max="100" value="75"></label>
+  </div>
+  <div id="c-out"><p class="dim">Loading the sources…</p></div>
+</div>
+<h3 id="security">Security and data protection, answered straight</h3>
+<ul>
+  <li><b>What it stops.</b> Values from keys the ledger does not name; a second value on the same job; a value on an answer whose receipt does not check; a value one unit off what was measured; credit to a key that took another node's name; a live allocation without the switch; a switch from anyone but a named activator; a second switch.</li>
+  <li><b>What it does not stop.</b> A named measurer that lies about work it really did check (its own key is its word); a stolen activator key; a policy that weighs the bases unfairly (the policy is the owner's to set, before the first entry).</li>
+  <li><b>Where data goes.</b> The books hold keys, job names, digests and units, not people's data. Each node keeps its own ledger; the auditor's books are files anyone can read and replay.</li>
+  <li><b>The demo keys are public.</b> Every key here, the activator's included, comes from a published test seed, so anyone can make entries these books would accept. A real ledger names keys its owners hold.</li>
+</ul>
+<h3 id="roll-out">Rolling it out</h3>
+<ol>
+  <li><b>Write the policy first</b>: who may measure, who may activate, how the bases weigh, the early weight. It is sealed in the first entry, before anything it weighs.</li>
+  <li><b>Let the nodes record as they work.</b> Nothing to add: the foundation's nodes already write their own entries.</li>
+  <li><b>Run the auditor's books</b> on a schedule, and publish them with their evidence, so anyone can re-derive them.</li>
+  <li><b>Bind every node's name to its key</b> before joining a larger network, so nobody can take a name first.</li>
+  <li><b>Keep the switch off</b> until the board decides, with advice, what an allocation would mean.</li>
+</ol>
+<h3>Support and ownership</h3>
+<p>Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>; start through that site. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed; the books are yours.</p>
+<h3 id="risks">Risks, answered</h3>
+<ul>
+  <li><b>"This is a ledger of something valuable."</b> It is a ledger of measured work, in contribution units, which are not money. No allocation is live, and none can be without a signed switch.</li>
+  <li><b>"A node could inflate its own record."</b> Its own ledger is only its word; the auditor's books take a value only with the signed answer behind it, checked again.</li>
+  <li><b>"The weighting is arbitrary."</b> It is a policy, and it is the owner's: sealed at the start, published, the same for every entry.</li>
+  <li><b>"A claim failed."</b> Yes, and it stays on the receipt: the network path refused more than it was predicted to, because a name had been taken. That finding is the reason names must be bound before a merge.</li>
+</ul>
+<h3>The case for the board</h3>
+<p>The organisation gets a record of contribution that nobody has to keep, that nobody can quietly edit, and that anyone can re-derive. It commits to nothing: the switch is off, and the decision to give the record any meaning stays with the board.</p>
+
+<h2 id="paper">The paper: books that keep themselves</h2>
+<p><b>The problem.</b> When work flows between systems, teams and partners, who contributed what is reconstructed after the fact, by hand, from logs nobody signed, and argued over.</p>
+<p><b>The design.</b> Record contribution where work is used: the system that relied on an answer, and checked it, signs the record. Name in advance who may measure and who may activate. Merge every record into books under a gate that re-checks the evidence. Keep the books as a hash chain anyone can replay, and compute allocations exactly, in a sandbox, until people decide otherwise.</p>
+<p><b>What is measured.</b> Eleven claims were committed before any of Phase 6's code: that every node records its own work, that the auditor's books take every entry once and re-check every value, that they re-derive, that leave-one-out credit matches Phase 4's receipt, that the sandbox allocation is exact, that the switch is off, that both paths work on copies, that the kernel never throws, that the page and code carry none of a sealed list of words, and that a browser re-derives the books.</p>
+<p><b>Honest limits.</b> The keys are public test seeds. The larger network is a mock of the same schema; the real network's schema is not in hand. How the bases weigh is a demo policy. Contribution units are not money.</p>
+
+<h2 id="faq">Questions</h2>
+<details><summary>Are contribution units money?</summary><p>No. A contribution unit is an internal record of measured work: who did which work that others used and checked. Nothing here moves anything of value, and the code has no way to. Whether an allocation is ever worth anything is the ledger owner's decision, with legal advice, outside this code.</p></details>
+<details><summary>What is the switch?</summary><p>A signed record that only an activator named when the ledger began can make. Until it exists, the ledger refuses any live allocation; anyone can compute a sandbox allocation, marked as such. These books hold no switch: the switch is off.</p></details>
+<details><summary>Can someone credit themselves?</summary><p>Not here. A value is recorded only from a measurer the ledger names, only on a job it has not recorded before, and the auditor's books take it only after finding the signed answer it was for, from the node that gave it, and checking that answer's receipt. A value one unit off what was measured is refused.</p></details>
+<details><summary>What did not hold?</summary><p>The network path's claim said a merge with a larger network would refuse exactly one entry, the one release that clashed. It refused that release and every value that would have followed it to the key that had taken the living site's name first, eleven in all, and so the living site had no part in the network's allocation. That is the right outcome for the books and the claim is kept as failed: the lesson is that a node's name must be tied to its key before it joins a larger network. A second claim held the source of every module to the same list of words as the page: the page itself is clean, but the code names break-it's cost reader as break-it named it and two test files use the words as test data, so it failed too and is kept.</p></details>
+<details><summary>Who supplies it?</summary><p>AI Native Solutions supplies it; start through ai-nativesolutions.com. Support, service levels, warranty and liability are agreed per deployment, in each deployment's agreement. The code is MIT-licensed.</p></details>
+
+<div class="foot">Fall Kit core · phase 6 · MIT · supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · <a href="https://github.com/sjgant80-hub/fall-kit">source</a> · <a href="../phase5/">phase 5: a website that thinks at its door</a> · <a href="../phase4/">phase 4</a> · <a href="../phase3/">phase 3</a> · <a href="../phase2/">phase 2</a> · <a href="../">phase 1</a><br>Powered by the Konomi architecture, created by Thomas Frumkin.</div>
+</main>
+<script type="module" src="./page.mjs"></script>
+</body>
+</html>

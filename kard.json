@@ -22,7 +22,7 @@
     },
     "proof": {
       "workflows": 3,
-      "tests": 30
+      "tests": 33
     }
   },
   "fits": false

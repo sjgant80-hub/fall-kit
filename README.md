@@ -1,6 +1,9 @@
 # Fall Kit · the shared brain, and the Lego socket
 
-**Newest: https://sjgant80-hub.github.io/fall-kit/core/phase5/** — the living website (go-live Phase 5): a door on raw
+**Newest: https://sjgant80-hub.github.io/fall-kit/core/phase6/** — every node keeps its own books (go-live Phase 6): a
+contribution ledger every node writes, an auditor that re-checks every entry, books anyone can re-derive, the switch off.
+
+**Also: https://sjgant80-hub.github.io/fall-kit/core/phase5/** — the living website (go-live Phase 5): a door on raw
 bytes, a mind on the visitor's own machine that can only pick a route, shared immunity, local-first, your own DIGI.
 
 **Live: https://sjgant80-hub.github.io/fall-kit/** — the page explains itself, shows the real request the kit

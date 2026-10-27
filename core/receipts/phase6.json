@@ -1,0 +1,430 @@
+{
+ "kind": "fall-kit.core.phase6.receipt",
+ "v": 1,
+ "sealedIn": "a8678880b24d676d42a11d0cd3918fd0a7c50ab3",
+ "notes": [
+  "C8 failed as sealed, and is kept. The mock network already held a release of the living site's name by another key: names here are derived from a node's key but not bound to it, so the first to record a name holds it. The merge refused the living site's own release, as predicted, and, because the auditor's gate credits a value only to the key that gave the answer (written before the first run, as part of the gate), it also refused the ten values that would otherwise have been credited to the key that took the name: eleven refusals, not the one the claim expected, and the living site has no part in the network's allocation. The books are right to refuse; the lesson is to bind a node's name to its key before any merge.",
+  "C10 failed as sealed, and is kept. The page's own text carries none of the barred words. The sealed rule also holds the source of every module of core/phase6/ to the list, names in the code and test data included: page.mjs calls break-it's gated cost kernel by the name break-it gave its reader of a dated list of what services cost, and keeps that list in a variable named after it; the two test files use barred words as the data they test the barred-word check and the judge with. Nothing was renamed away after the measurement; each module's findings are in the facts (c10.modules)."
+ ],
+ "facts": {
+  "c1": {
+   "processes": 4,
+   "messages": 80,
+   "nonLight": 0,
+   "nodes": {
+    "site": {
+     "entries": 20,
+     "release": true,
+     "valuesBy": 14,
+     "onLiar": 0
+    },
+    "breakit": {
+     "entries": 20,
+     "release": true,
+     "valuesBy": 14,
+     "onLiar": 0
+    },
+    "konomi": {
+     "entries": 16,
+     "release": true,
+     "valuesBy": 10,
+     "onLiar": 0
+    },
+    "liar": {
+     "entries": 5,
+     "release": true,
+     "valuesBy": 0,
+     "onLiar": 0
+    }
+   },
+   "asks": {
+    "site screen → breakit: verified": 5,
+    "site triage → liar: failed": 1,
+    "site triage → konomi: verified": 9,
+    "breakit triage → liar: failed": 1,
+    "breakit triage → konomi: verified": 9,
+    "konomi screen → breakit: verified": 5,
+    "breakit door → site: verified": 5,
+    "konomi door → site: verified": 5
+   }
+  },
+  "c2": {
+   "merged": {
+    "site": {
+     "admitted": true,
+     "replayed": true,
+     "from": true,
+     "sent": 20,
+     "added": 19,
+     "skipped": 1,
+     "refused": []
+    },
+    "breakit": {
+     "admitted": true,
+     "replayed": true,
+     "from": true,
+     "sent": 20,
+     "added": 14,
+     "skipped": 6,
+     "refused": []
+    },
+    "konomi": {
+     "admitted": true,
+     "replayed": true,
+     "from": true,
+     "sent": 16,
+     "added": 10,
+     "skipped": 6,
+     "refused": []
+    }
+   },
+   "values": 42,
+   "routing": 38,
+   "checked": 38,
+   "valuesJobs": true
+  },
+  "c3": {
+   "entries": 52,
+   "head": "0d40e53646f76804a7bbbcc31ee823a155bd2b838c7e108f5621973640207659",
+   "replayed": true,
+   "sameHead": true,
+   "sameCredits": true,
+   "vault": true,
+   "booksSha": "679ed572d4127cab09b561917ed7179bfc0db3089cb43b024e30db67e73cf5ec",
+   "lightBytes": 7921,
+   "jsonBytes": 34557
+  },
+  "c4": {
+   "specialists": [
+    {
+     "skill": "coupon",
+     "kind": "candidate",
+     "patternId": "812bcfda862f642a",
+     "gain": 0.625455,
+     "units": 625,
+     "released": true,
+     "valued": true
+    },
+    {
+     "skill": "credit",
+     "kind": "candidate",
+     "patternId": "bb84f031ba6c9855",
+     "gain": 0.701183,
+     "units": 701,
+     "released": true,
+     "valued": true
+    },
+    {
+     "skill": "bank",
+     "kind": "candidate",
+     "patternId": "0a829ad2c32c18db",
+     "gain": 0.215902,
+     "units": 216,
+     "released": true,
+     "valued": true
+    },
+    {
+     "skill": "adult",
+     "kind": "control",
+     "patternId": "c22378fdb1520372",
+     "gain": 0.690816,
+     "units": 691,
+     "released": true,
+     "valued": true
+    }
+   ],
+   "expected": 4,
+   "planted": {
+    "asset": "phase4:coupon:812bcfda862f642a",
+    "units": 626,
+    "ok": false,
+    "why": "its gate did not pass: not the leave-one-out Phase 4's receipt measured"
+   },
+   "receiptSha": "d78408180208980a5d390ca3b5ae0285f15029738e4532429d82a77ce55a3951"
+  },
+  "c5": {
+   "pool": 1000000,
+   "total": 1000000,
+   "sandbox": true,
+   "contributors": 4,
+   "sameParts": true,
+   "sameCredits": true,
+   "linesSum": 4,
+   "valuesWeighed": 42,
+   "values": 42,
+   "early": 35,
+   "parts": {
+    "772c8a442b7db06e166cfbc1ccbcbcde6f3eba76a4e98ef3ffc519502237d6ef": 11798,
+    "7ea0e3bd52e207c9d3b0eba65c0704e66fca2d8e165a175218b174fc4160e413": 975748,
+    "d4eec1869fb1b8a4e817516ad5a931557cb56805c3eb16e8f3a803d647df7869": 6555,
+    "e28a8970753332bd72fef413e6b0b2ef1b4aadda7aa2c141f233712a6876b351": 5899
+   },
+   "credits": {
+    "d4eec1869fb1b8a4e817516ad5a931557cb56805c3eb16e8f3a803d647df7869": "30",
+    "772c8a442b7db06e166cfbc1ccbcbcde6f3eba76a4e98ef3ffc519502237d6ef": "54",
+    "e28a8970753332bd72fef413e6b0b2ef1b4aadda7aa2c141f233712a6876b351": "27",
+    "7ea0e3bd52e207c9d3b0eba65c0704e66fca2d8e165a175218b174fc4160e413": "4466"
+   }
+  },
+  "c6": {
+   "switchEntries": 0,
+   "switchOff": true,
+   "live": {
+    "ok": false,
+    "why": "the switch is off: no allocation is live (a sandbox allocation can be computed by anyone)"
+   },
+   "names": [
+    "BASES",
+    "FORMS",
+    "MAX_ENTRIES",
+    "PPM",
+    "PPM",
+    "SCHEMA",
+    "ZERO",
+    "allocate",
+    "barredIn",
+    "canonical",
+    "credits",
+    "creditsOf",
+    "empty",
+    "idOf",
+    "keysFromPhrase",
+    "keysFromSeed",
+    "looUnits",
+    "moneyNames",
+    "ownerAt",
+    "partsOf",
+    "reconcile",
+    "record",
+    "replay",
+    "sha256",
+    "shareOf",
+    "sign"
+   ],
+   "moneyNames": [],
+   "words": [
+    "buy",
+    "sell",
+    "pay",
+    "payout",
+    "withdraw",
+    "cash",
+    "trade",
+    "exchange",
+    "convert",
+    "transfer",
+    "fiat",
+    "send",
+    "switch",
+    "activate",
+    "enable",
+    "flip"
+   ]
+  },
+  "c7": {
+   "recorded": true,
+   "why": null,
+   "liveEqualsSandbox": true,
+   "live": {
+    "pool": 1000000,
+    "total": 1000000,
+    "sandbox": false
+   },
+   "nodeSwitch": {
+    "ok": false,
+    "why": "only an activator the genesis names can sign the switch"
+   },
+   "second": {
+    "ok": false,
+    "why": "the switch is recorded already"
+   },
+   "booksStillOff": true
+  },
+  "c8": {
+   "squatted": true,
+   "booksEntries": 52,
+   "added": 40,
+   "skipped": 1,
+   "refused": [
+    {
+     "n": 1,
+     "type": "release",
+     "asset": "node:e28a8970753332bd",
+     "why": "asset node:e28a8970753332bd was released already: the first release recorded wins"
+    },
+    {
+     "n": 29,
+     "type": "value",
+     "asset": "node:e28a8970753332bd",
+     "why": "its gate did not pass: the asset was released by another key than the one that answered"
+    },
+    {
+     "n": 30,
+     "type": "value",
+     "asset": "node:e28a8970753332bd",
+     "why": "its gate did not pass: the asset was released by another key than the one that answered"
+    },
+    {
+     "n": 31,
+     "type": "value",
+     "asset": "node:e28a8970753332bd",
+     "why": "its gate did not pass: the asset was released by another key than the one that answered"
+    },
+    {
+     "n": 32,
+     "type": "value",
+     "asset": "node:e28a8970753332bd",
+     "why": "its gate did not pass: the asset was released by another key than the one that answered"
+    },
+    {
+     "n": 33,
+     "type": "value",
+     "asset": "node:e28a8970753332bd",
+     "why": "its gate did not pass: the asset was released by another key than the one that answered"
+    },
+    {
+     "n": 39,
+     "type": "value",
+     "asset": "node:e28a8970753332bd",
+     "why": "its gate did not pass: the asset was released by another key than the one that answered"
+    },
+    {
+     "n": 40,
+     "type": "value",
+     "asset": "node:e28a8970753332bd",
+     "why": "its gate did not pass: the asset was released by another key than the one that answered"
+    },
+    {
+     "n": 41,
+     "type": "value",
+     "asset": "node:e28a8970753332bd",
+     "why": "its gate did not pass: the asset was released by another key than the one that answered"
+    },
+    {
+     "n": 42,
+     "type": "value",
+     "asset": "node:e28a8970753332bd",
+     "why": "its gate did not pass: the asset was released by another key than the one that answered"
+    },
+    {
+     "n": 43,
+     "type": "value",
+     "asset": "node:e28a8970753332bd",
+     "why": "its gate did not pass: the asset was released by another key than the one that answered"
+    }
+   ],
+   "switched": true,
+   "pool": 1000000,
+   "total": 1000000,
+   "booksContributorsCovered": 3,
+   "booksContributors": 4,
+   "networkContributorsCovered": 3,
+   "networkContributors": 3,
+   "replaySame": true
+  },
+  "c9": {
+   "cases": 20000,
+   "throws": 0
+  },
+  "c10": {
+   "page": [],
+   "modules": {
+    "core/economy.mjs": [],
+    "core/phase6/books.mjs": [],
+    "core/phase6/cell.mjs": [],
+    "core/phase6/judge.mjs": [],
+    "core/phase6/judge.test.mjs": [
+     "buy",
+     "earn",
+     "payout"
+    ],
+    "core/phase6/measure.mjs": [],
+    "core/phase6/page.mjs": [
+     "price"
+    ],
+    "core/phase6/page.test.mjs": [
+     "price"
+    ],
+    "core/phase6/paths.mjs": [],
+    "core/phase6/tab.mjs": [],
+    "core/phase6/world.mjs": []
+   },
+   "says": [
+    "not money",
+    "the switch is off",
+    "contribution unit"
+   ]
+  }
+ },
+ "verdicts": [
+  {
+   "id": "C1",
+   "pass": 2,
+   "held": true,
+   "measured": "4 processes; site its release and 14 values it measured; breakit its release and 14 values it measured; konomi its release and 10 values it measured; values on the dishonest peer anywhere: 0; 80 messages, 0 not LIGHT"
+  },
+  {
+   "id": "C2",
+   "pass": 2,
+   "held": true,
+   "measured": "site: 20 sent, 19 added, 1 already held, 0 refused; breakit: 20 sent, 14 added, 6 already held, 0 refused; konomi: 16 sent, 10 added, 6 already held, 0 refused; 38 routing values in the books, 38 re-checked against their answer packets"
+  },
+  {
+   "id": "C3",
+   "pass": 2,
+   "held": true,
+   "measured": "52 entries replayed from nothing: the same head, the same credits; the LIGHT vault (7921 bytes for 34557) reads back the log byte for byte; CI rebuilds both files byte for byte"
+  },
+  {
+   "id": "C4",
+   "pass": 2,
+   "held": true,
+   "measured": "coupon (candidate) 625 units for a gain of 0.625455; credit (candidate) 701 units for a gain of 0.701183; bank (candidate) 216 units for a gain of 0.215902; adult (control) 691 units for a gain of 0.690816; the planted value of 626 units refused: its gate did not pass: not the leave-one-out Phase 4's receipt measured"
+  },
+  {
+   "id": "C5",
+   "pass": 1,
+   "held": true,
+   "measured": "a pool of 1000000 shared among 4 contributors: 1000000 given, every part equal to the second computation, the same credits; 4 contributors' lines sum to their credit; 42 of 42 values weighed as sealed (35 early)"
+  },
+  {
+   "id": "C6",
+   "pass": 3,
+   "held": true,
+   "measured": "0 switch entries; a live allocation: refused (the switch is off: no allocation is live (a sandbox allocation can be computed by anyone)); exported names that are a money verb or make a switch: none (of 26, against 16 sealed words)"
+  },
+  {
+   "id": "C7",
+   "pass": 3,
+   "held": true,
+   "measured": "the activator's fork switch recorded; the live allocation equals the sandbox one; a node's switch refused (only an activator the genesis names can sign the switch); a second switch refused; the books still off"
+  },
+  {
+   "id": "C8",
+   "pass": 3,
+   "held": false,
+   "measured": "52 entries of the books: 40 added, 1 already held, 11 refused (release node:e28a8970753332bd: asset node:e28a8970753332bd was released already: the first release recorded wins; value node:e28a8970753332bd: its gate did not pass: the asset was released by another key than the one that answered; value node:e28a8970753332bd: its gate did not pass: the asset was released by another key than the one that answered; …); the network switch recorded, 1000000 of 1000000 given, covering 3 of the books' 4 contributors and 3 of the network's 3; the merged log replayed: the same allocation"
+  },
+  {
+   "id": "C9",
+   "pass": 1,
+   "held": true,
+   "measured": "20000 garbage inputs through every function core/economy.mjs exports: 0 throws"
+  },
+  {
+   "id": "C10",
+   "pass": 4,
+   "held": false,
+   "measured": "barred words on the page: none; in 11 modules: core/phase6/judge.test.mjs (buy, earn, payout); core/phase6/page.mjs (price); core/phase6/page.test.mjs (price); the page says \"not money\", \"the switch is off\", \"contribution unit\""
+  },
+  {
+   "id": "C11",
+   "pass": 4,
+   "held": null,
+   "measured": "not measured yet"
+  }
+ ],
+ "held": 8,
+ "failed": 2,
+ "open": 1
+}

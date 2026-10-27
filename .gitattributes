@@ -1,2 +1,3 @@
 core/** text eol=lf
 core/phase4/dex/** -text
+core/phase6/books.light -text

@@ -181,6 +181,8 @@ node core/phase5/measure.mjs --check    # the red team, the mind's door, the mes
   <div class="bar" aria-hidden="true"><i id="mind-bar"></i></div>
   <div id="mind-out" aria-live="polite"><p class="small dim">Asleep. The weights come from Hugging Face's mlc-ai repository and the library from esm.run, both only after you press the button; after that the model runs on your machine, offline. It needs a browser with WebGPU (current Chrome and Edge have it); without it, the page says so and the keyword rule keeps working.</p></div>
 </div>
+<h3>The seven routes, and the words each one shows</h3>
+<div class="scroll"><table><thead><tr><th>Route</th><th>The site's own words, shown for it</th><th>Where it takes you</th></tr></thead><tbody id="route-rows"></tbody></table></div>
 <h3>The fix, sealed as its own claims (Phase 5b)</h3>
 <p>Two changes, each sealed before any code (<a href="../phase5b/claims.json">phase5b/claims.json</a>). First, the mind in a tab is held to its route: WebLLM is given a JSON schema that allows one field, <code>route</code>, one of the seven, so it cannot keep writing. Second, the site now asks the mind only about what the keyword rule finds nothing in: where the rule finds one of its words, it decides; where it finds none, the mind does; and if the mind then says nothing usable, the visitor is told the site has nothing on that. That policy was chosen after Phase 5's numbers were seen, so it is judged on 70 fresh messages, written with a new seed and sealed before any was measured.</p>
 <p class="small" id="p5b-sum">Loading Phase 5b's receipt…</p>
@@ -326,7 +328,7 @@ node core/phase5/measure.mjs --check    # the red team, the mind's door, the mes
   <li>WebLLM (MLC, Apache-2.0) and Llama 3.2 1B Instruct (Meta, under the Llama 3.2 Community License), for the mind, loaded only when a visitor wakes it.</li>
 </ul>
 
-<div class="foot">Fall Kit core · phase 5 · MIT · supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · <a href="https://github.com/sjgant80-hub/fall-kit">source</a> · <a href="../phase4/">phase 4: it grows what it lacks</a> · <a href="../phase3/">phase 3</a> · <a href="../phase2/">phase 2</a> · <a href="../">phase 1</a><br>Powered by the Konomi architecture, created by Thomas Frumkin.</div>
+<div class="foot">Fall Kit core · phase 5 · MIT · supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> · <a href="https://github.com/sjgant80-hub/fall-kit">source</a> · <a href="../phase6/">phase 6: every node keeps its own books</a> · <a href="../phase4/">phase 4: it grows what it lacks</a> · <a href="../phase3/">phase 3</a> · <a href="../phase2/">phase 2</a> · <a href="../">phase 1</a><br>Powered by the Konomi architecture, created by Thomas Frumkin.</div>
 </main>
 <script type="module" src="./page.mjs"></script>
 </body>
