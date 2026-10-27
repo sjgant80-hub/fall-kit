@@ -44,7 +44,7 @@ async function load() {
     text('fix-site-line', 'Without the rule, the living site had no part of the network\'s pool. With it, the living site has ' + n0(a.parts[site] || 0) + ' units of ' + n0(a.pool) + ', and all ' + a.booksContributorsCovered + ' of the books\' contributors and all ' + a.networkContributorsCovered + ' of the network\'s are covered. Replayed from nothing through the rule, the merged log gives ' + (a.replaySame ? 'the same allocation.' : 'a DIFFERENT allocation.'));
     text('fix-refuse-line', 'Offered to Phase 6\'s own mock network, which holds the squat, the books were ' + (r.refused ? 'refused before anything was written' : 'NOT refused') + '. The refusal named ' + r.unbound.length + ' releases that break the rule: ' + r.unbound.map((u) => u.asset).join(', ') + '. The mock was left ' + (r.unchanged ? 'exactly as it was.' : 'CHANGED.'));
     text('d-door', f.n2.atDoor.filter((x) => !x.ok).length + ' of ' + f.n2.atDoor.length + ' refused');
-    text('d-merge', n0(m.added) + ' added · ' + n0(m.skipped) + ' held · ' + n0(m.refused.length) + ' refused');
+    text('d-merge', n0(m.added) + ' added · ' + n0(m.skipped) + ' already held · ' + n0(m.refused.length) + ' refused');
     text('d-cover', 'covers ' + a.booksContributorsCovered + ' of ' + a.booksContributors + ' + ' + a.networkContributorsCovered + ' of ' + a.networkContributors);
     text('d-refuse', r.refused ? 'refused, nothing written' : 'NOT refused');
   } catch (e) { say('fix-sum', 'The fix\'s receipt could not be loaded: ' + e.message, 'no'); }
