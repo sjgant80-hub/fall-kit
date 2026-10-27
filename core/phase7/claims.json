@@ -1,0 +1,130 @@
+{
+ "kind": "fall-kit.core.phase7.claims",
+ "v": 1,
+ "phase": "7",
+ "title": "Client builds: a client's booking engine as an organ of the estate's mesh, the same engine grown as the client's own organism from a seed, and the pilot as the wedge",
+ "spec": "ESTATE GO-LIVE §2 Phase 7: 7a Model A, a client build on the shared foundation that joins the mesh and shares immunity; 7b Model B, the seed planted in the client's world grows their own organism, sovereign, optionally reconcilable; 7c the liveware pilot as the wedge, proven small with role-specific receipts, then grown into the client's organism.",
+ "sealed": "Before any Phase 7 code: core/seed.mjs and every file of core/phase7/ but this one do not exist at the commit that adds it (its parent is fall-kit 937f3e4), and the wishwood repository holds no vendor/fall-kit-core/ and no node/ (its head is 1a837ec). The rules below do not change once the first number is measured.",
+ "client": "The client build is the estate's wishwood repository: the booking engine built for an off-grid glamping site, whose gated kernel (kernel/reservations.mjs) its live worker already runs. Its live worker and its hub are not changed. The client's calendar here is the engine's own demo calendar (data/demo-calendar.json, 10 bookings), read from the repository; none of its guest names, booking ids or figures are copied into any file of this phase.",
+ "honest": [
+  "The client build is a real engine, run here on its own demo data. No live booking of the site is read, and the site has not joined anything: the mesh it joins is this phase's, made from public test seeds.",
+  "The wishwood repository gains its node after this seal: vendor/fall-kit-core/ (the foundation, copied verbatim with fall-kit's core/tools/vendor-into.mjs) and node/wishwood-node.mjs (the node, built on the engine's own kernel). core/phase7/nodes.json names the commit that adds them; every claim below that runs the client's node runs it at that commit.",
+  "One organ per pass, as the estate's orders require: pass 1 adds the client's node (in the wishwood repository), pass 2 adds core/seed.mjs, pass 3 adds no organ.",
+  "A seed phrase is as strong as the phrase. The phrase sealed below is public and for this test only; a client's real organism grows from a phrase only they hold."
+ ],
+ "seeds": { "founder": 90, "site": 91, "breakit": 92, "konomi": 93, "wishwood": 94, "stranger": 95 },
+ "policy": { "makerPpm": 100000, "lineagePpm": 0, "earlyUntil": 40, "earlyNum": 3, "earlyDen": 2 },
+ "askers": ["site", "breakit", "konomi"],
+ "stay": {
+  "cabins": ["yurt", "hobbit", "caravan", "fern"],
+  "ranges": [["2026-06-21", "2026-06-23"], ["2026-06-26", "2026-06-29"], ["2026-07-06", "2026-07-08"], ["2026-07-16", "2026-07-19"], ["2026-08-15", "2026-08-16"], ["2026-10-26", "2026-10-28"]],
+  "order": "every cabin for each range in turn, 24 asks; ask k is made by askers[k mod 3]"
+ },
+ "guard": {
+  "asker": "site",
+  "note": "Channel feeds as a channel manager would hold them: iCal exports, which carry dates and no guest. g1 is wishwood's own demo (demo/sididy-demo.mjs) as feeds: Airbnb and Booking.com both sold the yurt.",
+  "sets": [
+   { "id": "g1", "feeds": [
+    { "channel": "airbnb", "cabin": "yurt", "ics": "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:hm123@airbnb.com\r\nDTSTART;VALUE=DATE:20260715\r\nDTEND;VALUE=DATE:20260718\r\nSUMMARY:Reserved\r\nEND:VEVENT\r\nEND:VCALENDAR" },
+    { "channel": "booking", "cabin": "yurt", "ics": "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:bk456@booking.com\r\nDTSTART;VALUE=DATE:20260717\r\nDTEND;VALUE=DATE:20260720\r\nSUMMARY:Reserved\r\nEND:VEVENT\r\nEND:VCALENDAR" },
+    { "channel": "direct", "cabin": "fern", "ics": "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:stripe_9f2@wishwood\r\nDTSTART;VALUE=DATE:20260720\r\nDTEND;VALUE=DATE:20260723\r\nSUMMARY:Reserved\r\nEND:VEVENT\r\nEND:VCALENDAR" } ] },
+   { "id": "g2", "feeds": [
+    { "channel": "airbnb", "cabin": "yurt", "ics": "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:hm123@airbnb.com\r\nDTSTART;VALUE=DATE:20260715\r\nDTEND;VALUE=DATE:20260718\r\nSUMMARY:Reserved\r\nEND:VEVENT\r\nEND:VCALENDAR" },
+    { "channel": "direct", "cabin": "fern", "ics": "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:stripe_9f2@wishwood\r\nDTSTART;VALUE=DATE:20260720\r\nDTEND;VALUE=DATE:20260723\r\nSUMMARY:Reserved\r\nEND:VEVENT\r\nEND:VCALENDAR" } ] },
+   { "id": "g3", "feeds": [
+    { "channel": "airbnb", "cabin": "yurt", "ics": "BEGIN:VEVENT\r\nDTSTART:2026\r\nnot a calendar at all" },
+    { "channel": "??", "cabin": "", "ics": "" } ] },
+   { "id": "g4", "feeds": [
+    { "channel": "airbnb", "cabin": "yurt", "ics": "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:hm123@airbnb.com\r\nDTSTART;VALUE=DATE:20260715\r\nDTEND;VALUE=DATE:20260718\r\nSUMMARY:Reserved\r\nEND:VEVENT\r\nEND:VCALENDAR" },
+    { "channel": "booking", "cabin": "yurt", "ics": "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:bk789@booking.com\r\nDTSTART;VALUE=DATE:20260715\r\nDTEND;VALUE=DATE:20260718\r\nSUMMARY:Reserved\r\nEND:VEVENT\r\nEND:VCALENDAR" } ] }
+  ]
+ },
+ "child": {
+  "phrase": "a public test phrase for a client's own organism, never for real use",
+  "organs": ["desk", "stay-a", "stay-b", "gate"],
+  "roles": "desk: the client's front of house, which asks; stay-a and stay-b: the client's booking engine, twice, on the client's calendar; gate: break-it's gateway, on the client's own key table",
+  "asks": "the first 12 stay asks, all by the desk; after ask 6, the holder that answered ask 6 is killed",
+  "coupled": "the second planting, the client's choice: the same phrase, planted on a genesis the estate and the client name together (the estate's genesis, whose measurers include the client's desk), and the desk pins the estate's immune hub (break-it's node) and nothing else of the estate"
+ },
+ "privacy": "From the client's calendar: every guest name, every booking id as a quoted value, and every revenue figure as a field; and anything shaped like an email address or a phone number. Looked for in every byte the client's node sends, raw and decoded, and in every file this phase publishes.",
+ "claims": [
+  {
+   "id": "A1", "pass": 1,
+   "claim": "The client's repository carries the shared foundation byte for byte, and its node is built on the client's own gated kernel.",
+   "measure": "wishwood at the commit core/phase7/nodes.json names: every file its vendor/fall-kit-core/FALL-KIT-CORE.json pins, hashed, and compared with fall-kit's committed file at the commit it names; node/wishwood-node.mjs read for its imports.",
+   "rule": "every pinned file present and equal to fall-kit's at that commit, the commit an ancestor of this phase's; the node imports the engine's kernel/reservations.mjs and the vendored foundation, and no copy of either"
+  },
+  {
+   "id": "A2", "pass": 1,
+   "claim": "The client's node joins the estate's mesh the way every node does: from the founder's signed roster, over LIGHT.",
+   "measure": "The client's node, booted from that commit in its own process, with the living site's node and break-it's and konomi-slm's real nodes (each in its own process, at Phase 5's commits); the founder's roster of the four; each node pins from the roster; one card not on the roster offered to every node; every message of the run framed.",
+   "rule": "each of the four pins exactly the other three from the roster; the card not on the roster refused by all four; every message on the wire a LIGHT packet; the four in four processes"
+  },
+  {
+   "id": "A3", "pass": 1,
+   "claim": "The client's node answers the mesh, and every answer checks.",
+   "measure": "The 24 sealed stay asks and the 4 sealed guard sets. The client's audit (which holds the calendar) re-runs every stay answer with the engine's kernel on the calendar; the asker re-runs every guard answer with the same kernel on the feeds it sent; a second count of the clashes is made apart from the kernel.",
+   "rule": "all 28 answered and each recorded by its asker; every stay verdict equal to the client's audit, on a calendar of the same digest; every guard answer equal to the asker's re-run and to the second count; g1 names one clash, the yurt sold by Airbnb and Booking.com; g2 and g4 none (g4's two channels are one booking); g3 no booking and no clash"
+  },
+  {
+   "id": "A4", "pass": 1,
+   "claim": "The client's guests never leave the client's node.",
+   "measure": "Every packet the client's node sent in the run, raw and decoded, against the sealed privacy list; every stay answer's fields.",
+   "rule": "none of the list found in any byte it sent; every stay answer carries the cabin, the dates, the verdict and the digest of the calendar, and no other field"
+  },
+  {
+   "id": "A5", "pass": 1,
+   "claim": "The client's node shares the mesh's immune system, both ways.",
+   "measure": "A packet in the living site's name signed by a stranger's key, refused first at break-it's node, whose antibodies are shared with the client's node; a second such packet refused first at the client's node, whose antibodies are shared with the three others; each packet then offered again to every node that adopted.",
+   "rule": "each adopter adopts only after its own door re-runs the antibody; every adopter then refuses the packet as recognised, with nothing decoded and nothing admitted"
+  },
+  {
+   "id": "A6", "pass": 1,
+   "claim": "The client's work is recorded in the books, under its own name.",
+   "measure": "Every node's ledger merged into one set of books from the mesh's genesis through core/names.mjs mergeBound and the books' gate, which re-checks every routing value against the client's node's own signed answer packet (a guard answer by running the kernel again).",
+   "rule": "every answer an asker used is a routing value on the client's node's name, signed by that asker; the merge refuses nothing; the client's key is credited; a live allocation is refused (the switch is off)"
+  },
+  {
+   "id": "B1", "pass": 2,
+   "claim": "The seed grows the client's own organism.",
+   "measure": "core/seed.mjs plants the sealed phrase with the sealed organs: the client's founder, roster and genesis, and four nodes, each in its own process; the desk makes the 12 child asks, the killed holder killed after ask 6; a packet in the desk's name signed by a stranger's key, refused first at stay-a and shared with the other three.",
+   "rule": "every node pins exactly the other three from the client's roster; all 12 asks answered, every verdict equal to the client's audit; after the kill every ask answered by the holder still standing, with at most one ask lost to the killed holder and asked again; the forged packet refused as recognised by every adopter after its own re-run"
+  },
+  {
+   "id": "B2", "pass": 2,
+   "claim": "The client's organism is sovereign.",
+   "measure": "The sovereign planting against the estate's mesh: the client's roster, genesis and every node's pins, against every key of the estate; a signed packet from every estate node offered to every client node, and from every client node to every estate node; the desk's ledger replayed from nothing; the client's books offered to the estate's books.",
+   "rule": "no key of the estate in the client's roster, genesis or pins; every one of the 32 cross packets refused at its door's sender stage; the desk's ledger replays under the client's own genesis; the estate's books refuse the client's (they began from different geneses)"
+  },
+  {
+   "id": "B3", "pass": 2,
+   "claim": "Coupling to the estate is the client's choice, and it shares only what it says.",
+   "measure": "The coupled planting: the client's books merged into the estate's books through mergeBound; the estate's immune hub shares its antibodies for a forged packet with the desk; the hub then offers the desk an antibody made from a genuine packet of the client's own (bytes the desk's door admits).",
+   "rule": "the client's books merge with nothing refused and every entry counted once; the desk adopts the hub's antibodies only after its own re-run, then refuses the forged packet as recognised and shares the antibodies on to stay-a, stay-b and the gate; the antibody made from a genuine packet is not adopted; the client's roster still holds no estate key"
+  },
+  {
+   "id": "W1", "pass": 3,
+   "claim": "The pilot re-runs.",
+   "measure": "break-it's own pilot check (pilot/check.mjs) at the commit Phase 5 pinned (4e41aec), run as its own process.",
+   "rule": "it reports the pilot check clean with the verdicts break-it sealed: 9 held, and ciso-1 failed and kept"
+  },
+  {
+   "id": "W2", "pass": 3,
+   "claim": "The pilot's gate is the client's own front door.",
+   "measure": "The client's gate (break-it's node at that commit, on the client's own key table: the desk's key as the one sender) screens the five cases core/scenario.mjs makes (brk1CasesFrom) with the desk as the pinned sender; break-it's gate run directly on the same bytes and table.",
+   "rule": "each of the five decided at the stage the case names, and the same as break-it's own gate decides it; the record from the pinned sender admitted, the four others refused"
+  },
+  {
+   "id": "P1", "pass": 4,
+   "claim": "Anyone can grow the client's organism in a browser tab.",
+   "measure": "In a real tab on the live Phase 7 page: the sealed phrase planted in the tab, the four nodes in the tab, the 12 child asks and the forged packet; recorded once in core/phase7/local/p1.json and re-judged by CI. The page also lets a visitor plant a phrase of their own; that is not measured.",
+   "rule": "the tab's roster, genesis and every node's key equal the measure's; all 12 asks answered with the measure's verdicts; the forged packet refused as recognised by every adopter"
+  },
+  {
+   "id": "P2", "pass": 4,
+   "claim": "No barred word, and none of the client's guests, anywhere this phase publishes.",
+   "measure": "Phase 6's barred list and rule over the source of core/seed.mjs, every module of core/phase7/ and the text of the Phase 7 page; the sealed privacy list over the page, the receipt, core/phase7/nodes.json and every file in core/phase7/local/.",
+   "rule": "no barred word in any of them; nothing of the privacy list in any of them"
+  }
+ ]
+}
