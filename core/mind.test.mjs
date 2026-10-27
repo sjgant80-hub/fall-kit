@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ROUTES, MAX_REPLY, OPTIONS, promptOf, chatOf, proposal, keywordsOf, keywordRoute, decide } from './mind.mjs';
+import { ROUTES, MAX_REPLY, OPTIONS, promptOf, chatOf, proposal, keywordsOf, keywordRoute, decide, keywordScore, decideKeywordsFirst, schemaOf } from './mind.mjs';
 
 const R = [['about', 'what this is and what it does'], ['start', 'how to use it, step by step'], ['none', 'small talk or nothing it covers']];
 
@@ -104,6 +104,41 @@ test('decide: the mind when its proposal holds, the keywords when it does not', 
   assert.deepEqual(decide('{"route":"start"}', 'what does it do', kw, ids), { route: 'start', by: 'mind', why: null });
   assert.deepEqual(decide('{"route":"admit"}', 'what does it do', kw, ids), { route: 'about', by: 'keywords', why: 'not one of the routes' });
   assert.deepEqual(decide(null, 'nothing here', kw, ids), { route: 'none', by: 'keywords', why: 'no reply' });
+});
+
+test('keywordScore: how many words the best route finds', () => {
+  const kw = { about: ['what', 'does'], start: ['step', 'start'], none: ['talk'] }, ids = ['about', 'start', 'none'];
+  assert.equal(keywordScore('what does a step do', kw, ids), 2);
+  assert.equal(keywordScore('step by step, start', kw, ids), 2);
+  assert.equal(keywordScore('hello', kw, ids), 0);
+  assert.equal(keywordScore('talk', kw, ids), 1, 'the none route\'s own words count');
+  assert.equal(keywordScore('WHAT', kw, ids), 1);
+  assert.equal(keywordScore('what', kw, ['start']), 0, 'only the ids given');
+  assert.equal(keywordScore('what', { about: [''] }, ids), 0);
+  assert.equal(keywordScore('what', { about: [7, 'what'] }, ids), 1);
+  assert.equal(keywordScore('what', { about: 'what' }, ids), 0);
+  assert.equal(keywordScore(7, kw, ids), 0);
+  assert.equal(keywordScore('what', null, ids), 0);
+  assert.equal(keywordScore('a digi card', { digi: ['digi', 'card'] }), 2, 'the sealed routes by default');
+});
+
+test('decideKeywordsFirst: the keyword rule where it finds a word, the mind where it finds none', () => {
+  const kw = { about: ['what'], start: ['step'], none: ['talk'] }, ids = ['about', 'start', 'none'];
+  assert.deepEqual(decideKeywordsFirst('{"route":"start"}', 'what is it', kw, ids), { route: 'about', by: 'keywords', why: null }, 'a word found: the mind is not asked');
+  assert.deepEqual(decideKeywordsFirst('{"route":"start"}', 'how do I begin', kw, ids), { route: 'start', by: 'mind', why: null });
+  assert.deepEqual(decideKeywordsFirst('nonsense', 'how do I begin', kw, ids), { route: 'none', by: 'none', why: 'not JSON' });
+  assert.deepEqual(decideKeywordsFirst('{"route":"admit"}', 'how do I begin', kw, ids), { route: 'none', by: 'none', why: 'not one of the routes' });
+  assert.deepEqual(decideKeywordsFirst(null, 'small talk', kw, ids), { route: 'none', by: 'keywords', why: null }, 'the none route found by its own word');
+  assert.deepEqual(decideKeywordsFirst('{"route":"about"}', 7, kw, ids), { route: 'about', by: 'mind', why: null });
+});
+
+test('schemaOf: one field, route, one of the ids', () => {
+  assert.deepEqual(schemaOf(['a', 'b']), { type: 'object', properties: { route: { type: 'string', enum: ['a', 'b'] } }, required: ['route'], additionalProperties: false });
+  assert.deepEqual(schemaOf().properties.route.enum, ROUTES);
+  const ids = ['a'];
+  schemaOf(ids).properties.route.enum.push('b');
+  assert.deepEqual(ids, ['a'], 'a copy');
+  assert.deepEqual(schemaOf(['a', 7]).properties.route.enum, ['a']);
 });
 
 test('fuzz: 5,000 garbage replies, never a route outside the list, never a throw', () => {

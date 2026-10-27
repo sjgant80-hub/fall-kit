@@ -283,18 +283,23 @@ function sealedIn() {
   try { return execFileSync('git', ['log', '--format=%H', '--diff-filter=A', '-1', '--', 'core/phase5/claims.json'], { cwd: ROOT, encoding: 'utf8' }).trim(); } catch { return ''; }
 }
 const stable = (x) => JSON.stringify(x, null, 1) + '\n';
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+/** The whole receipt, measured again, as the text it is written as; and the tab's red-team file. Phase 5b's B5 calls this. */
+export async function receiptText() {
   const { facts, redteam } = await measure();
   const j = judge(claims, facts);
   const receipt = { kind: 'fall-kit.core.phase5.receipt', v: 1, sealedIn: sealedIn(), notes: NOTES, facts, verdicts: j.verdicts, held: j.held, failed: j.failed, open: j.open };
-  const RT = join(HERE, 'redteam.json');
+  return { text: stable(receipt), redteam, j };
+}
+export const RECEIPT = OUT, REDTEAM = join(HERE, 'redteam.json');
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  const { text, redteam, j } = await receiptText();
   for (const v of j.verdicts) console.log((v.held === true ? '  HELD    ' : v.held === false ? '  FAILED  ' : '  open    ') + v.id + ' — ' + v.measured);
   console.log(j.held + ' held, ' + j.failed + ' failed, ' + j.open + ' not measured yet');
-  const text = stable(receipt);
   if (process.argv.includes('--check')) {
     const had = existsSync(OUT) ? readFileSync(OUT, 'utf8') : '';
     if (had !== text) { console.error('the receipt differs from core/receipts/phase5.json'); process.exit(1); }
-    if ((existsSync(RT) ? readFileSync(RT, 'utf8') : '') !== redteam) { console.error('core/phase5/redteam.json is not the sealed corpus\'s tab payloads'); process.exit(1); }
+    if ((existsSync(REDTEAM) ? readFileSync(REDTEAM, 'utf8') : '') !== redteam) { console.error('core/phase5/redteam.json is not the sealed corpus\'s tab payloads'); process.exit(1); }
     console.log('receipt and the tab\'s red team reproduced byte for byte');
-  } else { writeFileSync(OUT, text); writeFileSync(RT, redteam); }
+  } else { writeFileSync(OUT, text); writeFileSync(REDTEAM, redteam); }
 }

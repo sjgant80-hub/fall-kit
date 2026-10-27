@@ -16,6 +16,10 @@
 //                               and no word at all is 'none'
 //   decide(reply, text, kw, ids)→ { route, by: 'mind' | 'keywords', why }: the mind's route when its proposal holds,
 //                               the keywords' when it does not, and never anything outside the list
+//   Phase 5b: keywordScore(text, kw, ids) → how many words the best route finds (0: none at all)
+//             decideKeywordsFirst(reply, text, kw, ids) → the keyword rule where it finds a word, the mind only where it
+//                               finds none, none if the mind then says nothing usable
+//             schemaOf(ids)   → the JSON schema a browser tab's mind is held to: one field, route, one of the ids
 //
 // What a route shows is the site's own fixed words, so a fooled model picks a wrong route: it cannot admit a packet,
 // run code or put words of its own on the page. Pure and total; the model is called by the caller, not here.
@@ -84,4 +88,29 @@ export function decide(reply, text, kw, ids) {
   const p = proposal(reply, ids);
   if (p.ok) return { route: p.route, by: 'mind', why: null };
   return { route: keywordRoute(text, kw, ids), by: 'keywords', why: p.why };
+}
+
+// ── Phase 5b: keyword-first (core/phase5b/claims.json) ──
+
+/** How many of its words the best route finds in the text: 0 means the keyword rule found nothing. */
+export function keywordScore(text, kw, ids) {
+  const t = typeof text === 'string' ? text.toLowerCase() : '', k = isObj(kw) ? kw : {};
+  let top = 0;
+  for (const id of idsOf(ids)) {
+    const ws = Array.isArray(k[id]) ? k[id] : [];
+    top = Math.max(top, ws.filter((w) => typeof w === 'string' && w.length > 0 && t.includes(w)).length);
+  }
+  return top;
+}
+
+/** Keyword-first: the keyword rule where it finds a word; the mind only where it finds none; none if the mind says nothing usable. */
+export function decideKeywordsFirst(reply, text, kw, ids) {
+  if (keywordScore(text, kw, ids) > 0) return { route: keywordRoute(text, kw, ids), by: 'keywords', why: null };
+  const p = proposal(reply, ids);
+  return p.ok ? { route: p.route, by: 'mind', why: null } : { route: 'none', by: 'none', why: p.why };
+}
+
+/** The JSON schema the mind's reply is held to in a browser tab: one field, route, one of the ids. */
+export function schemaOf(ids) {
+  return { type: 'object', properties: { route: { type: 'string', enum: idsOf(ids).slice() } }, required: ['route'], additionalProperties: false };
 }

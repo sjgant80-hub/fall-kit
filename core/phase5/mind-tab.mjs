@@ -1,11 +1,16 @@
-// core/phase5/mind-tab.mjs — waking the mind (Phase 5, claim M3). The one module on this site that names another host:
-// WebLLM's library from esm.run, and through it the model's weights from Hugging Face and its compiled library from
-// raw.githubusercontent.com. Nothing here runs until the visitor presses the button that calls wake(). After that the
-// model runs in this browser, and its every reply goes through the mind's door (core/mind.mjs) before the page uses it.
-import { chatOf, OPTIONS } from '../mind.mjs';
+// core/phase5/mind-tab.mjs — waking the mind (Phase 5, claim M3; Phase 5b, B1–B4). The one module on this site that
+// names another host: WebLLM's library from esm.run, and through it the model's weights from Hugging Face and its
+// compiled library from raw.githubusercontent.com. Nothing here runs until the visitor presses the button that calls
+// wake(). After that the model runs in this browser, and its every reply goes through the mind's door (core/mind.mjs)
+// before the page uses it.
+//
+// Phase 5b: the reply is held to a JSON schema with one field, route, one of the seven (schemaOf). In Phase 5 the model
+// was only asked for JSON; it began the reply and kept writing fields nobody asked for until 24 tokens cut it off (M3).
+import { chatOf, OPTIONS, ROUTES, schemaOf } from '../mind.mjs';
 
 export const LIBRARY = 'https://esm.run/@mlc-ai/web-llm@0.2.79';
 export const MODEL = 'Llama-3.2-1B-Instruct-q4f16_1-MLC';
+export const SCHEMA = JSON.stringify(schemaOf(ROUTES));
 let engine = null, waking = null;
 
 /** Load the library and the model (the first time, about 700 MB, kept in this browser's cache). onProgress({ progress, text }). */
@@ -22,10 +27,10 @@ export function wake(onProgress) {
 }
 export const awake = () => engine !== null;
 
-/** One message to the model with the sealed prompt and options. → the model's reply, as text (or null). */
+/** One message to the model with the sealed prompt and options, the reply held to the schema. → the model's reply, as text (or null). */
 export async function ask(routes, text) {
   if (!engine) return null;
-  const r = await engine.chat.completions.create({ messages: chatOf(routes, text), temperature: OPTIONS.temperature, max_tokens: OPTIONS.maxTokens, seed: OPTIONS.seed, response_format: OPTIONS.json ? { type: 'json_object' } : undefined });
+  const r = await engine.chat.completions.create({ messages: chatOf(routes, text), temperature: OPTIONS.temperature, max_tokens: OPTIONS.maxTokens, seed: OPTIONS.seed, response_format: { type: 'json_object', schema: SCHEMA } });
   const c = r && r.choices && r.choices[0] && r.choices[0].message ? r.choices[0].message.content : null;
   return typeof c === 'string' ? c : null;
 }

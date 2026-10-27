@@ -176,10 +176,14 @@ node core/phase5/measure.mjs --check    # the red team, the mind's door, the mes
   <div class="tile"><b id="m-fuzz">…</b><span>hostile and malformed replies that left the seven routes</span></div>
 </div>
 <div class="box">
-  <div class="row"><button class="btn" id="mind-wake" type="button">Wake the mind (about 700 MB, once)</button><button class="btn ghost" id="mind-run" type="button" disabled>Route the 70 sealed messages</button></div>
+  <div class="row"><button class="btn" id="mind-wake" type="button">Wake the mind (about 700 MB, once)</button><button class="btn ghost" id="mind-run" type="button" disabled>Route the sealed and the fresh messages (Phase 5b)</button></div>
   <div class="bar" aria-hidden="true"><i id="mind-bar"></i></div>
   <div id="mind-out" aria-live="polite"><p class="small dim">Asleep. The weights come from Hugging Face's mlc-ai repository and the library from esm.run, both only after you press the button; after that the model runs on your machine, offline. It needs a browser with WebGPU (current Chrome and Edge have it); without it, the page says so and the keyword rule keeps working.</p></div>
 </div>
+<h3>The fix, sealed as its own claims (Phase 5b)</h3>
+<p>Two changes, each sealed before any code (<a href="../phase5b/claims.json">phase5b/claims.json</a>). First, the mind in a tab is held to its route: WebLLM is given a JSON schema that allows one field, <code>route</code>, one of the seven, so it cannot keep writing. Second, the site now asks the mind only about what the keyword rule finds nothing in: where the rule finds one of its words, it decides; where it finds none, the mind does; and if the mind then says nothing usable, the visitor is told the site has nothing on that. That policy was chosen after Phase 5's numbers were seen, so it is judged on 70 fresh messages, written with a new seed and sealed before any was measured.</p>
+<p class="small" id="p5b-sum">Loading Phase 5b's receipt…</p>
+<div class="scroll"><table><thead><tr><th>Claim</th><th></th><th>The claim, what was predicted, and what was measured</th></tr></thead><tbody id="p5b-rows"></tbody></table></div>
 <p class="small dim">The 70 messages were written by a different local model (qwen2.5:7b) from the route descriptions, ten a route, before the mind ran, and sealed with the claims. They are not real visitors' words. The keyword rule's words are chosen by a rule, not by hand: every word of four or more letters in one route's description and no other's.</p>
 
 <h2 id="the-mesh">The mesh</h2>

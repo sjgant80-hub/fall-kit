@@ -1,0 +1,62 @@
+{
+ "kind": "fall-kit.core.phase5b.receipt",
+ "v": 1,
+ "sealedIn": "8f346c40757c1a1d4bef47e1e7a24576c656aa76",
+ "facts": {
+  "digests": {
+   "sealed": "3a793530bcdff19184d1d68c4fe41e281d7a31f1011770c566b86c288384c7e0",
+   "fresh": "436cc94048fee23b4019274a2b393e0c1b57e4fb3f6ba83be589832a593d4fe6",
+   "freshKeywordRight": 41
+  },
+  "b5": {
+   "reproduced": true,
+   "why": null
+  },
+  "b6": {
+   "cases": 20000,
+   "outside": 0,
+   "throws": 0
+  }
+ },
+ "verdicts": [
+  {
+   "id": "B1",
+   "held": null,
+   "measured": "not measured yet",
+   "predicted": "holds"
+  },
+  {
+   "id": "B2",
+   "held": null,
+   "measured": "not measured yet",
+   "predicted": "fails: the routes the cut-off replies began with put it near 43"
+  },
+  {
+   "id": "B3",
+   "held": null,
+   "measured": "not measured yet",
+   "predicted": "unsure"
+  },
+  {
+   "id": "B4",
+   "held": null,
+   "measured": "not measured yet",
+   "predicted": "unsure"
+  },
+  {
+   "id": "B5",
+   "held": true,
+   "measured": "Phase 5's receipt, measured again at this commit: byte for byte the same",
+   "predicted": "holds"
+  },
+  {
+   "id": "B6",
+   "held": true,
+   "measured": "20000 fuzzed replies and messages through keyword-first: 0 routes outside the seven, 0 throws",
+   "predicted": "holds"
+  }
+ ],
+ "held": 2,
+ "failed": 0,
+ "open": 4
+}

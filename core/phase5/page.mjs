@@ -7,7 +7,7 @@
 // their own DIGI (V1). This file writes no markup into the page: every word it puts there is textContent.
 // Nothing here talks to anything but this origin; waking the mind is mind-tab.mjs.
 import { makeDoor, take, perceive, emptyLibrary } from '../site.mjs';
-import { ROUTES, decide, keywordsOf, proposal, keywordRoute } from '../mind.mjs';
+import { ROUTES, decide, keywordsOf, proposal, keywordRoute, keywordScore, decideKeywordsFirst } from '../mind.mjs';
 import { makeIdentity, hex } from '../identity.mjs';
 import { sha256 } from '../vendor/light/sha256.mjs';
 import { judge } from './judge.mjs';
@@ -53,7 +53,8 @@ address(enc(location.hash));
 const seenText = (s) => 'The door saw ' + s.bytes + ' bytes' + (s.utf8 ? ', ' + s.chars + ' characters, ' + s.lines + (s.lines === 1 ? ' line, ' : ' lines, ') + s.markup + ' markup brackets, ' + s.links + ' links, ' + s.controls + ' control and ' + s.bidi + ' bidirectional characters.' : ', not valid UTF-8.');
 function routeLine(p, route, by, why) {
   const [title, words] = ROUTE_WORDS[route];
-  p.replaceChildren(el('b', null, title), document.createTextNode(' — ' + words + ' (' + (by === 'mind' ? 'the mind chose this' : 'the keyword rule chose this' + (why ? '; the mind said nothing usable: ' + why : '')) + ')'));
+  const who = by === 'mind' ? 'the mind chose this: the keyword rule found none of its words' : by === 'none' ? 'the keyword rule found none of its words, and the mind said nothing usable: ' + why : 'the keyword rule chose this' + (why ? '; the mind said nothing usable: ' + why : '');
+  p.replaceChildren(el('b', null, title), document.createTextNode(' — ' + words + ' (' + who + ')'));
 }
 /** One message through the door, into a log (the talk log, or the replay's). opts.mind = false keeps the mind out of it. → the door's result. */
 export function message(bytes, log, opts = {}) {
@@ -71,9 +72,10 @@ export function message(bytes, log, opts = {}) {
   go.href = ROUTE_WORDS[keywordRoute(r.value, KW, ROUTES)][2];
   li.append(said, p, el('p', 'small dim', seenText(seen)), go);
   (log || $('talk-log')).prepend(li);
-  if (opts.mind !== false && MIND && MIND.awake()) {
+  // keyword-first (Phase 5b): the mind is asked only about a message the keyword rule finds none of its words in
+  if (opts.mind !== false && MIND && MIND.awake() && keywordScore(r.value, KW, ROUTES) === 0) {
     MIND.ask(CLAIMS.mind.routes, r.value).then((reply) => {
-      const d = decide(reply, r.value, KW, ROUTES);
+      const d = decideKeywordsFirst(reply, r.value, KW, ROUTES);
       routeLine(p, d.route, d.by, d.why);
       go.href = ROUTE_WORDS[d.route][2];
     }).catch(() => {});
@@ -125,6 +127,25 @@ async function loadReceipt() {
     if (f.d4) tile('s-d4', n0(f.d4.addresses.elementsAdded) + ' elements added to the page in a real tab by ' + n0(f.d4.payloads) + ' of them as its address, and every one of the ' + n0(f.d4.messages.admitted) + ' let in as a message shown as a single text node (' + n0(f.d4.messages.textOnly) + ' checked)');
     loadTrace();
   } catch (e) { say('r-sum', 'The receipt could not be loaded: ' + e.message, 'no'); }
+  loadFix();
+}
+
+// ── Phase 5b's receipt, as committed (CI re-derives it from the tab's raw replies; this page does not load its judge,
+// so that what Phase 5 measured of this page stays what it measured) ──
+async function loadFix() {
+  try {
+    const [claims, receipt] = await Promise.all([getJson('../phase5b/claims.json'), getJson('../receipts/phase5b.json')]);
+    const j = receipt;
+    put('p5b-sum', el('b', null, j.held + ' held, ' + j.failed + ' failed, ' + j.open + ' not measured yet'), document.createTextNode(', of ' + j.verdicts.length + ' claims sealed at ' + String(receipt.sealedIn || '').slice(0, 7) + ', as committed; CI re-derives every tab count from the tab\'s raw replies.'));
+    const byId = Object.fromEntries(claims.claims.map((c) => [c.id, c]));
+    put('p5b-rows', ...j.verdicts.map((v) => {
+      const tr = el('tr'), td = el('td'), tg = el('td');
+      td.append(el('b', null, byId[v.id].claim), el('br'), el('span', 'small dim', 'Predicted before the run: ' + byId[v.id].predicted + '. Measured: ' + v.measured));
+      tg.append(tagOf(v.held));
+      tr.append(el('td', 'mono', v.id), tg, td);
+      return tr;
+    }));
+  } catch (e) { say('p5b-sum', 'Phase 5b\'s receipt could not be loaded: ' + e.message, 'no'); }
 }
 
 // ── one message, traced from the measured run (core/phase5/local/m2.json) ──
@@ -201,28 +222,46 @@ $('mind-wake').addEventListener('click', async () => {
     p5.wakeAt = performance.now();
     await MIND.wake((p) => { $('mind-bar').style.width = Math.round((p.progress || 0) * 100) + '%'; say('mind-out', String(p.text || '')); });
     $('mind-bar').style.width = '100%';
-    say('mind-out', 'Awake: ' + MIND.MODEL + ' is running in this browser. Every message you type is now read by it; its reply still crosses the mind\'s door.', 'ok');
-    $('talk-who').textContent = 'The mind (' + MIND.MODEL + ', in this browser) is choosing routes.';
+    say('mind-out', 'Awake: ' + MIND.MODEL + ' is running in this browser, its reply held to a route. It now reads every message the keyword rule finds none of its words in; its reply still crosses the mind\'s door.', 'ok');
+    $('talk-who').textContent = 'The keyword rule routes what it can; the mind (' + MIND.MODEL + ', in this browser) routes the rest.';
     $('mind-run').disabled = false;
   } catch (e) { say('mind-out', 'The mind could not be woken: ' + e.message, 'no'); btn.disabled = false; }
 });
+// Phase 5b (B1–B4): the sealed 70 of Phase 5, then the 70 fresh messages sealed in core/phase5b/claims.json, each asked
+// once of the mind held to its route; every reply decided both ways, keyword-first and Phase 5's mind-first
 $('mind-run').addEventListener('click', async () => {
   if (!MIND || !MIND.awake() || !CLAIMS) return;
   const btn = $('mind-run'); btn.disabled = true;
-  const msgs = CLAIMS.mind.messages, rows = [];
-  let mindRight = 0, valid = 0, outside = 0, t0Right = 0, siteRight = 0;
-  const t0 = performance.now();
-  for (let i = 0; i < msgs.length; i++) {
-    const m = msgs[i], reply = await MIND.ask(CLAIMS.mind.routes, m.text);
-    const pr = proposal(reply, ROUTES), d = decide(reply, m.text, KW, ROUTES), k = keywordRoute(m.text, KW, ROUTES);
-    if (pr.ok) valid++; if (!ROUTES.includes(d.route)) outside++; if (pr.ok && pr.route === m.route) mindRight++; if (k === m.route) t0Right++; if (d.route === m.route) siteRight++;
-    rows.push({ text: m.text, want: m.route, reply, proposal: pr.ok ? pr.route : null, why: pr.ok ? null : pr.why, decided: d.route, by: d.by, keywords: k });
-    $('mind-bar').style.width = Math.round((100 * (i + 1)) / msgs.length) + '%';
-    say('mind-out', (i + 1) + ' of ' + msgs.length + ': ' + mindRight + ' routed right so far.');
-  }
-  const digest = hex(sha256(enc(JSON.stringify(msgs))));
-  p5.m3 = { facts: { model: MIND.MODEL, runtime: 'WebLLM 0.2.79 in a browser tab', messages: msgs.length, digest, mindRight, valid, outside, t0Right, siteRight }, rows, seconds: Math.round((performance.now() - t0) / 100) / 10, browser: navigator.userAgent };
-  say('mind-out', 'The mind routed ' + mindRight + ' of ' + msgs.length + ' sealed messages right (' + valid + ' replies a valid proposal, ' + outside + ' outside the seven). The keyword rule: ' + t0Right + '.', mindRight >= 49 ? 'ok' : 'no');
+  try {
+    const fresh = (await getJson('../phase5b/claims.json')).fresh.messages, t0 = performance.now(), rows = { sealed: [], fresh: [] };
+    const sets = [['sealed', CLAIMS.mind.messages], ['fresh', fresh]], n = sets[0][1].length + sets[1][1].length;
+    const tally = {};
+    let k = 0;
+    for (const [name, msgs] of sets) {
+      const t = { messages: msgs.length, digest: hex(sha256(enc(JSON.stringify(msgs)))), valid: 0, outside: 0, mindRight: 0, keywordRight: 0, keywordsFirstRight: 0, mindFirstRight: 0, askedOfMind: 0 };
+      for (const m of msgs) {
+        const reply = await MIND.ask(CLAIMS.mind.routes, m.text);
+        const pr = proposal(reply, ROUTES), kf = decideKeywordsFirst(reply, m.text, KW, ROUTES), mf = decide(reply, m.text, KW, ROUTES), kr = keywordRoute(m.text, KW, ROUTES);
+        if (pr.ok) t.valid++;
+        if (!ROUTES.includes(kf.route) || !ROUTES.includes(mf.route)) t.outside++;
+        if (pr.ok && pr.route === m.route) t.mindRight++;
+        if (kr === m.route) t.keywordRight++;
+        if (kf.route === m.route) t.keywordsFirstRight++;
+        if (mf.route === m.route) t.mindFirstRight++;
+        if (keywordScore(m.text, KW, ROUTES) === 0) t.askedOfMind++;
+        rows[name].push({ text: m.text, want: m.route, reply, proposal: pr.ok ? pr.route : null, why: pr.ok ? null : pr.why, keywords: kr, keywordsFirst: kf.route, mindFirst: mf.route });
+        k++;
+        $('mind-bar').style.width = Math.round((100 * k) / n) + '%';
+        say('mind-out', k + ' of ' + n + ' (' + name + ' messages): ' + t.mindRight + ' routed right by the mind so far in this set.');
+      }
+      tally[name] = t;
+    }
+    p5.m5b = { model: MIND.MODEL, runtime: 'WebLLM 0.2.79 in a browser tab', schema: MIND.SCHEMA, sealed: tally.sealed, fresh: tally.fresh, rows, seconds: Math.round((performance.now() - t0) / 100) / 10, browser: navigator.userAgent };
+    const s = tally.sealed, f = tally.fresh;
+    put('mind-out',
+      el('p', s.mindRight >= 49 ? 'ok' : 'no', 'Phase 5\'s 70 sealed messages: ' + s.valid + ' replies a proposal; the mind right ' + s.mindRight + ' (bar 49).'),
+      el('p', f.keywordsFirstRight >= f.keywordRight + 7 ? 'ok' : 'no', 'The 70 fresh messages: keyword-first right ' + f.keywordsFirstRight + ', the keyword rule alone ' + f.keywordRight + ', mind-first ' + f.mindFirstRight + '; the mind was asked about ' + f.askedOfMind + ' of them.'));
+  } catch (e) { say('mind-out', 'The run stopped: ' + e.message, 'no'); }
   btn.disabled = false;
 });
 
