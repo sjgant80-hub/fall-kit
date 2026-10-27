@@ -1,0 +1,97 @@
+{
+ "kind": "fall-kit.core.phase6b.claims",
+ "v": 1,
+ "phase": "6b",
+ "title": "The fix for C8: a node's name bound to its key, at every door, before any merge",
+ "sealed": "Before any Phase 6b code: core/names.mjs and every file of core/phase6b/ but this one do not exist at the commit that adds it (its parent is fall-kit 5b8ec81), and core/phase6/ is as Phase 6 measured it. The rules below do not change once the first number is measured.",
+ "why": "Phase 6's C8 failed: a mock larger network already held a release of the living site's name (node: and the first 16 hex digits of the site's key) signed by another key, because names derive from a key but nothing bound them to it: the ledger's first release of a name wins, and the network's door let its own entries in without asking whose name they carried. The books' merge then refused the site's release and the 10 values on the site's asset, so the site, the node that did the work, got no part of the network's allocation. The living site's own node and the auditor already refused such a release; the network did not. The fix is one rule, held at every door, and a refusal to merge into a ledger that does not hold it.",
+ "rule": "A release whose form is node, or whose asset is in the node: space, is recorded only when its form is node and its asset is exactly the name of the key that signed it (node: and the first 16 hex digits of that key, as core/node.mjs assetOf makes it). Every other entry is left to the gates it already meets. The rule is a gate wrapped around the gate a door already uses, so it adds a refusal and never an admission.",
+ "changes": [
+  "core/names.mjs, a new gated organ: the rule (bound), the rule wrapped around any gate (boundGate), the releases in a ledger that break it (unboundIn), and a merge that refuses a target holding any such release before it records anything, then reconciles through the wrapped gate (mergeBound). It names a node by core/node.mjs assetOf, so there is one definition of a name.",
+  "A mock larger network that holds the rule at its own door: the same three other contributors as Phase 6's, each released under its own key's name, with the same values. Phase 6's mock, which released its nodes under names that were not their keys' and held the squat, is kept unchanged as the control and as the network the fix must refuse.",
+  "The vendored ledger (kcc-mesh f3cdad5 contrib.mjs), core/node.mjs and every module of core/phase6/ are not changed."
+ ],
+ "honest": [
+  "A name is the first 16 hex digits of a key, 64 bits. Under the rule, taking another node's name means finding a different key whose first 64 bits are the same, a search of about 2 to the 64 keys. That strength is arithmetic, not measured here, and nothing here searches for such a key.",
+  "The fix was written after C8's numbers were seen. Its claims are judged on the same world (Phase 6's seeds and policy) because the failure is a property of that world's merge; the attack set below is sealed before the first measurement so it cannot be chosen to fit.",
+  "A network that does not bind names is refused, not repaired: the books never join it. Repairing one means its members re-releasing under their own keys' names, which is the network's to do."
+ ],
+ "world": "As Phase 6 sealed it: core/phase6/claims.json seeds and policy, its genesis, and its books (core/phase6/books.json) with their evidence (core/phase6/evidence.json), as Phase 6's receipt measured them.",
+ "attacks": [
+  { "id": "a1", "by": "network[0]", "form": "node", "asset": "the site's name", "note": "Phase 6's squat" },
+  { "id": "a2", "by": "network[0]", "form": "card", "asset": "the site's name" },
+  { "id": "a3", "by": "network[0]", "form": "mint", "asset": "the site's name" },
+  { "id": "a4", "by": "network[0]", "form": "node", "asset": "the site's name followed by -2", "note": "a look-alike in the node: space" },
+  { "id": "a5", "by": "network[0]", "form": "node", "asset": "network:node-1", "note": "a node under a name that is not its key's, as Phase 6's mock released them" },
+  { "id": "a6", "by": "founder", "form": "node", "asset": "the site's name", "note": "the genesis activator" },
+  { "id": "a7", "by": "networkMeasurer", "form": "node", "asset": "the site's name", "note": "a measurer the genesis names" },
+  { "id": "a8", "by": "liar", "form": "node", "asset": "the site's name", "note": "a node of the books whose receipts do not check" },
+  { "id": "a9", "by": "network[0]", "form": "card", "asset": "network[0]'s own name", "note": "its own name, but not as a node" }
+ ],
+ "attackRule": "Each attack is a release signed by the named key with lineage [] and one mock-network proof, at the Phase 6 moment.",
+ "claims": [
+  {
+   "id": "N1",
+   "pass": 1,
+   "claim": "The rule refuses every release that takes a node's name without its key, by name, and refuses nothing honest.",
+   "measure": "bound run on the nine sealed attacks, on every entry of Phase 6's books, on the bound network's own entries, and on 10,000 fuzzed values (garbage, and entries of the books with one field changed).",
+   "rule": "all nine attacks refused, each reason naming the asset; every entry of the books and of the bound network passes; the fuzz never throws and always answers ok true or false with a reason when false; the name bound uses equals core/node.mjs assetOf for every key of the world"
+  },
+  {
+   "id": "N2",
+   "pass": 2,
+   "claim": "A network that holds the rule at its own door never records the squat.",
+   "measure": "The bound mock network built through boundGate: the nine attacks offered at its door, then its three contributors' releases under their own names and the network measurer's values on them.",
+   "rule": "all nine attacks refused at the network's door; its three releases and three values recorded; unboundIn finds no release in it that breaks the rule"
+  },
+  {
+   "id": "N3",
+   "pass": 2,
+   "claim": "The books merge into that network with every entry counted once and nothing refused.",
+   "measure": "Phase 6's books reconciled into the bound network by mergeBound, through the auditor's gate (the network's own entries pass by their identities, as in Phase 6).",
+   "rule": "added plus already held equals the books' 52 entries; 0 refused; the only entry already held is the genesis; the site's release and every value the books hold on the site's asset are recorded"
+  },
+  {
+   "id": "N4",
+   "pass": 2,
+   "claim": "The network's allocation now covers the node that did the work.",
+   "measure": "A switch on the network path, on a copy of the merged ledger, signed by the demo founder's public test key; the allocation; the merged log replayed from nothing through boundGate.",
+   "rule": "the switch recorded; the allocation sums to its pool; it covers all 4 of the books' contributors (the site among them) and all 3 of the network's; the replay through the rule passes and gives the same allocation"
+  },
+  {
+   "id": "N5",
+   "pass": 3,
+   "claim": "The books are never merged into a network that does not bind names.",
+   "measure": "mergeBound of Phase 6's books into Phase 6's own mock network, which holds the squat and nodes released under names that are not their keys'.",
+   "rule": "refused before any entry is recorded; the refusal names every release in the target that breaks the rule, the site's name held by network[0]'s key among them; the target is unchanged (same length, same final hash)"
+  },
+  {
+   "id": "N6",
+   "pass": 3,
+   "claim": "The control: without the rule, Phase 6's failure comes back exactly.",
+   "measure": "core/phase6/paths.mjs network, unchanged, run by this measure on the same world and books.",
+   "rule": "its facts equal the c8 facts of core/receipts/phase6.json, field for field (11 refused, the site not covered)"
+  },
+  {
+   "id": "N7",
+   "pass": 3,
+   "claim": "The fix leaves Phase 6 exactly as it was measured.",
+   "measure": "node core/phase6/measure.mjs --check, run as its own process by this measure.",
+   "rule": "it exits 0: Phase 6's receipt, books.json, books.light and evidence.json re-derive byte for byte"
+  },
+  {
+   "id": "N8",
+   "pass": 4,
+   "claim": "Anyone can check the fix in a browser tab.",
+   "measure": "In a real tab on the live Phase 6 page: the bound network, the merge of the published books into it through the auditor's gate over the published evidence, the allocation, and the refusal of Phase 6's mock, all re-run in the tab; recorded once in core/phase6b/local/n8.json and re-judged by CI.",
+   "rule": "the tab's merge refuses 0 and counts every entry once; its allocation equals this receipt's N4 allocation part for part; the unbound network is refused naming the site's name"
+  },
+  {
+   "id": "N9",
+   "pass": 4,
+   "claim": "The fix uses none of the barred words.",
+   "measure": "Phase 6's barred list and rule (core/phase6/claims.json barred, barredRule), over the source of core/names.mjs and every module of core/phase6b/, and the text of the Phase 6 page that shows the fix.",
+   "rule": "no barred word in any of them"
+  }
+ ]
+}
