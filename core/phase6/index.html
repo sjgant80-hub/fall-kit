@@ -82,6 +82,7 @@ summary{cursor:pointer;font-weight:600;color:var(--cream)}
   <div class="seal">Phase 6 of the estate going live · eleven claims sealed before the code</div>
   <h1 id="what-it-is">Every node keeps its own books</h1>
   <p class="lede">When one node of the mesh uses another's work, and the work checks, it writes that down: a signed entry in a contribution ledger, naming the work, the node that did it, and the evidence it rests on. Every node does this for itself. An auditor then takes every node's ledger into one set of books, and takes nothing on trust: it finds, for each entry, the signed answer it was for and checks it again. The books re-derive from nothing, in any browser, to the same final hash.</p>
+  <p>These books are not financial accounts. They are a record of work done and used: which node answered which question, for whom, and the evidence that the answer checked.</p>
   <p>From the books, anyone can compute a sandbox allocation: how a pool of contribution units would be shared among the contributors, exactly, to the unit. No allocation is live. The switch is off, and only a key named when the ledger began could ever turn it on. Contribution units are not money.</p>
   <div class="tiles" aria-live="polite">
     <div class="tile"><b id="t-values">…</b><span>values in the books, each re-checked against signed evidence</span></div>
@@ -132,6 +133,7 @@ node core/phase6/measure.mjs --check    # four nodes in four processes, the audi
   <li><b>A sandbox allocation, exact.</b> The credits share a pool in whole units: floors first, then the leftover units one each to the largest remainders. A second implementation, written separately, must give the same parts.</li>
   <li><b>The switch is off.</b> A live allocation needs a switch entry that only an activator named at the ledger's start can sign. These books hold none.</li>
 </ol>
+<p class="small">How long it takes: in CI, the whole run (four nodes at work, the auditor's books, both paths) takes about half a minute; replaying the books in a browser takes under a second. They are re-derived on every push by CI, and by anyone, whenever they like, with the button above.</p>
 <h3>The passes</h3>
 <div class="scroll"><table><thead><tr><th>Pass</th><th>Organ</th><th>Claims</th><th>Status</th></tr></thead><tbody id="pass-rows"><tr><td colspan="4" class="dim">Loading…</td></tr></tbody></table></div>
 
@@ -148,6 +150,7 @@ node core/phase6/measure.mjs --check    # four nodes in four processes, the audi
 
 <h2 id="the-switch">The switch, and the two paths</h2>
 <p>No allocation is live, and the ledger refuses one: <span id="live-line">…</span></p>
+<p>What turning it on would take: one entry, signed by an activator the ledger's first entry names, saying which path (the fork or the network), the size of the pool, and the digest of the legal advice it was made under. The ledger takes one switch, once, and from no other key.</p>
 <p>Turning it on is a decision for people, with legal advice, not something the code does. The code only makes sure that when someone does decide, it can be done one of two ways, and that nobody else can do it. Both are shown below on copies of the books, made with the demo founder's public key, and thrown away: the books on this page stay off.</p>
 <div class="scroll"><table><thead><tr><th>Path</th><th>What happens</th><th>Measured on a copy</th></tr></thead><tbody>
   <tr><td>The fork</td><td>The estate switches its own books: the activator its genesis names signs a switch for a pool, and the live allocation is the one anyone could already compute in the sandbox.</td><td id="fork-line">…</td></tr>
