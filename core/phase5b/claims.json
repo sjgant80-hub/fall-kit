@@ -1,0 +1,393 @@
+{
+ "kind": "fall-kit.core.phase5b.claims",
+ "v": 1,
+ "phase": "5b",
+ "title": "The fix for M3: the mind in a browser tab, held to its route, and used where the keyword rule finds nothing",
+ "sealed": "Before any Phase 5b code: core/phase5b/ holds only this file at the commit that adds it, and core/phase5/mind-tab.mjs, core/mind.mjs and core/phase5/page.mjs are as Phase 5 measured them (fall-kit 498d60c). The rules below do not change once the first number is measured.",
+ "why": "Phase 5's M3 failed: in a real tab, WebLLM's 4-bit Llama 3.2 1B began the sealed reply and kept writing fields nobody asked for until the sealed 24 tokens cut it off, so 30 of 70 replies were not JSON; it routed 25 of 70 right, and with it awake the site routed 44, below the keyword rule alone (46). Read before this seal: of the 30 cut-off replies, 18 had begun with the right route, 9 with a wrong one, 3 with none, so holding the reply to its route alone would put the mind near 43, still under the keyword rule. Two changes follow, each measured as its own claim.",
+ "changes": [
+  "Generation: the tab's mind is asked with a JSON schema that allows exactly one field, route, whose value is one of the seven (WebLLM 0.2.79 response_format { type: json_object, schema }). The prompt, the options (temperature 0, 24 tokens, seed 0) and the mind's door (core/mind.mjs proposal) are unchanged.",
+  "Policy: the site routes a message by the keyword rule where the rule finds at least one of its words in it, and by the mind only where it finds none; if the mind then says nothing usable, the route is none. Phase 5's policy (the mind first, the keyword rule where the mind says nothing usable) is kept, by name, for comparison."
+ ],
+ "honest": [
+  "This policy was chosen after Phase 5's numbers were seen (the keyword rule was strong, the browser mind weak), so it is judged on a fresh set of 70 messages, sealed here before any is measured: written by the same local model (qwen2.5:7b, temperature 0.8) with a new seed, 2027, from the same route descriptions, the first ten lines per route that are not one of Phase 5's sealed messages. They are not real visitors' words.",
+  "B2 re-asks Phase 5's 70 sealed messages, so it tests the generation fix on data already seen; nothing about the prompt or the door was tuned to them."
+ ],
+ "policy": {
+  "name": "keywords-first",
+  "fallback": "the mind where the keyword rule finds no word; none if the mind says nothing usable",
+  "control": "mind-first (Phase 5)"
+ },
+ "schema": {
+  "type": "object",
+  "properties": {
+   "route": {
+    "type": "string",
+    "enum": [
+     "about",
+     "start",
+     "digi",
+     "defend",
+     "mesh",
+     "business",
+     "none"
+    ]
+   }
+  },
+  "required": [
+   "route"
+  ],
+  "additionalProperties": false
+ },
+ "model": {
+  "runtime": "WebLLM 0.2.79 in a browser tab",
+  "model": "Llama-3.2-1B-Instruct-q4f16_1-MLC"
+ },
+ "fresh": {
+  "written": {
+   "model": "qwen2.5:7b",
+   "options": {
+    "temperature": 0.8,
+    "seed": 2027
+   },
+   "prompt": "Phase 5's generation prompt, word for word",
+   "kept": "the first ten lines per route, after trimming white space, leading list marks and surrounding quotation marks, that are not (ignoring case) one of Phase 5's sealed messages",
+   "raw": {
+    "about": "looking for info on your site's purpose\ncan you tell me what this site does?\nwhat exactly is this website for?\nwhat services does your site offer?\ncould you explain what services you provide?\nwhat kind of content do you have here?\nwhat's the point of this site?\nwhat kind of products do you sell?\nwhat does your website specialize in?\nare you a service or a product site?\nwhat makes your site unique?\nare you a news site or something else?\nhow can I benefit from your site?\ncheck if your site sells anything",
+    "start": "can you help me navigate this site?\nhow do i get started on this website?\nI'm having trouble figuring this out.\nCould you guide me through using this site?\nWhat's the best way to explore this website?\nCan you walk me through the basics?\nStep-by-step instructions on using this site?\nHow can I make the most of this website?\nAny tips on navigating this site?\nCould someone explain how to use this site?\nCan you show me the first steps?\nI need some guidance on using this platform.\nAny quick start guide for this site?\nWhat are the essential steps to use this website?\nHow do I sign up for an account here?\nCould you point me in the right direction?",
+    "digi": "Can I get a DIGI card for myself?\nWhat's the process for getting my own card?\nGot my own card yet?\nHow do I get my personal card?\nI need my own key and card, how?\nIs there a way to get my own card?\nCan I get my own key and card?\nDo I need to apply for my own card?\nI want my own card, where do I start?\nHow do I order my own key and card?\nGot my own card or just waiting?\nCan I apply for a card that's mine?\nGot my own card or need to wait?\nIs there a way to get my own key and card without going to the store?",
+    "defend": "how does this site protect itself?\n\nwhat measures does this site take against attacks?\n\ncan you tell me about the site's security protocols?\n\nhow does this site defend against cyber attacks?\n\nwhat security updates does this site implement?\n\nhave there been any security breaches on this site?\n\nhow does the site handle security threats?\n\nwhat kind of attacks does this site face?\n\ncould you share any details on site security?\n\nhow does this site stay secure from hackers?\n\nwhat has the site learned from previous security incidents?\n\nhas the site ever faced DDoS attacks?\n\nany tips on site security improvements?\n\nwe heard the site got hacked last year, is that true?",
+    "mesh": "I'm curious about the network this site is on.\nWhich network does this website belong to?\nCan you tell me about the network this site is part of?\nWho are the other nodes on this network?\nHow can I join this network?\nIs there a way to join the network this site is part of?\nCould you share more about the nodes in this network?\nWhat nodes are connected to this network?\nHow do I become a part of this network?\nCan you tell me about joining the network?\nAre there any ways to connect to other nodes?\nHow can I get involved with the network?\nCould you explain the process of sharing with other nodes?\nIs there a method for sharing what I learn with other nodes?",
+    "business": "looking for cost details for company use\nhow much does it cost for a business?\ncan you help with company-wide implementation?\nwhat's the price for a corporate account?\nany info on rolling out this to multiple departments?\nhow do we get started with company use?\ncould you provide some support for our team?\nwho supplies the service for companies?\ndo you have a pricing plan for businesses?\ncan you assist with the rollout process?\ntypo: look for cost details company\ncould this be used across different departments?",
+    "none": "How's the weather outside?\nHey, do you like cats?\nJust checking in, any updates?\nSo, what's your favorite book?\nDid you know penguins can't fly?\nHey, wanna chat about movies?\nHow's your day going?\nWhat's your go-to coffee order?\nBy the way, how's traffic today?\nI'm curious, what's your pet's name?\nDo you have any hobbies?\nIs it always this quiet here?\nCan you believe it's summer already?"
+   }
+  },
+  "digest": "the SHA-256 of JSON.stringify(fresh.messages), as hex",
+  "messages": [
+   {
+    "text": "looking for info on your site's purpose",
+    "route": "about"
+   },
+   {
+    "text": "can you tell me what this site does?",
+    "route": "about"
+   },
+   {
+    "text": "what exactly is this website for?",
+    "route": "about"
+   },
+   {
+    "text": "what services does your site offer?",
+    "route": "about"
+   },
+   {
+    "text": "could you explain what services you provide?",
+    "route": "about"
+   },
+   {
+    "text": "what kind of content do you have here?",
+    "route": "about"
+   },
+   {
+    "text": "what's the point of this site?",
+    "route": "about"
+   },
+   {
+    "text": "what kind of products do you sell?",
+    "route": "about"
+   },
+   {
+    "text": "what does your website specialize in?",
+    "route": "about"
+   },
+   {
+    "text": "are you a service or a product site?",
+    "route": "about"
+   },
+   {
+    "text": "can you help me navigate this site?",
+    "route": "start"
+   },
+   {
+    "text": "how do i get started on this website?",
+    "route": "start"
+   },
+   {
+    "text": "I'm having trouble figuring this out.",
+    "route": "start"
+   },
+   {
+    "text": "Could you guide me through using this site?",
+    "route": "start"
+   },
+   {
+    "text": "What's the best way to explore this website?",
+    "route": "start"
+   },
+   {
+    "text": "Can you walk me through the basics?",
+    "route": "start"
+   },
+   {
+    "text": "Step-by-step instructions on using this site?",
+    "route": "start"
+   },
+   {
+    "text": "How can I make the most of this website?",
+    "route": "start"
+   },
+   {
+    "text": "Any tips on navigating this site?",
+    "route": "start"
+   },
+   {
+    "text": "Could someone explain how to use this site?",
+    "route": "start"
+   },
+   {
+    "text": "Can I get a DIGI card for myself?",
+    "route": "digi"
+   },
+   {
+    "text": "What's the process for getting my own card?",
+    "route": "digi"
+   },
+   {
+    "text": "Got my own card yet?",
+    "route": "digi"
+   },
+   {
+    "text": "How do I get my personal card?",
+    "route": "digi"
+   },
+   {
+    "text": "I need my own key and card, how?",
+    "route": "digi"
+   },
+   {
+    "text": "Is there a way to get my own card?",
+    "route": "digi"
+   },
+   {
+    "text": "Can I get my own key and card?",
+    "route": "digi"
+   },
+   {
+    "text": "Do I need to apply for my own card?",
+    "route": "digi"
+   },
+   {
+    "text": "I want my own card, where do I start?",
+    "route": "digi"
+   },
+   {
+    "text": "How do I order my own key and card?",
+    "route": "digi"
+   },
+   {
+    "text": "how does this site protect itself?",
+    "route": "defend"
+   },
+   {
+    "text": "what measures does this site take against attacks?",
+    "route": "defend"
+   },
+   {
+    "text": "can you tell me about the site's security protocols?",
+    "route": "defend"
+   },
+   {
+    "text": "how does this site defend against cyber attacks?",
+    "route": "defend"
+   },
+   {
+    "text": "what security updates does this site implement?",
+    "route": "defend"
+   },
+   {
+    "text": "have there been any security breaches on this site?",
+    "route": "defend"
+   },
+   {
+    "text": "how does the site handle security threats?",
+    "route": "defend"
+   },
+   {
+    "text": "what kind of attacks does this site face?",
+    "route": "defend"
+   },
+   {
+    "text": "could you share any details on site security?",
+    "route": "defend"
+   },
+   {
+    "text": "how does this site stay secure from hackers?",
+    "route": "defend"
+   },
+   {
+    "text": "I'm curious about the network this site is on.",
+    "route": "mesh"
+   },
+   {
+    "text": "Which network does this website belong to?",
+    "route": "mesh"
+   },
+   {
+    "text": "Can you tell me about the network this site is part of?",
+    "route": "mesh"
+   },
+   {
+    "text": "Who are the other nodes on this network?",
+    "route": "mesh"
+   },
+   {
+    "text": "Is there a way to join the network this site is part of?",
+    "route": "mesh"
+   },
+   {
+    "text": "Could you share more about the nodes in this network?",
+    "route": "mesh"
+   },
+   {
+    "text": "What nodes are connected to this network?",
+    "route": "mesh"
+   },
+   {
+    "text": "How do I become a part of this network?",
+    "route": "mesh"
+   },
+   {
+    "text": "Can you tell me about joining the network?",
+    "route": "mesh"
+   },
+   {
+    "text": "Are there any ways to connect to other nodes?",
+    "route": "mesh"
+   },
+   {
+    "text": "looking for cost details for company use",
+    "route": "business"
+   },
+   {
+    "text": "can you help with company-wide implementation?",
+    "route": "business"
+   },
+   {
+    "text": "what's the price for a corporate account?",
+    "route": "business"
+   },
+   {
+    "text": "any info on rolling out this to multiple departments?",
+    "route": "business"
+   },
+   {
+    "text": "how do we get started with company use?",
+    "route": "business"
+   },
+   {
+    "text": "could you provide some support for our team?",
+    "route": "business"
+   },
+   {
+    "text": "who supplies the service for companies?",
+    "route": "business"
+   },
+   {
+    "text": "do you have a pricing plan for businesses?",
+    "route": "business"
+   },
+   {
+    "text": "can you assist with the rollout process?",
+    "route": "business"
+   },
+   {
+    "text": "typo: look for cost details company",
+    "route": "business"
+   },
+   {
+    "text": "Hey, do you like cats?",
+    "route": "none"
+   },
+   {
+    "text": "Just checking in, any updates?",
+    "route": "none"
+   },
+   {
+    "text": "So, what's your favorite book?",
+    "route": "none"
+   },
+   {
+    "text": "Did you know penguins can't fly?",
+    "route": "none"
+   },
+   {
+    "text": "Hey, wanna chat about movies?",
+    "route": "none"
+   },
+   {
+    "text": "How's your day going?",
+    "route": "none"
+   },
+   {
+    "text": "What's your go-to coffee order?",
+    "route": "none"
+   },
+   {
+    "text": "By the way, how's traffic today?",
+    "route": "none"
+   },
+   {
+    "text": "I'm curious, what's your pet's name?",
+    "route": "none"
+   },
+   {
+    "text": "Do you have any hobbies?",
+    "route": "none"
+   }
+  ]
+ },
+ "claims": [
+  {
+   "id": "B1",
+   "claim": "Held to its route, the mind in a tab always gives a proposal.",
+   "measure": "Phase 5's 70 sealed messages in a real tab of the live page, WebLLM 0.2.79 and Llama-3.2-1B-Instruct-q4f16_1-MLC, the sealed prompt and options, and the schema above; every reply through the mind's door.",
+   "rule": "70 messages with Phase 5's sealed digest; 70 of 70 replies a proposal; 0 routes outside the seven",
+   "predicted": "holds"
+  },
+  {
+   "id": "B2",
+   "claim": "Held to its route, the mind in a tab clears Phase 5's bar.",
+   "measure": "The same run.",
+   "rule": "the mind's own proposal right for at least 49 of 70",
+   "predicted": "fails: the routes the cut-off replies began with put it near 43"
+  },
+  {
+   "id": "B3",
+   "claim": "With the keyword rule first and the mind for what it misses, the site in a tab routes clearly better than the keyword rule alone, on messages nobody tuned for.",
+   "measure": "The 70 fresh messages in a real tab of the live page, the mind held to its route; the keyword-first policy, against the keyword rule alone on the same messages.",
+   "rule": "70 fresh messages with the sealed digest; keyword-first right at least 7 more than the keyword rule alone; 0 routes outside the seven",
+   "predicted": "unsure"
+  },
+  {
+   "id": "B4",
+   "claim": "Keyword-first routes at least as well as Phase 5's mind-first, on the fresh messages.",
+   "measure": "The same run: the mind's reply to every fresh message, decided both ways.",
+   "rule": "keyword-first right at least as often as mind-first",
+   "predicted": "unsure"
+  },
+  {
+   "id": "B5",
+   "claim": "Nothing Phase 5 measured moved.",
+   "measure": "Phase 5's measure re-run at the Phase 5b commit.",
+   "rule": "Phase 5's receipt reproduces byte for byte",
+   "predicted": "holds"
+  },
+  {
+   "id": "B6",
+   "claim": "The new policy never routes outside the seven and never throws.",
+   "measure": "20,000 fuzzed replies with random messages, from a fixed seed, through the keyword-first policy.",
+   "rule": "20,000 cases, 0 routes outside the seven, 0 throws",
+   "predicted": "holds"
+  }
+ ]
+}
