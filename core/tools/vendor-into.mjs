@@ -17,8 +17,9 @@ const git = (...a) => execFileSync('git', a, { cwd: REPO, stdio: ['ignore', 'pip
 export function foundationFiles() {
   const s = JSON.parse(git('show', 'HEAD:core/vendor/SOURCES.json').toString('utf8'));
   // edge.mjs joined in Phase 2, relay.mjs and roster.mjs in Phase 3 (a node frames for a relay, and matches the founder's
-  // roster with rosterChanges); Phase 1's receipt (core/prove.mjs) names the foundation as Phase 1 pinned it
-  return ['antibody.mjs', 'edge.mjs', 'identity.mjs', 'node.mjs', 'relay.mjs', 'roster.mjs', 'vendor/SOURCES.json', ...s.files.map((f) => 'vendor/' + f.path)];
+  // roster with rosterChanges), seed.mjs after Phase 7 (a client's organism grows from it, and so does the living seed's
+  // system); Phase 1's receipt (core/prove.mjs) names the foundation as Phase 1 pinned it
+  return ['antibody.mjs', 'edge.mjs', 'identity.mjs', 'node.mjs', 'relay.mjs', 'roster.mjs', 'seed.mjs', 'vendor/SOURCES.json', ...s.files.map((f) => 'vendor/' + f.path)];
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
