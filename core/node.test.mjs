@@ -1033,3 +1033,71 @@ test('a check that throws is a check that failed: the answer counts as failed, a
   assert.equal(C.weight(B.id, 'triage'), 250000);
   assert.deepEqual((await B.hear(await A.shareNotes(B.id))).refused, ['a note about this node'], 'and the accused counts nothing against itself');
 });
+
+test('a bridge (relay, Phase 7b) keeps what it adopted to share on; a node without it does not; every hop re-runs it', async () => {
+  const [hi, bi, b0i, mi, m0i, xi, si] = await Promise.all([60, 61, 65, 62, 66, 63, 64].map((n) => makeIdentity(seed(n))));
+  const H = await createNode({ name: 'hub', identity: hi, clock });
+  const B = await createNode({ name: 'bridge', identity: bi, clock, relay: true });
+  const B0 = await createNode({ name: 'plain', identity: b0i, clock });
+  const Bs = await createNode({ name: 'not quite', identity: b0i, clock, relay: 'yes' });
+  const M = await createNode({ name: 'member', identity: mi, clock });
+  const M0 = await createNode({ name: 'member of the plain', identity: m0i, clock });
+  const X = await createNode({ name: 'a peer of the hub', identity: xi, clock });
+  for (const [a, b] of [[H, X], [H, B], [H, B0], [H, Bs], [B, H], [B, M], [M, B], [B0, H], [B0, M0], [M0, B0], [Bs, H]]) assert.equal((await a.pin(b.card())).ok, true);
+  const packetAs = async (id, counter, value) => { const p = prepare({ sender: id.slot, counter: BigInt(counter), kind: KINDS.JSON, value, dictId: 0 }); return finish(p.unsigned, await id.sign(p.signed)).bytes; };
+  const bundleFrom = async (id, to, hexes, counter) => {
+    const ex = await import('./vendor/immune/exchange.mjs');
+    let msg = null; ex.makeBundle(id.id, hexes, (x) => { msg = x; return new Uint8Array(64); });
+    const sig = await id.sign(msg);
+    return packetAs(id, counter, { to, t: 'antibody', bundle: ex.makeBundle(id.id, hexes, () => sig) });
+  };
+  // a packet in X's name signed by a stranger: the hub pins X, so its door refuses it at the signature
+  const p = prepare({ sender: xi.slot, counter: 5n, kind: KINDS.JSON, value: { t: 'ledger', to: hi.id, log: [] }, dictId: 0 });
+  const forged = finish(p.unsigned, await si.sign(p.signed)).bytes;
+  assert.equal((await H.hear(forged)).stage, 'signature');
+  // the bridge adopts after its own re-run (it does not pin X: refused at the sender) and keeps it to share on
+  const atB = await B.hear(await H.shareAntibodies(B.id));
+  assert.deepEqual([atB.ok, atB.offered, atB.adopted, atB.autoimmuneBlocked, atB.relayed], [true, 1, 1, 0, 1]);
+  assert.deepEqual(B.antigens(), [toHex(forged)]);
+  // a node without relay adopts and keeps nothing: its answer is exactly the one it always gave
+  const atB0 = await B0.hear(await H.shareAntibodies(B0.id));
+  assert.deepEqual(Object.keys(atB0), ['ok', 't', 'from', 'offered', 'adopted', 'autoimmuneBlocked', 'recognitionOnly', 'replies']);
+  assert.equal(atB0.adopted, 1);
+  assert.deepEqual(B0.antigens(), []);
+  assert.equal(await B0.shareAntibodies(M0.id), null, 'a plain node has nothing of the hub\'s to pass on');
+  const atBs = await Bs.hear(await H.shareAntibodies(Bs.id));
+  assert.equal('relayed' in atBs, false, 'relay is on only when it is exactly true');
+  assert.deepEqual(Bs.antigens(), []);
+  // the member, which pins only the bridge, adopts after its own re-run and refuses the packet on sight
+  const atM = await M.hear(await B.shareAntibodies(M.id));
+  assert.deepEqual([atM.ok, atM.adopted, 'relayed' in atM], [true, 1, false]);
+  const seen = await M.hear(forged);
+  assert.deepEqual([seen.ok, seen.recognised, seen.decoded], [false, true, false]);
+  // the same bundle again: nothing new is adopted, nothing is kept twice
+  const again = await B.hear(await H.shareAntibodies(B.id));
+  assert.deepEqual([again.adopted, again.relayed], [0, 0]);
+  assert.equal(B.antigens().length, 1);
+  // a genuine packet the bridge's own door admits is not adopted, so it is never passed on
+  const genuine = await packetAs(mi, 900001, { t: 'ledger', to: bi.id, log: [] });
+  const auto = await B.hear(await bundleFrom(hi, bi.id, [toHex(genuine)], 900002));
+  assert.deepEqual([auto.adopted, auto.autoimmuneBlocked, auto.relayed], [0, 1, 0]);
+  assert.equal(B.antigens().length, 1);
+  // a refusal that is not permanent (an unknown dictionary) is recognition only: never kept, never passed on
+  const P = prime(new TextEncoder().encode('a shared dictionary of words '.repeat(20)));
+  const d = prepare({ sender: 9, counter: 1n, kind: KINDS.BYTES, bytes: new Uint8Array(40), dictId: 7, primed: P });
+  const dict = await B.hear(await bundleFrom(hi, bi.id, [toHex(finish(d.unsigned, new Uint8Array(64)).bytes)], 900003));
+  assert.deepEqual([dict.adopted, dict.recognitionOnly, dict.relayed], [0, 1, 0]);
+  // bounded as its own refusals are: it keeps at most MAX_ANTIGENS, and stops relaying at the bound
+  for (let i = 2; B.antigens().length < MAX_ANTIGENS; i++) await B.hear(new Uint8Array(100 + i).fill(i));
+  assert.equal(B.antigens().length, MAX_ANTIGENS);
+  const full = await B.hear(await bundleFrom(hi, bi.id, [toHex(new Uint8Array(90).fill(201))], 900004));
+  assert.deepEqual([full.adopted, full.relayed], [1, 0]);
+  assert.equal(B.antigens().length, MAX_ANTIGENS);
+  // one short of the bound: exactly one more is kept
+  const C = await createNode({ name: 'bridge two', identity: m0i, clock, relay: true });
+  assert.equal((await C.pin(H.card())).ok, true);
+  for (let i = 2; C.antigens().length < MAX_ANTIGENS - 1; i++) await C.hear(new Uint8Array(100 + i).fill(i));
+  const last = await C.hear(await bundleFrom(hi, m0i.id, [toHex(new Uint8Array(90).fill(202)), toHex(new Uint8Array(91).fill(203))], 900005));
+  assert.deepEqual([last.adopted, last.relayed], [2, 1]);
+  assert.equal(C.antigens().length, MAX_ANTIGENS);
+});

@@ -5,7 +5,8 @@
 //   the LIGHT door      every byte it hears passes vendor/light/packet.mjs before one byte of a body is decoded, and
 //                       everything it says is a LIGHT packet it signed;
 //   the immune memory   every refusal becomes an antibody (antibody.mjs); a peer's antibodies are adopted only after
-//                       re-running each on this node's own door (vendor/immune/subscribe.mjs);
+//                       re-running each on this node's own door (vendor/immune/subscribe.mjs); a bridge (relay, Phase 7b)
+//                       also keeps what it adopted to share on, so immunity crosses an organism's edge;
 //   a budget            every ask is authorised by its wallet (vendor/wallet/wallet.mjs) before a packet exists,
 //                       and carries the signed token, so a node cannot ask past what it was given;
 //   geometric memory    what it heard and did, provenance-tagged, recalled by resemblance (vendor/memory), kept as a
@@ -173,7 +174,8 @@ export async function readCard(c) {
 /**
  * opts: { name, identity (identity.mjs makeIdentity), skills: { skill: async (input) => answer }, checks: { skill:
  * (answer) => bool | Promise }, budget (whole asks; default DEFAULT_BUDGET), genesis (a signed contribution-ledger genesis, or none), genome, clock,
- * docs (the shared documents this node keeps; default ['mesh']), routing ('shared', the default, or 'greedy': Phase 3's) }.
+ * docs (the shared documents this node keeps; default ['mesh']), routing ('shared', the default, or 'greedy': Phase 3's),
+ * relay (Phase 7b: true makes this node a bridge — it keeps every antibody it adopts, to share on; off unless set) }.
  */
 export async function createNode(opts) {
   const o = isObj(opts) ? opts : {};
@@ -183,6 +185,7 @@ export async function createNode(opts) {
   const skills = isObj(o.skills) ? o.skills : {}, checks = isObj(o.checks) ? o.checks : {};
   const clock = typeof o.clock === 'function' ? o.clock : () => new Date();
   const routing = o.routing === 'greedy' ? 'greedy' : 'shared';
+  const relay = o.relay === true;
   const wc = walletCrypto(me);
   const g = await W.genesis(wc, { caps: ['ask'], budget: Number.isSafeInteger(o.budget) && o.budget >= 0 ? o.budget : DEFAULT_BUDGET });
   const st = {
@@ -450,7 +453,18 @@ export async function createNode(opts) {
     });
     st.library = r.library;
     remember('adopted ' + r.adopted + ' antibodies from ' + peer.name, { kind: 'antibodies', from: peer.id, adopted: r.adopted, blocked: r.autoimmuneBlocked });
-    return { ok: true, t: 'antibody', from: peer.id, offered: pre.antigens.length, adopted: r.adopted, autoimmuneBlocked: r.autoimmuneBlocked, recognitionOnly: r.recognitionOnly, replies: [] };
+    if (!relay) return { ok: true, t: 'antibody', from: peer.id, offered: pre.antigens.length, adopted: r.adopted, autoimmuneBlocked: r.autoimmuneBlocked, recognitionOnly: r.recognitionOnly, replies: [] };
+    // a bridge (Phase 7b) keeps what it adopted to share on: each one its own door just re-ran and refused at a stage that
+    // can never become valid, bounded and de-duplicated as its own refusals are (a bundle's antigens are already at most
+    // 2 KB each, MAX_ANTIGEN_BYTES). Whoever it shares them with re-runs them on their own doors.
+    const kept = new Set(r.minted);
+    let relayed = 0;
+    for (const h of pre.antigens) {
+      if (!kept.has(hashOf(fromHex(h))) || st.antigens.length >= MAX_ANTIGENS || st.antigens.includes(h)) continue;
+      st.antigens.push(h);
+      relayed++;
+    }
+    return { ok: true, t: 'antibody', from: peer.id, offered: pre.antigens.length, adopted: r.adopted, autoimmuneBlocked: r.autoimmuneBlocked, recognitionOnly: r.recognitionOnly, relayed, replies: [] };
   }
 
   function onSync(m, peer) {
