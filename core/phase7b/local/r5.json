@@ -1,0 +1,30 @@
+{
+ "kind": "fall-kit.core.phase7b.local",
+ "v": 1,
+ "claim": "R5",
+ "at": "2026-10-28T13:20:10Z",
+ "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/4.29.0 Chrome/152.0.7977.167 Safari/537.36 MSIX",
+ "where": "sjgant80-hub.github.io/fall-kit/core/phase7/",
+ "facts": {
+  "relayOn": {
+   "hubStage": "signature",
+   "bridgeAdopted": 1,
+   "shared": true,
+   "adopted": 1,
+   "recognised": true
+  },
+  "relayOff": {
+   "hubStage": "signature",
+   "bridgeAdopted": 1,
+   "shared": false,
+   "adopted": 0,
+   "recognised": false
+  },
+  "seconds": 0.186
+ },
+ "log": [
+  "Fetched break-it's node and the client's booking engine from their own sites.",
+  "With the bridge relaying: the hub refused the forged packet at its signature check; the bridge adopted 1 and shared on; the member adopted 1 and refused the packet on sight.",
+  "Without: the bridge adopted 1, had nothing to share, and the member did not know the packet."
+ ]
+}

@@ -311,6 +311,25 @@
    ],
    "nodeShaNow": "c7f0931348846b002a06678acac44bffeb41929ee50856278662b5d8bcfbe283"
   },
+  "r5": {
+   "from": "core/phase7b/local/r5.json",
+   "where": "sjgant80-hub.github.io/fall-kit/core/phase7/",
+   "relayOn": {
+    "hubStage": "signature",
+    "bridgeAdopted": 1,
+    "shared": true,
+    "adopted": 1,
+    "recognised": true
+   },
+   "relayOff": {
+    "hubStage": "signature",
+    "bridgeAdopted": 1,
+    "shared": false,
+    "adopted": 0,
+    "recognised": false
+   },
+   "seconds": 0.186
+  },
   "r6": {
    "page": [],
    "modules": {
@@ -327,6 +346,7 @@
    "privacy": {
     "core/phase7/index.html": [],
     "core/phase7b/local/r4.json": [],
+    "core/phase7b/local/r5.json": [],
     "core/receipts/phase7b.json": []
    }
   }
@@ -359,17 +379,17 @@
   {
    "id": "R5",
    "pass": 4,
-   "held": null,
-   "measured": "not measured yet"
+   "held": true,
+   "measured": "in a tab at sjgant80-hub.github.io/fall-kit/core/phase7/: with relay the member adopted 1 and refused the packet on sight; without, the bridge had nothing to share and the member did not know the packet, in 0.186 s"
   },
   {
    "id": "R6",
    "pass": 4,
    "held": true,
-   "measured": "9 modules and the page read: no barred word; 3 published files read for the client's guests: none"
+   "measured": "9 modules and the page read: no barred word; 4 published files read for the client's guests: none"
   }
  ],
- "held": 5,
+ "held": 6,
  "failed": 0,
- "open": 1
+ "open": 0
 }
