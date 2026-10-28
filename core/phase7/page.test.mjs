@@ -32,12 +32,14 @@ test('it explains itself and carries the business case', () => {
   assert.match(html, /<div class="diagram" role="img" aria-label="[^"]{60,}">/);
 });
 
-test('every button and output the engine drives is on the page', () => {
+test('every button and output the engines drive is on the page', () => {
+  // two engines drive this page: its own, and the fix's (core/phase7b/page.mjs, the section on Phase 7b)
+  const engines = code['page.mjs'] + readFileSync(join(HERE, '..', 'phase7b', 'page.mjs'), 'utf8');
   const ids = new Set([...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]));
-  const used = [...code['page.mjs'].matchAll(/(?:\$|put|text|say)\('([a-z0-9-]+)'/g)].map((m) => m[1]);
+  const used = [...engines.matchAll(/(?:\$|put|text|say)\('([a-z0-9-]+)'/g)].map((m) => m[1]);
   assert.ok(used.length >= 30);
   for (const id of used) assert.ok(ids.has(id), '#' + id);
-  for (const m of html.matchAll(/<button\b[^>]*>/g)) { const id = (/id="([^"]+)"/.exec(m[0]) || [])[1]; assert.ok(id && code['page.mjs'].includes("$('" + id + "').addEventListener"), m[0]); }
+  for (const m of html.matchAll(/<button\b[^>]*>/g)) { const id = (/id="([^"]+)"/.exec(m[0]) || [])[1]; assert.ok(id && engines.includes("$('" + id + "').addEventListener"), m[0]); }
   for (const id of ['c-hours', 'c-share', 'own-phrase']) assert.ok(code['page.mjs'].includes("'" + id + "'"), id);
   assert.match(html, /<script type="module" src="\.\/page\.mjs"><\/script>/);
 });

@@ -1,0 +1,64 @@
+{
+ "kind": "fall-kit.core.phase7b.local",
+ "v": 1,
+ "claim": "R4",
+ "at": "2026-10-28T13:14:05Z",
+ "commit": "dfb4ad5c37f627ecdc8eab901a7296256c7dd485",
+ "nodeSha": "c7f0931348846b002a06678acac44bffeb41929ee50856278662b5d8bcfbe283",
+ "results": [
+  {
+   "phase": "phase2",
+   "exit": 0,
+   "last": "PHASE 2 RECEIPT REPRODUCED byte for byte",
+   "seconds": 267
+  },
+  {
+   "phase": "phase3",
+   "exit": 0,
+   "last": "PHASE 3 RECEIPT REPRODUCED byte for byte",
+   "seconds": 57
+  },
+  {
+   "phase": "phase3c",
+   "exit": 0,
+   "last": "PHASE 3c RECEIPT REPRODUCED byte for byte",
+   "seconds": 31
+  },
+  {
+   "phase": "phase4",
+   "exit": 0,
+   "last": "PHASE 4 RECEIPT REPRODUCED byte for byte",
+   "seconds": 633
+  },
+  {
+   "phase": "phase5",
+   "exit": 0,
+   "last": "receipt and the tab's red team reproduced byte for byte",
+   "seconds": 39
+  },
+  {
+   "phase": "phase5b",
+   "exit": 0,
+   "last": "receipt reproduced byte for byte",
+   "seconds": 41
+  },
+  {
+   "phase": "phase6",
+   "exit": 0,
+   "last": "the receipt and the books reproduced byte for byte",
+   "seconds": 7
+  },
+  {
+   "phase": "phase6b",
+   "exit": 0,
+   "last": "the receipt reproduced byte for byte",
+   "seconds": 7
+  },
+  {
+   "phase": "phase7",
+   "exit": 0,
+   "last": "the receipt reproduced byte for byte",
+   "seconds": 36
+  }
+ ]
+}
