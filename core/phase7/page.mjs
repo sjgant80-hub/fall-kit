@@ -98,7 +98,7 @@ $('own-go').addEventListener('click', async () => {
     const o = r.organism, list = el('ul', 'small');
     for (const role of o.roles) list.append(el('li', null, role + ': key ' + o.ids[role].slice(0, 16) + '…'));
     put('own-out', el('p', 'ok', 'Your organism grew in ' + r.seconds + ' s: a founder and ' + (o.roles.length - 1) + ' nodes, ' + o.messages + ' messages between them, ' + o.nonLight + ' not LIGHT; its desk asked its booking engine ' + o.stays.length + ' times and every answer was checked. Its keys, worked out from your phrase in this tab:'), list, el('p', 'small dim', 'Nothing was sent anywhere. The same phrase grows the same organism on any machine; a different phrase, a different one.'));
-  } catch (e) { say('own-out', 'It did not grow: ' + e.message, 'no'); }
+  } catch (e) { say('own-out', 'It did not grow: ' + String(e.message).replace(/^the seed did not plant: /, ''), 'no'); }
   btn.disabled = false;
 });
 
