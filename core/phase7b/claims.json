@@ -1,0 +1,57 @@
+{
+ "kind": "fall-kit.core.phase7b.claims",
+ "v": 1,
+ "phase": "7b",
+ "title": "The fix for B3: a node that bridges two organisms passes on what it learned, and only what every member checks for itself",
+ "sealed": "Before any Phase 7b code: every file of core/phase7b/ but this one does not exist at the commit that adds it (its parent is fall-kit 815a8b6), and core/node.mjs is as Phase 7 measured it. The rules below do not change once the first number is measured.",
+ "why": "Phase 7's B3 failed: coupled, the client's desk pins the estate's immune hub and nothing else of the estate; it took the hub's antibodies after its own door re-ran them and refused the forged packet on sight, but had nothing to pass on to stay-a, stay-b and the gate, because the foundation's node shares only what its own door refused first hand. Across an organism's edge, immunity stopped at the bridge.",
+ "rule": "A node created with relay set keeps, to share on, every antibody it adopts: each one its own door re-ran and refused at a stage that can never become valid, bounded and de-duplicated exactly as the packets it refuses itself. A node without relay is unchanged. Whoever receives a relayed antibody adopts it only after its own door re-runs it, as every node already does, so a relay can carry immunity across an edge but cannot carry a refusal a member's own door would not make.",
+ "changes": [
+  "core/node.mjs (organ 2): the relay option, off unless a node's owner sets it. Nothing else in the node changes.",
+  "core/phase7b/: the bridge as Phase 7's coupled desk with relay set, and the runs and checks below.",
+  "No other repository changes: only the bridge relays, and the bridge here is a foundation node booted from fall-kit; the nodes that receive (wishwood's booking engine, break-it's gateway) adopt as they already did. A bridge built from an older copy of the foundation takes the relay by re-vendoring."
+ ],
+ "honest": [
+  "The fix was written after B3's numbers were seen. Its claims are judged on Phase 7's own coupled world, replayed in full (the estate's mesh, the client's sovereign organism, then the coupled one, in the same order and on the same seeds), because what the hub shares depends on everything it refused before.",
+  "The relay is opt-in on purpose: every earlier phase was measured with the node as it was, and every one must still reproduce byte for byte (R4)."
+ ],
+ "world": "As Phase 7 sealed it: core/phase7/claims.json seeds, policy, phrase, organs, stay asks and guard sets; the node commits core/phase7/nodes.json names.",
+ "claims": [
+  {
+   "id": "R1", "pass": 1,
+   "claim": "With the desk as a bridge, Phase 7's B3 holds as it was sealed.",
+   "measure": "Phase 7's three worlds replayed in full, the coupled desk booted with relay set; the coupled step's facts gathered exactly as Phase 7's measure gathers b3, and judged by Phase 7's own judge against Phase 7's own sealed B3 rule.",
+   "rule": "Phase 7's judge holds B3 on these facts: the books merge clean, the desk adopts the hub's antibodies after its own re-run and refuses the forged packet on sight, it shares them on to stay-a, stay-b and the gate, each of which adopts after its own re-run and refuses the packet on sight, the antibody made from a genuine packet is not adopted, and the client's roster holds no estate key"
+  },
+  {
+   "id": "R2", "pass": 1,
+   "claim": "The control: without the relay, Phase 7's B3 comes back exactly as it failed.",
+   "measure": "The same full replay with the desk booted as Phase 7 booted it (no relay).",
+   "rule": "its b3 facts equal the b3 facts of core/receipts/phase7.json, field for field, and Phase 7's judge fails B3 on them"
+  },
+  {
+   "id": "R3", "pass": 2,
+   "claim": "A bridge cannot pass on a refusal a member's own door would not make.",
+   "measure": "After R1's run: stay-a also pins the estate's living site, and stay-b does not; the hub offers the desk an antibody made from a genuine, fresh packet the living site signed to stay-a; the desk's door, which does not pin the site, refuses it; the desk shares on to stay-a and stay-b; then the genuine packet is delivered to stay-a.",
+   "rule": "the desk adopts it and shares it on; stay-a does not adopt it (its own door admits the packet) and then admits the genuine packet; stay-b, whose door refuses it too, adopts it"
+  },
+  {
+   "id": "R4", "pass": 3,
+   "claim": "Nothing that worked broke: every phase that runs on the node as it is now still reproduces byte for byte.",
+   "measure": "The --check of Phases 2, 3, 3c, 4, 5, 5b, 6, 6b and 7, each as its own process, at the commit that changes core/node.mjs; recorded once in core/phase7b/local/r4.json with that commit and re-judged by CI, where every phase's own job runs its check on every push. Phases 1 and 3b run from their own pinned commits and are not touched.",
+   "rule": "all nine exit 0, at the commit that changes core/node.mjs"
+  },
+  {
+   "id": "R5", "pass": 4,
+   "claim": "Anyone can see a bridge pass immunity on, in a browser tab.",
+   "measure": "In a real tab on the live Phase 7 page: break-it's node as the hub, a foundation node as the bridge, and wishwood's booking engine as a member that pins only the bridge; a packet in the hub's own peer's name signed by a stranger refused at the hub and shared with the bridge; the bridge shares on; the packet offered to the member. Once with relay set, once without. Recorded once in core/phase7b/local/r5.json and re-judged by CI.",
+   "rule": "with relay: the member adopts and refuses the packet on sight; without: the bridge has nothing to share and the member does not refuse it on sight"
+  },
+  {
+   "id": "R6", "pass": 4,
+   "claim": "The fix uses none of the barred words, and none of the client's guests.",
+   "measure": "Phase 6's barred list and rule over every module of core/phase7b/ and the text of the Phase 7 page; Phase 7's privacy list over the page, this receipt and every file in core/phase7b/local/.",
+   "rule": "no barred word and nothing of the privacy list in any of them"
+  }
+ ]
+}
